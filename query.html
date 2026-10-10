@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你想健康的活到多少岁 · 中国企业家版</title>
+<style>
+:root{
+  --green-900:#1a3a2a; --green-700:#2d5a3d; --green-500:#4a8c5e;
+  --green-100:#e8f0ea; --gold:#c9a227; --gold-light:#f5edda;
+  --cream:#faf8f3; --ink:#2c2c2c; --ink-light:#6b6b6b;
+  --line:#e0ddd5; --red:#c0392b; --amber:#d68910;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--cream);color:var(--ink);line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.btn{
+  display:inline-block;padding:13px 34px;border-radius:100px;border:none;
+  font-size:16px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;
+}
+.btn-primary{background:var(--green-700);color:#fff}
+.btn-primary:hover{background:var(--green-900);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--green-700);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--green-500)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+.progress-wrap{
+  position:sticky;top:0;z-index:100;background:rgba(250,248,243,.95);
+  backdrop-filter:blur(8px);padding:12px 0 9px;border-bottom:1px solid var(--line);
+}
+.progress-track{height:5px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green-500),var(--gold));
+  border-radius:99px;transition:width .35s cubic-bezier(.4,0,.2,1)}
+.progress-text{display:flex;justify-content:space-between;font-size:12px;
+  color:var(--ink-light);margin-top:6px;letter-spacing:.3px}
+
+.cover{padding:64px 0 56px;text-align:center}
+.cover-badge{display:inline-block;padding:5px 16px;border-radius:99px;
+  background:var(--gold-light);color:var(--green-900);font-size:12px;
+  font-weight:600;letter-spacing:1.5px;margin-bottom:22px}
+.cover h1{font-size:32px;line-height:1.4;font-weight:700;color:var(--green-900);
+  letter-spacing:-.5px;margin-bottom:18px}
+.cover h1 em{font-style:normal;color:var(--gold)}
+.cover-sub{color:var(--ink-light);font-size:15px;max-width:540px;margin:0 auto 32px;line-height:1.85}
+.cover-sub b{color:var(--green-700)}
+.cover-meta{display:flex;justify-content:center;gap:34px;flex-wrap:wrap;
+  margin-bottom:36px;font-size:13px;color:var(--ink-light)}
+.cover-meta b{display:block;font-size:24px;color:var(--green-700);font-weight:700}
+.disclaimer{font-size:12px;color:var(--ink-light);max-width:500px;margin:26px auto 0;
+  padding-top:18px;border-top:1px solid var(--line);line-height:1.8}
+
+.q-area{padding:40px 0 80px;min-height:70vh}
+.q-section-tag{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:12px}
+.q-text{font-size:21px;font-weight:600;line-height:1.55;margin-bottom:24px;color:var(--green-900)}
+.q-hint{font-size:13px;color:var(--ink-light);margin-top:-18px;margin-bottom:22px}
+
+.opt{display:block;width:100%;text-align:left;padding:15px 20px;margin-bottom:9px;
+  border:1.5px solid var(--line);border-radius:12px;background:#fff;
+  font-size:15px;cursor:pointer;transition:all .18s;font-family:inherit;
+  color:var(--ink);position:relative;line-height:1.6}
+.opt:hover{border-color:var(--green-500);background:var(--green-100)}
+.opt.selected{border-color:var(--green-700);background:var(--green-100);
+  font-weight:600;color:var(--green-900)}
+.opt.selected::after{content:"";position:absolute;right:20px;top:50%;
+  transform:translateY(-50%);width:7px;height:12px;
+  border-right:2.5px solid var(--green-700);border-bottom:2.5px solid var(--green-700);rotate:45deg}
+
+.opt.check::after{display:none}
+.opt.check .check-box{
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line);
+  background:#fff;display:flex;align-items:center;justify-content:center;
+}
+.opt.check.selected .check-box{background:var(--green-700);border-color:var(--green-700)}
+.opt.check.selected .check-box::after{
+  content:"";width:5px;height:10px;border-right:2px solid #fff;
+  border-bottom:2px solid #fff;transform:rotate(45deg);margin-top:-2px;
+}
+
+/* 出生年份输入 —— 只保留输入框 */
+.year-wrap{
+  background:#fff;border:1.5px solid var(--line);border-radius:20px;
+  padding:36px 28px;margin-bottom:22px;
+}
+.year-label{
+  text-align:center;font-size:13px;color:var(--ink-light);
+  margin-bottom:16px;letter-spacing:.5px;
+}
+.year-box{
+  width:100%;padding:22px 24px;border:2px solid var(--line);border-radius:16px;
+  font-size:34px;font-weight:700;font-family:inherit;text-align:center;
+  background:#fff;color:var(--green-900);letter-spacing:4px;
+  transition:all .18s;
+}
+.year-box:focus{outline:none;border-color:var(--green-700);background:var(--green-100)}
+.year-box::placeholder{color:#d0ccc3;font-weight:400;font-size:16px;letter-spacing:0}
+.year-age{
+  text-align:center;font-size:16px;color:var(--green-700);font-weight:600;
+  margin-top:18px;min-height:28px;letter-spacing:.5px;
+}
+.year-range{
+  text-align:center;font-size:12px;color:var(--ink-light);
+  margin-top:6px;opacity:.7;
+}
+
+.nav-row{display:flex;gap:12px;margin-top:28px;align-items:center}
+.nav-row .spacer{flex:1}
+
+.result{padding:36px 0 80px}
+.hero-card{
+  background:linear-gradient(160deg,var(--green-900),var(--green-700));
+  border-radius:24px;padding:44px 28px;text-align:center;color:#fff;
+  margin-bottom:18px;position:relative;overflow:hidden;
+}
+.hero-card::before{content:"";position:absolute;top:-60px;right:-60px;
+  width:220px;height:220px;border-radius:50%;background:rgba(201,162,39,.14)}
+.hero-card::after{content:"";position:absolute;bottom:-80px;left:-40px;
+  width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero-title{font-size:20px;font-weight:700;margin-bottom:6px;position:relative;z-index:1}
+.hero-sub{font-size:14px;opacity:.75;margin-bottom:22px;position:relative;z-index:1}
+
+.life-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;position:relative;z-index:1}
+.life-item{background:rgba(255,255,255,.1);border-radius:16px;padding:24px 16px;text-align:center}
+.life-val{font-size:34px;font-weight:700;line-height:1.1}
+.life-val small{font-size:16px;font-weight:500}
+.life-lab{font-size:13px;opacity:.7;margin-top:8px}
+.life-note{font-size:11px;opacity:.5;margin-top:4px}
+.life-gap{grid-column:1/-1;background:rgba(201,162,39,.15);
+  border:1px solid rgba(201,162,39,.3);border-radius:14px;
+  padding:16px;text-align:center;font-size:13.5px;position:relative;z-index:1}
+.life-gap b{color:var(--gold);font-size:18px}
+
+.goal-bar{background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:20px 22px;margin-bottom:18px}
+.goal-bar h4{font-size:14px;color:var(--ink-light);font-weight:600;margin-bottom:10px}
+.goal-track{height:10px;background:#f0eee8;border-radius:99px;overflow:hidden;position:relative}
+.goal-fill{height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--green-500),var(--gold));
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);width:0}
+.goal-marks{display:flex;justify-content:space-between;font-size:11px;
+  color:var(--ink-light);margin-top:8px}
+.goal-msg{font-size:13.5px;color:var(--green-700);margin-top:12px;font-weight:600}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:26px 24px;margin-bottom:16px}
+.card h3{font-size:17px;font-weight:700;color:var(--green-900);
+  margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.card-sub{font-size:12.5px;color:var(--ink-light);margin-bottom:20px;line-height:1.7}
+
+.dim-row{margin-bottom:20px;padding-bottom:18px;border-bottom:1px dashed var(--line)}
+.dim-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.dim-header{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.dim-icon{font-size:19px}
+.dim-title{font-size:15px;font-weight:700;color:var(--green-900);flex:1}
+.dim-score{font-size:15px;font-weight:700;color:var(--green-700)}
+.dim-score.low{color:var(--red)}
+.dim-score.mid{color:var(--amber)}
+.dim-bar{height:8px;background:#f0eee8;border-radius:99px;overflow:hidden;margin-bottom:9px}
+.dim-bar-fill{height:100%;border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1);width:0}
+.dim-explain{font-size:13px;color:var(--ink-light);line-height:1.75}
+
+.tcm-card{
+  background:linear-gradient(135deg,var(--green-100),var(--gold-light));
+  border-radius:16px;padding:22px 24px;margin-bottom:16px;
+}
+.tcm-title{font-size:16px;font-weight:700;color:var(--green-900);margin-bottom:8px}
+.tcm-score{font-size:12.5px;color:var(--ink-light);margin-bottom:12px}
+.tcm-desc{font-size:14px;line-height:1.85;color:var(--ink)}
+.tcm-desc b{color:var(--green-900)}
+.tcm-link{margin-top:14px;padding-top:12px;border-top:1px dashed rgba(0,0,0,.1);
+  font-size:13px;line-height:1.8;color:var(--ink-light)}
+.tcm-link b{color:var(--green-700)}
+
+.advice{border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;
+  margin-bottom:13px;background:#fff;position:relative}
+.advice::before{content:"";position:absolute;left:0;top:22px;bottom:22px;
+  width:3px;border-radius:99px;background:var(--gold)}
+.advice-rank{font-size:11px;font-weight:700;letter-spacing:1.5px;
+  color:var(--gold);margin-bottom:6px}
+.advice h4{font-size:16px;font-weight:700;color:var(--green-900);
+  margin-bottom:13px;line-height:1.5}
+.advice ol{padding-left:19px;margin-bottom:12px}
+.advice li{font-size:14px;margin-bottom:8px;line-height:1.7;color:var(--ink)}
+.advice-why{font-size:12.5px;color:var(--ink-light);line-height:1.7;
+  padding-top:11px;border-top:1px dashed var(--line)}
+.advice-why b{color:var(--green-700);font-weight:600}
+
+.foot-note{font-size:12px;color:var(--ink-light);text-align:center;
+  line-height:1.9;padding:24px 0 0;border-top:1px solid var(--line);margin-top:8px}
+
+@media(max-width:620px){
+  .cover h1{font-size:26px}
+  .cover{padding:44px 0 36px}
+  .life-grid{grid-template-columns:1fr;gap:9px}
+  .life-val{font-size:28px}
+  .q-text{font-size:18px}
+  .card{padding:22px 18px}
+  .cover-meta{gap:20px}
+  .year-box{font-size:28px;padding:18px 20px;letter-spacing:2px}
+  .year-wrap{padding:28px 20px}
+}
+.fade-in{animation:fadeIn .35s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap" id="progressBar" style="display:none">
+  <div class="wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-text">
+      <span id="progressSection">基本信息</span>
+      <span id="progressCount">1 / 10</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ==========================================================
+   整体健康画像 · 动态评估引擎 v10
+   修改：去掉年份快捷按钮 / 拓宽年份范围至 1920-2010
+   ========================================================== */
+
+// ===== 第一阶段：基本信息 =====
+const STAGE_INFO = [
+  {id:'birth_year', type:'year_input', text:'您出生于哪一年？',
+    hint:'直接输入四位年份，例如 1965',
+    scoring:'none'},
+  {id:'goal_age', type:'single', text:'您希望自己健康地活到多少岁？',
+    hint:'这个问题比想象中重要——它代表您对长寿的真实意愿',
+    options:['75 岁左右','80 岁左右','85 岁左右','90 岁左右','95 岁以上'],
+    scoring:'none'},
+  {id:'gender', type:'single', text:'您的性别', options:['男','女'], scoring:'none'},
+  {id:'life_purpose', type:'single', text:'您目前是否有清晰的“人生下半场目标”（如企业传承、培养接班人、公益、个人兴趣）？',
+    options:['非常清晰，正在推进','有一些想法，但还不够明确','还没有认真想过','觉得走一步看一步就好'],
+    scoring:'positive'},
+  {id:'work_identity', type:'single', text:'如果把“企业家”这个身份从您身上暂时拿走，您会觉得生活还充实吗？',
+    options:['会很充实，我有其他热爱的事','可能有些不适应，但能调整','会很不习惯，工作就是我的全部','没想过这个问题'],
+    scoring:'positive'}
+];
+
+// --- 主题 1：饮食与饮水 ---
+const THEME_DIET = {
+  name:'饮食与饮水', icon:'🍽️', dim:'digestion',
+  base: [
+    {id:'diet_veg', type:'single', text:'您的饮食中，蔬菜、全谷物、豆类占每餐的大部分吗？',
+      options:['每餐都占大部分','大部分餐次能占一半','偶尔能做到','基本以肉食 / 精制主食为主'],
+      scoring:'positive'},
+    {id:'diet_satiety', type:'single', text:'您会在感到八分饱时停止进食吗？',
+      options:['几乎每餐都做到','大部分餐次做到','偶尔做到','经常吃到十分饱'],
+      scoring:'positive'},
+    {id:'diet_regular', type:'single', text:'您的三餐是否规律（定时定量、不暴饮暴食）？',
+      options:['非常规律','大部分时间规律','有时不规律','经常不规律'],
+      scoring:'positive'}
+  ],
+  water: [
+    {id:'water_amount', type:'single', text:'您每天大约喝多少水（白水、茶、咖啡等液体总量）？',
+      hint:'一杯约 240 毫升',
+      options:['少于 4 杯','4-6 杯','7-8 杯','9 杯以上'],
+      scoring:'positive'},
+    {id:'water_type', type:'single', text:'您日常喝得最多的饮品是什么？',
+      options:['白水为主','茶为主','咖啡为主','饮料 / 果汁为主'],
+      scoring:'positive'},
+    {id:'water_tea_coffee', type:'single', text:'您喝茶和喝咖啡的比例大致是？',
+      hint:'研究发现咖啡与茶约 2:3 的比例，对长寿最有益',
+      options:['只喝茶，不喝咖啡','茶多咖啡少','咖啡茶差不多','咖啡多茶少','只喝咖啡，不喝茶'],
+      scoring:'positive'}
+  ],
+  deep: [
+    {id:'diet_ultra', type:'single', text:'您平时吃深加工食品（外卖、预制菜、含糖饮料、加工肉制品）的频率是？',
+      options:['几乎不吃','每周 1-2 次','每周 3-4 次','几乎每天'],
+      scoring:'negative', tcm:'痰湿质'},
+    {id:'diet_sugar', type:'single', text:'您平时喝含糖饮料（可乐、果汁饮料、奶茶等）的频率是？',
+      options:['几乎不喝','每周 1-2 次','每周 3-4 次','几乎每天'],
+      scoring:'negative', tcm:'湿热质'}
+  ]
+};
+
+// --- 主题 2：睡眠 ---
+const THEME_SLEEP = {
+  name:'睡眠', icon:'🌙', dim:'sleep',
+  base: [
+    {id:'sleep_hours', type:'single', text:'您通常每晚实际睡几个小时？',
+      options:['8 小时以上','7-8 小时','6-7 小时','5-6 小时','5 小时以下'],
+      scoring:'negative'},
+    {id:'sleep_onset', type:'likert', text:'最近一年，您入睡困难吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气郁质'},
+    {id:'sleep_wake', type:'likert', text:'最近一年，您夜间容易醒来，或早上醒得过早吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气虚质'}
+  ],
+  deep: [
+    {id:'sleep_fixed', type:'single', text:'您每天在固定时间上床和起床（包括周末）吗？',
+      options:['几乎每天固定','大部分时间固定','有时固定有时不固定','基本不固定'],
+      scoring:'positive'},
+    {id:'sleep_screen', type:'single', text:'您睡前 1 小时会使用手机、平板或看电视吗？',
+      options:['几乎不看','偶尔看','经常看','几乎每天看'],
+      scoring:'negative'},
+    {id:'sleep_dinner', type:'single', text:'您晚餐到就寝之间，一般间隔多长时间？',
+      options:['3 小时以上','2-3 小时','1-2 小时','通常不到 1 小时'],
+      scoring:'positive'},
+    {id:'sleep_nap', type:'single', text:'您白天有小睡习惯吗？每次多长时间？',
+      options:['不午睡','午睡 30 分钟以内','午睡 30-60 分钟','午睡超过 1 小时'],
+      scoring:'positive'},
+    {id:'sleep_snore', type:'single', text:'您睡觉时会打鼾，或被家人反映有呼吸暂停吗？',
+      options:['没有','偶尔打鼾','经常打鼾','打鼾严重，或被憋醒过'],
+      scoring:'negative', tcm:'痰湿质'}
+  ]
+};
+
+// --- 主题 3：运动与久坐 ---
+const THEME_MOVE = {
+  name:'运动与久坐', icon:'🏃', dim:'energy',
+  base: [
+    {id:'move_aerobic', type:'single', text:'您每周进行中等强度运动（快走、慢跑、游泳、太极等）超过 150 分钟吗？',
+      options:['每周 150 分钟以上','每周 100-150 分钟','每周 50-100 分钟','少于 50 分钟或几乎不运动'],
+      scoring:'positive'},
+    {id:'move_strength', type:'single', text:'您每周进行力量训练（举铁、深蹲、弹力带等）的频率是？',
+      options:['每周 2 次以上','每周 1-2 次','偶尔进行','几乎不进行'],
+      scoring:'positive'},
+    {id:'move_sit', type:'single', text:'您平均每天久坐的时间大约是？',
+      options:['少于 4 小时','4-6 小时','6-8 小时','8 小时以上'],
+      scoring:'negative'}
+  ],
+  deep: [
+    {id:'move_break', type:'single', text:'您是否在刻意减少久坐时间（如每小时起身活动）？',
+      options:['经常这样做','有时这样做','很少这样做','从未注意过'],
+      scoring:'positive'},
+    {id:'move_walk', type:'single', text:'您日常生活中保持较多自然活动（走楼梯、站立办公、步行）吗？',
+      options:['经常，有意识地多活动','有时会','很少，大部分时间坐着','几乎不，能坐就不站'],
+      scoring:'positive'}
+  ]
+};
+
+// --- 主题 4：压力与情绪 ---
+const THEME_MIND = {
+  name:'压力与情绪', icon:'🧘', dim:'mood',
+  base: [
+    {id:'mind_mood', type:'likert', text:'最近一年，您感到闷闷不乐，或焦虑不安吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气郁质'},
+    {id:'mind_think', type:'single', text:'您是否经常在休息时也无法停止思考工作上的事？',
+      options:['很少，能很快放下','有时会，但能自我调节','经常如此，较难放松','几乎总是，很难停下来'],
+      scoring:'negative', tcm:'气郁质'},
+    {id:'mind_stress', type:'single', text:'您目前的工作压力主观感受是？',
+      options:['轻松，基本无压力','适中，偶有压力','较大，经常感到压力','很大，几乎每天都感到压力','极大，长期处于高压状态'],
+      scoring:'negative'}
+  ],
+  deep: [
+    {id:'mind_tension', type:'likert', text:'您感到精神紧张、无法放松吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气郁质'},
+    {id:'mind_emotion', type:'single', text:'您在工作中，是否容易出现较大的情绪波动（如急躁、易怒）？',
+      options:['很少','偶尔','经常','几乎每天'],
+      scoring:'negative', tcm:'气郁质'},
+    {id:'mind_relax', type:'single', text:'您每天有意识地安排放松时间（午休、散步、深呼吸）吗？',
+      options:['几乎每天','大部分时间','偶尔','几乎没有'],
+      scoring:'positive'}
+  ]
+};
+
+// --- 主题 5：社交与联结 ---
+const THEME_SOCIAL = {
+  name:'社交与联结', icon:'🤝', dim:'mood',
+  base: [
+    {id:'social_family', type:'single', text:'您每周与家人一起吃晚饭的频率是？',
+      options:['几乎每天','4-5 次','2-3 次','1 次或更少'],
+      scoring:'positive'},
+    {id:'social_lonely', type:'single', text:'您是否经常感到孤独，或缺乏可以倾诉的人？',
+      options:['几乎没有','偶尔','有时','经常','几乎总是'],
+      scoring:'negative', tcm:'气郁质'}
+  ],
+  deep: [
+    {id:'social_nature', type:'single', text:'您每周在公园、郊外等自然环境中待的时间大约是？',
+      options:['少于 30 分钟','30 分钟到 1 小时','1-2 小时','2 小时以上'],
+      scoring:'positive'},
+    {id:'social_touch', type:'single', text:'您与家人、朋友之间是否有较多的身体接触（如拥抱、拍肩）？',
+      options:['经常有','偶尔有','很少','几乎没有'],
+      scoring:'positive'}
+  ]
+};
+
+// --- 主题 6：身体感受 ---
+const THEME_BODY = {
+  name:'身体感受', icon:'💆', dim:null,
+  base: [
+    {id:'body_fatigue', type:'likert', text:'最近一年，您经常感到疲乏、精力不足吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气虚质'},
+    {id:'body_cold', type:'likert', text:'最近一年，您比一般人怕冷，或手脚发凉吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'阳虚质'},
+    {id:'body_chest', type:'likert', text:'最近一年，您感到胸闷、心悸，或气短吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'血瘀质'}
+  ],
+  deep: [
+    {id:'body_digest', type:'likert', text:'最近一年，您饭后腹胀，或大便不成形吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'痰湿质'},
+    {id:'body_voice', type:'likert', text:'您说话声音比一般人低弱、无力吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'气虚质'},
+    {id:'body_heavy', type:'likert', text:'您感到身体沉重、不轻松吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'痰湿质'},
+    {id:'body_bruise', type:'likert', text:'您的皮肤容易出现青紫瘀斑吗？',
+      labels:['从不','偶尔','有时','经常','几乎总是'], scoring:'negative', tcm:'血瘀质'}
+  ]
+};
+
+// --- 主题 7：身体信号与应对态度 ---
+const THEME_SIGNALS = {
+  name:'身体信号', icon:'💡', dim:'immunity',
+  base: [
+    {id:'signal_list', type:'multi', text:'最近一年，有哪些小毛病或身体信号在困扰您？',
+      hint:'可多选，不必都选，也不必只选一项',
+      options:[
+        '颈肩僵硬、疼痛',
+        '胸闷 / 心悸 / 气短',
+        '前列腺问题（尿频 / 尿急 / 夜尿多）',
+        '牙齿 / 牙龈问题',
+        '胃部不适 / 反酸 / 腹胀',
+        '头痛 / 头晕',
+        '关节疼痛 / 僵硬',
+        '耳鸣或听力下降',
+        '皮肤问题（湿疹 / 瘙痒 / 油腻）',
+        '持续疲劳、睡不解乏',
+        '以上都没有'
+      ],
+      exclusive:'以上都没有', scoring:'negative'},
+    {id:'signal_attitude', type:'single', text:'当身体出现这些不适时，您通常怎么处理？',
+      options:[
+        '立即就医或安排体检排查',
+        '先观察几天，若无改善再就医',
+        '忍一忍，不太在意',
+        '习惯了，不影响生活就不管'
+      ],
+      scoring:'positive'}
+  ],
+  deep: [
+    {id:'signal_checkup', type:'single', text:'最近一次因为身体不适主动去医院检查，是什么时候？',
+      options:['半年内','半年到一年','一到三年','三年以上或从未'],
+      scoring:'positive'},
+    {id:'signal_med', type:'single', text:'您目前是否在长期服用某些药物（降压药、降糖药、降脂药等）？',
+      options:['没有','1 种','2-3 种','4 种以上'],
+      scoring:'negative'}
+  ]
+};
+
+// --- 主题 8：环境与防护 ---
+const THEME_GUARD = {
+  name:'环境与防护', icon:'🛡️', dim:'immunity',
+  base: [
+    {id:'guard_env', type:'multi', text:'您日常生活中是否存在以下情况？',
+      hint:'可多选',
+      options:['长期暴露于空气污染（雾霾、工业废气等）',
+               '居住或工作在噪声较大的环境中',
+               '经常使用塑料制品加热食物',
+               '身边有人吸烟，经常接触二手烟',
+               '以上均无'],
+      exclusive:'以上均无', scoring:'negative'},
+    {id:'guard_checkup', type:'single', text:'您每年进行一次全面体检吗？',
+      options:['每年都做，且包含心脑血管和代谢检查','每年做基本体检','偶尔做','很少或从不做'],
+      scoring:'positive'}
+  ],
+  deep: [
+    {id:'guard_breath', type:'single', text:'您日常生活中以鼻呼吸为主（而非口呼吸）吗？',
+      options:['几乎总是鼻呼吸','大部分时间鼻呼吸','有时口呼吸有时鼻呼吸','经常口呼吸'],
+      scoring:'positive'}
+  ]
+};
+
+const THEMES = [THEME_DIET, THEME_SLEEP, THEME_MOVE, THEME_MIND, THEME_SOCIAL, THEME_BODY, THEME_SIGNALS, THEME_GUARD];
+
+// ===== 动态追问触发条件 =====
+const DEEP_TRIGGERS = {
+  diet_veg: {threshold: 3},
+  diet_satiety: {threshold: 2},
+  sleep_onset: {threshold: 3},
+  sleep_wake: {threshold: 3},
+  sleep_hours: {threshold: 3},
+  move_aerobic: {threshold: 3},
+  move_sit: {threshold: 3},
+  mind_mood: {threshold: 3},
+  mind_think: {threshold: 3},
+  mind_stress: {threshold: 3},
+  social_lonely: {threshold: 3},
+  social_family: {threshold: 3},
+  body_fatigue: {threshold: 3},
+  body_chest: {threshold: 3},
+  body_cold: {threshold: 3},
+  signal_attitude: {threshold: 3}
+};
+
+/* ---------- 动态序列构建 ---------- */
+function computeActiveQuestions(){
+  const all = [];
+  STAGE_INFO.forEach(q=>all.push({...q, theme:'info'}));
+
+  THEMES.forEach(theme=>{
+    theme.base.forEach(q=>all.push({...q, theme:theme.name, dim:theme.dim, isBase:true}));
+
+    if(theme.water){
+      theme.water.forEach(q=>all.push({...q, theme:theme.name, dim:theme.dim, isWater:true}));
+    }
+
+    let triggered = false;
+    theme.base.forEach(q=>{
+      const t = DEEP_TRIGGERS[q.id];
+      if(!t) return;
+      const v = state.ans[q.id];
+      if(typeof v === 'number' && v >= t.threshold) triggered = true;
+    });
+
+    if(theme === THEME_SIGNALS){
+      const list = (state.ans.signal_list || []).filter(x => x !== '以上都没有');
+      if(list.length >= 3) triggered = true;
+    }
+
+    if(triggered && theme.deep){
+      theme.deep.forEach(q=>all.push({...q, theme:theme.name, dim:theme.dim, isDeep:true}));
+    }
+  });
+
+  return all;
+}
+
+/* ---------- 状态 ---------- */
+const state = { screen:'cover', qIndex:0, ans:{}, sequence:[] };
+
+const app = document.getElementById('app');
+const progressBar = document.getElementById('progressBar');
+const progressFill = document.getElementById('progressFill');
+const progressSection = document.getElementById('progressSection');
+const progressCount = document.getElementById('progressCount');
+
+/* ---------- 工具 ---------- */
+function esc(s){ return String(s).replace(/'/g,"\\'"); }
+function calcAgeFromYear(year){
+  if(!year || typeof year !== 'number') return 55;
+  const age = new Date().getFullYear() - year;
+  return Math.max(15, Math.min(110, age));
+}
+function goalAgeFromOption(opt){
+  if(!opt) return 85;
+  const m = String(opt).match(/(\d+)/);
+  return m ? parseInt(m[1]) : 85;
+}
+function getGoalAgeText(){
+  const q = STAGE_INFO.find(x=>x.id==='goal_age');
+  if(!q) return '85 岁左右';
+  const idx = state.ans.goal_age;
+  if(typeof idx !== 'number' || idx < 1 || idx > q.options.length) return '85 岁左右';
+  return q.options[idx - 1];
+}
+
+/* ---------- 渲染 ---------- */
+function render(){
+  window.scrollTo({top:0,behavior:'instant'});
+  if(state.screen === 'cover') return renderCover();
+  if(state.screen === 'question') return renderQuestion();
+  if(state.screen === 'result') return renderResult();
+}
+
+function renderCover(){
+  progressBar.style.display = 'none';
+  app.innerHTML = `
+    <div class="cover fade-in">
+      <div class="cover-badge">整体健康画像 · 面向企业家</div>
+      <h1>你想健康的活到<br><em>多少岁？</em></h1>
+      <p class="cover-sub">
+        这份问卷专门针对中国企业家的<b>工作形态</b>和<b>生活方式</b>设计。
+        <b>说话多、思考多、应酬多、久坐多</b>——这些每天的消耗，身体都在默默记录。
+        <br><br>
+        完成约 <b>6-10 分钟</b> 的评估，你将获得一份整体健康画像，
+        了解自己最主要的消耗在哪里，以及最值得优先改变的三件事。
+      </p>
+      <div class="cover-meta">
+        <div><b>25-45</b>道题</div>
+        <div><b>6-10</b>分钟</div>
+        <div><b>8</b>个主题</div>
+      </div>
+      <button class="btn btn-primary" onclick="startQuiz()">开始评估</button>
+      <p class="disclaimer">
+        本工具为健康筛查原型，结果基于问卷自评生成，不替代临床医学诊断。
+        若结果提示高风险，请尽快安排全面体检。
+      </p>
+    </div>
+  `;
+}
+
+function startQuiz(){
+  state.qIndex = 0; state.ans = {};
+  state.screen = 'question';
+  state.sequence = computeActiveQuestions();
+  progressBar.style.display = 'block';
+  render();
+}
+
+function renderQuestion(){
+  const qs = state.sequence;
+  if(!qs || qs.length === 0) return goResult();
+  if(state.qIndex >= qs.length) return goResult();
+
+  const q = qs[state.qIndex];
+  const pct = ((state.qIndex) / qs.length) * 100;
+  progressFill.style.width = pct + '%';
+  progressSection.textContent = q.theme === 'info' ? '基本信息' : q.theme;
+  progressCount.textContent = `${state.qIndex+1} / ${qs.length}`;
+  const secTag = q.theme === 'info' ? 'PROFILE' : (q.theme || '').toUpperCase();
+
+  let html = `<div class="q-area fade-in">`;
+  html += `<div class="q-section-tag">${secTag}</div>`;
+  html += `<div class="q-text">${q.text}</div>`;
+  if(q.hint) html += `<div class="q-hint">${q.hint}</div>`;
+
+  if(q.type === 'year_input'){
+    const cur = state.ans[q.id];
+    const age = cur ? calcAgeFromYear(cur) : null;
+
+    html += `<div class="year-wrap">`;
+    html += `<div class="year-label">请输入您的出生年份（四位数字）</div>`;
+    html += `<input type="number" class="year-box" id="birthYearInput"
+              placeholder="例如 1965" min="1920" max="2010"
+              value="${cur || ''}" oninput="onYearInput('${q.id}', this.value)"
+              autocomplete="off">`;
+    html += `<div class="year-age" id="yearAge">${
+      age !== null ? '您今年约 ' + age + ' 岁' : '&nbsp;'
+    }</div>`;
+    html += `<div class="year-range">可输入范围：1920 — 2010 年</div>`;
+    html += `</div>`;
+  }else if(q.type === 'multi'){
+    const arr = state.ans[q.id] || [];
+    html += `<div>`;
+    q.options.forEach(o=>{
+      const sel = arr.includes(o);
+      html += `<button class="opt check ${sel?'selected':''}" onclick="toggleMulti('${q.id}','${esc(o)}','${esc(q.exclusive||'')}')">
+        ${o}<span class="check-box"></span>
+      </button>`;
+    });
+    html += `</div>`;
+  }else if(q.type === 'single'){
+    const cur = state.ans[q.id];
+    html += `<div>`;
+    q.options.forEach((o, idx)=>{
+      const val = idx + 1;
+      const sel = cur === val;
+      html += `<button class="opt ${sel?'selected':''}" onclick="pickOption('${q.id}',${val})">${o}</button>`;
+    });
+    html += `</div>`;
+  }else{
+    const cur = state.ans[q.id];
+    const labels = q.labels || ['没有 / 完全不符合','很少 / 偶尔符合','有时 / 部分符合','经常 / 大部分符合','总是 / 完全符合'];
+    html += `<div>`;
+    labels.forEach((lab, idx)=>{
+      const val = idx + 1;
+      const sel = cur === val;
+      html += `<button class="opt ${sel?'selected':''}" onclick="pickOption('${q.id}',${val})">${lab}</button>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div class="nav-row">`;
+  if(state.qIndex > 0){
+    html += `<button class="btn btn-ghost" onclick="goPrev()">上一题</button>`;
+  }
+  html += `<div class="spacer"></div>`;
+  if(q.type === 'multi'){
+    const canNext = state.ans[q.id] && state.ans[q.id].length > 0;
+    html += `<button class="btn btn-primary" ${canNext?'':'disabled'} onclick="goNext()">下一题</button>`;
+  }else if(q.type === 'year_input'){
+    const canNext = typeof state.ans[q.id] === 'number';
+    html += `<button class="btn btn-primary" ${canNext?'':'disabled'} onclick="goNext()">下一题</button>`;
+  }
+  html += `</div></div>`;
+  app.innerHTML = html;
+}
+
+/* ---------- 出生年份输入 ---------- */
+function onYearInput(id, value){
+  const y = parseInt(value, 10);
+  const ageEl = document.getElementById('yearAge');
+  // 范围：1920 — 2010
+  if(y && y >= 1920 && y <= 2010){
+    state.ans[id] = y;
+    const age = calcAgeFromYear(y);
+    if(ageEl) ageEl.textContent = '您今年约 ' + age + ' 岁';
+  }else{
+    delete state.ans[id];
+    if(ageEl) ageEl.innerHTML = '&nbsp;';
+  }
+  const nextBtn = document.querySelector('.nav-row .btn-primary');
+  if(nextBtn) nextBtn.disabled = !(typeof state.ans[id] === 'number');
+}
+
+function pickOption(id, val){
+  state.ans[id] = val;
+  setTimeout(()=>goNext(), 180);
+}
+
+function toggleMulti(id, val, exclusive){
+  let arr = state.ans[id] ? [...state.ans[id]] : [];
+  const isExcl = exclusive && val === exclusive;
+  if(arr.includes(val)){
+    arr = arr.filter(x=>x!==val);
+  }else{
+    if(isExcl){ arr = [val]; }
+    else{ arr = arr.filter(x=>x !== exclusive); arr.push(val); }
+  }
+  state.ans[id] = arr;
+  const y = window.scrollY; renderQuestion(); window.scrollTo({top:y,behavior:'instant'});
+}
+
+function goNext(){
+  const currentQ = state.sequence[state.qIndex];
+  const newSeq = computeActiveQuestions();
+  state.sequence = newSeq;
+
+  const currentIdx = currentQ ? state.sequence.findIndex(q => q.id === currentQ.id) : -1;
+
+  if(currentIdx >= 0 && currentIdx < state.sequence.length - 1){
+    state.qIndex = currentIdx + 1;
+    render();
+  }else if(currentIdx === state.sequence.length - 1){
+    return goResult();
+  }else{
+    if(state.qIndex < state.sequence.length - 1){
+      state.qIndex++;
+      render();
+    }else{
+      return goResult();
+    }
+  }
+}
+
+function goPrev(){
+  if(state.qIndex > 0){ state.qIndex--; render(); }
+}
+
+/* ==========================================================
+   诊断引擎
+   ========================================================== */
+
+function questionScore(q, v){
+  if(!q || !q.scoring || q.scoring === 'none') return null;
+
+  if(q.type === 'multi' && Array.isArray(v)){
+    const realItems = v.filter(x => x !== q.exclusive);
+    if(realItems.length === 0) return 100;
+    if(realItems.length === 1) return 85;
+    if(realItems.length <= 3) return 65;
+    if(realItems.length <= 5) return 45;
+    return 25;
+  }
+
+  if(typeof v !== 'number') return null;
+  if(q.scoring === 'negative') return (5 - v) / 4 * 100;
+  if(q.scoring === 'positive') return (v - 1) / 4 * 100;
+  return null;
+}
+
+const ALL_BY_ID = {};
+STAGE_INFO.forEach(q=>ALL_BY_ID[q.id]=q);
+THEMES.forEach(t=>{
+  t.base.forEach(q=>ALL_BY_ID[q.id]=q);
+  if(t.water) t.water.forEach(q=>ALL_BY_ID[q.id]=q);
+  if(t.deep) t.deep.forEach(q=>ALL_BY_ID[q.id]=q);
+});
+
+function scoreDimension(dimKey){
+  if(!dimKey) return null;
+  const values = [];
+  THEMES.forEach(theme=>{
+    if(theme.dim !== dimKey) return;
+    const allQ = [...theme.base, ...(theme.water||[]), ...(theme.deep||[])];
+    allQ.forEach(q=>{
+      const v = state.ans[q.id];
+      if(v === undefined) return;
+      const s = questionScore(q, v);
+      if(s !== null) values.push(s);
+    });
+  });
+  if(values.length === 0) return 72;
+  return Math.round(values.reduce((a,b)=>a+b, 0) / values.length);
+}
+
+function calcTCM(){
+  const scores = {};
+  Object.keys(TCM_DESC).forEach(k=>scores[k] = []);
+  THEMES.forEach(theme=>{
+    const allQ = [...theme.base, ...(theme.water||[]), ...(theme.deep||[])];
+    allQ.forEach(q=>{
+      const v = state.ans[q.id];
+      if(typeof v === 'number' && q.tcm) scores[q.tcm].push(v);
+    });
+  });
+  STAGE_INFO.forEach(q=>{
+    const v = state.ans[q.id];
+    if(typeof v === 'number' && q.tcm) scores[q.tcm].push(v);
+  });
+  const result = [];
+  Object.keys(scores).forEach(k=>{
+    const arr = scores[k];
+    if(arr.length === 0) return;
+    result.push({name:k, score: arr.reduce((a,b)=>a+b,0)/arr.length, count: arr.length});
+  });
+  result.sort((a,b)=>b.score - a.score);
+  return result;
+}
+
+function buildPortrait(tcm, dims){
+  const biased = tcm.filter(t=>t.score >= 3.5 && t.count >= 2);
+  const tendency = tcm.filter(t=>t.score >= 2.8 && t.score < 3.5 && t.count >= 1);
+  let mainTCM;
+  if(biased.length > 0){ mainTCM = biased[0]; }
+  else if(tendency.length > 0){ mainTCM = tendency[0]; }
+  else{ mainTCM = {name:'平和质', score:1.5, count:0}; }
+
+  const sorted = [...dims].sort((a,b)=>a.score - b.score);
+  const weakest = sorted.slice(0,2);
+  const strongest = sorted[sorted.length-1];
+  const weakNames = weakest.map(d=>d.name).join('、');
+
+  let text = `<b>你的主体质倾向：${mainTCM.name}</b>`;
+  if(mainTCM.count > 0) text += `（症状强度 ${mainTCM.score.toFixed(1)} / 5，共 ${mainTCM.count} 项相关症状）`;
+  text += `。<br><br>${TCM_DESC[mainTCM.name]}`;
+
+  if(mainTCM.name !== '平和质'){
+    text += `<br><br>这与 <b>${weakNames}</b> 的得分偏低高度相关。`;
+    text += `中医说的“${mainTCM.name.replace('质','')}”与现代生活方式医学看到的薄弱环节，描述的是同一个身体在不同语言下的表现。`;
+    text += `<br><br>你目前最强的是 <b>${strongest.name}</b>（${strongest.score} 分），这是你的健康锚点。`;
+  }else{
+    text += `<br><br>目前没有明显偏颇的体质倾向，各维度得分较为均衡。继续保持即可。`;
+  }
+  return {mainTCM, biased, tendency, text, weakest, strongest};
+}
+
+function calcDeduction(){
+  let d = 0;
+  const stress = state.ans.mind_stress;
+  const sit = state.ans.move_sit;
+  const think = state.ans.mind_think;
+  if(stress >= 4 && sit >= 3) d += 3;
+  if(think >= 3) d += 2;
+  if(state.ans.sleep_snore >= 3) d += 2;
+
+  const signalList = (state.ans.signal_list || []).filter(x => x !== '以上都没有');
+  const attitude = state.ans.signal_attitude;
+  if(signalList.length >= 4 && attitude >= 3) d += 3;
+  else if(signalList.length >= 3 && attitude >= 3) d += 1.5;
+
+  return d;
+}
+
+/* ---------- 寿命估算 ---------- */
+function estimateLife(avgScore, age, goalAge){
+  const pct = Math.max(0, Math.min(1, avgScore / 100));
+  let hd;
+  if(pct >= 0.85)      hd = 6  + (pct - 0.85) / 0.15 * 3;
+  else if(pct >= 0.70) hd = 3  + (pct - 0.70) / 0.15 * 3;
+  else if(pct >= 0.55) hd = 0  + (pct - 0.55) / 0.15 * 3;
+  else if(pct >= 0.40) hd = -2 + (pct - 0.40) / 0.15 * 2;
+  else                 hd = -4 - (0.40 - pct) / 0.40 * 4;
+
+  const ageFactor = age >= 65 ? 1.10 : age >= 55 ? 1.05 : 1.0;
+  const adjustedHd = hd * ageFactor;
+
+  let goalBonus = 0;
+  if(goalAge >= 95)      goalBonus = 1.8;
+  else if(goalAge >= 90) goalBonus = 1.2;
+  else if(goalAge >= 85) goalBonus = 0.6;
+  else if(goalAge >= 80) goalBonus = 0;
+  else                   goalBonus = -0.8;
+
+  let hl = Math.max(66, Math.min(96, 72 + adjustedHd + goalBonus));
+  let le = Math.max(74, Math.min(102, 81 + adjustedHd * 0.6 + goalBonus));
+  if(le < hl + 3) le = hl + 3;
+
+  return {
+    healthLife: hl.toFixed(1),
+    lifeExp: le.toFixed(1),
+    gap: (le - hl).toFixed(1),
+    goalAge: goalAge
+  };
+}
+
+/* ---------- 维度定义 ---------- */
+const DIMS = [
+  {key:'energy', name:'精力与体能', icon:'⚡',
+    explainHigh:'精力充沛，肌肉与体能状态良好，日常活动不费力。',
+    explainMid:'精力尚可，但可能容易疲劳，或运动恢复慢。',
+    explainLow:'容易疲乏、精力不足，肌肉量可能偏低，需要优先改善。'},
+  {key:'sleep', name:'睡眠与恢复', icon:'🌙',
+    explainHigh:'睡眠质量好，入睡快，夜间醒来少，醒后恢复感强。',
+    explainMid:'睡眠基本可以，但偶有入睡困难或夜间易醒。',
+    explainLow:'睡眠质量较差，入睡困难或夜间频繁醒来，白天精力受影响。'},
+  {key:'mood', name:'情绪与压力', icon:'🧘',
+    explainHigh:'情绪稳定，压力能够被有效缓冲和代谢，社交联结充实。',
+    explainMid:'偶有情绪低落或紧张，但总体可控。',
+    explainLow:'情绪容易低落或紧张，压力较难释放，可能影响睡眠和消化。'},
+  {key:'digestion', name:'消化与代谢', icon:'⚖️',
+    explainHigh:'消化功能良好，代谢效率正常，饮食与饮水习惯合理。',
+    explainMid:'消化基本正常，但偶有腹胀或大便不成形。',
+    explainLow:'消化功能偏弱，身体沉重感明显，代谢效率可能偏低。'},
+  {key:'circulation', name:'循环与呼吸', icon:'🌬️',
+    explainHigh:'气血运行通畅，呼吸与循环状态良好，畏寒不明显。',
+    explainMid:'偶有胸闷或气短，循环效率有待改善。',
+    explainLow:'胸闷、心悸或畏寒明显，循环效率偏低，需要优先关注。'},
+  {key:'immunity', name:'防御与修复', icon:'🛡️',
+    explainHigh:'身体没有明显困扰信号，对健康的态度主动积极。',
+    explainMid:'有一些身体小信号，对健康的态度还可以更主动。',
+    explainLow:'身体信号较多，或对不适不够重视，需要从主动排查做起。'}
+];
+
+/* ---------- 体质说明 ---------- */
+const TCM_DESC = {
+  '平和质':'阴阳气血调和，体态适中，面色红润，精力充沛，睡眠食欲良好，患病较少。这是最理想的体质状态，继续保持即可。',
+  '气虚质':'元气不足，容易疲乏、气短、说话声音低弱，活动后容易出汗，精力恢复慢。企业家长期说话、思虑，最先消耗的就是气。',
+  '气郁质':'气机郁滞，情绪容易低落或紧张，敏感多虑，胸胁部容易胀满，睡眠偏浅。企业家持续思考和压力，最容易导致肝气郁结。',
+  '阳虚质':'阳气不足，怕冷，手脚不温，胃脘部、背部或腰膝部怕冷，精神不振。身体处于“温煦功能偏弱”的状态。',
+  '阴虚质':'阴液亏少，容易口干、手足心热、面部潮红，睡眠偏浅。长期熬夜和高压工作容易耗伤阴液。',
+  '痰湿质':'水湿内停，身体沉重不轻松，腹部松软，额部油脂分泌多，容易困倦。长期应酬、高油高盐饮食和久坐是主要诱因。',
+  '湿热质':'湿热内蕴，面部或鼻部油腻，容易口苦口干，大便黏滞。应酬饮酒和重口味饮食是常见诱因。',
+  '血瘀质':'血行不畅，皮肤容易出现青紫瘀斑，面色晦暗，口唇偏暗。长期久坐、缺乏运动是主要风险因素。',
+  '特禀质':'先天禀赋特殊，容易过敏，皮肤容易起荨麻疹。身体处于“免疫调节偏敏感”的状态。'
+};
+
+/* ---------- 建议库 ---------- */
+const ADVICE_LIB = {
+  energy: {
+    title:'温和而持续地动起来，把肌肉当成长寿器官',
+    steps:[
+      '每周 150 分钟中等强度有氧运动（快走、慢跑、太极），让心率持续提升',
+      '每周 2 次力量训练：自重深蹲、弹力带划船、墙壁俯卧撑，每次 20 分钟',
+      '每小时起身活动 3 分钟，减少连续久坐'
+    ],
+    why:'企业家说话多、思虑多，最先消耗的是气和脾。中医讲“脾主肌肉”，现代研究证实骨骼肌是决定晚年独立生活能力的核心器官。温和而持续的运动，比短期高强度训练更能补充气血、延缓衰老。'
+  },
+  sleep: {
+    title:'固定作息是第一性原理，睡眠是大脑的清洗窗口',
+    steps:[
+      '固定上床和起床时间（含周末），误差不超过 30 分钟',
+      '晚餐与就寝之间留出至少 2 小时，睡前 1 小时关掉手机和电视',
+      '卧室保持安静、黑暗、凉爽；一周可安排 1-2 次小睡，每次不超过 1 小时'
+    ],
+    why:'每晚 7 小时左右的规律睡眠能降低痴呆和心血管疾病风险。老年人深睡时长缩短、睡眠效率下降，更需要靠固定作息来维持昼夜节律。中医认为“肝藏血、人卧则血归于肝”，规律作息是养肝血的基础。'
+  },
+  mood: {
+    title:'给神经系统一个从“战斗模式”退出的机会',
+    steps:[
+      '每天安排 30 分钟“无目的时间”——不处理工作、不看手机',
+      '每周至少与家人吃一次“无手机晚餐”，每月与挚友深度交流一次',
+      '玫瑰花 3g + 陈皮 3g 泡水代茶饮；按揉太冲穴每侧 3 分钟'
+    ],
+    why:'心理社交孤立被列为衰老的第一标志——它通过神经、内分泌、免疫通路加速全身衰老。企业家最容易陷入“在人群中孤独”的状态。中医认为“怒伤肝、思伤脾”，持续的情绪消耗会直接损害气血。'
+  },
+  digestion: {
+    title:'规律饮食、科学饮水，让身体从“储存模式”切换到“修复模式”',
+    steps:[
+      '每餐先吃蔬菜，再吃蛋白质，最后吃主食；八分饱时停筷',
+      '减少超加工食品；增加蔬菜、豆类、全谷物、坚果和富含 Omega-3 的鱼类',
+      '每天 7-8 杯液体（白水为主，适量茶和咖啡），咖啡与茶约 2:3 比例'
+    ],
+    why:'减少超加工食品、选择天然食材能显著降低慢病风险。研究发现每天 7-8 杯液体（咖啡与茶 2:3 搭配）与全因死亡风险降低 45% 相关。中医认为“脾胃为后天之本”，饮食规律、五味调和是气血生化之源。'
+  },
+  circulation: {
+    title:'改善气血运行，从呼吸和活动开始',
+    steps:[
+      '每小时起身活动 3 分钟，每天累计步行 6000 步以上',
+      '白天有意识地闭口用鼻呼吸；每天 5 分钟“4-6 呼吸法”',
+      '定期关注血压、血脂情况'
+    ],
+    why:'企业家久坐时间长、应酬多，微循环负担大。中医讲“久坐伤肉”“气为血之帅”，气血运行不畅会导致胸闷、畏寒、面色晦暗。减少久坐时间对心血管的保护作用独立于运动量。'
+  },
+  immunity: {
+    title:'小毛病不要忍，把防线前移到“未病”阶段',
+    steps:[
+      '身体持续不适（胸闷、颈肩痛、尿频、胃部不适等）超过两周，主动安排检查',
+      '每年一次全面体检，重点关注血压、血糖、血脂和前列腺 / 骨密度',
+      '减少空气污染、噪声、塑料制品加热和二手烟暴露'
+    ],
+    why:'50 岁后身体的小毛病往往是重要信号——它们通过炎症和代谢通路加速衰老，也是心血管和代谢疾病的早期线索。及时排查不是“小题大做”，而是把健康防线前移。中医讲“上工治未病”，现代医学也证实，早期干预的性价比远高于晚期治疗。'
+  }
+};
+
+/* ---------- 生成结果 ---------- */
+let RESULT = null;
+
+function goResult(){
+  const dims = DIMS.map(d=>({...d, score: scoreDimension(d.key)}));
+  const tcm = calcTCM();
+  const deduction = calcDeduction();
+  let avg = dims.reduce((s,d)=>s+d.score, 0) / dims.length;
+  avg = Math.max(0, Math.round(avg - deduction));
+  const age = calcAgeFromYear(state.ans.birth_year);
+  const goalText = getGoalAgeText();
+  const goalAge = goalAgeFromOption(goalText);
+
+  const life = estimateLife(avg, age, goalAge);
+  const portrait = buildPortrait(tcm, dims);
+
+  const sorted = [...dims].sort((a,b)=>a.score - b.score);
+  const adviceList = sorted.slice(0,3).map(d=>({
+    dimName: d.name, icon: d.icon, score: d.score, data: ADVICE_LIB[d.key]
+  }));
+
+  RESULT = { avg, life, portrait, tcm, dims, deduction, adviceList, sorted, age, goalAge, goalText };
+  state.screen = 'result';
+  progressBar.style.display = 'none';
+  render();
+}
+
+/* ---------- 结果页 ---------- */
+function renderResult(){
+  const R = RESULT;
+  const colorOf = (s)=>{
+    if(s >= 80) return 'var(--green-500)';
+    if(s >= 65) return '#7fb069';
+    if(s >= 50) return 'var(--gold)';
+    if(s >= 35) return 'var(--amber)';
+    return 'var(--red)';
+  };
+  const clsOf = (s)=>{
+    if(s < 50) return 'low';
+    if(s < 70) return 'mid';
+    return '';
+  };
+
+  let html = `<div class="result fade-in">`;
+
+  html += `
+    <div class="hero-card">
+      <div class="hero-title">你的预期寿命画像</div>
+      <div class="hero-sub">基于当前生活方式和体质状态推算</div>
+      <div class="life-grid">
+        <div class="life-item">
+          <div class="life-val">${R.life.lifeExp}<small> 岁</small></div>
+          <div class="life-lab">预期寿命</div>
+          <div class="life-note">生命的长度</div>
+        </div>
+        <div class="life-item">
+          <div class="life-val">${R.life.healthLife}<small> 岁</small></div>
+          <div class="life-lab">预期健康寿命</div>
+          <div class="life-note">生命的质量</div>
+        </div>
+      </div>
+      <div class="life-gap">
+        健康寿命差 <b>${R.life.gap} 年</b>——晚年需要他人照护的时间。差距越小，晚年生活质量越高。
+      </div>
+    </div>
+  `;
+
+  const goalPct = Math.min(100, Math.round((R.life.lifeExp / R.goalAge) * 100));
+  html += `
+    <div class="goal-bar">
+      <h4>你的目标：健康地活到 ${R.goalAge} 岁</h4>
+      <div class="goal-track"><div class="goal-fill" data-w="${goalPct}"></div></div>
+      <div class="goal-marks">
+        <span>当前预期 ${R.life.lifeExp} 岁</span>
+        <span>目标 ${R.goalAge} 岁</span>
+      </div>
+      <div class="goal-msg">${
+        goalPct >= 100
+          ? '按照当前生活方式，你有机会达成这个目标。'
+          : goalPct >= 90
+          ? '距离目标还有一点距离，通过调整可以更接近。'
+          : '距离目标有一定差距，改善空间很大。'
+      }</div>
+    </div>
+  `;
+
+  html += `
+    <div class="card">
+      <h3>🧭 整体健康画像</h3>
+      <div class="card-sub">
+        六个维度融合了中医体质与西方长寿医学的双重视角。每个维度同时反映你的体感倾向与生活方式习惯。
+      </div>
+  `;
+
+  R.dims.forEach(d=>{
+    const c = colorOf(d.score);
+    const cls = clsOf(d.score);
+    let explain;
+    if(d.score < 55) explain = d.explainLow;
+    else if(d.score < 75) explain = d.explainMid;
+    else explain = d.explainHigh;
+    html += `
+      <div class="dim-row">
+        <div class="dim-header">
+          <span class="dim-icon">${d.icon}</span>
+          <span class="dim-title">${d.name}</span>
+          <span class="dim-score ${cls}">${d.score} / 100</span>
+        </div>
+        <div class="dim-bar"><div class="dim-bar-fill" data-w="${d.score}" style="background:${c}"></div></div>
+        <div class="dim-explain">${explain}</div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  html += `
+    <div class="tcm-card">
+      <div class="tcm-title">☯️ 体质倾向：${R.portrait.mainTCM.name}</div>
+      <div class="tcm-score">${
+        R.portrait.mainTCM.count > 0
+          ? `症状强度 ${R.portrait.mainTCM.score.toFixed(1)} / 5 · 共 ${R.portrait.mainTCM.count} 项相关症状`
+          : '未发现明显偏颇'
+      }</div>
+      <div class="tcm-desc">${R.portrait.text.replace(/^<b>.*?<\/b>/, '').replace(/^.*?。/, '')}</div>
+      ${R.portrait.biased.length > 1
+        ? `<div class="tcm-link"><b>兼夹倾向：</b>${R.portrait.biased.filter(t=>t.name!==R.portrait.mainTCM.name).map(t=>t.name+'（'+t.score.toFixed(1)+'）').join('、')}</div>`
+        : ''
+      }
+    </div>
+  `;
+
+  html += `
+    <div class="card">
+      <h3>🎯 优先行动建议</h3>
+      <div class="card-sub">
+        依据“抓大放小”原则，只输出最值得优先改变的三件事。每条建议都同时融合了中医调理与现代生活方式科学。
+      </div>
+  `;
+
+  R.adviceList.forEach((a,i)=>{
+    html += `
+      <div class="advice">
+        <div class="advice-rank">优先级 ${i+1} · ${a.icon} ${a.dimName}（${a.score} 分）</div>
+        <h4>${a.data.title}</h4>
+        <ol>${a.data.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+        <div class="advice-why"><b>为什么这样做：</b>${a.data.why}</div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  html += `
+    <div class="foot-note">
+      本报告为健康筛查原型，基于问卷自评生成，不替代临床医学诊断。<br>
+      若结果提示多个维度偏低，请尽快安排全面体检。<br><br>
+      <button class="btn btn-ghost" onclick="restart()">重新评估</button>
+    </div>
+  `;
+  html += `</div>`;
+  app.innerHTML = html;
+
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      document.querySelectorAll('.dim-bar-fill').forEach(el=>{ el.style.width = el.dataset.w + '%'; });
+      document.querySelectorAll('.goal-fill').forEach(el=>{ el.style.width = el.dataset.w + '%'; });
+    }, 120);
+  });
+}
+
+function restart(){
+  state.screen = 'cover'; state.qIndex = 0;
+  state.ans = {}; state.sequence = []; RESULT = null;
+  progressBar.style.display = 'none';
+  render();
+}
+
+/* ---------- 启动 ---------- */
+state.sequence = computeActiveQuestions();
+render();
+</script>
+</body>
+</html>
