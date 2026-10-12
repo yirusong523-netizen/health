@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LifeOS · 一人一策</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  background:radial-gradient(circle at 50% 0%,#14110A,#05070A 70%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  color:#E8EEF5;padding:24px;
+}
+.phone{
+  width:400px;height:844px;background:#0A0E13;border-radius:42px;
+  border:1px solid #23201A;display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,.85),0 0 0 9px #0d1218,0 0 0 10px #1b242e;
+  position:relative;
+}
+.statusbar{height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px;font-size:12.5px;color:#8A8578;letter-spacing:.4px;z-index:30;position:relative}
+.screen{flex:1;overflow-y:auto;padding:0 18px 108px;scrollbar-width:none;position:relative}
+.screen::-webkit-scrollbar{display:none}
+
+/* ---------- 底部导航 ---------- */
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:80px;display:flex;
+  background:rgba(10,14,19,.96);backdrop-filter:blur(24px);
+  border-top:1px solid #23201A;padding-bottom:18px;z-index:5}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;font-size:10px;color:#5A5548;cursor:pointer;transition:.2s;user-select:none}
+.tab .ico{font-size:20px;line-height:1;filter:grayscale(1) opacity(.5)}
+.tab.active{color:#D4AF37}
+.tab.active .ico{filter:none;transform:scale(1.05)}
+
+/* ---------- 通用 ---------- */
+.sec-t{font-size:14px;font-weight:600;color:#D8CDB5;letter-spacing:.3px;
+  display:flex;align-items:center;gap:8px;margin:20px 2px 11px}
+.sec-t .bar{width:3px;height:13px;border-radius:2px;background:#D4AF37}
+.card{background:#111821;border:1px solid #23201A;border-radius:16px;padding:15px;margin-bottom:10px}
+.muted{color:#6B6758;font-size:11.5px;line-height:1.6}
+.greet{padding:6px 2px 16px}
+.g-date{font-size:12.5px;color:#6B6758;letter-spacing:.8px}
+.g-hello{font-size:23px;font-weight:600;margin-top:7px;letter-spacing:.5px}
+.g-hello span{color:#D4AF37}
+
+/* ---------- 引导流程 ---------- */
+.onb{position:absolute;inset:0;background:#0A0E13;z-index:50;display:none;
+  flex-direction:column;border-radius:42px;overflow:hidden}
+.onb.open{display:flex}
+.onb-body{flex:1;overflow-y:auto;padding:0 26px;scrollbar-width:none}
+.onb-body::-webkit-scrollbar{display:none}
+.onb-foot{flex-shrink:0;padding:16px 26px 30px;background:#0A0E13}
+
+/* 进度条 */
+.onb-progress{display:flex;gap:5px;padding:14px 26px 0;flex-shrink:0}
+.onb-dot{flex:1;height:3px;border-radius:3px;background:#1E1B14;transition:.3s}
+.onb-dot.done{background:#D4AF37}
+.onb-dot.cur{background:#D4AF37;box-shadow:0 0 8px rgba(212,175,55,.6)}
+
+/* 欢迎页 */
+.welcome{flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:0 32px;text-align:center}
+.w-logo{font-size:13px;color:#D4AF37;letter-spacing:5px;font-weight:600;margin-bottom:32px}
+.w-title{font-size:30px;font-weight:700;line-height:1.35;letter-spacing:.5px}
+.w-title span{color:#D4AF37}
+.w-desc{font-size:14.5px;color:#A89C7E;line-height:1.85;margin-top:22px}
+.w-steps{margin-top:44px;text-align:left}
+.w-step{display:flex;gap:14px;padding:13px 0;align-items:flex-start}
+.w-step-n{width:26px;height:26px;border-radius:50%;background:rgba(212,175,55,.12);
+  color:#D4AF37;font-size:12px;font-weight:700;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:1px}
+.w-step-t{font-size:14.5px;color:#D8CDB5;line-height:1.5;font-weight:500}
+.w-step-s{font-size:12px;color:#7A7568;margin-top:5px;line-height:1.55}
+.w-meta{font-size:11.5px;color:#5A5548;margin-top:36px;letter-spacing:.5px}
+
+/* 问卷 */
+.q-head{padding:28px 0 22px}
+.q-step{font-size:11.5px;color:#D4AF37;letter-spacing:2px;font-weight:600}
+.q-title{font-size:23px;font-weight:600;line-height:1.4;margin-top:10px;letter-spacing:.3px}
+.q-sub{font-size:13px;color:#7A7568;line-height:1.7;margin-top:11px}
+
+.q-field{margin-bottom:20px}
+.q-label{font-size:13.5px;color:#D8CDB5;margin-bottom:11px;font-weight:500;display:flex;
+  align-items:center;justify-content:space-between}
+.q-label em{font-style:normal;font-size:11px;color:#6B6758}
+.q-input{width:100%;background:#111821;border:1px solid #23201A;border-radius:13px;
+  padding:14px 16px;font-size:15px;color:#E8EEF5;outline:none;font-family:inherit;
+  transition:.15s}
+.q-input:focus{border-color:#D4AF37}
+.q-input::placeholder{color:#4A4538}
+
+.q-opts{display:flex;flex-direction:column;gap:9px}
+.q-opt{background:#111821;border:1px solid #23201A;border-radius:13px;
+  padding:14px 16px;font-size:14.5px;color:#A8A08C;cursor:pointer;transition:.15s;
+  display:flex;align-items:center;justify-content:space-between;gap:10px}
+.q-opt:active{background:#161A20}
+.q-opt.on{background:rgba(212,175,55,.1);border-color:#D4AF37;color:#D4AF37;font-weight:600}
+.q-opt-ck{width:20px;height:20px;border-radius:50%;border:1.5px solid #2E2A22;
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+  color:transparent;flex-shrink:0;transition:.2s}
+.q-opt.on .q-opt-ck{background:#D4AF37;border-color:#D4AF37;color:#0A0E13}
+
+.q-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.q-chip{background:#111821;border:1px solid #23201A;border-radius:13px;
+  padding:14px 10px;text-align:center;font-size:14px;color:#A8A08C;
+  cursor:pointer;transition:.15s}
+.q-chip:active{background:#161A20}
+.q-chip.on{background:rgba(212,175,55,.1);border-color:#D4AF37;color:#D4AF37;font-weight:600}
+
+.q-slider{display:flex;gap:7px;justify-content:space-between}
+.q-sl{flex:1;background:#111821;border:1px solid #23201A;border-radius:11px;
+  padding:12px 4px;text-align:center;font-size:12.5px;color:#8A8578;
+  cursor:pointer;transition:.15s}
+.q-sl.on{background:rgba(212,175,55,.1);border-color:#D4AF37;color:#D4AF37;font-weight:600}
+
+/* 体检上传 */
+.upload-card{background:linear-gradient(135deg,#141B24,#111821);border:1px solid #23201A;
+  border-radius:18px;padding:22px;text-align:center;margin-bottom:14px}
+.upload-ico{font-size:40px;margin-bottom:14px}
+.upload-t{font-size:16px;font-weight:600;color:#D8CDB5}
+.upload-s{font-size:12.5px;color:#7A7568;line-height:1.65;margin-top:9px}
+.upload-btn{margin-top:18px;background:#D4AF37;color:#0A0E13;font-size:15px;
+  font-weight:600;padding:14px;border-radius:14px;cursor:pointer;letter-spacing:.5px}
+.upload-btn:active{opacity:.8}
+.upload-alt{display:flex;gap:9px;margin-top:11px}
+.upload-alt div{flex:1;background:#111821;border:1px solid #23201A;border-radius:13px;
+  padding:13px;text-align:center;font-size:13px;color:#A8A08C;cursor:pointer}
+.upload-alt div:active{background:#161A20}
+
+.uploaded{background:#111821;border:1px solid #23201A;border-radius:16px;padding:15px;
+  margin-bottom:10px;display:flex;align-items:center;gap:13px}
+.uploaded-ico{width:44px;height:44px;border-radius:13px;background:rgba(46,212,122,.12);
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.uploaded-t{font-size:14px;font-weight:600;color:#D8CDB5}
+.uploaded-s{font-size:11.5px;color:#7A7568;margin-top:5px;line-height:1.5}
+.uploaded-badge{font-size:10.5px;color:#2ED47A;background:rgba(46,212,122,.1);
+  padding:3px 9px;border-radius:20px;margin-left:auto;flex-shrink:0}
+
+/* 生成中 */
+.gen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 40px;text-align:center}
+.gen-ring{width:80px;height:80px;border-radius:50%;border:3px solid #1E1B14;
+  border-top-color:#D4AF37;animation:spin 1s linear infinite;margin-bottom:28px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-t{font-size:18px;font-weight:600;color:#D8CDB5}
+.gen-s{font-size:13px;color:#7A7568;line-height:1.7;margin-top:12px}
+.gen-steps{margin-top:32px;text-align:left;width:100%}
+.gen-step{display:flex;align-items:center;gap:11px;padding:9px 0;
+  font-size:13px;color:#5A5548;transition:.3s}
+.gen-step.on{color:#D4AF37}
+.gen-step-dot{width:7px;height:7px;border-radius:50%;background:#2E2A22;flex-shrink:0;transition:.3s}
+.gen-step.on .gen-step-dot{background:#D4AF37;box-shadow:0 0 8px #D4AF37}
+
+/* 策略结果 */
+.result-hero{background:linear-gradient(135deg,#1C1810,#111821);border:1px solid #3A2E18;
+  border-radius:20px;padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.result-hero::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
+  border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.16),transparent 70%)}
+.result-label{font-size:11.5px;color:#D4AF37;letter-spacing:2px;font-weight:600}
+.result-t{font-size:22px;font-weight:600;line-height:1.4;margin-top:12px;
+  color:#E8EEF5;position:relative}
+.result-d{font-size:13.5px;color:#A89C7E;line-height:1.7;margin-top:12px;position:relative}
+
+.result-sec{background:#111821;border:1px solid #23201A;border-radius:16px;
+  padding:16px;margin-bottom:11px}
+.result-sec-t{font-size:11.5px;color:#D4AF37;letter-spacing:1.5px;font-weight:600;
+  margin-bottom:12px}
+.result-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #1B1F26;
+  align-items:flex-start}
+.result-row:last-child{border-bottom:none;padding-bottom:0}
+.result-row-n{width:22px;height:22px;border-radius:50%;background:rgba(212,175,55,.12);
+  color:#D4AF37;font-size:11px;font-weight:700;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;margin-top:1px}
+.result-row-t{font-size:14px;color:#D8CDB5;line-height:1.5}
+.result-row-s{font-size:12px;color:#7A7568;margin-top:5px;line-height:1.55}
+
+.result-main{background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.3);
+  border-radius:14px;padding:15px;margin-bottom:11px}
+.result-main-lb{font-size:11px;color:#D4AF37;letter-spacing:1.2px;font-weight:600}
+.result-main-t{font-size:16px;font-weight:600;color:#E8EEF5;margin-top:9px;line-height:1.45}
+.result-main-s{font-size:12.5px;color:#A89C7E;margin-top:8px;line-height:1.6}
+
+/* ---------- 今日页 ---------- */
+.hero{background:linear-gradient(135deg,#1C1810,#111821);border:1px solid #3A2E18;
+  border-radius:20px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;
+  cursor:pointer;transition:.15s}
+.hero:active{transform:scale(.985)}
+.hero::before{content:'';position:absolute;top:-50px;right:-40px;width:150px;height:150px;
+  border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.15),transparent 70%)}
+.hero-top{display:flex;align-items:baseline;gap:10px;position:relative}
+.hero-label{font-size:12.5px;color:#A89C7E;letter-spacing:1px}
+.hero-num{font-size:42px;font-weight:700;color:#D4AF37;line-height:1;letter-spacing:.5px}
+.hero-delta{font-size:12.5px;color:#2ED47A;background:rgba(46,212,122,.12);
+  padding:3px 9px;border-radius:20px;margin-left:auto}
+.hero-msg{font-size:14px;line-height:1.65;color:#D8CDB5;margin-top:13px;position:relative}
+.hero-assets{display:flex;gap:6px;margin-top:14px;padding-top:13px;
+  border-top:1px solid rgba(212,175,55,.16);position:relative}
+.hero-asset{flex:1;text-align:center}
+.hero-asset-n{font-size:15px;font-weight:700;letter-spacing:.3px}
+.hero-asset-l{font-size:9.5px;color:#7A7568;margin-top:4px}
+
+.p{display:flex;align-items:center;gap:13px;background:#111821;border:1px solid #23201A;
+  border-radius:16px;padding:14px;margin-bottom:9px;cursor:pointer;transition:.15s}
+.p:active{background:#161A20;transform:scale(.985)}
+.p-ico{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;flex-shrink:0}
+.p-main{flex:1;min-width:0}
+.p-name{font-size:15.5px;font-weight:600;display:flex;align-items:center;gap:7px}
+.p-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.p-sub{font-size:12.5px;color:#7A7568;margin-top:4px;line-height:1.4}
+.p-arrow{color:#3A3628;font-size:20px;flex-shrink:0}
+
+.ck{display:flex;align-items:center;gap:12px;background:#111821;
+  border:1px solid #23201A;border-radius:15px;padding:13px;margin-bottom:8px;
+  cursor:pointer;transition:.15s}
+.ck:active{background:#161A20}
+.ck-box{width:24px;height:24px;border-radius:8px;border:1.5px solid #2E2A22;
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+  color:transparent;flex-shrink:0;transition:.2s}
+.ck.on .ck-box{background:#D4AF37;border-color:#D4AF37;color:#0A0E13}
+.ck-t{font-size:14px;color:#D8CDB5;line-height:1.4;transition:.2s}
+.ck.on .ck-t{color:#6B6758;text-decoration:line-through}
+.ck-s{font-size:11px;color:#6B6758;margin-top:4px}
+.ck-tag{font-size:9.5px;color:#D4AF37;background:rgba(212,175,55,.1);
+  padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:600}
+
+.know{background:linear-gradient(135deg,#1C1810,#111821);border:1px solid #3A2E18;
+  border-radius:16px;padding:15px 16px;cursor:pointer;transition:.15s}
+.know:active{transform:scale(.985)}
+.k-tag{font-size:10.5px;color:#D4AF37;letter-spacing:1.8px;font-weight:600;
+  display:flex;align-items:center;gap:6px}
+.k-tag::before{content:'';width:3px;height:10px;background:#D4AF37;border-radius:2px}
+.k-txt{font-size:14px;line-height:1.75;color:#D8CDB5;margin-top:10px}
+.k-src{font-size:10.5px;color:#6B6758;margin-top:10px;padding-top:9px;
+  border-top:1px solid rgba(212,175,55,.14)}
+
+.team-bar{display:flex;align-items:center;gap:12px;background:#111821;
+  border:1px solid #23201A;border-radius:16px;padding:13px 15px;margin-top:14px;
+  cursor:pointer;transition:.15s}
+.team-bar:active{background:#161A20}
+.team-avs{display:flex}
+.team-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:12px;font-weight:600;border:2px solid #0A0E13;
+  margin-left:-8px;flex-shrink:0}
+.team-av:first-child{margin-left:0}
+.team-txt{flex:1;font-size:13px;color:#A89C7E;line-height:1.4}
+.team-txt b{color:#D8CDB5;font-weight:600;display:block;font-size:14px;margin-bottom:3px}
+
+/* ---------- 改善页 ---------- */
+.focus-hero{background:linear-gradient(135deg,#1C1810,#111821);border:1px solid #3A2E18;
+  border-radius:20px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.focus-hero::before{content:'';position:absolute;top:-50px;right:-40px;width:150px;height:150px;
+  border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.15),transparent 70%)}
+.focus-label{font-size:11px;color:#D4AF37;letter-spacing:1.8px;font-weight:600}
+.focus-t{font-size:21px;font-weight:600;line-height:1.4;margin-top:11px;
+  color:#E8EEF5;position:relative}
+.focus-d{font-size:13px;color:#A89C7E;line-height:1.65;margin-top:11px;position:relative}
+
+.progress-wrap{display:flex;align-items:center;gap:16px}
+.progress-num{font-size:42px;font-weight:700;color:#D4AF37;line-height:1;letter-spacing:1px}
+.progress-num span{font-size:15px;color:#7A7568;font-weight:400;margin-left:4px}
+.progress-info{flex:1}
+.progress-bar{height:8px;background:#1A1E24;border-radius:5px;overflow:hidden;margin-bottom:9px}
+.progress-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#D4AF37,#8A6E1A);
+  transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.progress-lb{font-size:12px;color:#A89C7E;line-height:1.5}
+.progress-lb b{color:#2ED47A;font-weight:600}
+
+.action-card{background:#111821;border:1px solid #23201A;border-radius:16px;
+  padding:16px;margin-bottom:10px}
+.action-label{font-size:10.5px;color:#D4AF37;letter-spacing:1.5px;font-weight:600;margin-bottom:10px}
+.action-row{display:flex;align-items:center;gap:12px;cursor:pointer}
+.action-ck{width:30px;height:30px;border-radius:50%;border:2px solid #2E2A22;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  color:transparent;flex-shrink:0;transition:.25s}
+.action-card.on .action-ck{background:#D4AF37;border-color:#D4AF37;color:#0A0E13;transform:scale(1.05)}
+.action-t{font-size:16px;font-weight:600;color:#D8CDB5;line-height:1.4;transition:.2s}
+.action-card.on .action-t{color:#6B6758;text-decoration:line-through}
+.action-s{font-size:12px;color:#7A7568;margin-top:6px;line-height:1.55}
+
+.stage-card{background:#111821;border:1px solid #23201A;border-radius:16px;
+  padding:15px;margin-bottom:10px}
+.stage-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #1B1F26;align-items:flex-start}
+.stage-row:last-child{border-bottom:none;padding-bottom:0}
+.stage-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.stage-t{font-size:14px;color:#D8CDB5;line-height:1.45;font-weight:500}
+.stage-s{font-size:11.5px;color:#7A7568;margin-top:4px;line-height:1.5}
+
+.helper{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #1B1F26}
+.helper:last-child{border-bottom:none}
+.helper-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
+.helper-nm{font-size:14px;font-weight:600;color:#D8CDB5}
+.helper-rl{font-size:11.5px;color:#7A7568;margin-top:4px}
+.helper-go{margin-left:auto;font-size:12px;color:#D4AF37}
+
+.course{background:#111821;border:1px solid #23201A;border-radius:16px;
+  padding:15px;margin-bottom:10px;cursor:pointer;transition:.15s}
+.course:active{background:#161A20}
+.course-top{display:flex;gap:12px;margin-bottom:12px}
+.course-ico{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;flex-shrink:0}
+.course-nm{font-size:15.5px;font-weight:600;line-height:1.35;color:#D8CDB5}
+.course-lt{font-size:11.5px;color:#8A8578;margin-top:6px;line-height:1.5}
+.course-foot{display:flex;align-items:center;justify-content:space-between;
+  padding-top:11px;border-top:1px solid #1B1F26}
+.course-n{font-size:11px;color:#D4AF37}
+.course-go{font-size:11.5px;color:#6B6758}
+
+/* ---------- 知识页 ---------- */
+.filters{display:flex;gap:7px;overflow-x:auto;padding:2px 0 13px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.f{flex-shrink:0;padding:8px 15px;border-radius:20px;font-size:12.5px;color:#8A8578;
+  background:#111821;border:1px solid #23201A;cursor:pointer;transition:.15s;user-select:none}
+.f.on{background:#D4AF37;color:#0A0E13;border-color:#D4AF37;font-weight:600}
+
+.art{background:#111821;border:1px solid #23201A;border-radius:15px;
+  padding:14px;margin-bottom:9px;cursor:pointer;transition:.15s}
+.art:active{background:#161A20}
+.art-tag{font-size:10.5px;color:#D4AF37;letter-spacing:1px;font-weight:600}
+.art-t{font-size:14px;font-weight:600;line-height:1.45;margin-top:7px;color:#D8CDB5}
+.art-s{font-size:11px;color:#7A7568;margin-top:6px;line-height:1.5}
+
+.book{display:flex;gap:12px;background:#111821;border:1px solid #23201A;
+  border-radius:15px;padding:13px;margin-bottom:9px;cursor:pointer;transition:.15s}
+.book:active{background:#161A20}
+.book-cover{width:46px;height:64px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+  border:1px solid rgba(255,255,255,.08)}
+.book-t{font-size:13.5px;font-weight:600;line-height:1.35;color:#D8CDB5}
+.book-a{font-size:10.5px;color:#7A7568;margin-top:4px}
+.book-d{font-size:11px;color:#A8A08C;line-height:1.5;margin-top:6px}
+
+/* ---------- 我的页 ---------- */
+.me-hd{display:flex;align-items:center;gap:14px;padding:10px 2px 18px}
+.me-av{width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#D4AF37,#8A6E1A);display:flex;align-items:center;
+  justify-content:center;font-size:22px;color:#0A0E13;font-weight:700;flex-shrink:0}
+.me-nm{font-size:19px;font-weight:600}
+.me-role{font-size:12px;color:#8A8578;margin-top:5px}
+.me-badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:#D4AF37;
+  background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.25);
+  padding:3px 9px;border-radius:20px;margin-top:8px}
+
+.me-strategy{background:linear-gradient(135deg,#1C1810,#111821);border:1px solid #3A2E18;
+  border-radius:18px;padding:18px;margin-bottom:11px;cursor:pointer;transition:.15s}
+.me-strategy:active{transform:scale(.985)}
+.me-strategy-lb{font-size:11px;color:#D4AF37;letter-spacing:1.5px;font-weight:600}
+.me-strategy-t{font-size:17px;font-weight:600;color:#E8EEF5;margin-top:10px;line-height:1.4}
+.me-strategy-s{font-size:12.5px;color:#A89C7E;margin-top:8px;line-height:1.6}
+.me-strategy-foot{display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;padding-top:13px;border-top:1px solid rgba(212,175,55,.16)}
+.me-strategy-d{font-size:11.5px;color:#7A7568}
+.me-strategy-go{font-size:12px;color:#D4AF37}
+
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tm{background:#111821;border:1px solid #23201A;border-radius:15px;
+  padding:14px 12px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s}
+.tm:active{background:#161A20;transform:scale(.98)}
+.tm-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
+.tm-nm{font-size:13.5px;font-weight:600;color:#D8CDB5}
+.tm-rl{font-size:11px;color:#7A7568;margin-top:3px}
+
+.src-row{display:flex;align-items:center;justify-content:space-between;
+  padding:13px 2px;border-bottom:1px solid #1B1F26;font-size:14px;cursor:pointer}
+.src-row:last-child{border-bottom:none}
+.src-l{display:flex;align-items:center;gap:11px;color:#D8CDB5}
+.src-r{font-size:11.5px;color:#2ED47A}
+.src-r.gray{color:#8A8578}
+
+/* ---------- 弹窗 ---------- */
+.modal{position:fixed;inset:0;background:rgba(3,6,9,.82);backdrop-filter:blur(8px);
+  display:none;align-items:flex-end;justify-content:center;z-index:99}
+.modal.open{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet{width:100%;max-width:440px;max-height:86vh;overflow-y:auto;background:#0D1319;
+  border:1px solid #23201A;border-bottom:none;border-radius:26px 26px 0 0;
+  padding:22px 20px 30px;animation:up .3s cubic-bezier(.2,.9,.3,1);scrollbar-width:none}
+.sheet::-webkit-scrollbar{display:none}
+@keyframes up{from{transform:translateY(50px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.sh-head{display:flex;align-items:center;gap:13px;margin-bottom:18px}
+.sh-ico{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;
+  justify-content:center;font-size:23px;flex-shrink:0}
+.sh-name{font-size:18px;font-weight:600;line-height:1.35}
+.sh-sub{font-size:12.5px;color:#8A8578;margin-top:5px}
+.sh-x{width:30px;height:30px;border-radius:50%;background:#1A1F26;color:#8A8578;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0}
+.sh-row{display:flex;align-items:center;justify-content:space-between;
+  padding:13px 4px;border-bottom:1px solid #1B1F26}
+.sh-row:last-child{border-bottom:none}
+.sh-l{font-size:14px;color:#A8A08C}
+.sh-v{font-size:17px;font-weight:600;letter-spacing:.3px}
+.sh-v span{font-size:11.5px;color:#6B6758;font-weight:400;margin-left:4px}
+.sh-tip{border-radius:15px;padding:15px 16px;margin-top:16px;
+  border:1px solid rgba(212,175,55,.3);background:rgba(212,175,55,.06)}
+.sh-tip-t{font-size:11.5px;font-weight:600;letter-spacing:1px;color:#D4AF37}
+.sh-tip-b{font-size:14px;line-height:1.75;color:#D8CDB5;margin-top:9px}
+.sh-btn{margin-top:16px;background:#D4AF37;color:#0A0E13;font-size:15px;font-weight:600;
+  text-align:center;padding:14px;border-radius:14px;cursor:pointer;letter-spacing:.5px}
+.sh-btn:active{opacity:.8}
+.sh-btn.ghost{background:transparent;border:1px solid #2E2A22;color:#A8A08C}
+
+.ol{position:relative;padding-left:20px;margin-top:6px}
+.ol::before{content:'';position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:#23201A}
+.ol-i{position:relative;padding:8px 0;font-size:13px;color:#A8A08C;line-height:1.55}
+.ol-i::before{content:'';position:absolute;left:-19px;top:14px;width:6px;height:6px;
+  border-radius:50%;background:#D4AF37}
+
+/* ---------- AI ---------- */
+.ai-fab{position:absolute;bottom:96px;right:22px;width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#D4AF37,#8A6E1A);display:flex;align-items:center;
+  justify-content:center;font-size:23px;cursor:pointer;z-index:6;
+  box-shadow:0 8px 24px rgba(212,175,55,.4),0 4px 12px rgba(0,0,0,.5);
+  transition:.2s}
+.ai-fab:active{transform:scale(.92)}
+.ai-ov{position:absolute;inset:0;background:#0A0E13;z-index:20;display:none;
+  flex-direction:column;border-radius:42px;overflow:hidden}
+.ai-ov.open{display:flex;animation:aiIn .28s cubic-bezier(.2,.9,.3,1)}
+@keyframes aiIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.ai-hd{padding:22px 18px 14px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid #1B1F26;flex-shrink:0;padding-top:50px}
+.ai-hd-av{width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#D4AF37,#8A6E1A);display:flex;align-items:center;
+  justify-content:center;font-size:13px;color:#0A0E13;font-weight:700;flex-shrink:0}
+.ai-hd-t{font-size:15.5px;font-weight:600}
+.ai-hd-s{font-size:11px;color:#2ED47A;margin-top:4px;display:flex;align-items:center;gap:5px}
+.ai-hd-s::before{content:'';width:6px;height:6px;border-radius:50%;background:#2ED47A;
+  box-shadow:0 0 8px #2ED47A}
+.ai-close{margin-left:auto;width:30px;height:30px;border-radius:50%;background:#1A1F26;
+  color:#8A8578;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:15px;flex-shrink:0}
+.ai-body{flex:1;overflow-y:auto;padding:18px;scrollbar-width:none}
+.ai-body::-webkit-scrollbar{display:none}
+.msg{margin-bottom:13px;display:flex;gap:9px;animation:msgIn .3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{justify-content:flex-end}
+.ai-av{width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,#D4AF37,#8A6E1A);display:flex;align-items:center;
+  justify-content:center;font-size:9px;color:#0A0E13;font-weight:700;
+  flex-shrink:0;margin-top:2px}
+.bubble{max-width:82%;border-radius:17px;padding:12px 14px;font-size:13px;line-height:1.7}
+.msg.ai .bubble{background:#111821;border:1px solid #23201A;
+  border-bottom-left-radius:5px;color:#D8CDB5}
+.msg.user .bubble{background:#D4AF37;color:#0A0E13;border-bottom-right-radius:5px;font-weight:500}
+.bubble-src{font-size:10px;color:#6B6758;margin-top:9px;padding-top:8px;
+  border-top:1px solid #1B1F26;line-height:1.5}
+.msg.user .bubble-src{color:rgba(10,14,19,.55);border-top-color:rgba(10,14,19,.15)}
+.bubble-action{margin-top:10px;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);
+  border-radius:9px;padding:8px 11px;font-size:12px;color:#D4AF37;text-align:center;cursor:pointer}
+.typing{display:flex;gap:4px;padding:13px 15px}
+.typing span{width:6px;height:6px;border-radius:50%;background:#4A4538;animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.qs-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:13px}
+.qs{background:#141C25;border:1px solid #23201A;border-radius:20px;padding:8px 13px;
+  font-size:12px;color:#A8A08C;cursor:pointer;transition:.15s}
+.qs:active{background:#1C2026;transform:scale(.97)}
+.ai-input{flex-shrink:0;background:#0A0E13;padding:12px 18px 24px;
+  border-top:1px solid #1B1F26;display:flex;gap:9px;align-items:center}
+.ai-input input{flex:1;background:#111821;border:1px solid #23201A;border-radius:20px;
+  padding:11px 15px;font-size:13px;color:#E8EEF5;outline:none;font-family:inherit}
+.ai-input input::placeholder{color:#4A4538}
+.ai-send{width:40px;height:40px;border-radius:50%;background:#D4AF37;color:#0A0E13;
+  display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;
+  flex-shrink:0;font-weight:700}
+.ai-send:active{opacity:.8}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="statusbar"><span>07:12</span><span>5G · 87%</span></div>
+  <main class="screen" id="screen"></main>
+  <div class="ai-fab" data-ai-open style="display:none">🤖</div>
+  <nav class="tabbar" id="tabbar" style="display:none"></nav>
+
+  <!-- 引导流程 -->
+  <div class="onb" id="onb">
+    <div class="onb-progress" id="onbProgress"></div>
+    <div class="onb-body" id="onbBody"></div>
+    <div class="onb-foot" id="onbFoot"></div>
+  </div>
+
+  <!-- AI 覆盖层 -->
+  <div class="ai-ov" id="aiOv">
+    <div class="ai-hd">
+      <div class="ai-hd-av">AI</div>
+      <div style="flex:1;min-width:0">
+        <div class="ai-hd-t">学社助手</div>
+        <div class="ai-hd-s">已连接你的全部数据</div>
+      </div>
+      <div class="ai-close" data-ai-close>✕</div>
+    </div>
+    <div class="ai-body" id="aiBody"></div>
+    <div class="ai-input">
+      <input id="aiInput" placeholder="问问你的身体数据…" autocomplete="off">
+      <div class="ai-send" data-ai-send>↑</div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+/* ============================================================
+   数据
+   ============================================================ */
+const ASSETS = [
+  {n:'心血管', v:85, c:'#F2555A'},
+  {n:'代谢',   v:72, c:'#F2A93B'},
+  {n:'睡眠',   v:88, c:'#8B7CF6'},
+  {n:'体能',   v:78, c:'#2ED47A'},
+  {n:'认知',   v:80, c:'#4A9EFF'}
+];
+
+const PILLARS = [
+  {k:'diet', icon:'🥗', name:'饮食', color:'#2ED47A', st:'warn',
+   sub:'午餐后血糖 9.8，略高',
+   rows:[
+     {l:'午餐后血糖峰值', v:'9.8', u:'mmol/L', c:'#F2A93B'},
+     {l:'今日蔬菜',      v:'2 / 5', u:'份',     c:'#F2A93B'},
+     {l:'晚餐时间',      v:'19:30', u:'',       c:'#2ED47A'}
+   ],
+   tip:'饭后走 12 分钟，能明显削平血糖峰值。',
+   course:'吃对三餐 · 五讲', lesson:'第 3 讲 · 饭后血糖怎么稳'},
+
+  {k:'drink', icon:'💧', name:'饮料', color:'#4A9EFF', st:'ok',
+   sub:'饮水 1.2L，还差 0.8L',
+   rows:[
+     {l:'今日饮水',  v:'1.2', u:'L / 2.0L', c:'#4A9EFF'},
+     {l:'咖啡',      v:'2',   u:'杯',       c:'#2ED47A'},
+     {l:'本周饮酒',  v:'3',   u:'次',       c:'#F2A93B'}
+   ],
+   tip:'下午 3 点前把水喝够，晚上起夜会少一些。',
+   course:'吃对三餐 · 五讲', lesson:'第 4 讲 · 应酬桌上的选择'},
+
+  {k:'sleep', icon:'🌙', name:'睡眠', color:'#8B7CF6', st:'ok',
+   sub:'睡眠效率 92%，深睡 1h48m',
+   rows:[
+     {l:'睡眠效率', v:'92',   u:'%', c:'#2ED47A'},
+     {l:'深睡',     v:'1h48m',u:'',  c:'#2ED47A'},
+     {l:'入睡时间', v:'23:20',u:'',  c:'#2ED47A'}
+   ],
+   tip:'今晚 23:00 前放下手机，入睡会更快。',
+   course:'睡眠七讲', lesson:'第 4 讲 · 睡前 90 分钟该做什么'},
+
+  {k:'move', icon:'🏃', name:'运动', color:'#F2A93B', st:'ok',
+   sub:'8,420 步，中高强度 38 分钟',
+   rows:[
+     {l:'今日步数',   v:'8,420', u:'步',   c:'#2ED47A'},
+     {l:'中高强度',   v:'38',    u:'分钟', c:'#2ED47A'},
+     {l:'久坐时长',   v:'6.2',   u:'小时', c:'#F2A93B'}
+   ],
+   tip:'每坐 50 分钟，站起来走 2 分钟。',
+   course:'不累的运动 · 六讲', lesson:'第 2 讲 · 每周 3 次 20 分钟怎么练'},
+
+  {k:'mind', icon:'🧘', name:'心灵', color:'#FF6B9D', st:'warn',
+   sub:'压力指数 42，偏高',
+   rows:[
+     {l:'压力指数',     v:'42',   u:'/100', c:'#F2A93B'},
+     {l:'今日呼吸练习', v:'0 / 1',u:'次',   c:'#F2A93B'},
+     {l:'睡前放松',     v:'未完成',u:'',    c:'#F2A93B'}
+   ],
+   tip:'睡前 5 分钟慢呼吸，把今天的事留在今天。',
+   course:'压力管理 · 四讲', lesson:'第 1 讲 · 慢呼吸 5 分钟改变节奏'}
+];
+
+const TODAY_TASKS = [
+  {id:'t1', t:'睡前 90 分钟放下手机', s:'来自「睡眠七讲」第 4 讲', main:true},
+  {id:'t2', t:'午饭后散步 12 分钟',   s:'来自「吃对三餐」第 3 讲', main:false},
+  {id:'t3', t:'睡前 5 分钟慢呼吸',    s:'来自「压力管理」第 1 讲', main:false}
+];
+
+const DAILY_KNOW = {
+  txt:'睡眠效率比睡眠时长更重要。躺 8 小时却醒 5 次，比睡 6.5 小时深睡更差。',
+  src:'Matthew Walker《我们为什么要睡觉》· 学社睡眠专题'
+};
+
+const FOCUS = {
+  issue:'入睡慢，半夜容易醒',
+  desc:'过去 30 天，平均入睡时间 00:20，夜间醒来 2.3 次。这不是病，是习惯问题。',
+  action:'睡前 90 分钟放下手机',
+  why:'蓝光和兴奋状态会让入睡时间推迟 40 分钟以上。',
+  day:12, total:21,
+  progress:'入睡时间已从 00:30 提前到 23:20',
+  helpers:['张明','李婧'],
+  course:'睡眠七讲', lesson:'第 4 讲 · 睡前 90 分钟该做什么'
+};
+
+const TEAM = [
+  {n:'张明', r:'睡眠医学教授', c:'#8B7CF6', i:'张'},
+  {n:'李婧', r:'健康管家',     c:'#2ED47A', i:'李'},
+  {n:'王薇', r:'注册营养师',   c:'#F2A93B', i:'王'},
+  {n:'刘鹏', r:'运动康复师',   c:'#FF6B9D', i:'刘'},
+  {n:'周航', r:'心理咨询师',   c:'#4A9EFF', i:'周'}
+];
+
+const TOPICS = ['全部','睡眠','饮食','运动','心灵'];
+
+const COURSES = [
+  {topic:'睡眠', ico:'🌙', color:'#8B7CF6', t:'睡眠七讲', lt:'张明 教授 · 睡眠医学中心', n:7,
+   d:'系统讲清睡眠机制、失眠成因、非药物改善路径。',
+   outline:['第 1 讲 · 睡眠到底是什么','第 2 讲 · 为什么你睡了还是累','第 3 讲 · 咖啡因与酒精的真实影响',
+     '第 4 讲 · 睡前 90 分钟该做什么','第 5 讲 · 如何应对早醒','第 6 讲 · 午睡的正确方式','第 7 讲 · 出差与倒时差']},
+  {topic:'饮食', ico:'🥗', color:'#2ED47A', t:'吃对三餐 · 五讲', lt:'王薇 注册营养师', n:5,
+   d:'从中年代谢变化出发，讲清蛋白质、碳水、脂肪的实际吃法。',
+   outline:['第 1 讲 · 中年代谢发生了什么','第 2 讲 · 蛋白质到底要吃多少','第 3 讲 · 饭后血糖怎么稳',
+     '第 4 讲 · 应酬桌上的选择','第 5 讲 · 出差与外卖怎么吃']},
+  {topic:'运动', ico:'🏃', color:'#F2A93B', t:'不累的运动 · 六讲', lt:'刘鹏 运动康复师', n:6,
+   d:'50 岁后如何练力量、练心肺，不伤关节、不占用太多时间。',
+   outline:['第 1 讲 · 为什么力量比跑步重要','第 2 讲 · 每周 3 次 20 分钟怎么练','第 3 讲 · 关节不舒服怎么办',
+     '第 4 讲 · 出差酒店里怎么练','第 5 讲 · 久坐的人怎么恢复','第 6 讲 · 如何判断练够了']},
+  {topic:'心灵', ico:'🧘', color:'#FF6B9D', t:'压力管理 · 四讲', lt:'周航 心理咨询师', n:4,
+   d:'从呼吸到认知重构，把压力从敌人变成资源。',
+   outline:['第 1 讲 · 慢呼吸 5 分钟改变节奏','第 2 讲 · 识别你的压力信号','第 3 讲 · 如何停止反刍',
+     '第 4 讲 · 把压力变成动力']}
+];
+
+const ARTICLES = [
+  {topic:'睡眠', t:'为什么你睡了 8 小时还是累', s:'张明教授 · 睡眠七讲 第 2 讲摘要', d:'睡眠效率低于 85%，再长的时间也补不回来。'},
+  {topic:'饮食', t:'蛋白质：中年最容易被忽视的营养', s:'王薇 · 吃对三餐 第 2 讲', d:'50 岁后肌肉每年流失 1%，蛋白质要主动增加。'},
+  {topic:'运动', t:'力量训练比跑步更重要', s:'刘鹏 · 不累的运动 第 1 讲', d:'每周 3 次 20 分钟，就能守住肌肉和骨骼。'},
+  {topic:'心灵', t:'慢呼吸 5 分钟，改变一天的节奏', s:'周航 · 压力管理 第 1 讲', d:'呼气比吸气长，副交感神经就会被激活。'}
+];
+
+const BOOKS = [
+  {i:'📕', c:'#8B2F2F', t:'超越百岁', a:'Peter Attia', d:'从医学 3.0 视角，讲如何延长健康寿命。'},
+  {i:'📘', c:'#1F4E79', t:'我们为什么要睡觉', a:'Matthew Walker', d:'睡眠是长寿的第一支柱。'},
+  {i:'📗', c:'#2E5A3B', t:'肠子的小心思', a:'Giulia Enders', d:'肠道菌群如何影响情绪与代谢。'},
+  {i:'📙', c:'#8B6A1F', t:'呼吸革命', a:'James Nestor', d:'呼吸方式对睡眠、血压、焦虑的影响。'}
+];
+
+/* ============================================================
+   问卷配置
+   ============================================================ */
+const QUIZ = [
+  {
+    key:'basic', step:'第 1 步 / 共 4 步', title:'先认识一下你',
+    sub:'这些信息只用于生成你的专属策略，不会外传。',
+    fields:[
+      {k:'age',  label:'年龄', type:'input', placeholder:'例：52', unit:'岁'},
+      {k:'height',label:'身高', type:'input', placeholder:'例：178', unit:'cm'},
+      {k:'weight',label:'体重', type:'input', placeholder:'例：78.4', unit:'kg'},
+      {k:'history',label:'是否有确诊疾病', type:'opts',
+       opts:['没有','高血压','糖尿病 / 前期','脂肪肝','其他']},
+      {k:'meds', label:'目前是否在服药', type:'opts',
+       opts:['没有','降压药','降糖药','降脂药','其他']}
+    ]
+  },
+  {
+    key:'sleep', step:'第 2 步 / 共 4 步', title:'睡眠与恢复',
+    sub:'睡眠是 50 岁后杠杆率最高的一个点，先摸清底细。',
+    fields:[
+      {k:'sleep_bed', label:'平均几点上床', type:'opts',
+       opts:['22:00 前','22:00–23:00','23:00–24:00','00:00 以后']},
+      {k:'sleep_wake', label:'夜里平均醒几次', type:'opts',
+       opts:['0–1 次','2 次','3 次及以上','经常整夜醒']},
+      {k:'sleep_day', label:'白天是否犯困', type:'opts',
+       opts:['不困','下午偶尔困','经常困','开会时打瞌睡']},
+      {k:'sleep_hrv', label:'是否佩戴智能手表 / 戒指', type:'opts',
+       opts:['有，且每天佩戴','有，但不常戴','没有']}
+    ]
+  },
+  {
+    key:'diet', step:'第 3 步 / 共 4 步', title:'饮食、饮料与运动',
+    sub:'只问最关键的三件事。',
+    fields:[
+      {k:'diet_out', label:'每周应酬几次', type:'opts',
+       opts:['0–1 次','2–3 次','4–5 次','6 次以上']},
+      {k:'diet_veg', label:'每天蔬菜大概几份', type:'opts',
+       opts:['5 份以上','3–4 份','1–2 份','几乎不吃']},
+      {k:'drink_alc', label:'每周饮酒几次', type:'opts',
+       opts:['不喝','1–2 次','3–4 次','5 次以上']},
+      {k:'drink_water', label:'每天饮水大概多少', type:'opts',
+       opts:['2L 以上','1.5–2L','1–1.5L','不到 1L']},
+      {k:'move_ex', label:'每周运动几次', type:'opts',
+       opts:['4 次以上','2–3 次','1 次','几乎不运动']},
+      {k:'move_sit', label:'每天久坐几小时', type:'opts',
+       opts:['4 小时以内','4–6 小时','6–8 小时','8 小时以上']}
+    ]
+  },
+  {
+    key:'mind', step:'第 4 步 / 共 4 步', title:'心灵与你的意愿',
+    sub:'最后一组问题，关于压力和你的优先级。',
+    fields:[
+      {k:'mind_stress', label:'最近压力大吗', type:'opts',
+       opts:['不大','一般','比较大','非常大']},
+      {k:'mind_relax', label:'有没有固定的放松方式', type:'opts',
+       opts:['有，且规律','有，但不规律','没有']},
+      {k:'intent', label:'如果只能改一件事，你最想改什么', type:'opts',
+       opts:['睡得更沉','少喝点酒','饭后血糖稳','多动一点','压力小一点']},
+      {k:'easy', label:'你觉得自己最容易做到的一件事', type:'opts',
+       opts:['早点放下手机','饭后走一走','少喝一杯','睡前深呼吸','早上固定起床']},
+      {k:'horizon', label:'你希望多久看到变化', type:'opts',
+       opts:['1 个月','3 个月','半年','不急，慢慢来']}
+    ]
+  }
+];
+
+/* ============================================================
+   AI 对话
+   ============================================================ */
+let aiMessages = [
+  {role:'ai',
+   text:'早上好，陈总。昨晚睡眠效率 92%，深睡 1h48m，恢复得不错。今天有什么想聊？',
+   src:'来源：智能戒指 · 睡眠与HRV数据'}
+];
+const QUICK_QS = [
+  '我最近为什么总是累？',
+  '帮我看看今天的应酬',
+  '我的代谢资产为什么偏低？',
+  '这周该怎么调整？'
+];
+const AI_QA = {
+  '我最近为什么总是累？':{
+    answer:'主要三个原因：\n\n1. HRV 连续 5 天下降（46ms，低于基线 52ms）\n2. 入睡时间波动 1.8 小时\n3. 本周 3 次酒局，影响深睡质量\n\n建议：今晚不喝酒，23:00 前上床。明天下午再安排重要会议。',
+    src:'来源：智能戒指 PPG · HRV + 睡眠数据',
+    action:'打开「睡眠七讲」'
+  },
+  '帮我看看今天的应酬':{
+    answer:'今晚 19:00 有饭局。你的 CGM 显示餐后血糖容易冲到 9.8。\n\n方案：\n· 18:30 前先吃 20g 蛋白\n· 席间先夹蔬菜和蛋白\n· 白酒 ≤100mL 或换气泡水\n· 散场后快走 15 分钟',
+    src:'来源：CGM + 企业微信日历 + 学社应酬方案',
+    action:'打开「吃对三餐」第 4 讲'
+  },
+  '我的代谢资产为什么偏低？':{
+    answer:'代谢资产 72 分，主要扣分项：\n\n· 肝脏脂肪 8.2%（目标 <5%）\n· 体脂率 22.6%（目标 <20%）\n· 空腹血糖 5.6（接近上限）\n\n好消息：肝脏脂肪从 14.5% 降到了 8.2%，方向对了。继续保持每周 3 次力量训练。',
+    src:'来源：MRI-PDFF + 体脂秤 + 血检',
+    action:'打开「吃对三餐」第 1 讲'
+  },
+  '这周该怎么调整？':{
+    answer:'这周还剩 3 天，重点两件事：\n\n1. 把酒局从 3 次减到 1 次——已经帮你把周四的饭局改成了视频\n2. 补 2 次力量训练——周二和周五下午各 20 分钟\n\n不用做太多，这两件就够了。',
+    src:'来源：日历 + 运动记录 + 学社课程建议',
+    action:'打开「不累的运动」第 2 讲'
+  }
+};
+
+/* ============================================================
+   状态
+   ============================================================ */
+const state = {
+  phase:'onb',      // onb | app
+  onbStep:-1,       // -1 欢迎页, 0-3 问卷, 4 上传, 5 生成, 6 结果
+  quizAnswers:{},
+  uploaded:false,
+  tab:'home',
+  filter:'全部',
+  doneTasks:new Set(),
+  focusDone:false,
+  aiThinking:false,
+  genStep:0
+};
+
+/* ============================================================
+   工具
+   ============================================================ */
+function hexA(hex,a){
+  const n=parseInt(hex.slice(1),16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+
+/* ============================================================
+   引导流程
+   ============================================================ */
+function renderOnb(){
+  const el = document.getElementById('onb');
+  el.classList.add('open');
+  document.querySelector('.tabbar').style.display = 'none';
+  document.querySelector('.ai-fab').style.display = 'none';
+
+  const step = state.onbStep;
+  renderProgress();
+
+  if(step === -1){ renderWelcome(); }
+  else if(step >=0 && step <=3){ renderQuiz(step); }
+  else if(step === 4){ renderUpload(); }
+  else if(step === 5){ renderGenerating(); }
+  else if(step === 6){ renderResult(); }
+}
+
+function renderProgress(){
+  const p = document.getElementById('onbProgress');
+  if(state.onbStep === -1 || state.onbStep >= 5){
+    p.innerHTML = '';
+    return;
+  }
+  const total = 5;
+  let cur = state.onbStep;
+  let html = '';
+  for(let i=0;i<total;i++){
+    let cls = 'onb-dot';
+    if(i < cur) cls += ' done';
+    else if(i === cur) cls += ' cur';
+    html += `<div class="${cls}"></div>`;
+  }
+  p.innerHTML = html;
+}
+
+function renderWelcome(){
+  document.getElementById('onbBody').innerHTML = `
+    <div class="welcome">
+      <div class="w-logo">LIFEOS</div>
+      <div class="w-title">先花 <span>5 分钟</span><br>了解你的身体</div>
+      <div class="w-desc">然后我们会给你一份专属策略：<br>只改一件事，改到成为习惯。</div>
+      <div class="w-steps">
+        <div class="w-step">
+          <div class="w-step-n">1</div>
+          <div>
+            <div class="w-step-t">5 分钟调查问卷</div>
+            <div class="w-step-s">了解你的睡眠、饮食、运动、压力与意愿</div>
+          </div>
+        </div>
+        <div class="w-step">
+          <div class="w-step-n">2</div>
+          <div>
+            <div class="w-step-t">上传体检报告</div>
+            <div class="w-step-s">拍照或 PDF 上传，自动识别关键指标</div>
+          </div>
+        </div>
+        <div class="w-step">
+          <div class="w-step-n">3</div>
+          <div>
+            <div class="w-step-t">生成一人一策</div>
+            <div class="w-step-s">真人团队审核，只给你 1 个主行动 + 1 个辅助行动</div>
+          </div>
+        </div>
+      </div>
+      <div class="w-meta">不提供医疗服务 · 数据加密 · 可随时撤回授权</div>
+    </div>
+  `;
+  document.getElementById('onbFoot').innerHTML = `
+    <div class="upload-btn" data-onb-next>开始</div>
+  `;
+}
+
+function renderQuiz(step){
+  const q = QUIZ[step];
+  const a = state.quizAnswers;
+
+  const fields = q.fields.map(f=>{
+    if(f.type === 'input'){
+      return `
+        <div class="q-field">
+          <div class="q-label">${f.label}${f.unit?`<em>单位：${f.unit}</em>`:''}</div>
+          <input class="q-input" data-field="${f.k}" placeholder="${f.placeholder}"
+            value="${a[f.k]||''}" type="text">
+        </div>`;
+    }
+    const opts = f.opts.map(o=>{
+      const on = a[f.k] === o ? 'on' : '';
+      return `<div class="q-opt ${on}" data-field="${f.k}" data-val="${o}">
+        <span>${o}</span><div class="q-opt-ck">✓</div>
+      </div>`;
+    }).join('');
+    return `
+      <div class="q-field">
+        <div class="q-label">${f.label}</div>
+        <div class="q-opts">${opts}</div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('onbBody').innerHTML = `
+    <div class="q-head">
+      <div class="q-step">${q.step}</div>
+      <div class="q-title">${q.title}</div>
+      <div class="q-sub">${q.sub}</div>
+    </div>
+    ${fields}
+    <div style="height:20px"></div>
+  `;
+
+  const isLast = step === 3;
+  document.getElementById('onbFoot').innerHTML = `
+    <div class="upload-btn" data-onb-next>${isLast?'下一步':'继续'}</div>
+    <div class="upload-alt" style="margin-top:11px">
+      <div data-onb-back>返回</div>
+      <div data-onb-skip>跳过此项</div>
+    </div>
+  `;
+}
+
+function renderUpload(){
+  const hasFile = state.uploaded;
+  document.getElementById('onbBody').innerHTML = `
+    <div class="q-head">
+      <div class="q-step">第 5 步 · 最后一步</div>
+      <div class="q-title">上传最近的体检报告</div>
+      <div class="q-sub">如果有的话。没有也没关系，我们可以先根据问卷生成初步策略。</div>
+    </div>
+
+    ${hasFile ? `
+      <div class="uploaded">
+        <div class="uploaded-ico">📄</div>
+        <div style="flex:1;min-width:0">
+          <div class="uploaded-t">2026年9月体检报告.pdf</div>
+          <div class="uploaded-s">已识别 42 项指标 · 3 项异常已标记</div>
+        </div>
+        <div class="uploaded-badge">已上传</div>
+      </div>
+      <div class="uploaded">
+        <div class="uploaded-ico" style="background:rgba(139,124,246,.12)">🩸</div>
+        <div style="flex:1;min-width:0">
+          <div class="uploaded-t">血常规 + 生化.pdf</div>
+          <div class="uploaded-s">已识别 18 项指标</div>
+        </div>
+        <div class="uploaded-badge">已上传</div>
+      </div>
+    ` : `
+      <div class="upload-card">
+        <div class="upload-ico">📷</div>
+        <div class="upload-t">拍照上传体检报告</div>
+        <div class="upload-s">支持 JPG / PNG / PDF<br>自动识别血压、血糖、血脂、肝功等关键指标</div>
+        <div class="upload-btn" data-upload>选择文件</div>
+      </div>
+      <div class="upload-alt">
+        <div data-upload>从相册选择</div>
+        <div data-upload>手动录入关键指标</div>
+      </div>
+    `}
+
+    <div class="sec-t" style="margin-top:22px"><span class="bar"></span>没有报告？</div>
+    <div class="card">
+      <div class="muted" style="line-height:1.75">
+        先用问卷自评生成初步策略。健康管家会在 24 小时内联系你，帮你安排一次基础体检。
+      </div>
+    </div>
+  `;
+
+  document.getElementById('onbFoot').innerHTML = `
+    <div class="upload-btn" data-onb-next>生成我的策略</div>
+    <div class="upload-alt" style="margin-top:11px">
+      <div data-onb-back>返回</div>
+      <div data-onb-skip>跳过上传</div>
+    </div>
+  `;
+}
+
+function renderGenerating(){
+  const steps = [
+    '扫描五个维度数据',
+    '识别风险项与杠杆点',
+    '结合你的意愿排序',
+    '私人医生审核策略',
+    '生成一人一策'
+  ];
+  document.getElementById('onbBody').innerHTML = `
+    <div class="gen">
+      <div class="gen-ring"></div>
+      <div class="gen-t">正在为你生成专属策略</div>
+      <div class="gen-s">大约需要 10 秒</div>
+      <div class="gen-steps" id="genSteps">
+        ${steps.map((s,i)=>`
+          <div class="gen-step ${i<=state.genStep?'on':''}">
+            <div class="gen-step-dot"></div>
+            <span>${s}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('onbFoot').innerHTML = '';
+}
+
+function renderResult(){
+  document.getElementById('onbBody').innerHTML = `
+    <div class="q-head" style="padding-bottom:14px">
+      <div class="q-step">你的专属策略</div>
+      <div class="q-title">一次只改一件事</div>
+      <div class="q-sub">基于你的数据与意愿，我们选出了杠杆率最高的一个点。</div>
+    </div>
+
+    <div class="result-hero">
+      <div class="result-label">当前主杠杆点</div>
+      <div class="result-t">改善睡眠 · 入睡慢与夜醒</div>
+      <div class="result-d">你的 HRV 连续下降，深睡不足，而睡眠能同时带动血压、血糖、情绪与认知。这是性价比最高的一项投入。</div>
+    </div>
+
+    <div class="result-main">
+      <div class="result-main-lb">今天开始的主行动</div>
+      <div class="result-main-t">睡前 90 分钟放下手机</div>
+      <div class="result-main-s">蓝光和兴奋状态会让入睡时间推迟 40 分钟以上。你只需要做这一件事，连续 21 天。</div>
+    </div>
+
+    <div class="result-main" style="background:rgba(74,158,255,.06);border-color:rgba(74,158,255,.3)">
+      <div class="result-main-lb" style="color:#4A9EFF">辅助行动（几乎不需要意志力）</div>
+      <div class="result-main-t">每天早上 7:00 固定起床</div>
+      <div class="result-main-s">不管几点睡，先固定起床时间。这是重建生物钟最快的方法。</div>
+    </div>
+
+    <div class="result-sec">
+      <div class="result-sec-t">接下来 4 周做什么</div>
+      <div class="result-row">
+        <div class="result-row-n">1</div>
+        <div>
+          <div class="result-row-t">每天 23:00 前放下手机</div>
+          <div class="result-row-s">健康管家李婧会在 22:45 给你发一条微信提醒</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-row-n">2</div>
+        <div>
+          <div class="result-row-t">每天早上 7:00 起床</div>
+          <div class="result-row-s">智能戒指会自动记录你的入睡与起床时间，不用手动记</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-row-n">3</div>
+        <div>
+          <div class="result-row-t">每周听一讲「睡眠七讲」</div>
+          <div class="result-row-s">从第 4 讲开始，张明教授会讲睡前 90 分钟具体怎么做</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="result-sec">
+      <div class="result-sec-t">帮你的人</div>
+      <div class="result-row">
+        <div class="result-row-n" style="background:rgba(139,124,246,.12);color:#8B7CF6">张</div>
+        <div>
+          <div class="result-row-t">张明 · 睡眠医学教授</div>
+          <div class="result-row-s">策略审核人 · 睡眠七讲主讲人</div>
+        </div>
+      </div>
+      <div class="result-row">
+        <div class="result-row-n" style="background:rgba(46,212,122,.12);color:#2ED47A">李</div>
+        <div>
+          <div class="result-row-t">李婧 · 健康管家</div>
+          <div class="result-row-s">每天跟进 · 随时可联系 · 3 分钟内响应</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('onbFoot').innerHTML = `
+    <div class="upload-btn" data-onb-finish>开始执行</div>
+    <div class="upload-alt" style="margin-top:11px">
+      <div data-onb-adjust>调整策略</div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   主 App 渲染
+   ============================================================ */
+function renderHome(){
+  const pillars = PILLARS.map(p=>{
+    const stColor = p.st==='ok' ? '#2ED47A' : '#F2A93B';
+    return `
+    <div class="p" data-k="${p.k}">
+      <div class="p-ico" style="background:${hexA(p.color,.13)}">${p.icon}</div>
+      <div class="p-main">
+        <div class="p-name">${p.name}
+          <span class="p-dot" style="background:${stColor};box-shadow:0 0 8px ${hexA(stColor,.7)}"></span>
+        </div>
+        <div class="p-sub">${p.sub}</div>
+      </div>
+      <div class="p-arrow">›</div>
+    </div>`;
+  }).join('');
+
+  const tasks = TODAY_TASKS.map(t=>`
+    <div class="ck ${state.doneTasks.has(t.id)?'on':''}" data-task="${t.id}">
+      <div class="ck-box">✓</div>
+      <div style="flex:1">
+        <div class="ck-t">${t.t}${t.main?'<span class="ck-tag">主行动</span>':''}</div>
+        <div class="ck-s">${t.s}</div>
+      </div>
+    </div>`).join('');
+
+  const avs = TEAM.slice(0,5).map(m=>`
+    <div class="team-av" style="background:${hexA(m.c,.15)};color:${m.c}">${m.i}</div>`).join('');
+
+  return `
+    <div class="greet">
+      <div class="g-date">2026年10月9日 · 周五</div>
+      <div class="g-hello">早上好，<span>陈总</span></div>
+    </div>
+
+    <div class="hero" data-asset-open>
+      <div class="hero-top">
+        <span class="hero-label">健康分</span>
+        <span class="hero-num">82</span>
+        <span class="hero-delta">+3</span>
+      </div>
+      <div class="hero-msg">昨晚睡得不错。今天只有一件事要留意：睡前 90 分钟放下手机。</div>
+      <div class="hero-assets">
+        ${ASSETS.map(a=>`
+          <div class="hero-asset">
+            <div class="hero-asset-n" style="color:${a.c}">${a.v}</div>
+            <div class="hero-asset-l">${a.n}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>五大支柱</div>
+    ${pillars}
+
+    <div class="sec-t"><span class="bar"></span>今日一行动</div>
+    ${tasks}
+
+    <div class="sec-t"><span class="bar"></span>今日知识</div>
+    <div class="know" data-know>
+      <div class="k-tag">来自学社</div>
+      <div class="k-txt">${DAILY_KNOW.txt}</div>
+      <div class="k-src">${DAILY_KNOW.src}</div>
+    </div>
+
+    <div class="team-bar" data-tab-go="me">
+      <div class="team-avs">${avs}</div>
+      <div class="team-txt"><b>我的服务团队</b>5 人在线 · 点击查看</div>
+      <div style="color:#3A3628;font-size:18px">›</div>
+    </div>
+  `;
+}
+
+function renderFocus(){
+  const pct = Math.round(FOCUS.day/FOCUS.total*100);
+  const helpers = FOCUS.helpers.map(n=>{
+    const m = TEAM.find(x=>x.n===n);
+    return `
+    <div class="helper" data-team="${m.n}">
+      <div class="helper-av" style="background:${hexA(m.c,.15)};color:${m.c}">${m.i}</div>
+      <div>
+        <div class="helper-nm">${m.n}</div>
+        <div class="helper-rl">${m.r}</div>
+      </div>
+      <div class="helper-go">咨询 ›</div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="greet" style="padding-top:8px">
+      <div class="g-date">持续行动</div>
+      <div class="g-hello" style="font-size:22px">改善一个小不适</div>
+    </div>
+
+    <div class="focus-hero">
+      <div class="focus-label">我正在改善的</div>
+      <div class="focus-t">${FOCUS.issue}</div>
+      <div class="focus-d">${FOCUS.desc}</div>
+    </div>
+
+    <div class="card">
+      <div class="progress-wrap">
+        <div class="progress-num">${FOCUS.day}<span>/ ${FOCUS.total} 天</span></div>
+        <div class="progress-info">
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="progress-lb">${FOCUS.progress}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-card ${state.focusDone?'on':''}" data-focus>
+      <div class="action-label">今天的持续行动</div>
+      <div class="action-row">
+        <div class="action-ck">✓</div>
+        <div style="flex:1">
+          <div class="action-t">${FOCUS.action}</div>
+          <div class="action-s">${FOCUS.why}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>阶段目标</div>
+    <div class="stage-card">
+      <div class="stage-row">
+        <div class="stage-dot" style="background:#2ED47A;box-shadow:0 0 8px rgba(46,212,122,.6)"></div>
+        <div>
+          <div class="stage-t">当前：建立固定生物钟</div>
+          <div class="stage-s">每天 23:00 前放下手机，7:00 固定起床</div>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="stage-dot" style="background:#2E2A22"></div>
+        <div>
+          <div class="stage-t" style="color:#7A7568">第 22 天：降低睡前兴奋</div>
+          <div class="stage-s">21:30 后不处理工作消息，22:30 热水澡</div>
+        </div>
+      </div>
+      <div class="stage-row">
+        <div class="stage-dot" style="background:#2E2A22"></div>
+        <div>
+          <div class="stage-t" style="color:#7A7568">第 43 天：进入下一个杠杆点</div>
+          <div class="stage-s">可能是饮酒或久坐，到时再评估</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>帮助我的人</div>
+    <div class="card" style="padding:6px 15px">${helpers}</div>
+
+    <div class="sec-t"><span class="bar"></span>相关课程</div>
+    <div class="course" data-course="${FOCUS.course}">
+      <div class="course-top">
+        <div class="course-ico" style="background:${hexA('#8B7CF6',.13)}">🌙</div>
+        <div style="flex:1;min-width:0">
+          <div class="course-nm">${FOCUS.course}</div>
+          <div class="course-lt">${FOCUS.lesson}</div>
+        </div>
+      </div>
+      <div class="course-foot">
+        <div class="course-n">来自张明教授</div>
+        <div class="course-go">查看 ›</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderLearn(){
+  const list = COURSES.filter(c=>state.filter==='全部'||c.topic===state.filter);
+  const courses = list.map(c=>`
+    <div class="course" data-course="${c.t}">
+      <div class="course-top">
+        <div class="course-ico" style="background:${hexA(c.color,.13)}">${c.ico}</div>
+        <div style="flex:1;min-width:0">
+          <div class="course-nm">${c.t}</div>
+          <div class="course-lt">${c.lt}</div>
+        </div>
+      </div>
+      <div class="course-foot">
+        <div class="course-n">共 ${c.n} 讲 · 每讲约 15 分钟</div>
+        <div class="course-go">查看大纲 ›</div>
+      </div>
+    </div>`).join('');
+
+  const arts = ARTICLES.filter(a=>state.filter==='全部'||a.topic===state.filter)
+    .map(a=>`
+      <div class="art" data-art="${a.t}">
+        <div class="art-tag">${a.topic}</div>
+        <div class="art-t">${a.t}</div>
+        <div class="art-s">${a.s}</div>
+      </div>`).join('');
+
+  const filters = TOPICS.map(t=>`<div class="f ${state.filter===t?'on':''}" data-f="${t}">${t}</div>`).join('');
+
+  const books = BOOKS.map(b=>`
+    <div class="book" data-book="${b.t}">
+      <div class="book-cover" style="background:${b.c}">${b.i}</div>
+      <div style="flex:1;min-width:0">
+        <div class="book-t">${b.t}</div>
+        <div class="book-a">${b.a}</div>
+        <div class="book-d">${b.d}</div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div class="greet" style="padding-top:8px">
+      <div class="g-date">知识库</div>
+      <div class="g-hello" style="font-size:22px">专家系统课与精选资源</div>
+    </div>
+
+    <div class="filters">${filters}</div>
+
+    <div class="sec-t"><span class="bar"></span>专家系统课</div>
+    ${courses || '<div class="muted" style="padding:14px 2px">该主题暂无课程</div>'}
+
+    <div class="sec-t"><span class="bar"></span>短文摘要</div>
+    ${arts || '<div class="muted" style="padding:14px 2px">该主题暂无文章</div>'}
+
+    <div class="sec-t"><span class="bar"></span>推荐书籍</div>
+    ${books}
+  `;
+}
+
+function renderMe(){
+  const team = TEAM.map(m=>`
+    <div class="tm" data-team="${m.n}">
+      <div class="tm-av" style="background:${hexA(m.c,.15)};color:${m.c}">${m.i}</div>
+      <div style="min-width:0">
+        <div class="tm-nm">${m.n}</div>
+        <div class="tm-rl">${m.r}</div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div class="me-hd">
+      <div class="me-av">陈</div>
+      <div>
+        <div class="me-nm">陈总</div>
+        <div class="me-role">LifeOS 健康学社 · 创始会员</div>
+        <div class="me-badge">💎 已加入 87 天</div>
+      </div>
+    </div>
+
+    <div class="me-strategy" data-strategy>
+      <div class="me-strategy-lb">当前策略 · 第 12 天</div>
+      <div class="me-strategy-t">改善睡眠 · 入睡慢与夜醒</div>
+      <div class="me-strategy-s">主行动：睡前 90 分钟放下手机<br>辅助：每天 7:00 固定起床</div>
+      <div class="me-strategy-foot">
+        <div class="me-strategy-d">下次评估：12月15日</div>
+        <div class="me-strategy-go">查看详情 ›</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:6px 15px">
+      <div class="src-row"><div class="src-l">✅ 今日打卡</div><div class="src-r">${state.doneTasks.size} / ${TODAY_TASKS.length}</div></div>
+      <div class="src-row"><div class="src-l">🎯 持续行动</div><div class="src-r">第 ${FOCUS.day} / ${FOCUS.total} 天</div></div>
+      <div class="src-row"><div class="src-l">📚 已学课程</div><div class="src-r" style="color:#8A8578">2 门 · 9 讲</div></div>
+      <div class="src-row"><div class="src-l">📅 我的报名</div><div class="src-r" style="color:#8A8578">1 场</div></div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>历史策略</div>
+    <div class="card" style="padding:6px 15px">
+      <div class="src-row"><div class="src-l">🌙 2026 Q2 · 睡眠</div><div class="src-r" style="color:#8A8578">已完成</div></div>
+      <div class="src-row"><div class="src-l">🍷 2026 Q1 · 饮酒</div><div class="src-r" style="color:#8A8578">已完成</div></div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>我的服务团队</div>
+    <div class="team-grid">${team}</div>
+
+    <div class="sec-t"><span class="bar"></span>我的数据来源</div>
+    <div class="card" style="padding:6px 15px">
+      <div class="src-row"><div class="src-l">💍 智能戒指</div><div class="src-r">已连接</div></div>
+      <div class="src-row"><div class="src-l">🩸 CGM 血糖探头</div><div class="src-r">使用中</div></div>
+      <div class="src-row"><div class="src-l">🩺 智能血压计</div><div class="src-r">已连接</div></div>
+      <div class="src-row"><div class="src-l">⚖️ 体脂秤</div><div class="src-r">已连接</div></div>
+      <div class="src-row" data-upload-more>
+        <div class="src-l">🏥 体检报告</div>
+        <div class="src-r" style="color:#D4AF37">补充上传 ›</div>
+      </div>
+    </div>
+
+    <div class="sec-t"><span class="bar"></span>重新评估</div>
+    <div class="card" data-reevaluate style="cursor:pointer">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:14.5px;color:#D8CDB5;font-weight:500">提前重新评估</div>
+          <div class="muted" style="margin-top:6px">每 12 周一次全面复盘 · 下次：12月15日</div>
+        </div>
+        <div style="color:#D4AF37;font-size:18px">›</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;text-align:center;padding:20px 18px">
+      <div style="font-size:12.5px;color:#8A8578;line-height:1.75">
+        LifeOS 健康学社<br>
+        不提供医疗服务，只做健康知识梳理、资源收集与线下交流<br>
+        <span style="color:#6B6758;font-size:11px">如有身体不适，请及时就医</span>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   路由
+   ============================================================ */
+const TABS=[
+  {k:'home',  i:'🌤', n:'今日'},
+  {k:'focus', i:'🎯', n:'改善'},
+  {k:'learn', i:'📚', n:'知识'},
+  {k:'me',    i:'👤', n:'我的'}
+];
+
+function renderApp(){
+  document.getElementById('onb').classList.remove('open');
+  document.querySelector('.tabbar').style.display = 'flex';
+  document.querySelector('.ai-fab').style.display = 'flex';
+
+  const map={home:renderHome, focus:renderFocus, learn:renderLearn, me:renderMe};
+  document.getElementById('screen').innerHTML = map[state.tab]();
+  document.getElementById('tabbar').innerHTML = TABS.map(t=>
+    `<div class="tab ${t.k===state.tab?'active':''}" data-tab="${t.k}">
+      <div class="ico">${t.i}</div><div>${t.n}</div></div>`).join('');
+  document.getElementById('screen').scrollTop = 0;
+}
+
+/* ============================================================
+   弹窗
+   ============================================================ */
+function openSimple(title, sub, body, icon, color){
+  const ico = icon ? `<div class="sh-ico" style="background:${hexA(color||'#D4AF37',.13)}">${icon}</div>` : '';
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      ${ico}
+      <div style="flex:1;min-width:0">
+        <div class="sh-name">${title}</div>
+        <div class="sh-sub">${sub}</div>
+      </div>
+      <div class="sh-x" data-close>✕</div>
+    </div>
+    ${body}
+    <div class="sh-btn" data-close>好</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function openPillar(k){
+  const p = PILLARS.find(x=>x.k===k);
+  const rows = p.rows.map(r=>`
+    <div class="sh-row">
+      <div class="sh-l">${r.l}</div>
+      <div class="sh-v" style="color:${r.c}">${r.v}<span>${r.u}</span></div>
+    </div>`).join('');
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-ico" style="background:${hexA(p.color,.13)}">${p.icon}</div>
+      <div style="flex:1;min-width:0">
+        <div class="sh-name">${p.name}</div>
+        <div class="sh-sub">${p.sub}</div>
+      </div>
+      <div class="sh-x" data-close>✕</div>
+    </div>
+    ${rows}
+    <div class="sh-tip" style="border-color:${hexA(p.color,.35)};background:${hexA(p.color,.07)}">
+      <div class="sh-tip-t" style="color:${p.color}">今天的小事</div>
+      <div class="sh-tip-b">${p.tip}</div>
+    </div>
+    <div class="sh-tip" style="border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.06)">
+      <div class="sh-tip-t" style="color:#D4AF37">学社相关课程</div>
+      <div class="sh-tip-b">${p.course}<br><span style="color:#8A8578;font-size:12px">${p.lesson}</span></div>
+    </div>
+    <div class="sh-btn" data-close>知道了</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function openAsset(){
+  const rows = ASSETS.map(a=>`
+    <div class="sh-row">
+      <div class="sh-l" style="display:flex;align-items:center;gap:9px">
+        <span style="width:8px;height:8px;border-radius:50%;background:${a.c}"></span>${a.n}
+      </div>
+      <div class="sh-v" style="color:${a.c}">${a.v}<span>/100</span></div>
+    </div>`).join('');
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div style="flex:1;min-width:0">
+        <div class="sh-name">健康资产</div>
+        <div class="sh-sub">净资产 82 / 100 · 本季度 +3</div>
+      </div>
+      <div class="sh-x" data-close>✕</div>
+    </div>
+    ${rows}
+    <div class="sh-tip">
+      <div class="sh-tip-t">本季度主要变化</div>
+      <div class="sh-tip-b">睡眠效率 +6%，血压 −6 mmHg，肝脏脂肪 −6.3%。代谢是唯一拖后腿的一项。</div>
+    </div>
+    <div class="sh-btn" data-close>好</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function openCourse(t){
+  const c = COURSES.find(x=>x.t===t);
+  const outline = c.outline.map(o=>`<div class="ol-i">${o}</div>`).join('');
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-ico" style="background:${hexA(c.color,.13)}">${c.ico}</div>
+      <div style="flex:1;min-width:0">
+        <div class="sh-name">${c.t}</div>
+        <div class="sh-sub">${c.lt}</div>
+      </div>
+      <div class="sh-x" data-close>✕</div>
+    </div>
+    <div class="sh-tip">
+      <div class="sh-tip-t">课程简介</div>
+      <div class="sh-tip-b">${c.d}</div>
+    </div>
+    <div class="sec-t" style="margin-top:18px"><span class="bar"></span>课程大纲</div>
+    <div class="ol">${outline}</div>
+    <div class="sh-btn" data-close>开始学习</div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function openArticle(t){
+  const a = ARTICLES.find(x=>x.t===t);
+  openSimple(a.t, a.s, `
+    <div class="sh-tip">
+      <div class="sh-tip-t">核心结论</div>
+      <div class="sh-tip-b">${a.d}</div>
+    </div>
+  `, '📄', '#D4AF37');
+}
+
+function openBook(t){
+  const b = BOOKS.find(x=>x.t===t);
+  openSimple(b.t, b.a, `
+    <div class="sh-tip">
+      <div class="sh-tip-t">为什么推荐给你</div>
+      <div class="sh-tip-b">${b.d}</div>
+    </div>
+  `, b.i, '#D4AF37');
+}
+
+function openTeam(n){
+  const m = TEAM.find(x=>x.n===n);
+  openSimple(m.n, m.r, `
+    <div class="sh-row"><div class="sh-l">今日在线</div><div class="sh-v" style="color:#2ED47A">是</div></div>
+    <div class="sh-row"><div class="sh-l">平均响应</div><div class="sh-v" style="color:#2ED47A">3 分钟</div></div>
+    <div class="sh-tip">
+      <div class="sh-tip-t">直接联系</div>
+      <div class="sh-tip-b">点击下方按钮，在微信里发起对话。日常问题不需要预约。</div>
+    </div>
+  `, m.i, m.c);
+}
+
+function openKnow(){
+  openSimple('今日知识', DAILY_KNOW.src, `
+    <div class="sh-tip">
+      <div class="sh-tip-t">为什么重要</div>
+      <div class="sh-tip-b">${DAILY_KNOW.txt}</div>
+    </div>
+    <div class="sh-tip" style="border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.06)">
+      <div class="sh-tip-t" style="color:#D4AF37">延伸学习</div>
+      <div class="sh-tip-b">推荐阅读《我们为什么要睡觉》· 睡眠七讲</div>
+    </div>
+  `, '📖', '#D4AF37');
+}
+
+function openStrategy(){
+  openSimple('当前策略', '第 12 天 · 共 21 天', `
+    <div class="sh-tip">
+      <div class="sh-tip-t">主杠杆点</div>
+      <div class="sh-tip-b">改善睡眠 · 入睡慢与夜醒</div>
+    </div>
+    <div class="sh-row"><div class="sh-l">主行动</div><div class="sh-v" style="font-size:13.5px">睡前 90 分钟放下手机</div></div>
+    <div class="sh-row"><div class="sh-l">辅助行动</div><div class="sh-v" style="font-size:13.5px">每天 7:00 固定起床</div></div>
+    <div class="sh-row"><div class="sh-l">下次评估</div><div class="sh-v" style="font-size:13.5px">12月15日</div></div>
+    <div class="sh-tip" style="border-color:rgba(46,212,122,.3);background:rgba(46,212,122,.06)">
+      <div class="sh-tip-t" style="color:#2ED47A">进展</div>
+      <div class="sh-tip-b">入睡时间已从 00:30 提前到 23:20，深睡从 1h20m 提升到 1h48m。</div>
+    </div>
+  `, '🎯', '#D4AF37');
+}
+
+/* ============================================================
+   AI 对话
+   ============================================================ */
+function renderAIBody(){
+  const body = document.getElementById('aiBody');
+  const msgs = aiMessages.map(m=>{
+    if(m.role==='user'){
+      return `<div class="msg user"><div class="bubble">${m.text}</div></div>`;
+    }
+    return `<div class="msg ai">
+      <div class="ai-av">AI</div>
+      <div class="bubble">
+        <div>${m.text.replace(/\n/g,'<br>')}</div>
+        ${m.src?`<div class="bubble-src">${m.src}</div>`:''}
+        ${m.action?`<div class="bubble-action" data-action="${m.action}">${m.action} ›</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const typing = state.aiThinking
+    ? `<div class="msg ai"><div class="ai-av">AI</div>
+        <div class="bubble" style="padding:0"><div class="typing">
+          <span></span><span></span><span></span></div></div></div>`
+    : '';
+
+  const qs = aiMessages.length <= 1
+    ? `<div class="qs-wrap">${QUICK_QS.map(q=>`<div class="qs" data-q="${q}">${q}</div>`).join('')}</div>`
+    : '';
+
+  body.innerHTML = qs + msgs + typing;
+  body.scrollTop = body.scrollHeight;
+}
+
+function sendMessage(text){
+  if(!text.trim() || state.aiThinking) return;
+  aiMessages.push({role:'user', text});
+  state.aiThinking = true;
+  renderAIBody();
+
+  setTimeout(()=>{
+    const qa = AI_QA[text];
+    if(qa){
+      aiMessages.push({role:'ai', text:qa.answer, src:qa.src, action:qa.action});
+    }else{
+      aiMessages.push({
+        role:'ai',
+        text:'这个问题我还在学习。你可以先看看学社的相关课程，或者换个问题试试。',
+        src:'学社助手'
+      });
+    }
+    state.aiThinking = false;
+    renderAIBody();
+  }, 800);
+}
+
+function openAI(){
+  document.getElementById('aiOv').classList.add('open');
+  renderAIBody();
+  const inp = document.getElementById('aiInput');
+  if(inp) setTimeout(()=>inp.focus(), 300);
+}
+
+/* ============================================================
+   引导流程控制
+   ============================================================ */
+function onbNext(){
+  const step = state.onbStep;
+
+  // 校验
+  if(step >=0 && step <=3){
+    const q = QUIZ[step];
+    const missing = q.fields.filter(f=>!state.quizAnswers[f.k]);
+    if(missing.length){
+      alert('请完成所有问题再继续');
+      return;
+    }
+  }
+
+  if(step === -1){ state.onbStep = 0; renderOnb(); return; }
+  if(step >=0 && step < 3){ state.onbStep = step+1; renderOnb(); return; }
+  if(step === 3){ state.onbStep = 4; renderOnb(); return; }
+  if(step === 4){
+    // 进入生成
+    state.onbStep = 5;
+    state.genStep = 0;
+    renderOnb();
+    // 模拟生成进度
+    const timer = setInterval(()=>{
+      state.genStep++;
+      if(state.genStep >= 5){
+        clearInterval(timer);
+        state.onbStep = 6;
+        renderOnb();
+      } else {
+        const steps = document.querySelectorAll('#genSteps .gen-step');
+        if(steps[state.genStep]){
+          steps[state.genStep].classList.add('on');
+        }
+      }
+    }, 700);
+    return;
+  }
+}
+
+function onbBack(){
+  if(state.onbStep > 0){ state.onbStep--; renderOnb(); }
+}
+
+function onbFinish(){
+  state.phase = 'app';
+  state.tab = 'home';
+  renderApp();
+}
+
+/* ============================================================
+   事件
+   ============================================================ */
+document.addEventListener('click', e=>{
+  /* ---- 引导流程 ---- */
+  if(e.target.closest('[data-onb-next]')){ onbNext(); return; }
+  if(e.target.closest('[data-onb-back]')){ onbBack(); return; }
+  if(e.target.closest('[data-onb-skip]')){
+    if(state.onbStep === 3){ state.onbStep = 4; renderOnb(); }
+    else if(state.onbStep === 4){ state.onbStep = 5; renderOnb(); onbNext(); }
+    return;
+  }
+  if(e.target.closest('[data-onb-finish]')){ onbFinish(); return; }
+  if(e.target.closest('[data-onb-adjust]')){
+    openSimple('调整策略', '告诉健康管家你的想法', `
+      <div class="sh-tip">
+        <div class="sh-tip-t">你想调整什么</div>
+        <div class="sh-tip-b">可以直接告诉李婧：这件事太难 / 我想换一个方向 / 我有别的想法。她会和私人医生一起重新评估。</div>
+      </div>
+      <div class="sh-btn" data-close>联系健康管家</div>
+    `, '🔄', '#D4AF37');
+    return;
+  }
+
+  /* 问卷选项 */
+  const opt = e.target.closest('.q-opt');
+  if(opt){
+    const k = opt.dataset.field;
+    const v = opt.dataset.val;
+    state.quizAnswers[k] = v;
+    // 重新渲染当前步骤
+    renderOnb();
+    return;
+  }
+
+  /* 上传 */
+  if(e.target.closest('[data-upload]')){
+    state.uploaded = true;
+    renderOnb();
+    return;
+  }
+
+  /* ---- 主 App ---- */
+  /* AI */
+  if(e.target.closest('[data-ai-open]')){ openAI(); return; }
+  if(e.target.closest('[data-ai-close]')){
+    document.getElementById('aiOv').classList.remove('open'); return;
+  }
+  if(e.target.closest('[data-ai-send]')){
+    const inp=document.getElementById('aiInput');
+    if(inp){ sendMessage(inp.value); inp.value=''; }
+    return;
+  }
+  const q = e.target.closest('[data-q]');
+  if(q){ sendMessage(q.dataset.q); return; }
+  const act = e.target.closest('[data-action]');
+  if(act){
+    const t = act.dataset.action.replace(/打开|「|」/g,'').split(' ')[0];
+    const c = COURSES.find(x=>x.t.includes(t.split('·')[0].trim()));
+    if(c){ openCourse(c.t); } else { openCourse('睡眠七讲'); }
+    return;
+  }
+
+  /* Tab */
+  const t = e.target.closest('[data-tab]');
+  if(t){ state.tab = t.dataset.tab; renderApp(); return; }
+
+  const go = e.target.closest('[data-tab-go]');
+  if(go){ state.tab = go.dataset.tabGo; renderApp(); return; }
+
+  /* 筛选 */
+  const f = e.target.closest('[data-f]');
+  if(f){ state.filter = f.dataset.f; renderApp(); return; }
+
+  /* 今日打卡 */
+  const tk = e.target.closest('[data-task]');
+  if(tk){
+    const id = tk.dataset.task;
+    state.doneTasks.has(id) ? state.doneTasks.delete(id) : state.doneTasks.add(id);
+    renderApp(); return;
+  }
+
+  /* 持续行动打卡 */
+  const fc = e.target.closest('[data-focus]');
+  if(fc){ state.focusDone = !state.focusDone; renderApp(); return; }
+
+  /* 健康资产 */
+  if(e.target.closest('[data-asset-open]')){ openAsset(); return; }
+
+  /* 五大支柱 */
+  const p = e.target.closest('[data-k]');
+  if(p){ openPillar(p.dataset.k); return; }
+
+  /* 今日知识 */
+  if(e.target.closest('[data-know]')){ openKnow(); return; }
+
+  /* 策略 */
+  if(e.target.closest('[data-strategy]')){ openStrategy(); return; }
+
+  /* 重新评估 */
+  if(e.target.closest('[data-reevaluate]')){
+    openSimple('重新评估', '每 12 周一次全面复盘', `
+      <div class="sh-tip">
+        <div class="sh-tip-t">重新评估会做什么</div>
+        <div class="sh-tip-b">重新扫描五个维度，结合你最新的数据与意愿，判断是否需要更换主杠杆点。通常需要 3–5 分钟。</div>
+      </div>
+      <div class="sh-btn" data-close>现在开始</div>
+      <div class="sh-btn ghost" data-close style="margin-top:10px">稍后再说</div>
+    `, '🔄', '#D4AF37');
+    return;
+  }
+
+  /* 补充上传 */
+  if(e.target.closest('[data-upload-more]')){
+    openSimple('补充上传', '体检报告或检查单', `
+      <div class="sh-tip">
+        <div class="sh-tip-t">支持格式</div>
+        <div class="sh-tip-b">JPG / PNG / PDF。可以拍纸质报告，也可以直接上传电子版。识别后会更新到你的数据档案。</div>
+      </div>
+      <div class="sh-btn" data-close>选择文件</div>
+    `, '📄', '#D4AF37');
+    return;
+  }
+
+  /* 课程 / 文章 / 书 */
+  const c = e.target.closest('[data-course]');
+  if(c){ openCourse(c.dataset.course); return; }
+  const a = e.target.closest('[data-art]');
+  if(a){ openArticle(a.dataset.art); return; }
+  const b = e.target.closest('[data-book]');
+  if(b){ openBook(b.dataset.book); return; }
+
+  /* 团队 */
+  const tm = e.target.closest('[data-team]');
+  if(tm){ openTeam(tm.dataset.team); return; }
+
+  /* 关闭 */
+  if(e.target.closest('[data-close]') || e.target.id==='modal'){
+    document.getElementById('modal').classList.remove('open');
+  }
+});
+
+/* 输入框 */
+document.addEventListener('input', e=>{
+  if(e.target.classList.contains('q-input')){
+    state.quizAnswers[e.target.dataset.field] = e.target.value;
+  }
+});
+document.addEventListener('keydown', e=>{
+  if(e.target.id==='aiInput' && e.key==='Enter'){
+    sendMessage(e.target.value);
+    e.target.value='';
+  }
+});
+
+/* ============================================================
+   启动
+   ============================================================ */
+renderOnb();
+</script>
+</body>
+</html>
