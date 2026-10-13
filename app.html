@@ -3,1235 +3,1975 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>老板健康俱乐部 · 健康数字化</title>
+<title>老板健康</title>
 <style>
 :root{
-  --bg:#0A0E13; --bg2:#111821; --bg3:#141B24;
-  --line:#23201A; --line2:#1B1F26;
-  --gold:#D4AF37; --gold-d:#8A6E1A; --gold-bg:rgba(212,175,55,.1);
-  --ink:#E8EEF5; --ink2:#D8CDB5; --ink3:#A89C7E; --ink4:#7A7568; --ink5:#6B6758;
-  --green:#2ED47A; --blue:#4A9EFF; --red:#F2555A; --amber:#F2A93B; --purple:#8B7CF6; --pink:#FF6B9D;
+  --bg:#F7F9FC; --card:#FFFFFF; --line:#E8EEF5; --line2:#EEF2F7;
+  --ink:#0F1B2D; --ink2:#5A6B80; --ink3:#94A3B5;
+  --blue:#1E6FFF; --blue-bg:#EDF3FF;
+  --good:#C8102E; --mid:#1E6FFF; --bad:#1A1A1A;
+  --warn:#F5A623; --warn-bg:#FEF5E7;
+  --red:#C8102E; --red-bg:#FDECEC;
+  --gray-bg:#F2F5FA;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{
-  background:radial-gradient(circle at 50% 0%,#14110A,#05070A 70%);
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-  color:var(--ink);padding:24px;
-}
-.phone{
-  width:400px;height:844px;background:var(--bg);border-radius:42px;
-  border:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;
-  box-shadow:0 40px 120px rgba(0,0,0,.85),0 0 0 9px #0d1218,0 0 0 10px #1b242e;
-  position:relative;
-}
-.statusbar{height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;
-  padding:0 26px;font-size:12.5px;color:#8A8578;letter-spacing:.4px;z-index:30;position:relative}
-.screen{flex:1;overflow-y:auto;padding:0 18px 108px;scrollbar-width:none;position:relative}
+body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
+  justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+  color:var(--ink);padding:24px}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:44px;
+  border:1px solid #D5DEE8;display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 30px 80px rgba(15,27,45,.18),0 0 0 8px #fff,0 0 0 10px #D5DEE8;
+  position:relative}
+.statusbar{height:44px;flex-shrink:0;display:flex;align-items:center;
+  justify-content:space-between;padding:0 28px;font-size:13px;font-weight:600;
+  background:var(--bg);z-index:10}
+.statusbar .r{font-size:12px;color:var(--ink2);font-weight:500}
+.screen{flex:1;overflow-y:auto;padding:0 20px 100px;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 
-/* ---------- 底部导航 ---------- */
-.tabbar{position:absolute;bottom:0;left:0;right:0;height:80px;display:flex;
-  background:rgba(10,14,19,.96);backdrop-filter:blur(24px);
-  border-top:1px solid var(--line);padding-bottom:18px;z-index:5}
+.tabbar{position:absolute;bottom:0;left:0;right:0;height:78px;display:flex;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+  border-top:1px solid var(--line);padding-bottom:16px;z-index:5}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;font-size:10px;color:#5A5548;cursor:pointer;transition:.2s;user-select:none}
-.tab .ico{font-size:20px;line-height:1;filter:grayscale(1) opacity(.5)}
-.tab.active{color:var(--gold)}
-.tab.active .ico{filter:none;transform:scale(1.05)}
+  gap:5px;font-size:10px;color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
+.tab svg{width:22px;height:22px;stroke:var(--ink3);stroke-width:1.6;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;transition:.18s}
+.tab.active{color:var(--blue)}
+.tab.active svg{stroke:var(--blue);stroke-width:1.9}
 
-/* ---------- 通用 ---------- */
-.sec-t{font-size:14px;font-weight:600;color:var(--ink2);letter-spacing:.3px;
-  display:flex;align-items:center;gap:8px;margin:20px 2px 11px}
-.sec-t .bar{width:3px;height:13px;border-radius:2px;background:var(--gold)}
-.card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:10px}
-.muted{color:var(--ink5);font-size:11.5px;line-height:1.6}
-.greet{padding:6px 2px 16px}
-.g-date{font-size:12.5px;color:var(--ink5);letter-spacing:.8px}
-.g-hello{font-size:23px;font-weight:600;margin-top:7px;letter-spacing:.5px}
-.g-hello span{color:var(--gold)}
+.hd{padding:8px 2px 20px}
+.hd-date{font-size:12.5px;color:var(--ink3);letter-spacing:.5px}
+.hd-title{font-size:26px;font-weight:600;margin-top:8px;letter-spacing:-.3px;line-height:1.2}
 
-/* ---------- 健康分 ---------- */
-.hero{background:linear-gradient(135deg,#1C1810,var(--bg2));border:1px solid #3A2E18;
-  border-radius:20px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;
-  cursor:pointer;transition:.15s}
-.hero:active{transform:scale(.985)}
-.hero::before{content:'';position:absolute;top:-50px;right:-40px;width:150px;height:150px;
-  border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,.15),transparent 70%)}
-.hero-top{display:flex;align-items:baseline;gap:10px;position:relative}
-.hero-label{font-size:12.5px;color:var(--ink3);letter-spacing:1px}
-.hero-num{font-size:42px;font-weight:700;color:var(--gold);line-height:1;letter-spacing:.5px}
-.hero-delta{font-size:12.5px;color:var(--green);background:rgba(46,212,122,.12);
-  padding:3px 9px;border-radius:20px;margin-left:auto}
-.hero-msg{font-size:14px;line-height:1.65;color:var(--ink2);margin-top:13px;position:relative}
-.hero-assets{display:flex;gap:5px;margin-top:14px;padding-top:13px;
-  border-top:1px solid rgba(212,175,55,.16);position:relative}
-.hero-asset{flex:1;text-align:center}
-.hero-asset-n{font-size:14px;font-weight:700;letter-spacing:.3px}
-.hero-asset-l{font-size:9px;color:var(--ink4);margin-top:4px}
+.sec{font-size:13px;font-weight:600;color:var(--ink2);margin:24px 2px 12px;
+  display:flex;align-items:center;justify-content:space-between}
+.sec .more{font-size:12px;color:var(--ink3);font-weight:400}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px;margin-bottom:12px}
 
-/* ---------- 九宫格 ---------- */
-.grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.g9{background:var(--bg2);border:1px solid var(--line);border-radius:14px;
-  padding:14px 6px;text-align:center;cursor:pointer;transition:.15s;position:relative}
-.g9:active{background:#161A20;transform:scale(.97)}
-.g9-ico{font-size:22px;margin-bottom:8px}
-.g9-nm{font-size:11px;color:var(--ink2);font-weight:600;margin-bottom:6px}
-.g9-score{font-size:18px;font-weight:700;letter-spacing:.3px}
-.g9-bar{height:3px;background:#1A1E24;border-radius:3px;overflow:hidden;margin-top:7px}
-.g9-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.2,.9,.3,1)}
+.score{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 20px;margin-bottom:14px;display:flex;align-items:center;gap:20px}
+.score-ring{width:88px;height:88px;position:relative;flex-shrink:0}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-txt{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center}
+.score-ring-txt b{font-size:26px;font-weight:700;line-height:1;letter-spacing:-.5px}
+.score-ring-txt i{font-size:9.5px;color:var(--ink3);font-style:normal;margin-top:4px}
+.score-info h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.score-info p{font-size:12.5px;color:var(--ink2);line-height:1.6}
+.score-tag{display:inline-block;font-size:11px;color:var(--good);background:#FDECEC;
+  padding:3px 9px;border-radius:20px;margin-top:8px;font-weight:600}
 
-/* ---------- 寿命预测 ---------- */
-.life-hero{background:linear-gradient(150deg,#1C1810,var(--bg2));
-  border:1px solid #3A2E18;border-radius:22px;padding:26px 20px;text-align:center;
-  margin-bottom:14px;position:relative;overflow:hidden}
-.life-hero::before{content:'';position:absolute;top:-60px;right:-50px;
-  width:180px;height:180px;border-radius:50%;background:rgba(212,175,55,.1)}
-.life-hero::after{content:'';position:absolute;bottom:-70px;left:-40px;
-  width:160px;height:160px;border-radius:50%;background:rgba(212,175,55,.05)}
-.life-hero-t{font-size:15px;font-weight:700;color:var(--ink2);
-  margin-bottom:6px;position:relative;z-index:1}
-.life-hero-s{font-size:12px;color:var(--ink4);margin-bottom:20px;position:relative;z-index:1}
+.g9-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.g9{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:14px 11px;cursor:pointer;position:relative;transition:.15s}
+.g9:active{transform:scale(.96);background:#FAFCFF}
+.g9-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.g9-name{font-size:11.5px;color:var(--ink3);font-weight:500}
+.g9-dot{width:5px;height:5px;border-radius:50%;background:#D5DEE8;flex-shrink:0;transition:.2s}
+.g9-dot.full{background:var(--good)}
+.g9-dot.partial{background:var(--mid)}
+.g9-main{display:flex;align-items:baseline;gap:6px}
+.g9-grade{font-size:24px;font-weight:700;line-height:1;letter-spacing:-1px}
+.g9-score{font-size:12px;color:var(--ink3);font-weight:500;margin-left:auto}
+.g9-bar{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;margin-top:10px}
+.g9-bar span{display:block;height:100%;border-radius:2px;transition:width .6s}
 
-.life-compare{display:flex;flex-direction:column;gap:10px;position:relative;z-index:1;margin-bottom:14px}
-.life-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);
-  border-radius:13px;padding:14px 16px}
-.life-row.mine{background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3)}
-.life-row-lb{font-size:12.5px;color:var(--ink3);width:92px;flex-shrink:0}
-.life-row-val{font-size:20px;font-weight:700;color:var(--gold)}
-.life-row-val span{font-size:12px;font-weight:400;color:var(--ink4);margin-left:2px}
-.life-row-tag{margin-left:auto;font-size:10.5px;color:var(--ink4)}
-.life-row.mine .life-row-tag{color:var(--gold)}
+.btn-row{display:flex;gap:10px;margin-bottom:14px}
+.btn-3{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px 8px;cursor:pointer;text-align:center;transition:.15s}
+.btn-3:active{background:#FAFCFF;transform:scale(.97)}
+.btn-3-ico{font-size:18px;font-weight:700;color:var(--good);margin-bottom:8px}
+.btn-3-t{font-size:13.5px;font-weight:600;color:var(--ink)}
+.btn-3-s{font-size:11px;color:var(--ink3);margin-top:4px}
 
-.life-gap{background:rgba(212,175,55,.08);border:1px solid rgba(212,175,55,.28);
-  border-radius:13px;padding:14px;text-align:center;font-size:13px;
-  position:relative;z-index:1;color:var(--ink2);line-height:1.65}
-.life-gap b{color:var(--gold);font-size:17px}
+.life{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
+  padding:24px 22px;margin-bottom:14px;position:relative;overflow:hidden}
+.life::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
+  border-radius:50%;background:rgba(200,16,46,.18)}
+.life-tag{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;position:relative}
+.life-title{font-size:18px;font-weight:700;color:#fff;margin-top:12px;letter-spacing:-.2px;position:relative}
+.life-rows{margin-top:20px;display:flex;flex-direction:column;gap:8px;position:relative}
+.life-row{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;border-radius:13px;background:rgba(255,255,255,.05)}
+.life-row.mine{background:rgba(200,16,46,.18);border:1px solid rgba(200,16,46,.4)}
+.life-row-lb{font-size:12.5px;color:rgba(255,255,255,.6)}
+.life-row.mine .life-row-lb{color:rgba(255,255,255,.9);font-weight:500}
+.life-row-val{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.6px;
+  display:flex;align-items:baseline;gap:3px}
+.life-row-val small{font-size:12px;color:rgba(255,255,255,.5);font-weight:500}
+.life-row.mine .life-row-val{color:#FF5C5C}
+.life-concl{margin-top:18px;padding:14px 16px;background:rgba(255,255,255,.05);
+  border-radius:12px;font-size:13.5px;color:rgba(255,255,255,.9);line-height:1.7;position:relative}
+.life-concl b{color:#FF5C5C;font-weight:700}
 
-/* ---------- 健康日记 ---------- */
-.diary-hero{background:linear-gradient(135deg,#141B24,var(--bg2));border:1px solid var(--line);
-  border-radius:18px;padding:18px;margin-bottom:12px;cursor:pointer;transition:.15s}
-.diary-hero:active{transform:scale(.985)}
-.diary-hero-top{display:flex;align-items:center;gap:13px;margin-bottom:12px}
-.diary-hero-ico{width:46px;height:46px;border-radius:14px;background:var(--gold-bg);
-  display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.diary-hero-t{font-size:16px;font-weight:600;color:var(--ink2)}
-.diary-hero-s{font-size:12px;color:var(--ink4);margin-top:5px}
-.diary-hero-go{margin-left:auto;font-size:20px;color:#3A3628}
-.diary-items{display:flex;flex-wrap:wrap;gap:6px}
-.diary-chip{font-size:11px;color:var(--ink3);background:var(--bg3);
-  border:1px solid var(--line);padding:5px 11px;border-radius:20px}
-.diary-chip.done{color:var(--green);border-color:rgba(46,212,122,.3);background:rgba(46,212,122,.08)}
+/* 健康资产：只展示各项，无总分 */
+.asset{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:20px;margin-bottom:14px}
+.asset-rows{display:flex;flex-direction:column;gap:16px}
+.asset-row{display:flex;align-items:center;gap:12px}
+.asset-row-nm{font-size:15px;color:var(--ink);font-weight:700;width:24px;flex-shrink:0}
+.asset-row-sub{font-size:11.5px;color:var(--ink3);width:60px;flex-shrink:0}
+.asset-row-bar{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
+.asset-row-fill{height:100%;border-radius:3px;transition:width .6s}
+.asset-row-val{font-size:15px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
 
-/* ---------- 今日行动 ---------- */
-.ck{display:flex;align-items:center;gap:12px;background:var(--bg2);
-  border:1px solid var(--line);border-radius:15px;padding:13px;margin-bottom:8px;
-  cursor:pointer;transition:.15s}
-.ck:active{background:#161A20}
-.ck-box{width:24px;height:24px;border-radius:8px;border:1.5px solid #2E2A22;
-  display:flex;align-items:center;justify-content:center;font-size:13px;
-  color:transparent;flex-shrink:0;transition:.2s}
-.ck.on .ck-box{background:var(--gold);border-color:var(--gold);color:var(--bg)}
-.ck-t{font-size:14px;color:var(--ink2);line-height:1.4;transition:.2s}
-.ck.on .ck-t{color:var(--ink5);text-decoration:line-through}
-.ck-s{font-size:11px;color:var(--ink5);margin-top:4px}
-.ck-tag{font-size:9.5px;color:var(--gold);background:var(--gold-bg);
-  padding:2px 7px;border-radius:10px;margin-left:6px;font-weight:600}
+.lever{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 20px;position:relative;overflow:hidden;margin-bottom:14px}
+.lever::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--mid)}
+.lever-tag{font-size:10.5px;color:var(--mid);background:var(--blue-bg);
+  padding:4px 10px;border-radius:20px;font-weight:600;letter-spacing:.8px;display:inline-block}
+.lever-title{font-size:18px;font-weight:600;margin-top:12px;letter-spacing:-.2px}
+.lever-metric{display:flex;align-items:baseline;justify-content:space-between;margin:18px 0 12px}
+.lever-metric-nm{font-size:12.5px;color:var(--ink2)}
+.lever-metric-val{font-size:28px;font-weight:700;letter-spacing:-.8px}
+.lever-metric-val span{font-size:12px;color:var(--ink3);font-weight:500;margin-left:3px}
+.spark{width:100%;height:80px;display:block}
+.lever-foot{display:flex;justify-content:space-between;font-size:10.5px;
+  color:var(--ink3);margin-top:8px;margin-bottom:16px}
+.lever-change{display:flex;justify-content:space-between;font-size:13px;
+  padding:12px 0;border-top:1px solid var(--line2)}
+.lever-change-lb{color:var(--ink2)}
+.lever-change-val{font-weight:700}
 
-/* ---------- 健康秘书 ---------- */
-.secretary{background:linear-gradient(135deg,#1C1810,var(--bg2));
-  border:1px solid #3A2E18;border-radius:18px;padding:16px;margin-bottom:12px}
-.sec-head{display:flex;align-items:center;gap:11px;margin-bottom:13px}
-.sec-av{width:38px;height:38px;border-radius:50%;
-  background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;
-  justify-content:center;font-size:14px;color:var(--bg);font-weight:700;flex-shrink:0}
-.sec-nm{font-size:14px;font-weight:600;color:var(--ink2)}
-.sec-st{font-size:11px;color:var(--green);margin-top:3px;display:flex;align-items:center;gap:5px}
-.sec-st::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 8px var(--green)}
-.sec-msg{font-size:13.5px;color:var(--ink2);line-height:1.7;
-  padding:12px 14px;background:rgba(0,0,0,.25);border-radius:12px}
-.sec-actions{display:flex;gap:8px;margin-top:12px}
-.sec-actions div{flex:1;text-align:center;padding:11px;border-radius:11px;
-  font-size:12.5px;font-weight:600;cursor:pointer}
-.sec-call{background:var(--gold);color:var(--bg)}
-.sec-chat{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);color:var(--gold)}
-
-/* ---------- 推荐 ---------- */
-.rec-row{display:flex;gap:11px;background:var(--bg2);border:1px solid var(--line);
-  border-radius:14px;padding:13px;margin-bottom:9px;cursor:pointer;transition:.15s}
-.rec-row:active{background:#161A20}
-.rec-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;
-  justify-content:center;font-size:19px;flex-shrink:0}
-.rec-t{font-size:13.5px;font-weight:600;color:var(--ink2);line-height:1.35}
-.rec-s{font-size:11px;color:var(--ink4);margin-top:5px;line-height:1.5}
-
-/* ---------- 管理工具 ---------- */
-.mgr-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.mgr{background:var(--bg2);border:1px solid var(--line);border-radius:15px;
-  padding:16px 14px;cursor:pointer;transition:.15s}
-.mgr:active{background:#161A20;transform:scale(.98)}
-.mgr-ico{font-size:24px;margin-bottom:10px}
-.mgr-nm{font-size:14px;font-weight:600;color:var(--ink2)}
-.mgr-s{font-size:11px;color:var(--ink4);margin-top:6px;line-height:1.5}
-
-/* ---------- 我的 ---------- */
-.me-hd{display:flex;align-items:center;gap:14px;padding:10px 2px 18px}
-.me-av{width:58px;height:58px;border-radius:50%;
-  background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;
-  justify-content:center;font-size:22px;color:var(--bg);font-weight:700;flex-shrink:0}
-.me-nm{font-size:19px;font-weight:600}
-.me-role{font-size:12px;color:#8A8578;margin-top:5px}
-.me-badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--gold);
-  background:var(--gold-bg);border:1px solid rgba(212,175,55,.25);
-  padding:3px 9px;border-radius:20px;margin-top:8px}
-
-.me-strategy{background:linear-gradient(135deg,#1C1810,var(--bg2));border:1px solid #3A2E18;
-  border-radius:18px;padding:18px;margin-bottom:11px;cursor:pointer;transition:.15s}
-.me-strategy:active{transform:scale(.985)}
-.me-strategy-lb{font-size:11px;color:var(--gold);letter-spacing:1.5px;font-weight:600}
-.me-strategy-t{font-size:17px;font-weight:600;color:var(--ink);margin-top:10px;line-height:1.4}
-.me-strategy-s{font-size:12.5px;color:var(--ink3);margin-top:8px;line-height:1.6}
-.me-strategy-foot{display:flex;align-items:center;justify-content:space-between;
-  margin-top:14px;padding-top:13px;border-top:1px solid rgba(212,175,55,.16)}
-.me-strategy-d{font-size:11.5px;color:var(--ink4)}
-.me-strategy-go{font-size:12px;color:var(--gold)}
-
-.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.tm{background:var(--bg2);border:1px solid var(--line);border-radius:15px;
-  padding:14px 12px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s}
-.tm:active{background:#161A20;transform:scale(.98)}
-.tm-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
-.tm-nm{font-size:13.5px;font-weight:600;color:var(--ink2)}
-.tm-rl{font-size:11px;color:var(--ink4);margin-top:3px}
-
-.src-row{display:flex;align-items:center;justify-content:space-between;
-  padding:13px 2px;border-bottom:1px solid var(--line2);font-size:14px;cursor:pointer}
-.src-row:last-child{border-bottom:none}
-.src-l{display:flex;align-items:center;gap:11px;color:var(--ink2)}
-.src-r{font-size:11.5px;color:var(--green)}
-.src-r.gray{color:#8A8578}
-
-/* ---------- 引导覆盖层 ---------- */
-.onb{position:absolute;inset:0;background:var(--bg);z-index:50;display:none;
-  flex-direction:column;border-radius:42px;overflow:hidden}
-.onb.open{display:flex}
-.onb-body{flex:1;overflow-y:auto;padding:0 22px;scrollbar-width:none}
-.onb-body::-webkit-scrollbar{display:none}
-.onb-foot{flex-shrink:0;padding:14px 22px 28px;background:var(--bg)}
-
-.welcome{flex:1;display:flex;flex-direction:column;justify-content:center;
-  padding:0 24px;text-align:center;min-height:100%}
-.w-logo{font-size:12px;color:var(--gold);letter-spacing:5px;font-weight:600;margin-bottom:28px}
-.w-title{font-size:26px;font-weight:700;line-height:1.4;letter-spacing:.5px}
-.w-title span{color:var(--gold)}
-.w-desc{font-size:13.5px;color:var(--ink3);line-height:1.85;margin-top:20px}
-.w-steps{margin-top:32px;text-align:left}
-.w-step{display:flex;gap:14px;padding:12px 0;align-items:flex-start}
-.w-step-n{width:26px;height:26px;border-radius:50%;background:var(--gold-bg);
-  color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;
+.pdca{display:flex;flex-direction:column;gap:12px;margin-top:16px;
+  padding-top:16px;border-top:1px solid var(--line2)}
+.pdca-row{display:flex;gap:12px;align-items:flex-start}
+.pdca-step{width:22px;height:22px;border-radius:50%;background:var(--blue-bg);
+  color:var(--mid);font-size:11px;font-weight:700;display:flex;align-items:center;
   justify-content:center;flex-shrink:0;margin-top:1px}
-.w-step-t{font-size:14px;color:var(--ink2);line-height:1.5;font-weight:500}
-.w-step-s{font-size:11.5px;color:var(--ink4);margin-top:5px;line-height:1.55}
-.w-meta{font-size:10.5px;color:#5A5548;margin-top:28px;letter-spacing:.5px;line-height:1.8}
+.pdca-body{flex:1;min-width:0}
+.pdca-t{font-size:13.5px;color:var(--ink);font-weight:500}
+.pdca-s{font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.5}
 
-.q-head{padding:24px 0 18px}
-.q-step{font-size:11px;color:var(--gold);letter-spacing:2px;font-weight:600}
-.q-title{font-size:21px;font-weight:600;line-height:1.4;margin-top:10px}
-.q-sub{font-size:12.5px;color:var(--ink4);line-height:1.7;margin-top:11px}
-.q-text{font-size:18px;font-weight:600;line-height:1.55;margin-bottom:20px}
+.practice{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px;margin-bottom:10px;cursor:pointer;display:flex;gap:12px;align-items:center;transition:.15s}
+.practice:active{background:#FAFCFF}
+.practice-ico{width:40px;height:40px;border-radius:12px;background:#FDECEC;
+  display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--good);
+  flex-shrink:0;font-weight:600}
+.practice-t{font-size:14px;font-weight:600;color:var(--ink)}
+.practice-s{font-size:11.5px;color:var(--ink3);margin-top:4px}
+.practice-add{margin-left:auto;font-size:12px;color:var(--good);font-weight:600;
+  padding:5px 12px;background:#FDECEC;border-radius:20px}
 
-.opt{display:block;width:100%;text-align:left;padding:14px 18px;margin-bottom:8px;
-  border:1.5px solid var(--line);border-radius:13px;background:var(--bg2);
-  font-size:14px;cursor:pointer;transition:all .18s;font-family:inherit;
-  color:var(--ink3);position:relative;line-height:1.6}
-.opt:active{background:#161A20}
-.opt.selected{border-color:var(--gold);background:var(--gold-bg);
-  font-weight:600;color:var(--gold)}
-.opt.selected::after{content:"";position:absolute;right:18px;top:50%;
-  transform:translateY(-50%);width:7px;height:12px;
-  border-right:2.5px solid var(--gold);border-bottom:2.5px solid var(--gold);rotate:45deg}
+.mgr-row{display:flex;align-items:center;gap:14px;padding:16px 0;
+  border-bottom:1px solid var(--line2);cursor:pointer}
+.mgr-row:last-child{border-bottom:none}
+.mgr-row-ico{width:36px;height:36px;border-radius:11px;background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink2);
+  flex-shrink:0;font-weight:600}
+.mgr-row-main{flex:1;min-width:0}
+.mgr-row-t{font-size:14px;color:var(--ink);font-weight:500}
+.mgr-row-s{font-size:11.5px;color:var(--ink3);margin-top:4px}
+.mgr-row-val{font-size:13px;font-weight:600;color:var(--good)}
 
-.year-wrap{background:var(--bg2);border:1.5px solid var(--line);border-radius:18px;
-  padding:28px 22px;margin-bottom:18px}
-.year-label{text-align:center;font-size:12px;color:var(--ink4);
-  margin-bottom:14px;letter-spacing:.5px}
-.year-box{width:100%;padding:20px 22px;border:2px solid var(--line);border-radius:14px;
-  font-size:30px;font-weight:700;font-family:inherit;text-align:center;
-  background:var(--bg);color:var(--gold);letter-spacing:4px}
-.year-box:focus{outline:none;border-color:var(--gold);background:var(--gold-bg)}
-.year-box::placeholder{color:#3A3628;font-weight:400;font-size:14px;letter-spacing:0}
-.year-age{text-align:center;font-size:15px;color:var(--green);font-weight:600;
-  margin-top:16px;min-height:26px}
+.streak{background:linear-gradient(135deg,#C8102E,#8B0000);border-radius:18px;
+  padding:24px;color:#fff;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.streak::before{content:'';position:absolute;top:-60px;right:-40px;width:160px;height:160px;
+  border-radius:50%;background:rgba(255,255,255,.08)}
+.streak-num{font-size:48px;font-weight:700;line-height:1;letter-spacing:-1.5px;position:relative}
+.streak-num small{font-size:15px;font-weight:500;color:rgba(255,255,255,.7);margin-left:4px}
+.streak-lb{font-size:13px;color:rgba(255,255,255,.8);margin-top:10px;position:relative}
+.cal{display:flex;gap:6px;margin-top:18px;position:relative}
+.cal-day{flex:1;text-align:center;padding:8px 0;border-radius:8px;font-size:11px;
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.6)}
+.cal-day.on{background:#fff;color:var(--good);font-weight:700}
+.cal-day.today{background:rgba(255,255,255,.2);color:#fff;font-weight:700}
 
-.btn{display:inline-block;padding:14px 28px;border-radius:100px;border:none;
-  font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
-.btn-primary{background:var(--gold);color:var(--bg)}
-.btn-primary:disabled{opacity:.35;cursor:not-allowed}
-.btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
-
-.upload-btn{background:var(--gold);color:var(--bg);font-size:15px;
-  font-weight:600;padding:14px;border-radius:14px;cursor:pointer;
-  letter-spacing:.5px;text-align:center}
-.upload-btn:active{opacity:.8}
-.upload-alt{display:flex;gap:9px;margin-top:11px}
-.upload-alt div{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:13px;
-  padding:13px;text-align:center;font-size:13px;color:var(--ink3);cursor:pointer}
-.upload-alt div:active{background:#161A20}
-
-.gen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:0 34px;text-align:center;min-height:100%}
-.gen-ring{width:80px;height:80px;border-radius:50%;border:3px solid #1E1B14;
-  border-top-color:var(--gold);animation:spin 1s linear infinite;margin-bottom:26px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.gen-t{font-size:17px;font-weight:600;color:var(--ink2)}
-.gen-s{font-size:12.5px;color:var(--ink4);line-height:1.7;margin-top:12px}
-.gen-steps{margin-top:28px;text-align:left;width:100%}
-.gen-step{display:flex;align-items:center;gap:11px;padding:8px 0;
-  font-size:12.5px;color:#5A5548;transition:.3s}
-.gen-step.on{color:var(--gold)}
-.gen-step-dot{width:7px;height:7px;border-radius:50%;background:#2E2A22;flex-shrink:0;transition:.3s}
-.gen-step.on .gen-step-dot{background:var(--gold);box-shadow:0 0 8px var(--gold)}
-
-/* ---------- 结果页 ---------- */
-.result{padding:20px 0 40px}
-.result-hero{background:linear-gradient(150deg,#1C1810,var(--bg2));
-  border:1px solid #3A2E18;border-radius:22px;padding:30px 22px;text-align:center;
-  margin-bottom:14px;position:relative;overflow:hidden}
-.result-hero::before{content:'';position:absolute;top:-60px;right:-50px;
-  width:180px;height:180px;border-radius:50%;background:rgba(212,175,55,.1)}
-.result-hero-t{font-size:15px;font-weight:700;color:var(--ink2);
-  margin-bottom:6px;position:relative;z-index:1}
-.result-hero-s{font-size:12px;color:var(--ink4);margin-bottom:20px;position:relative;z-index:1}
-
-.life-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;
-  position:relative;z-index:1}
-.life-item{background:rgba(212,175,55,.06);border:1px solid rgba(212,175,55,.18);
-  border-radius:15px;padding:20px 12px;text-align:center}
-.life-val{font-size:30px;font-weight:700;line-height:1.1;color:var(--gold)}
-.life-val small{font-size:13px;font-weight:500;margin-left:2px}
-.life-lab{font-size:12px;color:var(--ink3);margin-top:8px}
-.life-note{font-size:10.5px;color:var(--ink5);margin-top:4px}
-
-.advice{border:1px solid var(--line);border-radius:16px;padding:18px 20px 16px;
-  margin-bottom:11px;background:var(--bg2);position:relative}
-.advice::before{content:"";position:absolute;left:0;top:18px;bottom:18px;
-  width:3px;border-radius:99px;background:var(--gold)}
-.advice-rank{font-size:10.5px;font-weight:700;letter-spacing:1.5px;
-  color:var(--gold);margin-bottom:6px}
-.advice h4{font-size:15px;font-weight:700;color:var(--ink2);
-  margin-bottom:12px;line-height:1.5}
-.advice ol{padding-left:18px;margin-bottom:11px}
-.advice li{font-size:13px;margin-bottom:7px;line-height:1.7;color:var(--ink3)}
-.advice-why{font-size:11.5px;color:var(--ink4);line-height:1.7;
-  padding-top:10px;border-top:1px dashed var(--line)}
-.advice-why b{color:var(--gold);font-weight:600}
-
-/* ---------- 弹窗 ---------- */
-.modal{position:fixed;inset:0;background:rgba(3,6,9,.82);backdrop-filter:blur(8px);
+.modal{position:fixed;inset:0;background:rgba(15,27,45,.45);backdrop-filter:blur(6px);
   display:none;align-items:flex-end;justify-content:center;z-index:99}
 .modal.open{display:flex;animation:fade .2s}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet{width:100%;max-width:440px;max-height:86vh;overflow-y:auto;background:#0D1319;
-  border:1px solid var(--line);border-bottom:none;border-radius:26px 26px 0 0;
-  padding:22px 20px 30px;animation:up .3s cubic-bezier(.2,.9,.3,1);scrollbar-width:none}
+.sheet{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;background:#fff;
+  border-radius:26px 26px 0 0;padding:24px 22px 100px;position:relative;
+  animation:up .3s cubic-bezier(.2,.9,.3,1);scrollbar-width:none}
 .sheet::-webkit-scrollbar{display:none}
-@keyframes up{from{transform:translateY(50px);opacity:.4}to{transform:translateY(0);opacity:1}}
-.sh-head{display:flex;align-items:center;gap:13px;margin-bottom:18px}
-.sh-ico{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;
-  justify-content:center;font-size:23px;flex-shrink:0}
-.sh-name{font-size:18px;font-weight:600;line-height:1.35}
-.sh-sub{font-size:12.5px;color:#8A8578;margin-top:5px}
-.sh-x{width:30px;height:30px;border-radius:50%;background:#1A1F26;color:#8A8578;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0}
-.sh-row{display:flex;align-items:center;justify-content:space-between;
-  padding:13px 4px;border-bottom:1px solid var(--line2)}
-.sh-row:last-child{border-bottom:none}
-.sh-l{font-size:14px;color:var(--ink3)}
-.sh-v{font-size:17px;font-weight:600;letter-spacing:.3px}
-.sh-v span{font-size:11.5px;color:var(--ink5);font-weight:400;margin-left:4px}
-.sh-tip{border-radius:15px;padding:15px 16px;margin-top:16px;
-  border:1px solid rgba(212,175,55,.3);background:var(--gold-bg)}
-.sh-tip-t{font-size:11.5px;font-weight:600;letter-spacing:1px;color:var(--gold)}
-.sh-tip-b{font-size:13.5px;line-height:1.75;color:var(--ink2);margin-top:9px}
-.sh-btn{margin-top:16px;background:var(--gold);color:var(--bg);font-size:15px;font-weight:600;
-  text-align:center;padding:14px;border-radius:14px;cursor:pointer;letter-spacing:.5px}
-.sh-btn.ghost{background:transparent;border:1px solid #2E2A22;color:var(--ink3)}
+@keyframes up{from{transform:translateY(60px);opacity:.5}to{transform:translateY(0);opacity:1}}
+.sh-head{margin-bottom:20px}
+.sh-title-row{display:flex;align-items:flex-start;justify-content:space-between}
+.sh-name{font-size:19px;font-weight:600}
+.sh-date{font-size:12.5px;color:var(--ink3);margin-top:6px;letter-spacing:.3px}
+.sh-x{width:30px;height:30px;border-radius:50%;background:#F2F5FA;color:var(--ink2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px}
+.sh-btn{margin-top:20px;background:var(--mid);color:#fff;font-size:15px;font-weight:600;
+  text-align:center;padding:15px;border-radius:14px;cursor:pointer}
+.sh-btn.disabled{background:#E8EEF5;color:var(--ink3);cursor:not-allowed}
+.sh-btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
 
-.fade-in{animation:fadeIn .35s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.voice-bar{position:absolute;bottom:0;left:0;right:0;background:#fff;
+  border-top:1px solid var(--line);padding:14px 22px 22px;
+  border-radius:0 0 26px 26px;display:flex;align-items:center;gap:12px;z-index:5}
+.voice-btn{flex:1;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);color:#fff;
+  border-radius:14px;padding:14px;text-align:center;font-size:14.5px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.voice-btn:active{transform:scale(.98)}
+.voice-icon{width:20px;height:20px;flex-shrink:0}
+.voice-hint{font-size:11px;color:var(--ink3);flex-shrink:0}
+
+.obj-block{background:var(--gray-bg);border-radius:12px;padding:16px;margin-bottom:22px}
+.obj-label{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:12px}
+.obj-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0}
+.obj-row:first-of-type{padding-top:0}
+.obj-row:last-child{padding-bottom:0}
+.obj-nm{font-size:13.5px;color:var(--ink2)}
+.obj-val{font-size:16px;font-weight:700;letter-spacing:-.3px}
+.obj-val span{font-size:11px;color:var(--ink3);font-weight:500;margin-left:2px}
+.obj-input{width:80px;text-align:right;padding:6px 10px;border:1.5px solid var(--line);
+  border-radius:8px;font-size:14px;font-family:inherit;font-weight:700;color:var(--ink);
+  outline:none;background:#fff}
+.obj-input:focus{border-color:var(--mid)}
+
+.subj-label{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
+.rec-item{margin-bottom:20px}
+.rec-item:last-child{margin-bottom:0}
+.rec-label{font-size:14px;color:var(--ink);font-weight:500;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between}
+.rec-label small{font-size:10.5px;color:var(--ink3);font-weight:400}
+.rec-opts{display:flex;flex-wrap:wrap;gap:8px}
+.rec-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
+  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.rec-opt.on{background:var(--blue-bg);color:var(--mid);font-weight:600}
+.rec-note{width:100%;margin-top:10px;padding:11px 14px;border-radius:11px;
+  background:var(--gray-bg);border:1.5px solid transparent;font-size:13.5px;
+  font-family:inherit;color:var(--ink);outline:none;transition:.15s}
+.rec-note:focus{border-color:var(--mid);background:#fff}
+.rec-note::placeholder{color:var(--ink3)}
+
+.sym-group{margin-bottom:18px}
+.sym-group-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;
+  margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sym-group-t .count{color:var(--mid);background:var(--blue-bg);
+  padding:1px 6px;border-radius:8px;font-size:10px}
+.sym-opts{display:flex;flex-wrap:wrap;gap:8px}
+.sym-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
+  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s;position:relative}
+.sym-opt.on{background:var(--blue-bg);color:var(--mid);font-weight:600}
+.sym-opt.on.danger{background:var(--red-bg);color:var(--red)}
+.sym-opt.alert{color:var(--red);font-weight:500}
+
+.fu-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
+  padding:16px;margin-top:14px}
+.fu-hd{font-size:13px;color:var(--ink);font-weight:600;margin-bottom:14px;
+  display:flex;align-items:center;gap:6px}
+.fu-hd::before{content:'';width:3px;height:12px;background:var(--mid);border-radius:2px}
+.fu-hd.warn::before{background:var(--warn)}
+.fu-item{margin-bottom:14px}
+.fu-item:last-child{margin-bottom:0}
+.fu-label{font-size:12.5px;color:var(--ink2);font-weight:500;margin-bottom:8px}
+.fu-opts{display:flex;flex-wrap:wrap;gap:6px}
+.fu-opt{padding:8px 13px;border-radius:9px;background:#fff;border:1px solid var(--line);
+  font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.fu-opt.on{background:var(--blue-bg);color:var(--mid);border-color:var(--mid);font-weight:600}
+.fu-opt.danger.on{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+
+.urgent-banner{background:var(--red-bg);border:1.5px solid var(--red);
+  border-radius:14px;padding:16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start}
+.urgent-ico{width:32px;height:32px;border-radius:10px;background:var(--red);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;
+  flex-shrink:0;font-weight:700}
+.urgent-body{flex:1}
+.urgent-t{font-size:13.5px;font-weight:600;color:var(--red);margin-bottom:6px}
+.urgent-s{font-size:12.5px;color:var(--ink);line-height:1.6}
+
+.big-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.big-item{background:var(--gray-bg);border-radius:12px;padding:16px 8px;text-align:center}
+.big-val{font-size:18px;font-weight:700;letter-spacing:-.4px;line-height:1}
+.big-lb{font-size:11px;color:var(--ink3);margin-top:8px}
+.big-delta{font-size:11px;font-weight:600;margin-top:5px}
+.big-delta.up{color:var(--good)}
+.big-delta.down{color:var(--bad)}
+
+.judge-group{margin-bottom:22px}
+.judge-group-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
+.judge-item{margin-bottom:18px}
+.judge-item:last-child{margin-bottom:0}
+.judge-label{font-size:13.5px;color:var(--ink);font-weight:500;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:space-between}
+.judge-label small{font-size:11px;color:var(--ink3);font-weight:400}
+.judge-opts{display:flex;gap:6px}
+.judge-opt{flex:1;padding:11px 4px;text-align:center;border-radius:10px;
+  background:var(--gray-bg);font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.judge-opt.on{background:var(--blue-bg);color:var(--mid);font-weight:600}
+
+.qz-q{font-size:19px;font-weight:600;line-height:1.5;letter-spacing:-.2px}
+.qz-opts{margin-top:20px}
+.qz-opt{display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;
+  border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:14.5px;
+  cursor:pointer;font-family:inherit;color:var(--ink2);line-height:1.5}
+.qz-opt.on{border-color:var(--mid);background:var(--blue-bg);color:var(--mid);font-weight:600}
+.qz-input{width:100%;padding:20px;border:2px solid var(--line);border-radius:14px;
+  font-size:26px;font-weight:700;font-family:inherit;text-align:center;
+  background:#fff;color:var(--ink);outline:none;letter-spacing:6px}
+.qz-input:focus{border-color:var(--mid)}
+
+.result-life{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:18px;
+  padding:24px 20px;margin-bottom:18px;position:relative;overflow:hidden}
+.result-life-num{font-size:48px;font-weight:700;color:#FF5C5C;line-height:1;letter-spacing:-1.5px;position:relative}
+.result-life-num small{font-size:16px;color:rgba(255,255,255,.5);font-weight:500;margin-left:6px}
+.result-life-desc{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.7;margin-top:12px;position:relative}
+
+.parsed-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
+  padding:16px;margin-bottom:18px}
+.parsed-title{font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;
+  margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.parsed-title::before{content:'AI';background:var(--blue-bg);color:var(--mid);
+  font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:0}
+.meal-block{margin-bottom:14px}
+.meal-block:last-child{margin-bottom:0}
+.meal-hd{font-size:12px;color:var(--ink2);font-weight:600;margin-bottom:8px;
+  display:flex;align-items:center;justify-content:space-between}
+.meal-hd .time{color:var(--ink3);font-weight:400;font-size:11px}
+.food-tag{display:inline-flex;align-items:center;gap:4px;background:#fff;
+  border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:3px 4px 3px 0;
+  font-size:12px;color:var(--ink)}
+.food-tag .attr{font-size:9.5px;color:var(--ink3);padding:1px 4px;border-radius:3px;background:var(--gray-bg)}
+.food-tag .attr.high{background:#FDECEC;color:var(--good)}
+.food-tag .attr.low{background:#F2F5FA;color:var(--ink3)}
+
+.struct-block{background:#fff;border:1.5px solid var(--blue-bg);border-radius:14px;
+  padding:16px;margin-bottom:18px}
+.struct-title{font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;margin-bottom:6px}
+.struct-sub{font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.5}
+.struct-item{margin-bottom:16px}
+.struct-item:last-child{margin-bottom:0}
+.struct-label{font-size:13px;color:var(--ink);font-weight:500;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:space-between}
+.struct-label small{font-size:10.5px;color:var(--ink3);font-weight:400}
+.struct-opts{display:flex;flex-wrap:wrap;gap:6px}
+.struct-opt{padding:8px 14px;border-radius:10px;background:var(--gray-bg);
+  font-size:13px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
+.struct-opt.on{background:var(--blue-bg);color:var(--mid);font-weight:600}
+
+.diet-tabs{display:flex;background:#EEF2F7;border-radius:12px;padding:4px;margin-bottom:20px}
+.diet-tab{flex:1;text-align:center;padding:10px;font-size:13.5px;color:var(--ink2);
+  font-weight:500;border-radius:9px;cursor:pointer;transition:.18s}
+.diet-tab.on{background:#fff;color:var(--ink);font-weight:600;
+  box-shadow:0 1px 3px rgba(15,27,45,.08)}
+
+.quick-meal{margin-bottom:18px}
+.quick-meal-hd{font-size:13px;color:var(--ink);font-weight:600;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between}
+.quick-meal-hd span{font-size:11px;color:var(--ink3);font-weight:400}
+.quick-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.quick-row-lb{font-size:12.5px;color:var(--ink2);width:44px;flex-shrink:0}
+.quick-row-opts{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.quick-opt{padding:7px 12px;border-radius:9px;background:var(--gray-bg);
+  font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500;
+  min-width:44px;text-align:center}
+.quick-opt.on{background:var(--blue-bg);color:var(--mid);font-weight:600}
+.quick-opt.extra.on{background:var(--red-bg);color:var(--red)}
+
+.compare{margin-top:22px;padding-top:18px;border-top:1px solid var(--line2)}
+.compare-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
+.cmp-row{margin-bottom:14px}
+.cmp-row:last-child{margin-bottom:0}
+.cmp-top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px}
+.cmp-nm{color:var(--ink2)}
+.cmp-v{color:var(--ink);font-weight:600}
+.cmp-v.high{color:var(--good)}
+.cmp-v.low{color:var(--bad)}
+.cmp-v.normal{color:var(--mid)}
+.cmp-bar{height:8px;background:var(--gray-bg);border-radius:4px;overflow:hidden;position:relative}
+.cmp-fill{height:100%;border-radius:4px;transition:width .6s;background:var(--mid)}
+.cmp-fill.high{background:var(--good)}
+.cmp-fill.low{background:var(--bad)}
+.cmp-range{position:absolute;top:0;bottom:0;background:rgba(30,111,255,.12);
+  border-left:1px dashed rgba(30,111,255,.4);border-right:1px dashed rgba(30,111,255,.4)}
+
+.voice-overlay{position:fixed;inset:0;background:rgba(15,27,45,.7);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;z-index:200;padding:40px}
+.voice-overlay.open{display:flex;animation:fade .2s}
+.voice-panel{background:#fff;border-radius:24px;padding:32px 24px;text-align:center;
+  width:100%;max-width:340px}
+.voice-wave{display:flex;justify-content:center;gap:4px;height:60px;align-items:center;margin-bottom:22px}
+.voice-wave span{width:4px;background:var(--mid);border-radius:2px;animation:wave 1s ease-in-out infinite}
+.voice-wave span:nth-child(1){animation-delay:0s;height:20px}
+.voice-wave span:nth-child(2){animation-delay:.1s;height:36px}
+.voice-wave span:nth-child(3){animation-delay:.2s;height:48px}
+.voice-wave span:nth-child(4){animation-delay:.3s;height:36px}
+.voice-wave span:nth-child(5){animation-delay:.4s;height:20px}
+@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.6)}}
+.voice-status{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
+.voice-transcript{font-size:13px;color:var(--ink2);line-height:1.7;min-height:60px;
+  padding:14px;background:var(--gray-bg);border-radius:12px;margin-bottom:18px;
+  text-align:left;font-style:italic}
+.voice-cancel{background:transparent;border:1px solid var(--line);color:var(--ink2);
+  padding:12px 20px;border-radius:12px;font-size:14px;font-weight:500;
+  cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
 <div class="phone">
-  <div class="statusbar"><span>06:35</span><span>5G · 87%</span></div>
+  <div class="statusbar"><span>06:35</span><span class="r">5G · 87%</span></div>
   <main class="screen" id="screen"></main>
-  <nav class="tabbar" id="tabbar" style="display:none"></nav>
-
-  <div class="onb" id="onb">
-    <div class="onb-body" id="onbBody"></div>
-    <div class="onb-foot" id="onbFoot"></div>
-  </div>
+  <nav class="tabbar" id="tabbar"></nav>
 </div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<div class="voice-overlay" id="voiceOverlay"><div class="voice-panel" id="voicePanel"></div></div>
 
 <script>
-/* ============================================================
-   数据
-   ============================================================ */
-const GRID9 = [
-  {k:'sleep', ico:'🌙', nm:'睡眠', score:88, color:'#8B7CF6', sub:'效率92% · 深睡1h48m',
-   tip:'固定上床和起床时间，误差不超过30分钟。', course:'睡眠七讲'},
-  {k:'diet', ico:'🥗', nm:'饮食', score:72, color:'#2ED47A', sub:'血糖9.8 · 蔬菜偏少',
-   tip:'把1/3的白米饭换成杂粮饭，每天至少一餐有鱼虾。', course:'吃对三餐'},
-  {k:'move', ico:'🏃', nm:'运动', score:78, color:'#F2A93B', sub:'8420步 · 久坐6.2h',
-   tip:'每周2次力量训练，每次20分钟。', course:'不累的运动'},
-  {k:'mind', ico:'🧘', nm:'情绪', score:68, color:'#FF6B9D', sub:'压力42 · 偶有焦虑',
-   tip:'每天安排30分钟"无目的时间"。', course:'压力管理'},
-  {k:'body', ico:'💆', nm:'身体', score:74, color:'#4A9EFF', sub:'颈肩僵硬 · 偶有疲乏',
-   tip:'每小时起身活动3分钟，减少连续久坐。', course:'不累的运动'},
-  {k:'env', ico:'🛡️', nm:'环境', score:82, color:'#2ED47A', sub:'防护良好 · 偶有雾霾',
-   tip:'减少空气污染和二手烟暴露。', course:'环境与防护'},
-  {k:'social', ico:'🤝', nm:'社交', score:80, color:'#8B7CF6', sub:'家人晚餐4次/周',
-   tip:'每周至少与家人吃一次"无手机晚餐"。', course:'高质量社交'},
-  {k:'mind2', ico:'🧠', nm:'认知', score:80, color:'#4A9EFF', sub:'MoCA 28分 · 稳定',
-   tip:'保持学习新事物，每周读一本书。', course:'认知与决策'},
-  {k:'med', ico:'🩺', nm:'医疗', score:76, color:'#F2555A', sub:'血压128 · 定期复查',
-   tip:'每年一次全面体检，关注心脑血管。', course:'体检管理'}
+const TODAY = '10月13日 · 周二';
+
+/* ============ 身体症状 ============ */
+const BODY_SYMPTOM_GROUPS = [
+  {name:'一般症状', opts:['没有','耳鸣','心慌 / 心悸','没胃口','颈肩痛','头晕头痛','持续疲劳']},
+  {name:'大小便', opts:['便秘','便溏 / 不成形','排便困难','尿频 / 尿急','夜尿多','小便颜色异常','大便颜色异常']}
 ];
 
-const LIFE_PREDICT = {china:78.2, boss:76.5, club:84.3, mine:82.0};
-
-const DIARY_ITEMS = [
-  {k:'env', t:'环境', done:true, auto:true},
-  {k:'sleep', t:'睡眠', done:true, auto:true},
-  {k:'feel', t:'感觉', done:false, auto:false},
-  {k:'symptom', t:'症状', done:false, auto:false},
-  {k:'social', t:'应酬', done:false, auto:false},
-  {k:'event', t:'大事', done:false, auto:false},
-  {k:'work', t:'工作', done:false, auto:true},
-  {k:'stress', t:'压力', done:true, auto:true},
-  {k:'med', t:'就医', done:false, auto:false}
-];
-
-const TODAY_ACTIONS = [
-  {id:'t1', t:'睡前90分钟放下手机', s:'来自「睡眠七讲」第4讲', main:true},
-  {id:'t2', t:'午饭后散步12分钟', s:'来自「吃对三餐」第3讲', main:false},
-  {id:'t3', t:'睡前5分钟慢呼吸', s:'来自「压力管理」第1讲', main:false}
-];
-
-const TEAM = [
-  {n:'张明', r:'私人医生 · 睡眠医学', c:'#8B7CF6', i:'张'},
-  {n:'李婧', r:'健康管家', c:'#2ED47A', i:'李'},
-  {n:'王薇', r:'注册营养师', c:'#F2A93B', i:'王'},
-  {n:'刘鹏', r:'运动康复师', c:'#FF6B9D', i:'刘'},
-  {n:'周航', r:'心理咨询师', c:'#4A9EFF', i:'周'},
-  {n:'陈医生', r:'企业医生', c:'#F2555A', i:'陈'}
-];
-
-const MGR_TOOLS = [
-  {k:'learn', ico:'📚', nm:'学习管理', s:'课程、打卡、笔记'},
-  {k:'move', ico:'🏃', nm:'运动管理', s:'运动记录、课程跟练'},
-  {k:'diet', ico:'🥗', nm:'饮食管理', s:'饮食日记、应酬方案'},
-  {k:'med', ico:'🩺', nm:'看病管理', s:'预约、陪诊、用药提醒'},
-  {k:'checkup', ico:'🏥', nm:'体检管理', s:'体检预约、报告归档'},
-  {k:'knowledge', ico:'📖', nm:'知识管理', s:'书籍、文章、课程'}
-];
-
-const RECOMMEND = [
-  {k:'book', ico:'📕', color:'#8B2F2F', t:'超越百岁', s:'Peter Attia · 从医学3.0视角讲健康寿命'},
-  {k:'article', ico:'📄', color:'#4A9EFF', t:'为什么你睡了8小时还是累', s:'张明教授 · 睡眠七讲摘要'},
-  {k:'food', ico:'🥜', color:'#F2A93B', t:'低GI零食包', s:'应酬前后垫肚子 · 控血糖'},
-  {k:'doctor', ico:'👨‍⚕️', color:'#2ED47A', t:'张明教授', s:'睡眠医学 · 可预约咨询'}
-];
-
-const QUIZ = [
-  {k:'age', q:'您出生于哪一年？', type:'input', ph:'例如 1965'},
-  {k:'goal', q:'您希望自己健康地活到多少岁？', type:'single',
-   opts:['75岁左右','80岁左右','85岁左右','90岁左右','95岁以上']},
-  {k:'sleep_onset', q:'最近一年，您入睡困难吗？', type:'scale',
-   labels:['从不','偶尔','有时','经常','几乎总是']},
-  {k:'sleep_wake', q:'最近一年，您夜间容易醒来吗？', type:'scale',
-   labels:['从不','偶尔','有时','经常','几乎总是']},
-  {k:'diet_veg', q:'蔬菜、全谷物、豆类占每餐大部分吗？', type:'single',
-   opts:['每餐都占大部分','大部分餐次能占一半','偶尔能做到','基本以肉食为主']},
-  {k:'diet_alc', q:'您每周饮酒几次？', type:'single',
-   opts:['不喝','1-2次','3-4次','5次以上']},
-  {k:'move_aerobic', q:'每周中等强度运动超过150分钟吗？', type:'single',
-   opts:['每周150分钟以上','每周100-150分钟','每周50-100分钟','少于50分钟']},
-  {k:'move_sit', q:'您平均每天久坐的时间大约是？', type:'single',
-   opts:['少于4小时','4-6小时','6-8小时','8小时以上']},
-  {k:'mind_stress', q:'您目前的工作压力主观感受是？', type:'single',
-   opts:['轻松，基本无压力','适中，偶有压力','较大，经常感到压力','很大，几乎每天都感到压力']},
-  {k:'social_family', q:'您每周与家人一起吃晚饭的频率是？', type:'single',
-   opts:['几乎每天','4-5次','2-3次','1次或更少']},
-  {k:'signal', q:'最近一年，有哪些小毛病在困扰您？', type:'multi',
-   opts:['颈肩僵硬、疼痛','胸闷/心悸/气短','前列腺问题','胃部不适','持续疲劳','以上都没有'],
-   excl:'以上都没有'},
-  {k:'checkup', q:'您每年进行一次全面体检吗？', type:'single',
-   opts:['每年都做，包含心脑血管和代谢检查','每年做基本体检','偶尔做','很少或从不做']}
-];
-
-/* ============================================================
-   状态
-   ============================================================ */
-const state = {
-  phase:'onb',
-  onbScreen:'welcome',
-  quizIndex:0,
-  ans:{},
-  genStep:0,
-  tab:'home',
-  doneActions:new Set(),
-  diaryDone:new Set(['env','sleep','stress']),
-  RESULT:null
+const SYMPTOM_FOLLOWUP = {
+  '耳鸣':[{q:'哪一边',opts:['左耳','右耳','双侧']},{q:'持续时间',opts:['刚出现','几周','几个月','几年']}],
+  '心慌 / 心悸':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['安静时','活动时','饭后','没规律']}],
+  '没胃口':[{q:'持续几天',opts:['1-2天','3-5天','一周以上']},{q:'是否伴随恶心',opts:['没有','偶有','经常']}],
+  '颈肩痛':[{q:'持续时间',opts:['几小时','几天','几周','几个月']},{q:'是否影响活动',opts:['没有','轻微','明显']}],
+  '头晕头痛':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['早上','午后','劳累后','没规律']}],
+  '持续疲劳':[{q:'持续多久',opts:['1周内','2-4周','1个月以上']},{q:'睡一觉能恢复吗',opts:['能','部分','不能']}],
+  '便秘':[{q:'多久一次',opts:['每天','2-3天','4-5天','一周以上']},{q:'大便干硬程度',opts:['正常','偏干','很干 / 颗粒状']},{q:'是否腹胀',opts:['没有','轻微','明显']}],
+  '便溏 / 不成形':[{q:'一天几次',opts:['1-2次','3-4次','5次以上']},{q:'是否腹痛',opts:['没有','偶有','经常']},{q:'是否粘马桶',opts:['不会','偶尔','经常']}],
+  '排便困难':[{q:'需要用力多久',opts:['<5分钟','5-10分钟','>10分钟']},{q:'是否需要手助',opts:['不需要','偶尔','经常']}],
+  '尿频 / 尿急':[{q:'白天几次',opts:['<5次','5-8次','8次以上']},{q:'是否有尿痛',opts:['没有','偶有','有']},{q:'是否影响工作',opts:['没有','轻微','明显']}],
+  '夜尿多':[{q:'夜里起来几次',opts:['0-1次','2次','3次以上']},{q:'是否影响睡眠',opts:['没有','偶尔','经常']}],
+  '小便颜色异常':[{q:'颜色',opts:['深黄','浓茶色','淡红','血红'],danger:true},{q:'持续时间',opts:['1天','2-3天','一周以上']}],
+  '大便颜色异常':[{q:'颜色',opts:['黑色柏油样','鲜红色','灰白色','深绿色'],danger:true},{q:'持续时间',opts:['1次','2-3天','一周以上']}]
 };
 
-function hexA(hex,a){
-  const n=parseInt(hex.slice(1),16);
-  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
-}
-function colorOf(s){
-  if(s>=80) return '#2ED47A';
-  if(s>=65) return '#7fb069';
-  if(s>=50) return '#D4AF37';
-  if(s>=35) return '#F2A93B';
-  return '#F2555A';
-}
-
-/* ============================================================
-   引导流程
-   ============================================================ */
-function renderOnb(){
-  const el = document.getElementById('onb');
-  el.classList.add('open');
-  document.getElementById('tabbar').style.display='none';
-  switch(state.onbScreen){
-    case 'welcome': renderWelcome(); break;
-    case 'quiz': renderQuiz(); break;
-    case 'upload': renderUpload(); break;
-    case 'generating': renderGenerating(); break;
-    case 'result': renderResult(); break;
-  }
-}
-
-function renderWelcome(){
-  document.getElementById('onbBody').innerHTML = `
-    <div class="welcome">
-      <div class="w-logo">老板健康俱乐部</div>
-      <div class="w-title">你想健康地<br>活到 <span>多少岁？</span></div>
-      <div class="w-desc">
-        看见 · 预见 · 改变 · 管理<br>
-        先花 3 分钟做一次微体检，<br>
-        看看你现在的身体，能活到多少岁。
-      </div>
-      <div class="w-steps">
-        <div class="w-step"><div class="w-step-n">1</div>
-          <div><div class="w-step-t">微体检 · 3分钟</div>
-          <div class="w-step-s">快速评估九大维度，生成寿命画像</div></div></div>
-        <div class="w-step"><div class="w-step-n">2</div>
-          <div><div class="w-step-t">上传体检报告（可选）</div>
-          <div class="w-step-s">拍照或PDF，自动识别关键指标</div></div></div>
-        <div class="w-step"><div class="w-step-n">3</div>
-          <div><div class="w-step-t">生成一人一策</div>
-          <div class="w-step-s">只给你1主1辅两件事，改到成为习惯</div></div></div>
-      </div>
-      <div class="w-meta">不提供医疗服务 · 数据加密 · 可随时撤回授权</div>
-    </div>
-  `;
-  document.getElementById('onbFoot').innerHTML = `
-    <div class="upload-btn" data-onb-start>开始微体检</div>
-  `;
-}
-
-function renderQuiz(){
-  const q = QUIZ[state.quizIndex];
-  if(!q){ state.onbScreen='upload'; renderOnb(); return; }
-  const cur = state.ans[q.k];
-  let opts = '';
-
-  if(q.type==='input'){
-    opts = `<div class="year-wrap">
-      <div class="year-label">请输入四位年份</div>
-      <input type="number" class="year-box" id="yearInput" placeholder="${q.ph}" value="${cur||''}">
-      <div class="year-age" id="yearAge">${cur?'您今年约 '+(new Date().getFullYear()-cur)+' 岁':'&nbsp;'}</div>
-    </div>`;
-  } else if(q.type==='single'){
-    opts = q.opts.map((o,i)=>`
-      <button class="opt ${cur===i+1?'selected':''}" data-single="${q.k}" data-val="${i+1}">${o}</button>
-    `).join('');
-  } else if(q.type==='scale'){
-    opts = q.labels.map((l,i)=>`
-      <button class="opt ${cur===i+1?'selected':''}" data-single="${q.k}" data-val="${i+1}">${l}</button>
-    `).join('');
-  } else if(q.type==='multi'){
-    const arr = cur || [];
-    opts = q.opts.map(o=>`
-      <button class="opt ${arr.includes(o)?'selected':''}" data-multi="${q.k}" data-val="${o}" data-excl="${q.excl||''}">${o}</button>
-    `).join('');
-  }
-
-  // 先渲染题目主体
-  document.getElementById('onbBody').innerHTML = `
-    <div class="q-head">
-      <div class="q-step">微体检 · ${state.quizIndex+1}/${QUIZ.length}</div>
-      <div class="q-title">${q.q}</div>
-    </div>
-    ${opts}
-  `;
-
-  // 再渲染底部按钮（保证按钮先存在）
-  document.getElementById('onbFoot').innerHTML = `
-    <div style="display:flex;gap:10px;align-items:center">
-      ${state.quizIndex>0?'<button class="btn btn-ghost" data-onb-prev>上一题</button>':''}
-      <div style="flex:1"></div>
-      <button class="btn btn-primary" data-onb-next ${state.ans[q.k]!==undefined?'':'disabled'}>下一题</button>
-    </div>
-  `;
-
-  // 最后绑定输入监听器（此时按钮已存在）
-  if(q.type==='input'){
-    const inp = document.getElementById('yearInput');
-    const ageEl = document.getElementById('yearAge');
-    const nextBtn = document.querySelector('[data-onb-next]');
-    inp.addEventListener('input', e=>{
-      const y = parseInt(e.target.value,10);
-      if(y && y>=1920 && y<=2010){
-        state.ans[q.k] = y;
-        ageEl.textContent = '您今年约 '+(new Date().getFullYear()-y)+' 岁';
-        if(nextBtn) nextBtn.disabled = false;
-      } else {
-        delete state.ans[q.k];
-        ageEl.innerHTML = '&nbsp;';
-        if(nextBtn) nextBtn.disabled = true;
-      }
-    });
-    inp.addEventListener('keydown', e=>{
-      if(e.key==='Enter' && nextBtn && !nextBtn.disabled) nextBtn.click();
-    });
-  }
-}
-
-function renderUpload(){
-  document.getElementById('onbBody').innerHTML = `
-    <div class="q-head">
-      <div class="q-step">最后一步</div>
-      <div class="q-title">上传最近的体检报告</div>
-      <div class="q-sub">有就传，没有也没关系。我们可以先根据微体检生成初步策略。</div>
-    </div>
-    <div class="card" style="text-align:center;padding:24px">
-      <div style="font-size:40px;margin-bottom:14px">📷</div>
-      <div style="font-size:15px;font-weight:600;color:var(--ink2)">拍照上传体检报告</div>
-      <div class="muted" style="margin-top:9px">支持JPG/PNG/PDF，自动识别关键指标</div>
-      <div class="upload-btn" data-onb-upload style="margin-top:16px">选择文件</div>
-    </div>
-    <div class="upload-alt">
-      <div data-onb-upload>从相册选择</div>
-      <div data-onb-upload>手动录入</div>
-    </div>
-  `;
-  document.getElementById('onbFoot').innerHTML = `
-    <div class="upload-btn" data-onb-generate>生成我的健康画像</div>
-    <div class="upload-alt" style="margin-top:11px">
-      <div data-onb-generate>跳过上传</div>
-    </div>
-  `;
-}
-
-function renderGenerating(){
-  const steps = ['扫描九大维度','对比中国/老板/俱乐部数据','计算寿命预测','识别主杠杆点','生成一人一策'];
-  document.getElementById('onbBody').innerHTML = `
-    <div class="gen">
-      <div class="gen-ring"></div>
-      <div class="gen-t">正在生成你的健康画像</div>
-      <div class="gen-s">大约需要 5 秒</div>
-      <div class="gen-steps">
-        ${steps.map((s,i)=>`<div class="gen-step ${i<=state.genStep?'on':''}">
-          <div class="gen-step-dot"></div><span>${s}</span></div>`).join('')}
-      </div>
-    </div>
-  `;
-  document.getElementById('onbFoot').innerHTML = '';
-}
-
-function renderResult(){
-  let html = `<div class="result fade-in">`;
-  html += `
-    <div class="result-hero">
-      <div class="result-hero-t">你的寿命预测</div>
-      <div class="result-hero-s">基于微体检与九大维度推算</div>
-      <div class="life-grid">
-        <div class="life-item">
-          <div class="life-val">${LIFE_PREDICT.mine}<small>岁</small></div>
-          <div class="life-lab">你的预期寿命</div>
-          <div class="life-note">按当前生活方式</div>
-        </div>
-        <div class="life-item">
-          <div class="life-val">${LIFE_PREDICT.club}<small>岁</small></div>
-          <div class="life-lab">俱乐部会员平均</div>
-          <div class="life-note">好好管理可达到</div>
-        </div>
-      </div>
-      <div style="background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);border-radius:13px;padding:14px;text-align:center;font-size:13px;color:var(--ink2);line-height:1.65;position:relative;z-index:1">
-        你与俱乐部会员平均差距 <b style="color:var(--gold);font-size:17px">${(LIFE_PREDICT.club-LIFE_PREDICT.mine).toFixed(1)} 年</b><br>
-        <span style="font-size:11.5px;color:var(--ink4)">中国平均 ${LIFE_PREDICT.china} 岁 · 老板群体 ${LIFE_PREDICT.boss} 岁</span>
-      </div>
-    </div>`;
-
-  html += `
-    <div class="card">
-      <h3 style="font-size:15px;font-weight:700;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;gap:8px">🧭 健康九宫格</h3>
-      <div class="muted" style="margin-bottom:14px">九个维度，每个都有得分和一条今日行动。</div>
-      <div class="grid9">`;
-  GRID9.forEach(g=>{
-    const c = colorOf(g.score);
-    html += `<div class="g9">
-      <div class="g9-ico">${g.ico}</div>
-      <div class="g9-nm">${g.nm}</div>
-      <div class="g9-score" style="color:${c}">${g.score}</div>
-      <div class="g9-bar"><div class="g9-fill" data-w="${g.score}" style="background:${c};width:0"></div></div>
-    </div>`;
-  });
-  html += `</div></div>`;
-
-  html += `
-    <div class="card">
-      <h3 style="font-size:15px;font-weight:700;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;gap:8px">🎯 一人一策</h3>
-      <div class="muted" style="margin-bottom:14px">依据"抓大放小"原则，只给你最值得优先改变的三件事。</div>`;
-
-  const advice = [
-    {rank:1, name:'睡眠', score:88, title:'固定作息是第一性原理',
-     steps:['固定上床和起床时间（含周末），误差不超过30分钟','晚餐与就寝之间留出至少2小时','睡前1小时关掉手机和电视'],
-     why:'规律睡眠能降低痴呆和心血管疾病风险。固定作息是养肝血的基础。'},
-    {rank:2, name:'饮食', score:72, title:'主食换粗粮、蛋白换鱼豆',
-     steps:['每天至少一餐有鱼虾或豆腐','把1/3的白米饭换成杂粮饭','减少咸菜、酱料、腌制品'],
-     why:'优质蛋白维持肌肉，杂粮养肠道，清淡口味保护血管。'},
-    {rank:3, name:'情绪', score:68, title:'给神经系统退出的机会',
-     steps:['每天安排30分钟"无目的时间"','每周至少与家人吃一次"无手机晚餐"','玫瑰花3g+陈皮3g泡水代茶饮'],
-     why:'心理社交孤立被列为衰老的第一标志，持续的情绪消耗会直接损害气血。'}
-  ];
-  advice.forEach(a=>{
-    html += `<div class="advice">
-      <div class="advice-rank">优先级 ${a.rank} · ${a.name}（${a.score}分）</div>
-      <h4>${a.title}</h4>
-      <ol>${a.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
-      <div class="advice-why"><b>为什么这样做：</b>${a.why}</div>
-    </div>`;
-  });
-  html += `</div>`;
-
-  html += `<div class="card" style="text-align:center;padding:20px">
-    <div style="font-size:13px;color:var(--ink4);line-height:1.75">
-      本报告为健康筛查原型，不替代临床医学诊断。<br>
-      若结果提示多个维度偏低，请尽快安排全面体检。
-    </div>
-    <div class="upload-btn" data-onb-finish style="margin-top:16px">进入我的健康主页</div>
-  </div>`;
-
-  html += `</div>`;
-  document.getElementById('onbBody').innerHTML = html;
-  document.getElementById('onbFoot').innerHTML = '';
-
-  requestAnimationFrame(()=>{
-    setTimeout(()=>{
-      document.querySelectorAll('.g9-fill').forEach(el=>{ el.style.width = el.dataset.w+'%'; });
-    }, 150);
-  });
-}
-
-/* ============================================================
-   主 APP
-   ============================================================ */
-const TABS = [
-  {k:'home',  i:'🌤', n:'今日'},
-  {k:'grid',  i:'🎯', n:'九宫格'},
-  {k:'life',  i:'🔮', n:'预见'},
-  {k:'mgr',   i:'📋', n:'管理'},
-  {k:'me',    i:'👤', n:'我的'}
+const URGENT_RULES = [
+  {symptom:'小便颜色异常', answer:'血红', msg:'小便呈血红色，建议尽快就医排查泌尿系统问题。'},
+  {symptom:'小便颜色异常', answer:'淡红', msg:'小便呈淡红色，建议近期安排泌尿系统检查。'},
+  {symptom:'大便颜色异常', answer:'黑色柏油样', msg:'黑色柏油样大便，可能是消化道出血，建议尽快就医。'},
+  {symptom:'大便颜色异常', answer:'鲜红色', msg:'鲜红色大便，建议尽快排查下消化道出血。'},
+  {symptom:'大便颜色异常', answer:'灰白色', msg:'灰白色大便，可能与胆道梗阻有关，建议尽快就医。'}
 ];
 
-function renderApp(){
-  document.getElementById('onb').classList.remove('open');
-  document.getElementById('tabbar').style.display='flex';
-  const map={home:renderHome, grid:renderGrid, life:renderLife, mgr:renderMgr, me:renderMe};
+/* ============ 呼吸症状 ============ */
+const BREATH_SYMPTOMS = [
+  '没有','胸闷','呼吸不畅','气短','打鼾','夜间憋醒','咳嗽','咳痰','喘息'
+];
+
+const BREATH_FOLLOWUP = {
+  '胸闷':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['安静时','活动时','情绪激动时','没规律']}],
+  '呼吸不畅':[{q:'程度',opts:['轻微','中等','明显']},{q:'是否影响活动',opts:['不影响','轻微','明显']}],
+  '气短':[{q:'什么情况下',opts:['爬楼时','走路时','静坐时','晚上躺下时']},{q:'持续多久',opts:['几天','几周','几个月']}],
+  '打鼾':[{q:'程度',opts:['偶尔','经常','严重']},{q:'是否被家人反映憋气',opts:['没有','偶尔','经常']}],
+  '夜间憋醒':[{q:'多久一次',opts:['偶尔','每周','每晚']},{q:'醒来后感觉',opts:['能很快缓解','需坐起来','持续较久']}],
+  '咳嗽':[{q:'持续多久',opts:['几天','2-4周','1个月以上']},{q:'有无痰',opts:['干咳','少量痰','较多痰']}],
+  '咳痰':[{q:'颜色',opts:['白色','黄色','绿色','带血'],danger:true},{q:'一天几次',opts:['偶尔','经常','频繁']}],
+  '喘息':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['运动后','夜间','接触粉尘','没规律']}]
+};
+
+/* ============ 环境暴露 ============ */
+const ENV_EXPOSURES = [
+  '没有','空气污染','二手烟','高粉尘环境','噪声环境','装修污染','外卖塑料加热','长期空调房','电磁辐射'
+];
+
+const ENV_EXPOSURE_FOLLOWUP = {
+  '空气污染':[{q:'每周暴露天数',opts:['1-2天','3-4天','5天以上']},{q:'是否戴口罩',opts:['每次戴','偶尔戴','不戴']}],
+  '二手烟':[{q:'每周暴露',opts:['偶尔','经常','每天']},{q:'场所',opts:['家里','办公室','应酬','公共场所']}],
+  '高粉尘环境':[{q:'每周暴露',opts:['偶尔','经常','每天']},{q:'是否有防护',opts:['有','偶尔','没有']}],
+  '噪声环境':[{q:'每天几小时',opts:['<1h','1-3h','3h以上']},{q:'是否有防护',opts:['有','没有']}],
+  '装修污染':[{q:'暴露时间',opts:['<1月','1-3月','3月以上']},{q:'是否通风',opts:['经常','偶尔','很少']}],
+  '外卖塑料加热':[{q:'每周几次',opts:['1-2次','3-5次','每天']},{q:'是否微波加热',opts:['不加热','偶尔','经常']}],
+  '长期空调房':[{q:'每天几小时',opts:['<4h','4-8h','8h以上']},{q:'是否开窗',opts:['每天开','偶尔','很少']}],
+  '电磁辐射':[{q:'每天几小时',opts:['<2h','2-6h','6h以上']},{q:'是否防护',opts:['有','没有']}]
+};
+
+/* ============ 维度 ============ */
+const DIMS = [
+  {k:'sleep', name:'睡眠', score:88,
+   obj:[
+     {nm:'睡眠效率', val:'92', unit:'%'},
+     {nm:'深睡时长', val:'1h48m', unit:''},
+     {nm:'睡眠规律性', val:'较高', unit:''},
+     {nm:'午睡时长', val:'28', unit:'分钟'}
+   ],
+   subj:[{k:'sleep_q', t:'昨晚睡得如何', opts:['很好','不错','一般','有点累','很累']}],
+   voiceDemo:'昨晚11点半睡的，早上7点醒的，夜里醒了两次，午睡半小时'},
+
+  {k:'diet', name:'饮食', score:72, type:'diet',
+   obj:[
+     {nm:'当前体重', val:'78.4', unit:'kg', input:'weight'},
+     {nm:'BMI', val:'24.8', unit:'', auto:true}
+   ],
+   subj:[],
+   voiceDemo:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花，喝了两杯咖啡一杯红酒'},
+
+  {k:'move', name:'运动', score:78,
+   obj:[{nm:'今日步数', val:'8,420', unit:'步'},{nm:'久坐时长', val:'6.2', unit:'小时'}],
+   subj:[
+     {k:'exercise_type', t:'今日运动', opts:['散步','快走','骑行','太极','挥拍类','游泳','力量训练','未运动']},
+     {k:'exercise_dur', t:'运动时长', opts:['15分钟','30分钟','45分钟','60分钟以上']}
+   ],
+   voiceDemo:'今天早上散步半小时，晚上快走20分钟，没做力量训练'},
+
+  {k:'stress', name:'压力', score:68,
+   obj:[{nm:'压力指数', val:'42', unit:'/100'},{nm:'HRV', val:'46', unit:'ms'}],
+   subj:[
+     {k:'work_hours', t:'工作时长', opts:['<4h','4-6h','6-8h','8-10h','>10h']},
+     {k:'meeting_hours', t:'开会时长', opts:['<1h','1-2h','2-4h','>4h']},
+     {k:'trip', t:'是否出差', opts:['否','是']},
+     {k:'event', t:'有无影响情绪的事', opts:['没有','好事','坏事','喜忧参半']},
+     {k:'big_event', t:'和平时不一样的大事', opts:['没有','有'], note:true}
+   ],
+   voiceDemo:'今天开了三个小时的会，晚上还要加班到10点，有个客户谈成了是好事'},
+
+  {k:'breath', name:'呼吸', score:82, type:'breath',
+   obj:[{nm:'夜间血氧', val:'97', unit:'%'},{nm:'呼吸暂停指数', val:'3.2', unit:'次/时'}],
+   voiceDemo:'今天感觉有点胸闷，做了5分钟慢呼吸'},
+
+  {k:'body', name:'身体', score:74, type:'body',
+   obj:[
+     {nm:'体重', val:'78.4', unit:'kg', input:'weight'},
+     {nm:'BMI', val:'24.8', unit:'', auto:true},
+     {nm:'体脂率', val:'22.6', unit:'%'},
+     {nm:'收缩压', val:'128', unit:'mmHg'},
+     {nm:'舒张压', val:'82', unit:'mmHg'}
+   ],
+   voiceDemo:'今天感觉颈肩有点僵硬，大便有点干，其他还好'},
+
+  {k:'env', name:'环境', score:82, type:'env',
+   obj:[{nm:'室内温度', val:'22', unit:'°C'},{nm:'湿度', val:'58', unit:'%'}],
+   voiceDemo:'今天在户外待了大概一个半小时，光线挺充足的，不过室内空气不太好'},
+
+  {k:'cognition', name:'认知', score:80,
+   obj:[],
+   subj:[
+     {k:'focus', t:'今日专注度', opts:['好','一般','差']},
+     {k:'memory', t:'今日记忆力', opts:['好','一般','差']},
+     {k:'cog_prevent', t:'认知预防行为', opts:['学习新技能','读书','社交聚会','身体接触','都没有'], multi:true}
+   ],
+   voiceDemo:'今天读了一小时书，还和客户聚了会，专注度一般'},
+
+  {k:'med', name:'医疗', score:76,
+   obj:[{nm:'空腹血糖', val:'5.6', unit:'mmol/L'},{nm:'糖化血红蛋白', val:'5.9', unit:'%'}],
+   subj:[
+     {k:'med_visit', t:'今日就医', opts:['没有','门诊','急诊','复查']},
+     {k:'med_pill', t:'用药情况', opts:['按时','忘记','未服']},
+     {k:'supplement', t:'今日补剂', opts:['维生素D','Omega-3','钙片','益生菌','多维','没吃'], multi:true}
+   ],
+   voiceDemo:'今天吃药按时，吃了维生素D和鱼油'}
+];
+
+const ASSETS = [
+  {k:'muscle', nm:'肌', sub:'肌肉量', score:78},
+  {k:'bone',   nm:'骨', sub:'骨密度', score:82},
+  {k:'blood',  nm:'血', sub:'心血管', score:85},
+  {k:'brain',  nm:'脑', sub:'认知',   score:80},
+  {k:'gut',    nm:'肠', sub:'代谢',   score:72},
+  {k:'heart',  nm:'心', sub:'心灵情绪', score:68}
+];
+
+const LIFE = {china:78.2, boss:76.5, mine:76.5, club:84.3};
+
+const LEVER = {
+  dim:'压力', dimScore:68,
+  metric:{name:'HRV', value:'46', unit:'ms', data:[54,52,50,48,47,46,46], labels:['10/06','10/12']},
+  progress:{delta:-8, unit:'ms', better:false},
+  pdca:{
+    plan:'每天22:30放下手机，23:00前上床',
+    do:'已连续打卡 5 天',
+    check:'HRV 从 54 降到 46，未见改善',
+    act:'加入睡前 5 分钟慢呼吸，本周减少应酬'
+  }
+};
+
+const SELF_JUDGE = [
+  {k:'sleep', t:'睡眠', opts:['好','一般','差']},
+  {k:'diet', t:'饮食', opts:['好','一般','差']},
+  {k:'digest', t:'排泄', opts:['好','一般','差']},
+  {k:'energy', t:'精力', opts:['好','一般','差']},
+  {k:'mood', t:'情绪', opts:['好','一般','差']}
+];
+
+const FAMILY_JUDGE = [
+  {k:'fat', t:'肥胖', opts:['没变化','稍胖','明显胖']},
+  {k:'spirit', t:'精神', opts:['好','一般','差']},
+  {k:'aging', t:'老化', opts:['正常','稍快','明显']},
+  {k:'sick', t:'爱生病', opts:['否','偶尔','经常']},
+  {k:'temper', t:'发脾气', opts:['少','一般','多']}
+];
+
+const WEEK_DATA = {
+  steps:{val:'58,420',delta:'+12%',up:true},
+  sleep:{val:'7h05m',delta:'+18m',up:true},
+  hrv:{val:'48',delta:'-4',up:false}
+};
+
+const MONTH_DATA = {
+  steps:{val:'248,600',delta:'+8%',up:true},
+  sleep:{val:'6h58m',delta:'+22m',up:true},
+  hrv:{val:'51',delta:'+3',up:true}
+};
+
+const QUIZ = [
+  {k:'age', q:'出生年份', type:'input', ph:'1965'},
+  {k:'goal', q:'希望健康活到多少岁', type:'single', opts:['75岁','80岁','85岁','90岁','95岁以上']},
+  {k:'sleep_onset', q:'入睡困难吗', type:'single', opts:['从不','偶尔','有时','经常','总是']},
+  {k:'sleep_wake', q:'夜间容易醒吗', type:'single', opts:['从不','偶尔','有时','经常','总是']},
+  {k:'diet_veg', q:'蔬菜占每餐大部分吗', type:'single', opts:['每餐都占大部分','大部分餐次占一半','偶尔','以肉食为主']},
+  {k:'diet_alc', q:'每周饮酒几次', type:'single', opts:['不喝','1-2次','3-4次','5次以上']},
+  {k:'move_aerobic', q:'每周运动超过150分钟吗', type:'single', opts:['150分钟以上','100-150分钟','50-100分钟','少于50分钟']},
+  {k:'move_sit', q:'每天久坐时间', type:'single', opts:['少于4小时','4-6小时','6-8小时','8小时以上']},
+  {k:'mind_stress', q:'工作压力感受', type:'single', opts:['轻松','适中','较大','很大']},
+  {k:'social_family', q:'每周与家人吃晚饭', type:'single', opts:['几乎每天','4-5次','2-3次','1次或更少']},
+  {k:'signal', q:'困扰的小毛病', type:'multi', opts:['颈肩僵硬','胸闷心悸','前列腺问题','胃部不适','持续疲劳','以上都没有'], excl:'以上都没有'},
+  {k:'checkup', q:'每年全面体检', type:'single', opts:['每年都做','每年基本体检','偶尔做','很少做']}
+];
+
+const PRACTICES = [
+  {t:'睡前 90 分钟放下手机', s:'改善入睡慢', ico:'夜'},
+  {t:'饭后走 12 分钟', s:'削平血糖峰值', ico:'走'},
+  {t:'每周 2 次力量训练', s:'守住肌肉量', ico:'力'},
+  {t:'每天 5 分钟慢呼吸', s:'降低压力指数', ico:'息'}
+];
+
+const NUTRITION_STD = {
+  staple:{min:4, max:6, unit:'碗', label:'主食'},
+  protein:{min:4, max:6, unit:'份', label:'蛋白'},
+  veg:{min:5, max:8, unit:'拳', label:'蔬菜'},
+  fruit:{min:2, max:4, unit:'份', label:'水果'},
+  oil:{min:0, max:25, unit:'g', label:'油'},
+  salt:{min:0, max:5, unit:'g', label:'盐'},
+  sugar:{min:0, max:25, unit:'g', label:'糖'},
+  alcohol:{min:0, max:0, unit:'份', label:'酒精'}
+};
+
+const QUICK_MEALS = [
+  {k:'b', name:'早餐', time:'07:00'},
+  {k:'l', name:'午餐', time:'12:00'},
+  {k:'d', name:'晚餐', time:'19:00'},
+  {k:'s', name:'加餐/夜宵', time:'随时'}
+];
+
+const QUICK_FOODS = [
+  {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
+  {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
+  {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
+  {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
+];
+
+const QUICK_EXTRAS = [
+  {k:'dessert', label:'甜点', opts:['没吃','少量','1份','2份+']},
+  {k:'bbq', label:'烧烤', opts:['没吃','少量','1份','2份+']},
+  {k:'fried', label:'油炸', opts:['没吃','少量','1份','2份+']},
+  {k:'snack', label:'零食', opts:['没吃','少量','1份','2份+']}
+];
+
+const STRUCT_ITEMS = [
+  {k:'social', lb:'今日应酬', opts:['没有','午餐','晚餐','午+晚']},
+  {k:'alcohol_extra', lb:'饮酒情况', opts:['没喝','少量','中等','较多']},
+  {k:'water', lb:'饮水', opts:['<4杯','4-6杯','7-8杯','9杯+']},
+  {k:'coffee', lb:'咖啡', opts:['0杯','1杯','2杯','3杯+']},
+  {k:'tea', lb:'茶', opts:['0杯','1杯','2杯','3杯+']},
+  {k:'taste', lb:'今日口味', opts:['清淡','适中','偏咸','偏油','偏辣']},
+  {k:'eating_speed', lb:'吃饭速度', opts:['慢','正常','快']},
+  {k:'late_night', lb:'夜宵', opts:['没有','偶尔','有']}
+];
+
+const AI_PARSED = {
+  diet:{
+    transcript:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花，喝了两杯咖啡一杯红酒',
+    meals:[
+      {name:'早餐', time:'07:30', foods:[
+        {n:'鸡蛋 ×1', attr:[{t:'蛋白', lv:''}]},
+        {n:'小米粥 ×1碗', attr:[{t:'主食', lv:''}]},
+        {n:'咸菜 ×少量', attr:[{t:'盐', lv:'high'}]}
+      ]},
+      {name:'午餐', time:'12:15', foods:[
+        {n:'米饭 ×2碗', attr:[{t:'主食', lv:''}]},
+        {n:'红烧肉 ×1份', attr:[{t:'蛋白', lv:''}, {t:'油', lv:'high'}, {t:'盐', lv:'high'}]},
+        {n:'炒青菜 ×1拳', attr:[{t:'蔬菜', lv:''}, {t:'油', lv:''}]}
+      ]},
+      {name:'晚餐', time:'19:20', foods:[
+        {n:'米饭 ×半碗', attr:[{t:'主食', lv:''}]},
+        {n:'清蒸鱼 ×1份', attr:[{t:'蛋白', lv:''}]},
+        {n:'西兰花 ×1拳', attr:[{t:'蔬菜', lv:''}]},
+        {n:'红酒 ×1杯', attr:[{t:'酒精', lv:'high'}]}
+      ]}
+    ],
+    summary:{staple:3.5, protein:4.5, veg:2, fruit:0, oil:35, salt:8, sugar:15, alcohol:1},
+    coffee:2
+  }
+};
+
+const state = {
+  tab:'see',
+  records:{},
+  weekJudge:{}, monthJudge:{}, familyJudge:{},
+  actionDone:false,
+  quizIndex:0, quizAns:{},
+  weight:78.4,
+  dietMode:'quick',
+  dietParsed:null,
+  dietStruct:{},
+  dietQuick:{ b:{}, l:{}, d:{}, s:{} },
+  bodyFollowups:{},
+  breathFollowups:{},
+  envFollowups:{},
+  voiceTarget:null
+};
+
+function gradeOf(s){
+  if(s>=75) return {letter:'优', color:'#C8102E'};
+  if(s>=50) return {letter:'中', color:'#1E6FFF'};
+  return {letter:'差', color:'#1A1A1A'};
+}
+
+function spark(data, color){
+  const w=300,h=80,pad=6;
+  const min=Math.min(...data),max=Math.max(...data),rng=(max-min)||1;
+  const pts=data.map((v,i)=>{
+    const x=pad+i*(w-pad*2)/(data.length-1);
+    const y=h-pad-((v-min)/rng)*(h-pad*2);
+    return [x,y];
+  });
+  const line=pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const area='M '+pts[0][0]+','+h+' L '+pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L ')+' L '+pts[pts.length-1][0]+','+h+' Z';
+  const gid='g'+Math.random().toString(36).slice(2,8);
+  const last=pts[pts.length-1];
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <path d="${area}" fill="url(#${gid})"/>
+    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last[0]}" cy="${last[1]}" r="3.2" fill="${color}"/>
+  </svg>`;
+}
+
+function dimState(d){
+  const hasObj = d.obj && d.obj.length > 0;
+  if(d.type === 'diet'){
+    const quickFilled = Object.keys(state.dietQuick).some(mk=>Object.keys(state.dietQuick[mk]).length > 0);
+    return (state.dietParsed || quickFilled) ? 'full' : (hasObj?'partial':'none');
+  }
+  if(d.type === 'body'){
+    const sym = state.records.symptom || [];
+    const real = sym.filter(x=>x!=='没有');
+    if(real.length === 0) return hasObj?'partial':'none';
+    const allDone = real.every(s=>{
+      const fu = SYMPTOM_FOLLOWUP[s];
+      if(!fu) return true;
+      return fu.every(f=>state.bodyFollowups[s] && state.bodyFollowups[s][f.q]);
+    });
+    return allDone?'full':'partial';
+  }
+  if(d.type === 'breath'){
+    const sym = state.records.breath_symptom || [];
+    const real = sym.filter(x=>x!=='没有');
+    const breathDone = state.records.breath_practice;
+    if(real.length === 0 && breathDone) return 'full';
+    if(real.length === 0) return hasObj?'partial':'none';
+    const allDone = real.every(s=>{
+      const fu = BREATH_FOLLOWUP[s];
+      if(!fu) return true;
+      return fu.every(f=>state.breathFollowups[s] && state.breathFollowups[s][f.q]);
+    });
+    return (allDone && breathDone) ? 'full' : 'partial';
+  }
+  if(d.type === 'env'){
+    const exps = state.records.env_exposure || [];
+    const real = exps.filter(x=>x!=='没有');
+    const naturalDone = state.records.natural_light && state.records.natural_time;
+    if(real.length === 0 && naturalDone) return 'full';
+    if(real.length === 0) return hasObj?'partial':'none';
+    const allDone = real.every(e=>{
+      const fu = ENV_EXPOSURE_FOLLOWUP[e];
+      if(!fu) return true;
+      return fu.every(f=>state.envFollowups[e] && state.envFollowups[e][f.q]);
+    });
+    return (allDone && naturalDone) ? 'full' : 'partial';
+  }
+  const hasSubj = d.subj && d.subj.length > 0;
+  if(!hasSubj) return hasObj?'partial':'none';
+  const filled = d.subj.filter(r=>{
+    const v = state.records[r.k];
+    if(r.multi) return Array.isArray(v) && v.length > 0;
+    return v !== undefined && v !== '';
+  }).length;
+  if(filled === 0) return hasObj?'partial':'none';
+  if(filled < d.subj.length) return 'partial';
+  return 'full';
+}
+
+const TABS=[
+  {k:'see',n:'看见',p:'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'},
+  {k:'foresee',n:'预见',p:'M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1'},
+  {k:'change',n:'改变',p:'M4 12l5 5L20 6'},
+  {k:'manage',n:'管理',p:'M4 6h16M4 12h16M4 18h16'}
+];
+
+function render(){
+  const map={see:renderSee, foresee:renderForesee, change:renderChange, manage:renderManage};
   document.getElementById('screen').innerHTML = map[state.tab]();
   document.getElementById('tabbar').innerHTML = TABS.map(t=>
     `<div class="tab ${t.k===state.tab?'active':''}" data-tab="${t.k}">
-      <div class="ico">${t.i}</div><div>${t.n}</div></div>`).join('');
+      <svg viewBox="0 0 24 24"><path d="${t.p}"/></svg><div>${t.n}</div>
+    </div>`).join('');
   document.getElementById('screen').scrollTop = 0;
+  setTimeout(()=>{
+    document.querySelectorAll('.g9-bar span,.asset-row-fill,.cmp-fill').forEach(el=>{
+      el.style.width = el.dataset.w+'%';
+    });
+  }, 50);
 }
 
-function renderHome(){
-  const avg = Math.round(GRID9.reduce((s,g)=>s+g.score,0)/GRID9.length);
-  const tasks = TODAY_ACTIONS.map(t=>`
-    <div class="ck ${state.doneActions.has(t.id)?'on':''}" data-action="${t.id}">
-      <div class="ck-box">✓</div>
-      <div style="flex:1">
-        <div class="ck-t">${t.t}${t.main?'<span class="ck-tag">主行动</span>':''}</div>
-        <div class="ck-s">${t.s}</div>
+function renderSee(){
+  const avg = Math.round(DIMS.reduce((s,d)=>s+d.score,0)/DIMS.length);
+  const gAvg = gradeOf(avg);
+  const grid = DIMS.map(d=>{
+    const g = gradeOf(d.score);
+    const st = dimState(d);
+    const dotCls = st==='full'?'full':st==='partial'?'partial':'';
+    return `<div class="g9" data-dim="${d.k}">
+      <div class="g9-top">
+        <div class="g9-name">${d.name}</div>
+        <div class="g9-dot ${dotCls}"></div>
       </div>
-    </div>`).join('');
-  const diary = DIARY_ITEMS.map(d=>`
-    <div class="diary-chip ${state.diaryDone.has(d.k)?'done':''}" data-diary="${d.k}">
-      ${state.diaryDone.has(d.k)?'✓ ':''}${d.t}
-    </div>`).join('');
-
+      <div class="g9-main">
+        <span class="g9-grade" style="color:${g.color}">${g.letter}</span>
+        <span class="g9-score">${d.score}</span>
+      </div>
+      <div class="g9-bar"><span data-w="${d.score}" style="background:${g.color};width:0"></span></div>
+    </div>`;
+  }).join('');
   return `
-    <div class="greet">
-      <div class="g-date">2026年10月12日 · 周一</div>
-      <div class="g-hello">早上好，<span>陈总</span></div>
-    </div>
-
-    <div class="hero" data-tab-go="grid">
-      <div class="hero-top">
-        <span class="hero-label">健康分</span>
-        <span class="hero-num">${avg}</span>
-        <span class="hero-delta">+3</span>
+    <div class="hd"><div class="hd-date">${TODAY}</div><div class="hd-title">看见</div></div>
+    <div class="score">
+      <div class="score-ring">
+        <svg width="88" height="88" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" stroke="#EEF2F7" stroke-width="8" fill="none"/>
+          <circle cx="50" cy="50" r="42" stroke="${gAvg.color}" stroke-width="8" fill="none"
+            stroke-dasharray="264" stroke-dashoffset="${264-264*avg/100}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-txt"><b>${avg}</b><i>今日健康分</i></div>
       </div>
-      <div class="hero-msg">昨晚睡得不错。今天只有一件事要留意：睡前90分钟放下手机。</div>
-      <div class="hero-assets">
-        ${GRID9.slice(0,4).map(g=>{
-          const c = colorOf(g.score);
-          return `<div class="hero-asset">
-            <div class="hero-asset-n" style="color:${c}">${g.score}</div>
-            <div class="hero-asset-l">${g.nm}</div>
-          </div>`;
+      <div class="score-info">
+        <h3>身体平稳</h3>
+        <p>睡眠与循环良好，代谢与压力需关注</p>
+        <div class="score-tag">+2 本周</div>
+      </div>
+    </div>
+    <div class="sec"><span>身体九宫格</span><span class="more">点击补充</span></div>
+    <div class="g9-grid">${grid}</div>
+    <div class="sec"><span>记录</span></div>
+    <div class="btn-row">
+      <div class="btn-3" data-open="week"><div class="btn-3-ico">周</div><div class="btn-3-t">周记录</div><div class="btn-3-s">每周一次</div></div>
+      <div class="btn-3" data-open="month"><div class="btn-3-ico">月</div><div class="btn-3-t">月记录</div><div class="btn-3-s">每月一次</div></div>
+      <div class="btn-3" data-open="quiz"><div class="btn-3-ico">检</div><div class="btn-3-t">微体检</div><div class="btn-3-s">12 题 · 3 分钟</div></div>
+    </div>
+  `;
+}
+
+/* ---------- 预见：健康资产去掉总分，只展示各项 ---------- */
+function renderForesee(){
+  const assetRows = ASSETS.map(a=>{
+    const g = gradeOf(a.score);
+    return `<div class="asset-row">
+      <div class="asset-row-nm">${a.nm}</div>
+      <div class="asset-row-sub">${a.sub}</div>
+      <div class="asset-row-bar">
+        <div class="asset-row-fill" data-w="${a.score}" style="background:${g.color};width:0"></div>
+      </div>
+      <div class="asset-row-val" style="color:${g.color}">${a.score}</div>
+    </div>`;
+  }).join('');
+  return `
+    <div class="hd"><div class="hd-date">预期寿命 · 健康资产</div><div class="hd-title">预见</div></div>
+    <div class="life">
+      <div class="life-tag">预期寿命</div>
+      <div class="life-title">你在哪一层？</div>
+      <div class="life-rows">
+        <div class="life-row"><div class="life-row-lb">中国平均</div><div class="life-row-val">${LIFE.china}<small>岁</small></div></div>
+        <div class="life-row"><div class="life-row-lb">老板群体</div><div class="life-row-val">${LIFE.boss}<small>岁</small></div></div>
+        <div class="life-row mine"><div class="life-row-lb">你现在</div><div class="life-row-val">${LIFE.mine}<small>岁</small></div></div>
+        <div class="life-row mine"><div class="life-row-lb">好好管理可达</div><div class="life-row-val">${LIFE.club}<small>岁</small></div></div>
+      </div>
+      <div class="life-concl">差距 <b>${(LIFE.club - LIFE.mine).toFixed(1)} 年</b> · 从今天开始改变</div>
+    </div>
+    <div class="sec"><span>健康资产 · 肌骨血脑肠心</span></div>
+    <div class="asset">
+      <div class="asset-rows">${assetRows}</div>
+    </div>
+  `;
+}
+
+function renderChange(){
+  const L = LEVER;
+  const gLever = gradeOf(L.dimScore);
+  const pdcaRows = [
+    {n:'P', t:'目标', s:L.pdca.plan},
+    {n:'D', t:'执行', s:L.pdca.do},
+    {n:'C', t:'检验', s:L.pdca.check},
+    {n:'A', t:'调整', s:L.pdca.act}
+  ].map(r=>`
+    <div class="pdca-row">
+      <div class="pdca-step">${r.n}</div>
+      <div class="pdca-body"><div class="pdca-t">${r.t}</div><div class="pdca-s">${r.s}</div></div>
+    </div>`).join('');
+  const practices = PRACTICES.map(p=>`
+    <div class="practice" data-practice="${p.t}">
+      <div class="practice-ico">${p.ico}</div>
+      <div style="flex:1;min-width:0">
+        <div class="practice-t">${p.t}</div>
+        <div class="practice-s">${p.s}</div>
+      </div>
+      <div class="practice-add">加入</div>
+    </div>`).join('');
+  return `
+    <div class="hd"><div class="hd-date">当前杠杆 · PDCA</div><div class="hd-title">改变</div></div>
+    <div class="lever">
+      <div class="lever-tag">LEVERAGE ${gLever.letter}</div>
+      <div class="lever-title">${L.dim}</div>
+      <div class="lever-metric">
+        <div class="lever-metric-nm">${L.metric.name}</div>
+        <div class="lever-metric-val" style="color:${gLever.color}">${L.metric.value}<span>${L.metric.unit}</span></div>
+      </div>
+      ${spark(L.metric.data, gLever.color)}
+      <div class="lever-foot"><span>${L.metric.labels[0]}</span><span>${L.metric.labels[1]}</span></div>
+      <div class="lever-change">
+        <span class="lever-change-lb">7日变化</span>
+        <span class="lever-change-val" style="color:${L.progress.better?'#C8102E':'#1A1A1A'}">${L.progress.delta>0?'+':''}${L.progress.delta} ${L.progress.unit}</span>
+      </div>
+      <div class="pdca">${pdcaRows}</div>
+    </div>
+    <div class="sec"><span>今日行动</span></div>
+    <div class="practice" data-action style="cursor:pointer">
+      <div class="practice-ico">${state.actionDone?'✓':'今'}</div>
+      <div style="flex:1;min-width:0">
+        <div class="practice-t">${L.pdca.plan}</div>
+        <div class="practice-s">${state.actionDone?'今日已完成':'点击打卡'}</div>
+      </div>
+      <div class="practice-add">${state.actionDone?'已打卡':'打卡'}</div>
+    </div>
+    <div class="sec"><span>最佳实践</span></div>
+    ${practices}
+  `;
+}
+
+function renderManage(){
+  return `
+    <div class="hd"><div class="hd-date">工具</div><div class="hd-title">管理</div></div>
+    <div class="streak">
+      <div class="streak-num">12<small>天</small></div>
+      <div class="streak-lb">连续打卡</div>
+      <div class="cal">
+        ${['一','二','三','四','五','六','日'].map((d,i)=>{
+          const on = i<5; const isToday = i===4;
+          return `<div class="cal-day ${on?'on':''} ${isToday&&!on?'today':''}">${d}</div>`;
         }).join('')}
       </div>
     </div>
-
-    <div class="sec-t"><span class="bar"></span>健康日记 · 今天</div>
-    <div class="diary-hero" data-diary-open>
-      <div class="diary-hero-top">
-        <div class="diary-hero-ico">📝</div>
-        <div style="flex:1">
-          <div class="diary-hero-t">花1分钟记录今天</div>
-          <div class="diary-hero-s">环境、睡眠、感觉、应酬、压力…</div>
-        </div>
-        <div class="diary-hero-go">›</div>
-      </div>
-      <div class="diary-items">${diary}</div>
+    <div class="sec"><span>看病管理</span></div>
+    <div class="card" style="padding:6px 20px">
+      <div class="mgr-row"><div class="mgr-row-ico">挂</div><div class="mgr-row-main"><div class="mgr-row-t">预约挂号</div><div class="mgr-row-s">三甲医院 · 陪诊可安排</div></div><div class="mgr-row-val">›</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">药</div><div class="mgr-row-main"><div class="mgr-row-t">用药提醒</div><div class="mgr-row-s">维生素D · 每日1次</div></div><div class="mgr-row-val">›</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">诊</div><div class="mgr-row-main"><div class="mgr-row-t">就诊记录</div><div class="mgr-row-s">2 次 · 已归档</div></div><div class="mgr-row-val">›</div></div>
     </div>
-
-    <div class="sec-t"><span class="bar"></span>今日一行动</div>
-    ${tasks}
-
-    <div class="sec-t"><span class="bar"></span>健康秘书</div>
-    <div class="secretary">
-      <div class="sec-head">
-        <div class="sec-av">李</div>
-        <div style="flex:1">
-          <div class="sec-nm">李婧 · 健康管家</div>
-          <div class="sec-st">在线 · 3分钟内响应</div>
-        </div>
-      </div>
-      <div class="sec-msg">陈总，明天晚上有饭局，我已经把应酬方案发到你微信了。今晚记得23:00前放下手机。</div>
-      <div class="sec-actions">
-        <div class="sec-call">📞 打电话</div>
-        <div class="sec-chat">💬 发微信</div>
-      </div>
+    <div class="sec"><span>知识管理</span></div>
+    <div class="card" style="padding:6px 20px">
+      <div class="mgr-row"><div class="mgr-row-ico">课</div><div class="mgr-row-main"><div class="mgr-row-t">系统课</div><div class="mgr-row-s">睡眠七讲 · 吃对三餐</div></div><div class="mgr-row-val">5 门</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">书</div><div class="mgr-row-main"><div class="mgr-row-t">书籍</div><div class="mgr-row-s">超越百岁 · 我们为什么要睡觉</div></div><div class="mgr-row-val">4 本</div></div>
+    </div>
+    <div class="sec"><span>运动管理</span></div>
+    <div class="card" style="padding:6px 20px">
+      <div class="mgr-row"><div class="mgr-row-ico">步</div><div class="mgr-row-main"><div class="mgr-row-t">今日步数</div><div class="mgr-row-s">目标 8,000 · 已达标</div></div><div class="mgr-row-val">8,420</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">力</div><div class="mgr-row-main"><div class="mgr-row-t">力量训练</div><div class="mgr-row-s">本周 1/2 次</div></div><div class="mgr-row-val">›</div></div>
+    </div>
+    <div class="sec"><span>文件与设备</span></div>
+    <div class="card" style="padding:6px 20px">
+      <div class="mgr-row"><div class="mgr-row-ico">报</div><div class="mgr-row-main"><div class="mgr-row-t">体检报告</div><div class="mgr-row-s">2026年9月 · 已归档</div></div><div class="mgr-row-val">上传</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">设</div><div class="mgr-row-main"><div class="mgr-row-t">已连接设备</div><div class="mgr-row-s">戒指 · CGM · 血压计 · 体脂秤</div></div><div class="mgr-row-val">4 台</div></div>
+    </div>
+    <div class="sec"><span>隐私与分享</span></div>
+    <div class="card" style="padding:6px 20px">
+      <div class="mgr-row"><div class="mgr-row-ico">医</div><div class="mgr-row-main"><div class="mgr-row-t">就诊模式</div><div class="mgr-row-s">一键切换给医生看</div></div><div class="mgr-row-val">›</div></div>
+      <div class="mgr-row"><div class="mgr-row-ico">家</div><div class="mgr-row-main"><div class="mgr-row-t">分享给家人</div><div class="mgr-row-s">仅看评分</div></div><div class="mgr-row-val">›</div></div>
     </div>
   `;
 }
 
-function renderGrid(){
-  const cells = GRID9.map(g=>{
-    const c = colorOf(g.score);
-    return `<div class="g9" data-grid="${g.k}">
-      <div class="g9-ico">${g.ico}</div>
-      <div class="g9-nm">${g.nm}</div>
-      <div class="g9-score" style="color:${c}">${g.score}</div>
-      <div class="g9-bar"><div class="g9-fill" data-w="${g.score}" style="background:${c};width:0"></div></div>
+function openSheet(title, body, voiceTarget){
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-title-row">
+        <div style="flex:1;min-width:0">
+          <div class="sh-name">${title}</div>
+          <div class="sh-date">${TODAY}</div>
+        </div>
+        <div class="sh-x" data-close>✕</div>
+      </div>
+    </div>
+    ${body}
+    <div class="voice-bar">
+      <button class="voice-btn" data-voice="${voiceTarget||''}">
+        <svg class="voice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="3" width="6" height="12" rx="3"/>
+          <path d="M5 10c0 4 3 7 7 7s7-3 7-7M12 17v4"/>
+        </svg>
+        <span>语音输入</span>
+      </button>
+      <span class="voice-hint">说人话即可</span>
+    </div>
+  `;
+  document.getElementById('modal').classList.add('open');
+  setTimeout(()=>{
+    document.querySelectorAll('.cmp-fill,.asset-row-fill').forEach(el=>{
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 60);
+}
+
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function calcBMI(w){ return (w / (1.78*1.78)).toFixed(1); }
+
+/* ---------- 身体 ---------- */
+function renderBodySheet(){
+  const d = DIMS.find(x=>x.k==='body');
+  const selected = state.records.symptom || [];
+
+  const objRows = d.obj.map(o=>{
+    if(o.input === 'weight'){
+      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>`;
+    }
+    if(o.auto && o.nm === 'BMI'){
+      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${calcBMI(state.weight)}</span></div>`;
+    }
+    return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${o.val}<span>${o.unit}</span></span></div>`;
+  }).join('');
+
+  const groupsHtml = BODY_SYMPTOM_GROUPS.map(g=>{
+    const selectedInGroup = g.opts.filter(o=>selected.includes(o)).length;
+    const countHtml = selectedInGroup > 0 ? `<span class="count">${selectedInGroup}</span>` : '';
+    const opts = g.opts.map(o=>{
+      const on = selected.includes(o);
+      const isDanger = ['小便颜色异常','大便颜色异常'].includes(o);
+      const alert = isDanger ? 'alert' : '';
+      const dangerCls = (on && isDanger) ? 'danger' : '';
+      return `<div class="sym-opt ${on?'on':''} ${dangerCls} ${alert}" data-sym="${o}">${o}</div>`;
+    }).join('');
+    return `<div class="sym-group">
+      <div class="sym-group-t">${g.name} ${countHtml}</div>
+      <div class="sym-opts">${opts}</div>
     </div>`;
   }).join('');
 
+  const realSelected = selected.filter(x=>x!=='没有');
+  let fuHtml = '';
+  realSelected.forEach(sym=>{
+    const fus = SYMPTOM_FOLLOWUP[sym];
+    if(!fus) return;
+    const answers = state.bodyFollowups[sym] || {};
+    const items = fus.map(f=>{
+      const cur = answers[f.q];
+      const opts = f.opts.map(o=>{
+        const on = cur === o;
+        const isDangerOpt = f.danger && ['淡红','血红','黑色柏油样','鲜红色','灰白色'].includes(o);
+        const dangerCls = isDangerOpt ? 'danger' : '';
+        return `<div class="fu-opt ${on?'on':''} ${dangerCls}" data-fu-sym="${sym}" data-fu-q="${f.q}" data-fu-v="${o}">${o}</div>`;
+      }).join('');
+      return `<div class="fu-item">
+        <div class="fu-label">${f.q}</div>
+        <div class="fu-opts">${opts}</div>
+      </div>`;
+    }).join('');
+    fuHtml += `<div class="fu-block">
+      <div class="fu-hd">${sym} · 具体描述</div>
+      ${items}
+    </div>`;
+  });
+
+  let urgentHtml = '';
+  URGENT_RULES.forEach(rule=>{
+    const ans = (state.bodyFollowups[rule.symptom] || {})['颜色'];
+    if(ans === rule.answer){
+      urgentHtml += `<div class="urgent-banner">
+        <div class="urgent-ico">!</div>
+        <div class="urgent-body">
+          <div class="urgent-t">建议尽快就医</div>
+          <div class="urgent-s">${rule.msg}</div>
+        </div>
+      </div>`;
+    }
+  });
+
+  const symptomNote = state.records.symptom_note || '';
+
+  const body = `
+    <div class="obj-block">
+      <div class="obj-label">客观数据</div>
+      ${objRows}
+    </div>
+    <div class="subj-label">身体症状 · 可多选</div>
+    ${groupsHtml}
+    ${fuHtml}
+    ${urgentHtml}
+    <div class="rec-item" style="margin-top:22px">
+      <div class="rec-label">今日整体感觉 <small>选填</small></div>
+      <input class="rec-note" placeholder="如果有什么想补充的，写在这里" value="${symptomNote}" data-note="symptom">
+    </div>
+  `;
+  openSheet('身体', body, 'body');
+}
+
+/* ---------- 呼吸 ---------- */
+function renderBreathSheet(){
+  const d = DIMS.find(x=>x.k==='breath');
+  const selected = state.records.breath_symptom || [];
+
+  const objRows = d.obj.map(o=>`
+    <div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${o.val}<span>${o.unit}</span></span></div>
+  `).join('');
+
+  const symOpts = BREATH_SYMPTOMS.map(o=>{
+    const on = selected.includes(o);
+    const isDanger = ['咳痰'].includes(o) && on;
+    return `<div class="sym-opt ${on?'on':''} ${isDanger?'danger':''}" data-breath-sym="${o}">${o}</div>`;
+  }).join('');
+
+  const realSelected = selected.filter(x=>x!=='没有');
+  let fuHtml = '';
+  realSelected.forEach(sym=>{
+    const fus = BREATH_FOLLOWUP[sym];
+    if(!fus) return;
+    const answers = state.breathFollowups[sym] || {};
+    const items = fus.map(f=>{
+      const cur = answers[f.q];
+      const opts = f.opts.map(o=>{
+        const on = cur === o;
+        const isDangerOpt = f.danger && ['带血'].includes(o);
+        const dangerCls = isDangerOpt ? 'danger' : '';
+        return `<div class="fu-opt ${on?'on':''} ${dangerCls}" data-breath-fu-sym="${sym}" data-breath-fu-q="${f.q}" data-breath-fu-v="${o}">${o}</div>`;
+      }).join('');
+      return `<div class="fu-item">
+        <div class="fu-label">${f.q}</div>
+        <div class="fu-opts">${opts}</div>
+      </div>`;
+    }).join('');
+    fuHtml += `<div class="fu-block">
+      <div class="fu-hd">${sym} · 具体描述</div>
+      ${items}
+    </div>`;
+  });
+
+  let urgentHtml = '';
+  const phlegm = state.breathFollowups['咳痰'] || {};
+  if(phlegm['颜色'] === '带血'){
+    urgentHtml = `<div class="urgent-banner">
+      <div class="urgent-ico">!</div>
+      <div class="urgent-body">
+        <div class="urgent-t">建议尽快就医</div>
+        <div class="urgent-s">咳痰带血，建议尽快排查呼吸系统问题。</div>
+      </div>
+    </div>`;
+  }
+
+  const practice = state.records.breath_practice;
+  const practiceOpts = ['5分钟慢呼吸','腹式呼吸','没有'].map(o=>
+    `<div class="rec-opt ${practice===o?'on':''}" data-rec="breath_practice" data-val="${o}">${o}</div>`
+  ).join('');
+
+  const body = `
+    <div class="obj-block">
+      <div class="obj-label">客观数据</div>
+      ${objRows}
+    </div>
+    <div class="subj-label">呼吸症状 · 可多选</div>
+    <div class="sym-opts" style="margin-bottom:16px">${symOpts}</div>
+    ${fuHtml}
+    ${urgentHtml}
+    <div class="rec-item" style="margin-top:22px">
+      <div class="rec-label">今日呼吸练习</div>
+      <div class="rec-opts">${practiceOpts}</div>
+    </div>
+  `;
+  openSheet('呼吸', body, 'breath');
+}
+
+/* ---------- 环境 ---------- */
+function renderEnvSheet(){
+  const d = DIMS.find(x=>x.k==='env');
+  const selected = state.records.env_exposure || [];
+
+  const objRows = d.obj.map(o=>`
+    <div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${o.val}<span>${o.unit}</span></span></div>
+  `).join('');
+
+  const expOpts = ENV_EXPOSURES.map(o=>{
+    const on = selected.includes(o);
+    const isAlert = ['空气污染','二手烟','高粉尘环境','装修污染'].includes(o);
+    const alert = isAlert ? 'alert' : '';
+    return `<div class="sym-opt ${on?'on':''} ${alert}" data-env-exp="${o}">${o}</div>`;
+  }).join('');
+
+  const realSelected = selected.filter(x=>x!=='没有');
+  let fuHtml = '';
+  realSelected.forEach(exp=>{
+    const fus = ENV_EXPOSURE_FOLLOWUP[exp];
+    if(!fus) return;
+    const answers = state.envFollowups[exp] || {};
+    const items = fus.map(f=>{
+      const cur = answers[f.q];
+      const opts = f.opts.map(o=>{
+        const on = cur === o;
+        return `<div class="fu-opt ${on?'on':''}" data-env-fu-sym="${exp}" data-env-fu-q="${f.q}" data-env-fu-v="${o}">${o}</div>`;
+      }).join('');
+      return `<div class="fu-item">
+        <div class="fu-label">${f.q}</div>
+        <div class="fu-opts">${opts}</div>
+      </div>`;
+    }).join('');
+    fuHtml += `<div class="fu-block">
+      <div class="fu-hd">${exp} · 暴露情况</div>
+      ${items}
+    </div>`;
+  });
+
+  const nl = state.records.natural_light;
+  const nt = state.records.natural_time;
+  const lightOpts = ['<30分钟','30-60分钟','1-2小时','2小时以上'].map(o=>
+    `<div class="rec-opt ${nl===o?'on':''}" data-rec="natural_light" data-val="${o}">${o}</div>`
+  ).join('');
+  const timeOpts = ['<30分钟','30-60分钟','1-2小时','2小时以上'].map(o=>
+    `<div class="rec-opt ${nt===o?'on':''}" data-rec="natural_time" data-val="${o}">${o}</div>`
+  ).join('');
+
+  const body = `
+    <div class="obj-block">
+      <div class="obj-label">客观数据</div>
+      ${objRows}
+    </div>
+    <div class="subj-label">今日环境暴露 · 可多选</div>
+    <div class="sym-opts" style="margin-bottom:16px">${expOpts}</div>
+    ${fuHtml}
+    <div class="rec-item" style="margin-top:22px">
+      <div class="rec-label">今日自然光线</div>
+      <div class="rec-opts">${lightOpts}</div>
+    </div>
+    <div class="rec-item">
+      <div class="rec-label">今日户外时间</div>
+      <div class="rec-opts">${timeOpts}</div>
+    </div>
+  `;
+  openSheet('环境', body, 'env');
+}
+
+function openDimRecord(k){
+  const d = DIMS.find(x=>x.k===k);
+  if(d.type === 'diet'){ openDiet(); return; }
+  if(d.type === 'body'){ renderBodySheet(); return; }
+  if(d.type === 'breath'){ renderBreathSheet(); return; }
+  if(d.type === 'env'){ renderEnvSheet(); return; }
+
+  let body = '';
+  if(d.obj && d.obj.length > 0){
+    const rows = d.obj.map(o=>{
+      if(o.input === 'weight'){
+        return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>`;
+      }
+      if(o.auto && o.nm === 'BMI'){
+        return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${calcBMI(state.weight)}</span></div>`;
+      }
+      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span><span class="obj-val">${o.val}<span>${o.unit}</span></span></div>`;
+    }).join('');
+    body += `<div class="obj-block"><div class="obj-label">客观数据</div>${rows}</div>`;
+  }
+  if(d.subj && d.subj.length > 0){
+    const items = d.subj.map(r=>{
+      const cur = state.records[r.k];
+      const opts = r.opts.map(o=>{
+        let sel;
+        if(r.multi) sel = Array.isArray(cur) && cur.includes(o);
+        else sel = cur === o;
+        return `<div class="rec-opt ${sel?'on':''}" data-rec="${r.k}" data-val="${o}" data-multi="${r.multi?'1':''}">${o}</div>`;
+      }).join('');
+      const noteHtml = r.note ? `<input class="rec-note" placeholder="简单备注（选填）" value="${state.records[r.k+'_note']||''}" data-note="${r.k}">` : '';
+      return `<div class="rec-item"><div class="rec-label">${r.t}</div><div class="rec-opts">${opts}</div>${noteHtml}</div>`;
+    }).join('');
+    body += `<div class="subj-label">主观感受</div>${items}`;
+  } else {
+    body += `<div class="subj-label">主观感受</div><div style="text-align:center;color:var(--ink3);font-size:13px;padding:16px 0;line-height:1.6">该维度由系统自动记录，无需手动补充</div>`;
+  }
+  openSheet(d.name, body, k);
+}
+
+/* ---------- 饮食 ---------- */
+function openDiet(){
+  const mode = state.dietMode;
+  let body = '';
+
+  body += `
+    <div class="obj-block" style="margin-bottom:16px">
+      <div class="obj-label">参考标准</div>
+      <div class="obj-row"><span class="obj-nm">当前体重</span><input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>
+      <div class="obj-row"><span class="obj-nm">BMI</span><span class="obj-val">${calcBMI(state.weight)}</span></div>
+    </div>
+  `;
+
+  body += `<div class="diet-tabs">
+    <div class="diet-tab ${mode==='quick'?'on':''}" data-diet-mode="quick">快速选择</div>
+    <div class="diet-tab ${mode==='voice'?'on':''}" data-diet-mode="voice">语音录入</div>
+  </div>`;
+
+  let content = '';
+  if(mode === 'voice'){
+    content = renderDietVoice();
+  } else {
+    content = renderDietQuick();
+  }
+  body += content;
+
+  openSheet('饮食', body, 'diet');
+}
+
+function renderDietVoice(){
+  const parsed = state.dietParsed;
+  if(!parsed){
+    return `
+      <div class="parsed-block" style="text-align:center;padding:34px 20px">
+        <div style="font-size:40px;margin-bottom:14px">🎤</div>
+        <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px">点击下方语音按钮</div>
+        <div style="font-size:13px;color:var(--ink3);line-height:1.7">像聊天一样说出今天吃了什么<br>AI 会自动解析出营养结构</div>
+        <div style="margin-top:20px;font-size:12px;color:var(--ink3);font-style:italic;background:#fff;border-radius:10px;padding:12px;line-height:1.6;text-align:left">
+          "早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花"
+        </div>
+      </div>
+    `;
+  }
+
+  const mealsHtml = parsed.meals.map(m=>{
+    const foods = m.foods.map(f=>{
+      const attrs = f.attr.map(a=>{
+        const cls = a.lv === 'high' ? 'high' : a.lv === 'low' ? 'low' : '';
+        return `<span class="attr ${cls}">${a.t}</span>`;
+      }).join('');
+      return `<span class="food-tag">${f.n} ${attrs}</span>`;
+    }).join('');
+    return `<div class="meal-block">
+      <div class="meal-hd"><span>${m.name}</span><span class="time">${m.time}</span></div>
+      <div>${foods}</div>
+    </div>`;
+  }).join('');
+
+  const structHtml = STRUCT_ITEMS.map(it=>{
+    const cur = state.dietStruct[it.k];
+    const opts = it.opts.map(o=>`<div class="struct-opt ${cur===o?'on':''}" data-struct="${it.k}" data-val="${o}">${o}</div>`).join('');
+    return `<div class="struct-item">
+      <div class="struct-label">${it.lb}</div>
+      <div class="struct-opts">${opts}</div>
+    </div>`;
+  }).join('');
+
+  const sum = computeDietSummary();
+
   return `
-    <div class="greet" style="padding-top:8px">
-      <div class="g-date">健康九宫格</div>
-      <div class="g-hello" style="font-size:22px">九个维度，一眼看清</div>
+    <div class="parsed-block">
+      <div class="parsed-title">AI 从你的话里识别到</div>
+      ${mealsHtml}
     </div>
-    <div class="card">
-      <div class="grid9">${cells}</div>
+    <div class="struct-block">
+      <div class="struct-title">补充信息</div>
+      <div class="struct-sub">这些你可能没说，快速点一下就好</div>
+      ${structHtml}
     </div>
-    <div class="muted" style="text-align:center;margin-top:14px;line-height:1.7">
-      点击任意格子，查看详情、今日行动与相关课程。
-    </div>
+    ${renderCompare(sum)}
+    <button class="sh-btn ghost" data-voice="diet" style="margin-top:14px">重新说一次</button>
   `;
 }
 
-function renderLife(){
+function renderDietQuick(){
+  const mealsHtml = QUICK_MEALS.map(m=>{
+    const cur = state.dietQuick[m.k] || {};
+    const foods = QUICK_FOODS.map(f=>{
+      const opts = f.opts.map(o=>{
+        const on = cur[f.k] === o ? 'on' : '';
+        return `<div class="quick-opt ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
+      }).join('');
+      return `<div class="quick-row">
+        <div class="quick-row-lb">${f.label}</div>
+        <div class="quick-row-opts">${opts}</div>
+      </div>`;
+    }).join('');
+    const extras = QUICK_EXTRAS.map(f=>{
+      const opts = f.opts.map(o=>{
+        const on = cur[f.k] === o ? 'on' : '';
+        return `<div class="quick-opt extra ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
+      }).join('');
+      return `<div class="quick-row">
+        <div class="quick-row-lb">${f.label}</div>
+        <div class="quick-row-opts">${opts}</div>
+      </div>`;
+    }).join('');
+    return `<div class="quick-meal">
+      <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
+      ${foods}
+      ${extras}
+    </div>`;
+  }).join('');
+
+  const structHtml = STRUCT_ITEMS.map(it=>{
+    const cur = state.dietStruct[it.k];
+    const opts = it.opts.map(o=>`<div class="struct-opt ${cur===o?'on':''}" data-struct="${it.k}" data-val="${o}">${o}</div>`).join('');
+    return `<div class="struct-item">
+      <div class="struct-label">${it.lb}</div>
+      <div class="struct-opts">${opts}</div>
+    </div>`;
+  }).join('');
+
+  const sum = computeDietSummary();
+
   return `
-    <div class="greet" style="padding-top:8px">
-      <div class="g-date">寿命预测</div>
-      <div class="g-hello" style="font-size:22px">你能活到多少岁？</div>
+    <div class="struct-title" style="color:var(--mid);font-size:11px;font-weight:600;letter-spacing:1.2px;margin-bottom:6px">一日三餐 · 份数</div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.5">粗略点选即可，不用精确到克</div>
+    ${mealsHtml}
+    <div class="struct-block">
+      <div class="struct-title">补充信息</div>
+      <div class="struct-sub">应酬、饮酒、饮水等</div>
+      ${structHtml}
     </div>
-
-    <div class="life-hero">
-      <div class="life-hero-t">三层对比</div>
-      <div class="life-hero-s">中国平均 · 老板群体 · 俱乐部会员</div>
-      <div class="life-compare">
-        <div class="life-row">
-          <div class="life-row-lb">中国平均</div>
-          <div class="life-row-val">${LIFE_PREDICT.china}<span>岁</span></div>
-          <div class="life-row-tag">普通人</div>
-        </div>
-        <div class="life-row">
-          <div class="life-row-lb">老板群体</div>
-          <div class="life-row-val">${LIFE_PREDICT.boss}<span>岁</span></div>
-          <div class="life-row-tag">同圈层平均</div>
-        </div>
-        <div class="life-row mine">
-          <div class="life-row-lb">俱乐部会员</div>
-          <div class="life-row-val">${LIFE_PREDICT.club}<span>岁</span></div>
-          <div class="life-row-tag">好好管理可达</div>
-        </div>
-      </div>
-      <div class="life-gap">
-        你现在的生活方式，预期寿命约 <b>${LIFE_PREDICT.mine} 岁</b>。<br>
-        按俱乐部的方式管理，可以到 <b>${LIFE_PREDICT.club} 岁</b>。
-      </div>
-    </div>
-
-    <div class="card">
-      <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:12px">📊 你的健康资产</div>
-      ${GRID9.slice(0,6).map(g=>{
-        const c = colorOf(g.score);
-        return `<div style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px dashed var(--line)">
-          <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px">
-            <span style="font-size:16px">${g.ico}</span>
-            <span style="font-size:14px;font-weight:700;color:var(--ink2);flex:1">${g.nm}</span>
-            <span style="font-size:14px;font-weight:700;color:${c}">${g.score}</span>
-          </div>
-          <div style="height:7px;background:#1A1E24;border-radius:99px;overflow:hidden">
-            <div class="g9-fill" data-w="${g.score}" style="height:100%;border-radius:99px;background:${c};width:0;transition:width 1s"></div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>
-
-    <div class="sec-t"><span class="bar"></span>我的推荐</div>
-    ${RECOMMEND.map(r=>`
-      <div class="rec-row" data-rec="${r.t}">
-        <div class="rec-ico" style="background:${hexA(r.color,.13)}">${r.ico}</div>
-        <div style="flex:1;min-width:0">
-          <div class="rec-t">${r.t}</div>
-          <div class="rec-s">${r.s}</div>
-        </div>
-      </div>`).join('')}
+    ${renderCompare(sum)}
   `;
 }
 
-function renderMgr(){
-  return `
-    <div class="greet" style="padding-top:8px">
-      <div class="g-date">管理工具</div>
-      <div class="g-hello" style="font-size:22px">学习 · 运动 · 饮食 · 看病 · 体检</div>
-    </div>
-
-    <div class="mgr-grid">
-      ${MGR_TOOLS.map(m=>`
-        <div class="mgr" data-mgr="${m.k}">
-          <div class="mgr-ico">${m.ico}</div>
-          <div class="mgr-nm">${m.nm}</div>
-          <div class="mgr-s">${m.s}</div>
-        </div>`).join('')}
-    </div>
-
-    <div class="sec-t"><span class="bar"></span>学堂月度会诊</div>
-    <div class="card">
-      <div style="font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:10px">📅 下次会诊：10月20日</div>
-      <div class="muted" style="line-height:1.75">
-        私人医生 + 企业医生 + 健康管家，一起帮你复盘本月执行情况，给出下月微处方。
-      </div>
-      <div class="upload-btn" style="margin-top:14px;font-size:14px;padding:12px">预约本次会诊</div>
-    </div>
-
-    <div class="sec-t"><span class="bar"></span>不健康体征月检</div>
-    <div class="card">
-      <div class="muted" style="margin-bottom:12px">3分钟自评 + 身边人观察，每月一次。</div>
-      ${['睡眠不好','吃饭不好','排泄不好','肥胖','不精神','爱生病','爱发脾气'].map((t,i)=>`
-        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:13.5px;color:${i<2?'var(--amber)':'var(--ink4)'}">
-          <span style="width:6px;height:6px;border-radius:50%;background:${i<2?'var(--amber)':'#2E2A22'}"></span>
-          ${t}
-        </div>`).join('')}
-      <div class="upload-btn" style="margin-top:14px;font-size:14px;padding:12px">开始本月自评</div>
-    </div>
-  `;
+function computeDietSummary(){
+  if(state.dietParsed && state.dietParsed.summary){
+    const sum = {...state.dietParsed.summary};
+    applyDietStruct(sum);
+    return sum;
+  }
+  const sum = {staple:0, protein:0, veg:0, fruit:0, oil:0, salt:0, sugar:0, alcohol:0};
+  const mapVal = (v)=>{
+    if(v==='0' || v==='没吃') return 0;
+    if(v==='半碗') return 0.5;
+    if(v==='1碗' || v==='1份' || v==='1拳') return 1;
+    if(v==='2碗' || v==='2份' || v==='2拳') return 2;
+    if(v==='3碗+' || v==='3份+' || v==='3拳+') return 3;
+    if(v==='少量') return 0.5;
+    if(v==='2份+') return 2;
+    return 0;
+  };
+  ['b','l','d','s'].forEach(mk=>{
+    const m = state.dietQuick[mk] || {};
+    sum.staple += mapVal(m.staple);
+    sum.protein += mapVal(m.protein);
+    sum.veg += mapVal(m.veg);
+    sum.fruit += mapVal(m.fruit);
+    sum.sugar += mapVal(m.dessert) * 8;
+    sum.oil += mapVal(m.bbq) * 10 + mapVal(m.fried) * 12 + mapVal(m.snack) * 5;
+    sum.salt += (mapVal(m.bbq) + mapVal(m.fried)) * 1.5;
+  });
+  applyDietStruct(sum);
+  return sum;
 }
 
-function renderMe(){
-  const team = TEAM.map(m=>`
-    <div class="tm" data-team="${m.n}">
-      <div class="tm-av" style="background:${hexA(m.c,.15)};color:${m.c}">${m.i}</div>
-      <div style="min-width:0">
-        <div class="tm-nm">${m.n}</div>
-        <div class="tm-rl">${m.r}</div>
-      </div>
-    </div>`).join('');
-
-  return `
-    <div class="me-hd">
-      <div class="me-av">陈</div>
-      <div>
-        <div class="me-nm">陈总</div>
-        <div class="me-role">老板健康俱乐部 · 创始会员</div>
-        <div class="me-badge">💎 已加入 87 天</div>
-      </div>
-    </div>
-
-    <div class="me-strategy" data-strategy>
-      <div class="me-strategy-lb">当前策略 · 第12天</div>
-      <div class="me-strategy-t">改善睡眠 · 入睡慢与夜醒</div>
-      <div class="me-strategy-s">主行动：睡前90分钟放下手机<br>辅助：每天7:00固定起床</div>
-      <div class="me-strategy-foot">
-        <div class="me-strategy-d">下次评估：12月15日</div>
-        <div class="me-strategy-go">查看详情 ›</div>
-      </div>
-    </div>
-
-    <div class="card" style="padding:6px 15px">
-      <div class="src-row"><div class="src-l">✅ 今日打卡</div><div class="src-r">${state.doneActions.size} / ${TODAY_ACTIONS.length}</div></div>
-      <div class="src-row"><div class="src-l">🎯 持续行动</div><div class="src-r">第 12 / 21 天</div></div>
-      <div class="src-row"><div class="src-l">📚 已学课程</div><div class="src-r" style="color:#8A8578">2门 · 9讲</div></div>
-      <div class="src-row"><div class="src-l">📅 我的报名</div><div class="src-r" style="color:#8A8578">1场</div></div>
-    </div>
-
-    <div class="sec-t"><span class="bar"></span>我的服务团队</div>
-    <div class="team-grid">${team}</div>
-
-    <div class="sec-t"><span class="bar"></span>我的数据来源</div>
-    <div class="card" style="padding:6px 15px">
-      <div class="src-row"><div class="src-l">💍 智能戒指</div><div class="src-r">已连接</div></div>
-      <div class="src-row"><div class="src-l">🩸 CGM 血糖探头</div><div class="src-r">使用中</div></div>
-      <div class="src-row"><div class="src-l">🩺 智能血压计</div><div class="src-r">已连接</div></div>
-      <div class="src-row"><div class="src-l">⚖️ 体脂秤</div><div class="src-r">已连接</div></div>
-      <div class="src-row"><div class="src-l">🏥 体检报告</div><div class="src-r" style="color:var(--gold)">补充上传 ›</div></div>
-    </div>
-
-    <div class="sec-t"><span class="bar"></span>长寿日历</div>
-    <div class="card">
-      <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)">
-        <div style="font-size:20px">💊</div>
-        <div><div style="font-size:13.5px;color:var(--ink2);font-weight:500">1月 · 药箱整理月</div>
-          <div class="muted" style="margin-top:4px">检查家里药箱，清理过期药</div></div>
-      </div>
-      <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line2)">
-        <div style="font-size:20px">🍵</div>
-        <div><div style="font-size:13.5px;color:var(--ink2);font-weight:500">2月 · 长寿茶月</div>
-          <div class="muted" style="margin-top:4px">每天一杯长丰茶（玫瑰花+陈皮+枸杞）</div></div>
-      </div>
-      <div style="display:flex;gap:10px;padding:10px 0">
-        <div style="font-size:20px">🌙</div>
-        <div><div style="font-size:13.5px;color:var(--ink2);font-weight:500">3月 · 睡眠月</div>
-          <div class="muted" style="margin-top:4px">21天固定作息挑战</div></div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:14px;text-align:center;padding:20px 18px">
-      <div style="font-size:12.5px;color:#8A8578;line-height:1.75">
-        老板健康俱乐部<br>
-        不提供医疗服务，只做健康知识梳理、资源收集与线下交流<br>
-        <span style="color:var(--ink5);font-size:11px">如有身体不适，请及时就医</span>
-      </div>
-    </div>
-  `;
+function applyDietStruct(sum){
+  if(state.dietStruct.alcohol_extra === '少量') sum.alcohol = Math.max(sum.alcohol || 0, 0.5);
+  if(state.dietStruct.alcohol_extra === '中等') sum.alcohol = Math.max(sum.alcohol || 0, 1.5);
+  if(state.dietStruct.alcohol_extra === '较多') sum.alcohol = Math.max(sum.alcohol || 0, 3);
+  if(state.dietStruct.alcohol_extra === '没喝') sum.alcohol = 0;
+  if(state.dietStruct.taste === '偏油') sum.oil = Math.max(sum.oil || 0, 40);
+  if(state.dietStruct.taste === '偏咸') sum.salt = Math.max(sum.salt || 0, 9);
+  if(state.dietStruct.late_night === '有') sum.staple = (sum.staple || 0) + 1;
 }
 
-/* ============================================================
-   弹窗
-   ============================================================ */
-function openSheet(title, sub, body){
+function renderCompare(sum){
+  const compareRows = Object.keys(NUTRITION_STD).map(k=>{
+    const std = NUTRITION_STD[k];
+    const v = sum[k] || 0;
+    const scale = std.max * 1.5 || 1;
+    const pct = Math.min(100, v / scale * 100);
+    const rangeStart = std.min / scale * 100;
+    const rangeWidth = (std.max - std.min) / scale * 100;
+    let status, cls;
+    if(k === 'alcohol'){
+      if(v === 0){ status = '正常'; cls = 'normal'; }
+      else { status = '偏多'; cls = 'high'; }
+    } else {
+      if(v < std.min){ status = '偏少'; cls = 'low'; }
+      else if(v > std.max){ status = '偏多'; cls = 'high'; }
+      else { status = '正常'; cls = 'normal'; }
+    }
+    const rangeStyle = std.max > std.min
+      ? `<div class="cmp-range" style="left:${rangeStart}%;width:${rangeWidth}%"></div>` : '';
+    return `<div class="cmp-row">
+      <div class="cmp-top">
+        <span class="cmp-nm">${std.label}</span>
+        <span class="cmp-v ${cls}">${v}${std.unit} · ${status}${std.max>std.min?` · 建议 ${std.min}-${std.max}${std.unit}`:(std.max>0?` · 建议 <${std.max}${std.unit}`:'')}</span>
+      </div>
+      <div class="cmp-bar">${rangeStyle}<div class="cmp-fill ${cls}" data-w="${pct}" style="width:0"></div></div>
+    </div>`;
+  }).join('');
+
+  const issues = [];
+  if((sum.veg||0) < NUTRITION_STD.veg.min) issues.push('蔬菜偏少');
+  if((sum.oil||0) > NUTRITION_STD.oil.max) issues.push('油偏多');
+  if((sum.salt||0) > NUTRITION_STD.salt.max) issues.push('盐偏多');
+  if((sum.alcohol||0) > 0) issues.push('有饮酒');
+  if((sum.fruit||0) < NUTRITION_STD.fruit.min) issues.push('水果偏少');
+
+  const summaryText = issues.length > 0 ? `今天主要问题：${issues.join('、')}` : '今天结构均衡，继续保持';
+  const hasData = Object.keys(sum).some(k=>sum[k] > 0);
+
+  if(!hasData) return '';
+
+  return `<div class="compare">
+    <div class="compare-t">营养结构对比</div>
+    ${compareRows}
+    <div style="margin-top:20px;padding:14px 16px;background:#FDECEC;border-radius:12px;font-size:13px;color:#C8102E;font-weight:500;line-height:1.6">${summaryText}</div>
+  </div>`;
+}
+
+function openWeek(){
+  const W = WEEK_DATA;
+  const self = SELF_JUDGE.map(j=>{
+    const cur = state.weekJudge[j.k];
+    const opts = j.opts.map(o=>`<div class="judge-opt ${cur===o?'on':''}" data-week="${j.k}" data-val="${o}">${o}</div>`).join('');
+    return `<div class="judge-item"><div class="judge-label">${j.t}</div><div class="judge-opts">${opts}</div></div>`;
+  }).join('');
+  const fam = FAMILY_JUDGE.map(j=>{
+    const cur = state.familyJudge[j.k];
+    const opts = j.opts.map(o=>`<div class="judge-opt ${cur===o?'on':''}" data-fam="${j.k}" data-val="${o}">${o}</div>`).join('');
+    return `<div class="judge-item"><div class="judge-label">${j.t} <small>身边人观察</small></div><div class="judge-opts">${opts}</div></div>`;
+  }).join('');
+  openSheet('周记录', `
+    <div class="big-grid">
+      <div class="big-item"><div class="big-val">${W.steps.val}</div><div class="big-lb">步数</div><div class="big-delta ${W.steps.up?'up':'down'}">${W.steps.delta}</div></div>
+      <div class="big-item"><div class="big-val">${W.sleep.val}</div><div class="big-lb">睡眠</div><div class="big-delta ${W.sleep.up?'up':'down'}">${W.sleep.delta}</div></div>
+      <div class="big-item"><div class="big-val">${W.hrv.val}</div><div class="big-lb">HRV</div><div class="big-delta ${W.hrv.up?'up':'down'}">${W.hrv.delta}</div></div>
+    </div>
+    <div class="judge-group"><div class="judge-group-t">自我感觉</div>${self}</div>
+    <div class="judge-group"><div class="judge-group-t">身边人感觉</div>${fam}</div>
+    <div class="sh-btn" data-close>保存</div>
+  `, 'week');
+}
+
+function openMonth(){
+  const M = MONTH_DATA;
+  const self = SELF_JUDGE.map(j=>{
+    const cur = state.monthJudge[j.k];
+    const opts = j.opts.map(o=>`<div class="judge-opt ${cur===o?'on':''}" data-month="${j.k}" data-val="${o}">${o}</div>`).join('');
+    return `<div class="judge-item"><div class="judge-label">${j.t}</div><div class="judge-opts">${opts}</div></div>`;
+  }).join('');
+  openSheet('月记录', `
+    <div class="big-grid">
+      <div class="big-item"><div class="big-val">${M.steps.val}</div><div class="big-lb">步数</div><div class="big-delta ${M.steps.up?'up':'down'}">${M.steps.delta}</div></div>
+      <div class="big-item"><div class="big-val">${M.sleep.val}</div><div class="big-lb">睡眠</div><div class="big-delta ${M.sleep.up?'up':'down'}">${M.sleep.delta}</div></div>
+      <div class="big-item"><div class="big-val">${M.hrv.val}</div><div class="big-lb">HRV</div><div class="big-delta ${M.hrv.up?'up':'down'}">${M.hrv.delta}</div></div>
+    </div>
+    <div class="judge-group"><div class="judge-group-t">本月自我感觉</div>${self}</div>
+    <div class="sh-btn" data-close>保存</div>
+  `, 'month');
+}
+
+function openQuiz(){ state.quizIndex=0; state.quizAns={}; renderQuiz(); }
+
+function renderQuiz(){
+  const q = QUIZ[state.quizIndex];
+  if(!q){ closeModal(); return; }
+  const cur = state.quizAns[q.k];
+  let opts = '';
+  if(q.type==='input'){
+    opts = `<input class="qz-input" id="qzInput" placeholder="${q.ph}" value="${cur||''}" maxlength="4" inputmode="numeric">`;
+  } else if(q.type==='single'){
+    opts = `<div class="qz-opts">${q.opts.map((o,i)=>`<div class="qz-opt ${cur===i+1?'on':''}" data-qz-single="${q.k}" data-val="${i+1}">${o}</div>`).join('')}</div>`;
+  } else if(q.type==='multi'){
+    const arr = cur||[];
+    opts = `<div class="qz-opts">${q.opts.map(o=>`<div class="qz-opt ${arr.includes(o)?'on':''}" data-qz-multi="${q.k}" data-val="${o}" data-excl="${q.excl||''}">${o}</div>`).join('')}</div>`;
+  }
+  const canNext = state.quizAns[q.k]!==undefined;
+  const isLast = state.quizIndex===QUIZ.length-1;
   document.getElementById('sheet').innerHTML = `
     <div class="sh-head">
-      <div style="flex:1;min-width:0">
-        <div class="sh-name">${title}</div>
-        <div class="sh-sub">${sub}</div>
+      <div class="sh-title-row">
+        <div style="flex:1;min-width:0">
+          <div class="sh-name">微体检</div>
+          <div class="sh-date">${TODAY} · ${state.quizIndex+1}/${QUIZ.length}</div>
+        </div>
+        <div class="sh-x" data-close>✕</div>
       </div>
-      <div class="sh-x" data-close>✕</div>
     </div>
-    ${body}
-    <div class="sh-btn" data-close>好</div>
+    <div class="qz-q">${q.q}</div>
+    ${opts}
+    <div style="display:flex;gap:10px;margin-top:22px">
+      ${state.quizIndex>0?'<div class="sh-btn ghost" data-qz-prev style="flex:1;margin:0">上一题</div>':''}
+      <div class="sh-btn ${canNext?'':'disabled'}" data-qz-next style="flex:2;margin:0">${isLast?'完成':'下一题'}</div>
+    </div>
+  `;
+  document.getElementById('modal').classList.add('open');
+  if(q.type==='input'){
+    const inp = document.getElementById('qzInput');
+    const btn = document.querySelector('[data-qz-next]');
+    inp.addEventListener('input', e=>{
+      const y=parseInt(e.target.value,10);
+      if(y && y>=1920 && y<=2010){ state.quizAns[q.k]=y; btn.classList.remove('disabled'); }
+      else { delete state.quizAns[q.k]; btn.classList.add('disabled'); }
+    });
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter' && !btn.classList.contains('disabled')) btn.click(); });
+    setTimeout(()=>inp.focus(), 300);
+  }
+}
+
+function renderQuizResult(){
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-title-row">
+        <div style="flex:1;min-width:0">
+          <div class="sh-name">预期寿命</div>
+          <div class="sh-date">${TODAY}</div>
+        </div>
+        <div class="sh-x" data-close>✕</div>
+      </div>
+    </div>
+    <div class="result-life">
+      <div class="result-life-num">${LIFE.mine}<small>岁</small></div>
+      <div class="result-life-desc">按当前生活方式推算<br>好好管理可达 ${LIFE.club} 岁</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line2);font-size:14px">
+      <span style="color:var(--ink2)">中国平均</span><span style="font-weight:700">${LIFE.china} 岁</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line2);font-size:14px">
+      <span style="color:var(--ink2)">老板群体</span><span style="font-weight:700">${LIFE.boss} 岁</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line2);font-size:14px">
+      <span style="color:var(--ink2)">俱乐部会员</span><span style="font-weight:700;color:#C8102E">${LIFE.club} 岁</span>
+    </div>
+    <div class="sh-btn" data-close>知道了</div>
   `;
   document.getElementById('modal').classList.add('open');
 }
 
-function openGrid(k){
-  const g = GRID9.find(x=>x.k===k);
-  const c = colorOf(g.score);
-  openSheet(g.nm, g.sub, `
-    <div class="sh-row"><div class="sh-l">维度得分</div>
-      <div class="sh-v" style="color:${c}">${g.score}<span>/100</span></div></div>
-    <div class="sh-tip" style="border-color:${hexA(c,.35)};background:${hexA(c,.07)}">
-      <div class="sh-tip-t" style="color:${c}">今天的小事</div>
-      <div class="sh-tip-b">${g.tip}</div>
-    </div>
-    <div class="sh-tip" style="border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.06)">
-      <div class="sh-tip-t" style="color:var(--gold)">学社相关课程</div>
-      <div class="sh-tip-b">${g.course}</div>
-    </div>
-  `);
+function openVoice(target){
+  state.voiceTarget = target;
+  const dim = DIMS.find(d=>d.k === target);
+  const transcript = dim ? dim.voiceDemo : (AI_PARSED[target] ? AI_PARSED[target].transcript : '');
+  const overlay = document.getElementById('voiceOverlay');
+  overlay.classList.add('open');
+  document.getElementById('voicePanel').innerHTML = `
+    <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="voice-status">正在聆听...</div>
+    <div class="voice-transcript">说人话就行，比如："${transcript.slice(0, 30)}..."</div>
+    <button class="voice-cancel" data-voice-cancel>取消</button>
+  `;
+  setTimeout(()=>{
+    document.getElementById('voicePanel').innerHTML = `
+      <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="voice-status">识别中...</div>
+      <div class="voice-transcript">"${transcript}"</div>
+    `;
+  }, 1200);
+  setTimeout(()=>{
+    document.getElementById('voicePanel').innerHTML = `
+      <div style="font-size:40px;margin-bottom:14px">✓</div>
+      <div class="voice-status" style="color:#C8102E">解析完成</div>
+      <div class="voice-transcript" style="font-style:normal">"${transcript}"</div>
+      <button class="sh-btn" data-voice-done style="width:100%;margin-top:8px">查看解析结果</button>
+    `;
+  }, 2600);
 }
 
-function openMgr(k){
-  const m = MGR_TOOLS.find(x=>x.k===k);
-  openSheet(m.nm, m.s, `
-    <div class="sh-tip">
-      <div class="sh-tip-t">这个工具能帮你</div>
-      <div class="sh-tip-b">${m.s}。健康管家会协助你使用，不需要自己操心。</div>
-    </div>
-    <div class="sh-row"><div class="sh-l">服务团队</div><div class="sh-v" style="font-size:14px">李婧 · 健康管家</div></div>
-    <div class="sh-row"><div class="sh-l">响应时间</div><div class="sh-v" style="font-size:14px">3分钟内</div></div>
-  `);
+function closeVoice(){ document.getElementById('voiceOverlay').classList.remove('open'); }
+
+function applyVoice(){
+  const target = state.voiceTarget;
+  if(target === 'diet'){
+    state.dietParsed = JSON.parse(JSON.stringify(AI_PARSED.diet));
+    state.dietMode = 'voice';
+    state.dietStruct = {
+      alcohol_extra: state.dietParsed.summary.alcohol > 0 ? '少量' : '没喝',
+      coffee: state.dietParsed.coffee >= 3 ? '3杯+' : state.dietParsed.coffee >= 2 ? '2杯' : state.dietParsed.coffee >= 1 ? '1杯' : '0杯',
+      water: '4-6杯',
+      tea: '0杯'
+    };
+    closeVoice(); closeModal();
+    setTimeout(()=>{ openDiet(); }, 260);
+    return;
+  }
+  if(target === 'body'){
+    state.records.symptom = ['颈肩痛','便秘'];
+    state.bodyFollowups = {
+      '颈肩痛':{'持续时间':'几天','是否影响活动':'轻微'},
+      '便秘':{'多久一次':'2-3天','大便干硬程度':'偏干','是否腹胀':'轻微'}
+    };
+    closeVoice(); closeModal();
+    setTimeout(()=>{ renderBodySheet(); }, 260);
+    return;
+  }
+  if(target === 'breath'){
+    state.records.breath_symptom = ['胸闷'];
+    state.records.breath_practice = '5分钟慢呼吸';
+    state.breathFollowups = {
+      '胸闷':{'多久一次':'偶尔','什么情况下':'情绪激动时'}
+    };
+    closeVoice(); closeModal();
+    setTimeout(()=>{ renderBreathSheet(); }, 260);
+    return;
+  }
+  if(target === 'env'){
+    state.records.env_exposure = ['空气污染','长期空调房'];
+    state.records.natural_light = '1-2小时';
+    state.records.natural_time = '1-2小时';
+    state.envFollowups = {
+      '空气污染':{'每周暴露天数':'3-4天','是否戴口罩':'偶尔戴'},
+      '长期空调房':{'每天几小时':'4-8h','是否开窗':'偶尔'}
+    };
+    closeVoice(); closeModal();
+    setTimeout(()=>{ renderEnvSheet(); }, 260);
+    return;
+  }
+  const map = {
+    sleep:{sleep_q:'不错'},
+    move:{exercise_type:'散步', exercise_dur:'30分钟'},
+    stress:{work_hours:'8-10h', meeting_hours:'2-4h', trip:'否', event:'好事', big_event:'没有'},
+    cognition:{focus:'一般', memory:'好', cog_prevent:['读书','社交聚会']},
+    med:{med_visit:'没有', med_pill:'按时', supplement:['维生素D','Omega-3']},
+    week:{}, month:{}, quiz:{}
+  };
+  const fills = map[target];
+  if(fills){ Object.keys(fills).forEach(k=>{ state.records[k] = fills[k]; }); }
+  closeVoice();
+  const dim = DIMS.find(d=>d.k === target);
+  if(dim){ openDimRecord(dim.k); }
 }
 
-function openTeam(n){
-  const m = TEAM.find(x=>x.n===n);
-  openSheet(m.n, m.r, `
-    <div class="sh-row"><div class="sh-l">今日在线</div><div class="sh-v" style="color:var(--green)">是</div></div>
-    <div class="sh-row"><div class="sh-l">平均响应</div><div class="sh-v" style="color:var(--green)">3分钟</div></div>
-    <div class="sh-tip">
-      <div class="sh-tip-t">直接联系</div>
-      <div class="sh-tip-b">点击下方按钮，在微信里发起对话。日常问题不需要预约。</div>
-    </div>
-  `);
-}
-
-function openRec(t){
-  const r = RECOMMEND.find(x=>x.t===t);
-  openSheet(r.t, r.s, `
-    <div class="sh-tip">
-      <div class="sh-tip-t">为什么推荐给你</div>
-      <div class="sh-tip-b">基于你的九宫格数据，这项内容与你当前最薄弱的维度高度相关。</div>
-    </div>
-  `);
-}
-
-function openDiary(){
-  openSheet('健康日记', '花1分钟记录今天', `
-    <div class="sh-tip">
-      <div class="sh-tip-t">今天需要补充</div>
-      <div class="sh-tip-b">感觉、症状、应酬、大事、就医，这几项需要你手动记录。其他的系统已经自动填好了。</div>
-    </div>
-    <div class="sh-row"><div class="sh-l">✅ 已自动记录</div><div class="sh-v" style="color:var(--green);font-size:14px">4项</div></div>
-    <div class="sh-row"><div class="sh-l">📝 待你补充</div><div class="sh-v" style="color:var(--gold);font-size:14px">5项</div></div>
-  `);
-}
-
-function openStrategy(){
-  openSheet('当前策略', '第12天 · 共21天', `
-    <div class="sh-tip"><div class="sh-tip-t">主杠杆点</div><div class="sh-tip-b">改善睡眠 · 入睡慢与夜醒</div></div>
-    <div class="sh-row"><div class="sh-l">主行动</div><div class="sh-v" style="font-size:13.5px">睡前90分钟放下手机</div></div>
-    <div class="sh-row"><div class="sh-l">辅助行动</div><div class="sh-v" style="font-size:13.5px">每天7:00固定起床</div></div>
-    <div class="sh-row"><div class="sh-l">下次评估</div><div class="sh-v" style="font-size:13.5px">12月15日</div></div>
-    <div class="sh-tip" style="border-color:rgba(46,212,122,.3);background:rgba(46,212,122,.06)">
-      <div class="sh-tip-t" style="color:var(--green)">进展</div>
-      <div class="sh-tip-b">入睡时间已从00:30提前到23:20，深睡从1h20m提升到1h48m。</div>
-    </div>
-  `);
-}
-
-/* ============================================================
-   事件
-   ============================================================ */
 document.addEventListener('click', e=>{
-  /* 引导 */
-  if(e.target.closest('[data-onb-start]')){
-    state.onbScreen='quiz'; state.quizIndex=0; state.ans={};
-    renderOnb(); return;
-  }
-  if(e.target.closest('[data-onb-prev]')){
-    if(state.quizIndex>0){ state.quizIndex--; renderOnb(); }
-    return;
-  }
-  if(e.target.closest('[data-onb-next]')){
-    if(state.quizIndex < QUIZ.length-1){ state.quizIndex++; renderOnb(); }
-    else { state.onbScreen='upload'; renderOnb(); }
-    return;
-  }
-  if(e.target.closest('[data-onb-upload]')){
-    state.onbScreen='generating'; state.genStep=0; renderOnb(); simulateGen(); return;
-  }
-  if(e.target.closest('[data-onb-generate]')){
-    state.onbScreen='generating'; state.genStep=0; renderOnb(); simulateGen(); return;
-  }
-  if(e.target.closest('[data-onb-finish]')){
-    state.phase='app'; state.tab='home'; renderApp(); return;
-  }
-
-  /* 问卷选项（单选/量表） */
-  const single = e.target.closest('[data-single]');
-  if(single){
-    state.ans[single.dataset.single] = parseInt(single.dataset.val);
-    renderOnb();
-    return;
-  }
-  /* 问卷选项（多选） */
-  const multi = e.target.closest('[data-multi]');
-  if(multi){
-    const k = multi.dataset.multi;
-    const v = multi.dataset.val;
-    const excl = multi.dataset.excl;
-    let arr = state.ans[k] ? [...state.ans[k]] : [];
-    const isExcl = excl && v===excl;
-    if(arr.includes(v)) arr = arr.filter(x=>x!==v);
-    else {
-      if(isExcl) arr=[v];
-      else { arr = arr.filter(x=>x!==excl); arr.push(v); }
-    }
-    state.ans[k] = arr;
-    renderOnb();
-    return;
-  }
-
-  /* App */
   const t = e.target.closest('[data-tab]');
-  if(t){ state.tab=t.dataset.tab; renderApp(); return; }
-  const go = e.target.closest('[data-tab-go]');
-  if(go){ state.tab=go.dataset.tabGo; renderApp(); return; }
-  const a = e.target.closest('[data-action]');
-  if(a){
-    const id=a.dataset.action;
-    state.doneActions.has(id)?state.doneActions.delete(id):state.doneActions.add(id);
-    renderApp(); return;
+  if(t){ state.tab=t.dataset.tab; render(); return; }
+
+  const dim = e.target.closest('[data-dim]');
+  if(dim){ openDimRecord(dim.dataset.dim); return; }
+
+  const ob = e.target.closest('[data-open]');
+  if(ob){
+    const k = ob.dataset.open;
+    if(k==='week') openWeek();
+    else if(k==='month') openMonth();
+    else if(k==='quiz') openQuiz();
+    return;
   }
-  const g = e.target.closest('[data-grid]');
-  if(g){ openGrid(g.dataset.grid); return; }
-  const m = e.target.closest('[data-mgr]');
-  if(m){ openMgr(m.dataset.mgr); return; }
-  const tm = e.target.closest('[data-team]');
-  if(tm){ openTeam(tm.dataset.team); return; }
-  const r = e.target.closest('[data-rec]');
-  if(r){ openRec(r.dataset.rec); return; }
-  if(e.target.closest('[data-diary-open]')){ openDiary(); return; }
-  const d = e.target.closest('[data-diary]');
-  if(d){
-    const k=d.dataset.diary;
-    state.diaryDone.has(k)?state.diaryDone.delete(k):state.diaryDone.add(k);
-    renderApp(); return;
+
+  const vb = e.target.closest('[data-voice]');
+  if(vb){ openVoice(vb.dataset.voice); return; }
+  if(e.target.closest('[data-voice-cancel]')){ closeVoice(); return; }
+  if(e.target.closest('[data-voice-done]')){ applyVoice(); return; }
+
+  const dm = e.target.closest('[data-diet-mode]');
+  if(dm){
+    state.dietMode = dm.dataset.dietMode;
+    openDiet();
+    return;
   }
-  if(e.target.closest('[data-strategy]')){ openStrategy(); return; }
+
+  const qm = e.target.closest('[data-quick-meal]');
+  if(qm){
+    const mk = qm.dataset.quickMeal;
+    const ck = qm.dataset.quickCat;
+    const v = qm.dataset.quickVal;
+    if(!state.dietQuick[mk]) state.dietQuick[mk] = {};
+    state.dietQuick[mk][ck] = state.dietQuick[mk][ck] === v ? '' : v;
+    openDiet();
+    return;
+  }
+
+  const sym = e.target.closest('[data-sym]');
+  if(sym){
+    const v = sym.dataset.sym;
+    let arr = state.records.symptom || [];
+    if(v === '没有'){
+      arr = arr.includes('没有') ? [] : ['没有'];
+    } else {
+      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
+      if(arr.includes(v)){
+        arr = arr.filter(x=>x!==v);
+        delete state.bodyFollowups[v];
+      } else {
+        arr.push(v);
+      }
+    }
+    state.records.symptom = arr;
+    renderBodySheet();
+    return;
+  }
+
+  const fu = e.target.closest('[data-fu-sym]');
+  if(fu){
+    const s = fu.dataset.fuSym;
+    const q = fu.dataset.fuQ;
+    const v = fu.dataset.fuV;
+    if(!state.bodyFollowups[s]) state.bodyFollowups[s] = {};
+    state.bodyFollowups[s][q] = v;
+    renderBodySheet();
+    return;
+  }
+
+  const bsym = e.target.closest('[data-breath-sym]');
+  if(bsym){
+    const v = bsym.dataset.breathSym;
+    let arr = state.records.breath_symptom || [];
+    if(v === '没有'){
+      arr = arr.includes('没有') ? [] : ['没有'];
+    } else {
+      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
+      if(arr.includes(v)){
+        arr = arr.filter(x=>x!==v);
+        delete state.breathFollowups[v];
+      } else {
+        arr.push(v);
+      }
+    }
+    state.records.breath_symptom = arr;
+    renderBreathSheet();
+    return;
+  }
+
+  const bfu = e.target.closest('[data-breath-fu-sym]');
+  if(bfu){
+    const s = bfu.dataset.breathFuSym;
+    const q = bfu.dataset.breathFuQ;
+    const v = bfu.dataset.breathFuV;
+    if(!state.breathFollowups[s]) state.breathFollowups[s] = {};
+    state.breathFollowups[s][q] = v;
+    renderBreathSheet();
+    return;
+  }
+
+  const eexp = e.target.closest('[data-env-exp]');
+  if(eexp){
+    const v = eexp.dataset.envExp;
+    let arr = state.records.env_exposure || [];
+    if(v === '没有'){
+      arr = arr.includes('没有') ? [] : ['没有'];
+    } else {
+      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
+      if(arr.includes(v)){
+        arr = arr.filter(x=>x!==v);
+        delete state.envFollowups[v];
+      } else {
+        arr.push(v);
+      }
+    }
+    state.records.env_exposure = arr;
+    renderEnvSheet();
+    return;
+  }
+
+  const efu = e.target.closest('[data-env-fu-sym]');
+  if(efu){
+    const s = efu.dataset.envFuSym;
+    const q = efu.dataset.envFuQ;
+    const v = efu.dataset.envFuV;
+    if(!state.envFollowups[s]) state.envFollowups[s] = {};
+    state.envFollowups[s][q] = v;
+    renderEnvSheet();
+    return;
+  }
+
+  const rec = e.target.closest('[data-rec]');
+  if(rec){
+    const k = rec.dataset.rec;
+    const v = rec.dataset.val;
+    const isMulti = rec.dataset.multi === '1';
+    if(isMulti){
+      let arr = state.records[k] || [];
+      if(v==='没有' || v==='都没有' || v==='没吃'){
+        arr = arr.includes(v)?[]:[v];
+      } else {
+        arr = arr.includes(v)?arr.filter(x=>x!==v):[...arr.filter(x=>x!=='没有' && x!=='都没有' && x!=='没吃'), v];
+      }
+      state.records[k] = arr;
+    } else {
+      state.records[k] = v;
+    }
+    const d = DIMS.find(x=>x.type === 'breath' && k.startsWith('breath'));
+    if(d){ renderBreathSheet(); return; }
+    const d2 = DIMS.find(x=>x.type === 'env' && k.startsWith('natural'));
+    if(d2){ renderEnvSheet(); return; }
+    const d3 = DIMS.find(x=>x.subj && x.subj.some(r=>r.k===k));
+    if(d3){ openDimRecord(d3.k); }
+    return;
+  }
+
+  const st = e.target.closest('[data-struct]');
+  if(st){
+    state.dietStruct[st.dataset.struct] = st.dataset.val;
+    openDiet();
+    return;
+  }
+
+  const wk = e.target.closest('[data-week]');
+  if(wk){ state.weekJudge[wk.dataset.week] = wk.dataset.val; openWeek(); return; }
+  const mo = e.target.closest('[data-month]');
+  if(mo){ state.monthJudge[mo.dataset.month] = mo.dataset.val; openMonth(); return; }
+  const fa = e.target.closest('[data-fam]');
+  if(fa){ state.familyJudge[fa.dataset.fam] = fa.dataset.val; openWeek(); return; }
+
+  if(e.target.closest('[data-action]')){
+    state.actionDone = !state.actionDone;
+    render();
+    return;
+  }
+
+  const pr = e.target.closest('[data-practice]');
+  if(pr){
+    openSheet(pr.dataset.practice, `
+      <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line2);font-size:14px">
+        <span style="color:var(--ink2)">来源</span><span style="font-weight:600">学社最佳实践</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:14px 0;font-size:14px">
+        <span style="color:var(--ink2)">建议周期</span><span style="font-weight:600">21 天</span>
+      </div>
+      <div class="sh-btn" data-close>加入</div>
+    `);
+    return;
+  }
+
+  const qzS = e.target.closest('[data-qz-single]');
+  if(qzS){ state.quizAns[qzS.dataset.qzSingle]=parseInt(qzS.dataset.val); renderQuiz(); return; }
+  const qzM = e.target.closest('[data-qz-multi]');
+  if(qzM){
+    const k=qzM.dataset.qzMulti, v=qzM.dataset.val, excl=qzM.dataset.excl;
+    let arr = state.quizAns[k]?[...state.quizAns[k]]:[];
+    const isE = excl && v===excl;
+    if(arr.includes(v)) arr=arr.filter(x=>x!==v);
+    else { if(isE) arr=[v]; else { arr=arr.filter(x=>x!==excl); arr.push(v); } }
+    state.quizAns[k]=arr;
+    renderQuiz();
+    return;
+  }
+  if(e.target.closest('[data-qz-prev]')){
+    if(state.quizIndex>0){ state.quizIndex--; renderQuiz(); }
+    return;
+  }
+  if(e.target.closest('[data-qz-next]')){
+    const b = e.target.closest('[data-qz-next]');
+    if(b.classList.contains('disabled')) return;
+    if(state.quizIndex<QUIZ.length-1){ state.quizIndex++; renderQuiz(); }
+    else { renderQuizResult(); }
+    return;
+  }
+
   if(e.target.closest('[data-close]') || e.target.id==='modal'){
-    document.getElementById('modal').classList.remove('open');
+    closeModal();
   }
 });
 
-function simulateGen(){
-  const timer = setInterval(()=>{
-    state.genStep++;
-    if(state.genStep>=5){
-      clearInterval(timer);
-      state.onbScreen='result';
-      renderOnb();
-    } else {
-      const steps = document.querySelectorAll('.gen-step');
-      if(steps[state.genStep]) steps[state.genStep].classList.add('on');
+document.addEventListener('input', e=>{
+  if(e.target.classList.contains('rec-note')){
+    state.records[e.target.dataset.note + '_note'] = e.target.value;
+  }
+  if(e.target.hasAttribute('data-weight-input')){
+    const v = parseFloat(e.target.value);
+    if(v && v>20 && v<300){
+      state.weight = v;
+      document.querySelectorAll('.obj-row').forEach(row=>{
+        if(row.querySelector('.obj-nm') && row.querySelector('.obj-nm').textContent === 'BMI'){
+          row.querySelector('.obj-val').textContent = calcBMI(v);
+        }
+      });
     }
-  }, 600);
-}
+  }
+});
 
-/* 启动 */
-renderOnb();
+render();
 </script>
 </body>
 </html>
