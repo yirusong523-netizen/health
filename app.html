@@ -93,37 +93,13 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .tc-num{font-size:32px;font-weight:700;letter-spacing:-1.2px;line-height:1;margin-top:7px}
 .tc-num small{font-size:12px;font-weight:500;color:var(--ink3);margin-left:4px;letter-spacing:0}
 .tc-delta{font-size:12px;font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
-.tc-delta.up{background:#FFF8E7;color:var(--gold)}
+.tc-delta.up{background:var(--red-bg);color:var(--red)}
 .tc-delta.down{background:var(--gray-bg);color:var(--ink2)}
 .trend{width:100%;height:110px;display:block;margin-top:6px}
 .trend-x{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);
   margin-top:2px;padding:0 4px}
 .mini-btn{padding:6px 12px;border-radius:20px;background:var(--gold-bg);color:var(--gold);
   font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-
-.ai-card{display:flex;gap:12px;background:linear-gradient(135deg,#fff,#F5F9FF);
-  border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
-.ai-avatar-wrap{width:48px;height:48px;flex-shrink:0;position:relative}
-.ai-avatar{width:44px;height:44px;border-radius:16px;
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;
-  font-weight:700;position:relative;overflow:hidden;
-  box-shadow:0 8px 18px rgba(15,27,45,.18);transition:.2s}
-.ai-avatar .ai-eye{position:absolute;top:14px;width:4px;height:4px;border-radius:50%;background:#fff}
-.ai-avatar .ai-eye.l{left:12px}
-.ai-avatar .ai-eye.r{right:12px}
-.ai-avatar .ai-mouth{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
-  width:12px;height:6px;border-bottom:2px solid #fff;border-radius:0 0 8px 8px}
-.ai-name{font-size:13px;font-weight:700;margin-bottom:6px}
-.ai-name span{font-size:10.5px;color:var(--ink3);font-weight:400;margin-left:6px}
-.ai-todo{display:flex;flex-direction:column;gap:7px}
-.ai-todo-row{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;
-  color:var(--ink2);line-height:1.5}
-.ai-todo-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);
-  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
-  font-size:9px;color:#fff;transition:.15s;cursor:pointer}
-.ai-todo-dot.done{background:var(--gold);border-color:var(--gold)}
-.ai-todo-txt{flex:1;min-width:0}
-.ai-todo-txt.done{color:var(--ink3);text-decoration:line-through}
 
 .g9-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .g9{background:var(--card);border:1px solid var(--line);border-radius:14px;
@@ -140,35 +116,44 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .g9-bar{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;margin-top:10px}
 .g9-bar span{display:block;height:100%;border-radius:2px;transition:width .6s}
 
-.life{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
-  padding:24px 22px;margin-bottom:14px;position:relative;overflow:hidden}
-.life::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
-  border-radius:50%;background:rgba(184,134,11,.18)}
-.life-tag{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;position:relative}
-.life-title{font-size:18px;font-weight:700;color:#fff;margin-top:12px;letter-spacing:-.2px;position:relative}
-.life-rows{margin-top:20px;display:flex;flex-direction:column;gap:8px;position:relative}
-.life-row{display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;border-radius:13px;background:rgba(255,255,255,.05)}
-.life-row.mine{background:rgba(184,134,11,.20);border:1px solid rgba(184,134,11,.45)}
-.life-row-lb{font-size:12.5px;color:rgba(255,255,255,.6)}
-.life-row.mine .life-row-lb{color:rgba(255,255,255,.9);font-weight:500}
-.life-row-val{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.6px;
-  display:flex;align-items:baseline;gap:3px}
-.life-row-val small{font-size:12px;color:rgba(255,255,255,.5);font-weight:500}
-.life-row.mine .life-row-val{color:#FFD27A}
-.life-concl{margin-top:18px;padding:14px 16px;background:rgba(255,255,255,.05);
-  border-radius:12px;font-size:13.5px;color:rgba(255,255,255,.9);line-height:1.7;position:relative}
-.life-concl b{color:#FFD27A;font-weight:700}
+/* 等级卡（纵向） */
+.level-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
+  padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;color:#fff}
+.level-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
+  border-radius:50%;background:rgba(184,134,11,.20)}
+.level-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:relative}
+.level-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.22);
+  border:1px solid rgba(184,134,11,.45);color:#FFD27A;font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:20px;letter-spacing:.5px}
 
-.asset{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:20px;margin-bottom:14px}
-.asset-rows{display:flex;flex-direction:column;gap:16px}
-.asset-row{display:flex;align-items:center;gap:12px}
-.asset-row-nm{font-size:15px;color:var(--ink);font-weight:700;width:24px;flex-shrink:0}
-.asset-row-sub{font-size:11.5px;color:var(--ink3);width:60px;flex-shrink:0}
+.level-now{margin-top:18px;position:relative}
+.level-now-lb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1.5px}
+.level-now-name{font-size:56px;font-weight:700;color:#FFD27A;letter-spacing:-2.4px;
+  line-height:1;margin-top:8px}
+.level-now-age{font-size:14px;color:rgba(255,255,255,.65);margin-top:8px;font-weight:500}
+
+.level-list{display:flex;flex-direction:column;gap:6px;margin-top:22px;position:relative}
+.level-row{display:flex;align-items:center;gap:12px;padding:11px 14px;
+  border-radius:12px;background:rgba(255,255,255,.05);transition:.2s}
+.level-row.on{background:rgba(184,134,11,.25);border:1px solid rgba(184,134,11,.5)}
+.level-row-name{font-size:15px;font-weight:700;color:rgba(255,255,255,.55);width:66px;flex-shrink:0}
+.level-row.on .level-row-name{color:#FFD27A;font-size:18px}
+.level-row-age{font-size:11.5px;color:rgba(255,255,255,.4);flex:1}
+.level-row.on .level-row-age{color:rgba(255,255,255,.85)}
+.level-row-tag{font-size:10.5px;color:rgba(255,255,255,.35);font-weight:500;flex-shrink:0}
+.level-row.on .level-row-tag{color:#FFD27A;font-weight:700}
+.level-row.done .level-row-name{color:rgba(255,255,255,.8)}
+.level-row.done .level-row-tag{color:rgba(255,255,255,.55)}
+
+.asset-list{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px 18px;margin-bottom:14px}
+.asset-list-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
+.asset-row{display:flex;align-items:center;gap:12px;padding:8px 0}
+.asset-row-nm{width:22px;font-size:15px;font-weight:700;color:var(--ink);flex-shrink:0}
+.asset-row-sub{width:56px;font-size:11.5px;color:var(--ink3);flex-shrink:0}
 .asset-row-bar{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
 .asset-row-fill{height:100%;border-radius:3px;transition:width .6s}
-.asset-row-val{font-size:15px;font-weight:700;width:32px;text-align:right;flex-shrink:0}
+.asset-row-val{width:30px;text-align:right;font-size:14px;font-weight:700;flex-shrink:0}
 
 .goal-card{background:var(--card);border:1px solid var(--line);border-radius:18px;
   padding:22px 20px;position:relative;overflow:hidden;margin-bottom:14px}
@@ -274,190 +259,69 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .sh-btn.disabled{background:#E8EEF5;color:var(--ink3);cursor:not-allowed}
 .sh-btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
 
-.sh-range{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);
-  color:var(--gold);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;
-  margin-bottom:16px}
-.sh-range .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+/* 具体指标行（带加减变化） */
+.metrics-block{background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:6px 16px;margin-bottom:18px}
+.metrics-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1px;
+  padding:12px 0 4px;display:flex;align-items:center;justify-content:space-between}
+.metrics-hd .cnt{font-size:10px;color:var(--ink3);font-weight:400}
+.metric-row{display:flex;align-items:center;gap:10px;padding:12px 0;
+  border-bottom:1px solid var(--line2)}
+.metric-row:last-child{border-bottom:none}
+.metric-nm{font-size:12.5px;color:var(--ink2);flex:1;min-width:0;line-height:1.4}
+.metric-v{font-size:14px;font-weight:700;color:var(--ink);text-align:right;flex-shrink:0;letter-spacing:-.2px}
+.metric-v small{font-size:10.5px;color:var(--ink3);font-weight:500;margin-left:2px}
+.metric-v.empty{color:var(--ink3);font-weight:500;font-size:12.5px}
+.metric-delta{font-size:11.5px;font-weight:700;width:44px;text-align:right;flex-shrink:0}
+.metric-delta.good{color:var(--red)}
+.metric-delta.bad{color:var(--ink2)}
+.metric-delta.flat{color:var(--ink3);font-weight:400}
 
-.voice-bar{position:sticky;bottom:-1px;margin-top:22px;background:#fff;
-  border-top:1px solid var(--line);padding:14px 0 6px;
-  display:flex;align-items:center;gap:12px;z-index:5}
-.voice-btn{flex:1;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);color:#fff;
+.metrics-empty{padding:16px 4px 18px;text-align:center;color:var(--ink3);font-size:12.5px;line-height:1.6}
+
+/* 对话式输入 */
+.chat-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
+  padding:14px 14px 12px;margin-bottom:18px}
+.chat-block-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1px;
+  margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.chat-block-hd::before{content:'记录';background:var(--gold-bg);color:var(--gold);
+  font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:0}
+.chat-msg{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-avatar{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;
+  font-weight:700;flex-shrink:0}
+.chat-msg.user .chat-avatar{background:linear-gradient(135deg,#B8860B,#7A5A00)}
+.chat-bubble{max-width:80%;background:#fff;border-radius:12px;padding:10px 12px;
+  font-size:13px;line-height:1.6;color:var(--ink);border:1px solid var(--line)}
+.chat-msg.user .chat-bubble{background:var(--gold-bg);color:var(--ink);border-color:transparent}
+.chat-hint{font-size:11.5px;color:var(--ink3);margin-top:6px;line-height:1.5}
+.chat-parsed{margin:2px 0 10px 34px;padding:8px 10px;background:#fff;border:1px dashed var(--line);
+  border-radius:10px;font-size:11.5px;color:var(--ink2);line-height:1.6}
+.chat-parsed b{color:var(--ink);font-weight:600}
+.chat-parsed span{display:inline-block;margin-right:12px}
+.chat-input{display:flex;gap:8px;margin-top:12px}
+.chat-input input{flex:1;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;
+  font-size:13.5px;outline:none;background:#fff;font-family:inherit;color:var(--ink)}
+.chat-input input:focus{border-color:var(--mid)}
+.chat-input button{background:var(--ink);color:#fff;border:none;border-radius:10px;
+  padding:0 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.chat-done{text-align:center;font-size:12px;color:var(--ink3);margin-top:10px;
+  padding:10px;background:#fff;border-radius:10px;border:1px dashed var(--line)}
+.chat-done b{color:var(--gold)}
+
+/* 语音入口 */
+.voice-entry{position:sticky;bottom:-1px;margin-top:22px;background:#fff;
+  border-top:1px solid var(--line);padding:14px 0 6px;z-index:5}
+.voice-btn{width:100%;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);color:#fff;
   border-radius:14px;padding:14px;text-align:center;font-size:14.5px;font-weight:600;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;
-  border:none;font-family:inherit}
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  border:none;font-family:inherit;transition:.15s}
 .voice-btn:active{transform:scale(.98)}
 .voice-icon{width:20px;height:20px;flex-shrink:0}
-.voice-hint{font-size:11px;color:var(--ink3);flex-shrink:0}
+.voice-hint{font-size:11px;color:var(--ink3);text-align:center;margin-top:8px}
 
-.obj-block{background:var(--gray-bg);border-radius:12px;padding:16px;margin-bottom:22px}
-.obj-label{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:12px}
-.obj-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0}
-.obj-row:first-of-type{padding-top:0}
-.obj-row:last-child{padding-bottom:0}
-.obj-nm{font-size:13.5px;color:var(--ink2)}
-.obj-val{font-size:16px;font-weight:700;letter-spacing:-.3px}
-.obj-val span{font-size:11px;color:var(--ink3);font-weight:500;margin-left:2px}
-.obj-input{width:80px;text-align:right;padding:6px 10px;border:1.5px solid var(--line);
-  border-radius:8px;font-size:14px;font-family:inherit;font-weight:700;color:var(--ink);
-  outline:none;background:#fff}
-.obj-input:focus{border-color:var(--mid)}
-
-.subj-label{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
-.rec-item{margin-bottom:20px}
-.rec-item:last-child{margin-bottom:0}
-.rec-label{font-size:14px;color:var(--ink);font-weight:500;margin-bottom:12px;
-  display:flex;align-items:center;justify-content:space-between}
-.rec-label small{font-size:10.5px;color:var(--ink3);font-weight:400}
-.rec-opts{display:flex;flex-wrap:wrap;gap:8px}
-.rec-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
-  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s}
-.rec-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-.rec-note{width:100%;margin-top:10px;padding:11px 14px;border-radius:11px;
-  background:var(--gray-bg);border:1.5px solid transparent;font-size:13.5px;
-  font-family:inherit;color:var(--ink);outline:none;transition:.15s}
-.rec-note:focus{border-color:var(--mid);background:#fff}
-.rec-note::placeholder{color:var(--ink3)}
-.rec-textarea{width:100%;margin-top:10px;padding:11px 14px;border-radius:11px;
-  background:var(--gray-bg);border:1.5px solid transparent;font-size:13.5px;
-  font-family:inherit;color:var(--ink);outline:none;transition:.15s;resize:none;line-height:1.6}
-.rec-textarea:focus{border-color:var(--mid);background:#fff}
-.rec-textarea::placeholder{color:var(--ink3)}
-
-/* 开放式自然语言录入 */
-.nl-block{background:linear-gradient(135deg,#fff,#F5F9FF);border:1px solid var(--line);
-  border-radius:16px;padding:16px;margin-bottom:20px}
-.nl-hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.nl-ico{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;
-  font-weight:700;flex-shrink:0}
-.nl-title{font-size:13.5px;font-weight:700;color:var(--ink)}
-.nl-guide{font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px}
-.nl-guide b{color:var(--gold);font-weight:600}
-.nl-textarea{width:100%;min-height:110px;padding:12px 14px;border-radius:12px;
-  border:1.5px solid var(--line);background:#fff;font-size:14px;line-height:1.7;
-  font-family:inherit;color:var(--ink);outline:none;resize:none;transition:.15s}
-.nl-textarea:focus{border-color:var(--mid)}
-.nl-textarea::placeholder{color:var(--ink3)}
-.nl-foot{display:flex;align-items:center;gap:8px;margin-top:10px}
-.nl-mic{flex:1;background:var(--blue-bg);color:var(--mid);border-radius:11px;padding:10px;
-  text-align:center;font-size:13px;font-weight:600;cursor:pointer;display:flex;
-  align-items:center;justify-content:center;gap:6px}
-.nl-save{flex:1;background:var(--ink);color:#fff;border-radius:11px;padding:10px;
-  text-align:center;font-size:13px;font-weight:600;cursor:pointer}
-.nl-parsed{background:#fff;border:1px solid var(--line);border-radius:12px;
-  padding:14px;margin-top:12px}
-.nl-parsed-t{font-size:10.5px;color:var(--mid);font-weight:600;letter-spacing:1px;
-  margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.nl-parsed-t::before{content:'AI';background:var(--blue-bg);color:var(--mid);
-  font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:0}
-.nl-parsed-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
-.nl-parsed-row .k{color:var(--ink3)}
-.nl-parsed-row .v{color:var(--ink);font-weight:600}
-.nl-history{margin-top:16px}
-.nl-history-t{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1px;margin-bottom:8px}
-.nl-history-item{background:var(--gray-bg);border-radius:10px;padding:10px 12px;
-  font-size:12.5px;color:var(--ink2);line-height:1.6;margin-bottom:6px}
-
-.sym-group{margin-bottom:18px}
-.sym-group-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;
-  margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.sym-group-t .count{color:var(--mid);background:var(--blue-bg);
-  padding:1px 6px;border-radius:8px;font-size:10px}
-.sym-opts{display:flex;flex-wrap:wrap;gap:8px}
-.sym-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
-  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s;position:relative}
-.sym-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-.sym-opt.on.danger{background:var(--red-bg);color:var(--red)}
-.sym-opt.alert{color:var(--red);font-weight:500}
-
-.fu-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
-  padding:16px;margin-top:14px}
-.fu-hd{font-size:13px;color:var(--ink);font-weight:600;margin-bottom:14px;
-  display:flex;align-items:center;gap:6px}
-.fu-hd::before{content:'';width:3px;height:12px;background:var(--mid);border-radius:2px}
-.fu-item{margin-bottom:14px}
-.fu-item:last-child{margin-bottom:0}
-.fu-label{font-size:12.5px;color:var(--ink2);font-weight:500;margin-bottom:8px}
-.fu-opts{display:flex;flex-wrap:wrap;gap:6px}
-.fu-opt{padding:8px 13px;border-radius:9px;background:#fff;border:1px solid var(--line);
-  font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s}
-.fu-opt.on{background:var(--gold-bg);color:var(--gold);border-color:var(--gold);font-weight:600}
-.fu-opt.danger.on{background:var(--red-bg);color:var(--red);border-color:var(--red)}
-
-.urgent-banner{background:var(--red-bg);border:1.5px solid var(--red);
-  border-radius:14px;padding:16px;margin-top:14px;display:flex;gap:12px;align-items:flex-start}
-.urgent-ico{width:32px;height:32px;border-radius:10px;background:var(--red);
-  display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;
-  flex-shrink:0;font-weight:700}
-.urgent-body{flex:1}
-.urgent-t{font-size:13.5px;font-weight:600;color:var(--red);margin-bottom:6px}
-.urgent-s{font-size:12.5px;color:var(--ink);line-height:1.6}
-
-.big-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.big-item{background:var(--gray-bg);border-radius:12px;padding:16px 8px;text-align:center}
-.big-val{font-size:18px;font-weight:700;letter-spacing:-.4px;line-height:1}
-.big-lb{font-size:11px;color:var(--ink3);margin-top:8px}
-.big-delta{font-size:11px;font-weight:600;margin-top:5px}
-.big-delta.up{color:var(--gold)}
-.big-delta.down{color:var(--bad)}
-
-.judge-group{margin-bottom:22px}
-.judge-group-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
-.judge-item{margin-bottom:18px}
-.judge-item:last-child{margin-bottom:0}
-.judge-label{font-size:13.5px;color:var(--ink);font-weight:500;margin-bottom:10px;
-  display:flex;align-items:center;justify-content:space-between}
-.judge-label small{font-size:11px;color:var(--ink3);font-weight:400}
-.judge-opts{display:flex;gap:6px}
-.judge-opt{flex:1;padding:11px 4px;text-align:center;border-radius:10px;
-  background:var(--gray-bg);font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s}
-.judge-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-
-.qz-q{font-size:19px;font-weight:600;line-height:1.5;letter-spacing:-.2px}
-.qz-opts{margin-top:20px}
-.qz-opt{display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;
-  border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:14.5px;
-  cursor:pointer;font-family:inherit;color:var(--ink2);line-height:1.5}
-.qz-opt.on{border-color:var(--gold);background:var(--gold-bg);color:var(--gold);font-weight:600}
-.qz-input{width:100%;padding:20px;border:2px solid var(--line);border-radius:14px;
-  font-size:26px;font-weight:700;font-family:inherit;text-align:center;
-  background:#fff;color:var(--ink);outline:none;letter-spacing:6px}
-.qz-input:focus{border-color:var(--mid)}
-
-.parsed-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
-  padding:16px;margin-bottom:18px}
-.parsed-title{font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;
-  margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.parsed-title::before{content:'AI';background:var(--blue-bg);color:var(--mid);
-  font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:0}
-.meal-block{margin-bottom:14px}
-.meal-block:last-child{margin-bottom:0}
-.meal-hd{font-size:12px;color:var(--ink2);font-weight:600;margin-bottom:8px;
-  display:flex;align-items:center;justify-content:space-between}
-.meal-hd .time{color:var(--ink3);font-weight:400;font-size:11px}
-.food-tag{display:inline-flex;align-items:center;gap:4px;background:#fff;
-  border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:3px 4px 3px 0;
-  font-size:12px;color:var(--ink)}
-.food-tag .attr{font-size:9.5px;color:var(--ink3);padding:1px 4px;border-radius:3px;background:var(--gray-bg)}
-.food-tag .attr.high{background:#FDECEC;color:var(--good)}
-.food-tag .attr.low{background:#F2F5FA;color:var(--ink3)}
-
-.struct-block{background:#fff;border:1.5px solid var(--blue-bg);border-radius:14px;
-  padding:16px;margin-bottom:18px}
-.struct-title{font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;margin-bottom:6px}
-.struct-sub{font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.5}
-.struct-item{margin-bottom:16px}
-.struct-item:last-child{margin-bottom:0}
-.struct-label{font-size:13px;color:var(--ink);font-weight:500;margin-bottom:10px;
-  display:flex;align-items:center;justify-content:space-between}
-.struct-label small{font-size:10.5px;color:var(--ink3);font-weight:400}
-.struct-opts{display:flex;flex-wrap:wrap;gap:6px}
-.struct-opt{padding:8px 14px;border-radius:10px;background:var(--gray-bg);
-  font-size:13px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
-.struct-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-
-.diet-tabs{display:flex;background:#EEF2F7;border-radius:12px;padding:4px;margin-bottom:20px}
+.diet-tabs{display:flex;background:#EEF2F7;border-radius:12px;padding:4px;margin-bottom:18px}
 .diet-tab{flex:1;text-align:center;padding:10px;font-size:13.5px;color:var(--ink2);
   font-weight:500;border-radius:9px;cursor:pointer;transition:.18s}
 .diet-tab.on{background:#fff;color:var(--ink);font-weight:600;
@@ -474,24 +338,10 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500;
   min-width:44px;text-align:center}
 .quick-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-.quick-opt.extra.on{background:var(--red-bg);color:var(--red)}
 
-.compare{margin-top:22px;padding-top:18px;border-top:1px solid var(--line2)}
-.compare-t{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
-.cmp-row{margin-bottom:14px}
-.cmp-row:last-child{margin-bottom:0}
-.cmp-top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px;gap:8px}
-.cmp-nm{color:var(--ink2);flex-shrink:0}
-.cmp-v{color:var(--ink);font-weight:600;text-align:right}
-.cmp-v.high{color:var(--good)}
-.cmp-v.low{color:var(--bad)}
-.cmp-v.normal{color:var(--mid)}
-.cmp-bar{height:8px;background:var(--gray-bg);border-radius:4px;overflow:hidden;position:relative}
-.cmp-fill{height:100%;border-radius:4px;transition:width .6s;background:var(--mid)}
-.cmp-fill.high{background:var(--good)}
-.cmp-fill.low{background:var(--bad)}
-.cmp-range{position:absolute;top:0;bottom:0;background:rgba(30,111,255,.12);
-  border-left:1px dashed rgba(30,111,255,.4);border-right:1px dashed rgba(30,111,255,.4)}
+.rec-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
+  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.rec-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
 
 .voice-overlay{position:fixed;inset:0;background:rgba(15,27,45,.7);backdrop-filter:blur(10px);
   display:none;align-items:center;justify-content:center;z-index:200;padding:40px}
@@ -545,38 +395,14 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .ob-opt{padding:11px 18px;border-radius:12px;background:#fff;border:1px solid var(--line);
   font-size:14px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
 .ob-opt.on{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:600}
-.ob-avatars{display:flex;gap:10px;flex-wrap:wrap}
-.ob-av{width:56px;height:56px;border-radius:18px;background:#fff;border:1.5px solid var(--line);
-  display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;
-  color:var(--ink2);cursor:pointer;transition:.15s;position:relative;overflow:hidden}
-.ob-av.on{color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(15,27,45,.22)}
-.ob-av .av-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.ob-av .av-eye{position:absolute;top:20px;width:4px;height:4px;border-radius:50%;background:#fff}
-.ob-av .av-eye.l{left:18px}
-.ob-av .av-eye.r{right:18px}
-.ob-av .av-mouth{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
-  width:12px;height:6px;border-bottom:2px solid #fff;border-radius:0 0 8px 8px}
 
 .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
 .kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
 .kpi-v{font-size:25px;font-weight:700;letter-spacing:-1px;line-height:1}
 .kpi-l{font-size:11.5px;color:var(--ink3);margin-top:8px}
 .kpi-d{font-size:11px;font-weight:600;margin-top:6px}
-.kpi-d.up{color:var(--gold)}
+.kpi-d.up{color:var(--red)}
 .kpi-d.down{color:var(--bad)}
-.adm-row{display:flex;align-items:center;gap:10px;padding:9px 0}
-.adm-nm{font-size:12.5px;color:var(--ink2);width:34px;flex-shrink:0}
-.adm-bar{flex:1;height:7px;background:var(--gray-bg);border-radius:4px;overflow:hidden}
-.adm-bar-fill{height:100%;border-radius:4px;transition:width .6s}
-.adm-v{font-size:12.5px;font-weight:700;width:26px;text-align:right;flex-shrink:0}
-.alert-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line2)}
-.alert-row:last-child{border-bottom:none}
-.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.alert-dot.high{background:var(--red)}
-.alert-dot.mid{background:var(--warn)}
-.alert-t{font-size:13.5px;font-weight:600}
-.alert-s{font-size:11.5px;color:var(--ink3);margin-top:3px}
-.alert-n{font-size:13px;font-weight:700;margin-left:auto;color:var(--red)}
 
 .rank-row{display:flex;align-items:center;gap:12px;padding:13px 0;
   border-bottom:1px solid var(--line2);cursor:pointer}
@@ -591,14 +417,7 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .rank-nm{font-size:14px;font-weight:600}
 .rank-sub{font-size:11px;color:var(--ink3);margin-top:3px}
 .rank-asset{font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0}
-.rank-asset small{font-size:10px;color:var(--ink3);font-weight:500;margin-left:2px}
 
-.form-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:13px 0;border-bottom:1px solid var(--line2);flex-wrap:wrap}
-.form-row:last-child{border-bottom:none}
-.form-row>span{font-size:13.5px;color:var(--ink2);flex-shrink:0}
-
-/* 分享卡 */
 .share-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
   padding:22px 20px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
 .share-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
@@ -607,7 +426,6 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .share-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
   margin-top:14px;position:relative}
 .share-score{font-size:44px;font-weight:700;letter-spacing:-1.8px;line-height:1}
-.share-score small{font-size:14px;font-weight:500;color:rgba(255,255,255,.5);margin-left:4px;letter-spacing:0}
 .share-score-lb{font-size:11.5px;color:rgba(255,255,255,.55);margin-top:6px}
 .share-gain{font-size:12px;font-weight:700;color:#FFD27A;background:rgba(184,134,11,.22);
   padding:5px 10px;border-radius:20px;white-space:nowrap}
@@ -652,173 +470,143 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 const TODAY = '10月13日 · 周二';
 const WEEKDAYS = ['一','二','三','四','五','六','日'];
 
-/* ============ 健康助理 ============ */
-const ASSISTANTS = [
-  {key:'he', name:'小禾', avatar:'禾', color:'#2E8B57', persona:'温和陪伴型', traits:'耐心、稳定、不评判',
-   hint:'说人话就行，我在听', voiceStatus:'正在聆听...',
-   say:{day:'今天状态不错，晚上 22:30 记得放下手机。',week:'本周健康资产在涨，情绪是最大的杠杆。',
-     month:'本月资产提升明显，继续保持。',year:'今年整体曲线在往上走，值得肯定。',
-     all:'从全部数据看，你已经走了很长一段路。',manual:'手动范围的数据我都看到了，需要我帮你分析吗？'}},
-  {key:'an', name:'安安', avatar:'安', color:'#1E6FFF', persona:'专业分析型', traits:'理性、结构清晰、重证据',
-   hint:'可以直接说数字和感受', voiceStatus:'我在听，说清楚一点',
-   say:{day:'今日资产 8620，情绪项拖累最明显，建议先做 5 分钟慢呼吸。',
-     week:'本周资产上升 420，情绪项仍是短板，建议优先处理。',
-     month:'本月资产上升 820，结构在改善，但压力项仍低于均值。',
-     year:'今年资产上升 2420，趋势健康，建议保持运动与睡眠。',
-     all:'全周期资产从 3800 升到 8620，建议继续当前策略。',
-     manual:'所选区间已纳入分析，建议重点看情绪与代谢。'}},
-  {key:'kang', name:'康康', avatar:'康', color:'#E67E22', persona:'行动督促型', traits:'直接、有推动力、不绕弯',
-   hint:'一句话说完，我帮你记', voiceStatus:'快说，我记着',
-   say:{day:'今天还差一次慢呼吸，现在补上就完整了。',week:'本周做到 4 天，离 7 天还差 3 天，明天别断。',
-     month:'本月完成 14 天，节奏可以，再稳一点。',year:'今年完成 96 天，已经形成习惯，别松。',
-     all:'累计 186 天，靠的就是每天做一点。',manual:'所选区间别攒，看到就记。'}},
-  {key:'shou', name:'守守', avatar:'守', color:'#8E44AD', persona:'谨慎守护型', traits:'细心、敏感、重视风险',
-   hint:'说清楚哪里不舒服', voiceStatus:'慢慢说，我记着',
-   say:{day:'今天指标整体平稳，注意晚间血压和睡前情绪。',
-     week:'本周有 2 天 HRV 偏低，建议减少晚间应酬。',
-     month:'本月压力项持续偏低，建议安排一次复查。',
-     year:'今年趋势总体平稳，建议保持年度体检节奏。',
-     all:'全周期数据里，情绪与代谢是需要长期盯的两项。',
-     manual:'所选区间里有血压偏高值，建议连续测 3 天。'}},
-  {key:'shan', name:'山山', avatar:'山', color:'#16A085', persona:'长期主义型', traits:'沉稳、有耐心、看长线',
-   hint:'慢慢说，我记长线', voiceStatus:'不急，慢慢说',
-   say:{day:'今天只是曲线上的一个点，保持节奏就好。',week:'本周资产在积累，短期波动不用太在意。',
-     month:'本月资产比上月高，长期方向是对的。',year:'今年资产增长 2420，这是长期积累的结果。',
-     all:'从全周期看，你的健康资产一直在慢慢变厚。',manual:'选一段长一点的区间，看长期趋势更有意义。'}}
-];
-const DEFAULT_ASSISTANT = ASSISTANTS[0];
-function getAssistant(key){ return ASSISTANTS.find(a=>a.key===key) || DEFAULT_ASSISTANT; }
-function assistantAvatarHtml(a, size){
-  const s = size || 44;
-  return `<div class="ai-avatar" style="width:${s}px;height:${s}px;
-    background:linear-gradient(135deg,${a.color},${a.color}CC)">
-    <span class="ai-eye l"></span><span class="ai-eye r"></span>
-    <span class="ai-mouth"></span>
-  </div>`;
-}
-function assistantAvatarSmall(a){
-  const on = state.ob.assistant===a.key;
-  return `<div class="ob-av ${on?'on':''}"
-    style="${on?'background:linear-gradient(135deg,'+a.color+','+a.color+'CC)':''}"
-    data-ob-set="assistant" data-val="${a.key}">
-    <span class="av-face" style="${on?'display:block':'display:none'}">
-      <span class="av-eye l"></span><span class="av-eye r"></span>
-      <span class="av-mouth"></span>
-    </span>
-    <span style="${on?'display:none':''};color:${a.color};font-weight:700">${a.avatar}</span>
-  </div>`;
-}
+const RANGE_DATES = {
+  day:  '10月13日',
+  week: '10月7日-10月13日',
+  month:'9月14日-10月13日',
+  year: '2026年1月1日-10月13日',
+  all:  '2022年10月-2026年10月'
+};
 
 /* ============ 数据 ============ */
-const BODY_SYMPTOM_GROUPS = [
-  {name:'一般症状', opts:['没有','耳鸣','心慌 / 心悸','没胃口','颈肩痛','头晕头痛','持续疲劳']},
-  {name:'大小便', opts:['便秘','便溏 / 不成形','排便困难','尿频 / 尿急','夜尿多','小便颜色异常','大便颜色异常']}
-];
-const SYMPTOM_FOLLOWUP = {
-  '耳鸣':[{q:'哪一边',opts:['左耳','右耳','双侧']},{q:'持续时间',opts:['刚出现','几周','几个月','几年']}],
-  '心慌 / 心悸':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['安静时','活动时','饭后','没规律']}],
-  '没胃口':[{q:'持续几天',opts:['1-2天','3-5天','一周以上']},{q:'是否伴随恶心',opts:['没有','偶有','经常']}],
-  '颈肩痛':[{q:'持续时间',opts:['几小时','几天','几周','几个月']},{q:'是否影响活动',opts:['没有','轻微','明显']}],
-  '头晕头痛':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['早上','午后','劳累后','没规律']}],
-  '持续疲劳':[{q:'持续多久',opts:['1周内','2-4周','1个月以上']},{q:'睡一觉能恢复吗',opts:['能','部分','不能']}],
-  '便秘':[{q:'多久一次',opts:['每天','2-3天','4-5天','一周以上']},{q:'大便干硬程度',opts:['正常','偏干','很干 / 颗粒状']},{q:'是否腹胀',opts:['没有','轻微','明显']}],
-  '便溏 / 不成形':[{q:'一天几次',opts:['1-2次','3-4次','5次以上']},{q:'是否腹痛',opts:['没有','偶有','经常']},{q:'是否粘马桶',opts:['不会','偶尔','经常']}],
-  '排便困难':[{q:'需要用力多久',opts:['<5分钟','5-10分钟','>10分钟']},{q:'是否需要手助',opts:['不需要','偶尔','经常']}],
-  '尿频 / 尿急':[{q:'白天几次',opts:['<5次','5-8次','8次以上']},{q:'是否有尿痛',opts:['没有','偶有','有']},{q:'是否影响工作',opts:['没有','轻微','明显']}],
-  '夜尿多':[{q:'夜里起来几次',opts:['0-1次','2次','3次以上']},{q:'是否影响睡眠',opts:['没有','偶尔','经常']}],
-  '小便颜色异常':[{q:'颜色',opts:['深黄','浓茶色','淡红','血红'],danger:true},{q:'持续时间',opts:['1天','2-3天','一周以上']}],
-  '大便颜色异常':[{q:'颜色',opts:['黑色柏油样','鲜红色','灰白色','深绿色'],danger:true},{q:'持续时间',opts:['1次','2-3天','一周以上']}]
-};
-const URGENT_RULES = [
-  {symptom:'小便颜色异常', answer:'血红', msg:'小便呈血红色，建议尽快就医排查泌尿系统问题。'},
-  {symptom:'小便颜色异常', answer:'淡红', msg:'小便呈淡红色，建议近期安排泌尿系统检查。'},
-  {symptom:'大便颜色异常', answer:'黑色柏油样', msg:'黑色柏油样大便，可能是消化道出血，建议尽快就医。'},
-  {symptom:'大便颜色异常', answer:'鲜红色', msg:'大便鲜红色，建议尽快排查下消化道出血。'},
-  {symptom:'大便颜色异常', answer:'灰白色', msg:'灰白色大便，可能与胆道梗阻有关，建议尽快就医。'}
-];
-
-const BREATH_SYMPTOMS = ['没有','胸闷','呼吸不畅','气短','打鼾','夜间憋醒','咳嗽','咳痰','喘息'];
-const BREATH_FOLLOWUP = {
-  '胸闷':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['安静时','活动时','情绪激动时','没规律']}],
-  '呼吸不畅':[{q:'程度',opts:['轻微','中等','明显']},{q:'是否影响活动',opts:['不影响','轻微','明显']}],
-  '气短':[{q:'什么情况下',opts:['爬楼时','走路时','静坐时','晚上躺下时']},{q:'持续多久',opts:['几天','几周','几个月']}],
-  '打鼾':[{q:'程度',opts:['偶尔','经常','严重']},{q:'是否被家人反映憋气',opts:['没有','偶尔','经常']}],
-  '夜间憋醒':[{q:'多久一次',opts:['偶尔','每周','每晚']},{q:'醒来后感觉',opts:['能很快缓解','需坐起来','持续较久']}],
-  '咳嗽':[{q:'持续多久',opts:['几天','2-4周','1个月以上']},{q:'有无痰',opts:['干咳','少量痰','较多痰']}],
-  '咳痰':[{q:'颜色',opts:['白色','黄色','绿色','带血'],danger:true},{q:'一天几次',opts:['偶尔','经常','频繁']}],
-  '喘息':[{q:'多久一次',opts:['偶尔','每天','经常']},{q:'什么情况下',opts:['运动后','夜间','接触粉尘','没规律']}]
-};
-
-const ENV_EXPOSURES = ['没有','空气污染','二手烟','高粉尘环境','噪声环境','装修污染','外卖塑料加热','长期空调房','电磁辐射'];
-const ENV_EXPOSURE_FOLLOWUP = {
-  '空气污染':[{q:'每周暴露天数',opts:['1-2天','3-4天','5天以上']},{q:'是否戴口罩',opts:['每次戴','偶尔戴','不戴']}],
-  '二手烟':[{q:'每周暴露',opts:['偶尔','经常','每天']},{q:'场所',opts:['家里','办公室','应酬','公共场所']}],
-  '高粉尘环境':[{q:'每周暴露',opts:['偶尔','经常','每天']},{q:'是否有防护',opts:['有','偶尔','没有']}],
-  '噪声环境':[{q:'每天几小时',opts:['<1h','1-3h','3h以上']},{q:'是否有防护',opts:['有','没有']}],
-  '装修污染':[{q:'暴露时间',opts:['<1月','1-3月','3月以上']},{q:'是否通风',opts:['经常','偶尔','很少']}],
-  '外卖塑料加热':[{q:'每周几次',opts:['1-2次','3-5次','每天']},{q:'是否微波加热',opts:['不加热','偶尔','经常']}],
-  '长期空调房':[{q:'每天几小时',opts:['<4h','4-8h','8h以上']},{q:'是否开窗',opts:['每天开','偶尔','很少']}],
-  '电磁辐射':[{q:'每天几小时',opts:['<2h','2-6h','6h以上']},{q:'是否防护',opts:['有','没有']}]
-};
-
-/* 九宫格：体重只在身体，补剂在饮食，医疗改为大事 */
 const DIMS = [
-  {k:'stress', name:'情绪', score:68,
-   obj:[{nm:'压力指数', val:'42', unit:'/100'},{nm:'HRV', val:'46', unit:'ms'}],
-   subj:[{k:'work_hours', t:'工作时长', opts:['<4h','4-6h','6-8h','8-10h','>10h']},
-         {k:'meeting_hours', t:'开会时长', opts:['<1h','1-2h','2-4h','>4h']},
-         {k:'trip', t:'是否出差', opts:['否','是']},
-         {k:'event', t:'有无影响情绪的事', opts:['没有','好事','坏事','喜忧参半']},
-         {k:'big_event', t:'和平时不一样的大事', opts:['没有','有'], note:true}],
-   voiceDemo:'今天开了三个小时的会，晚上还要加班到10点，有个客户谈成了是好事'},
-
-  {k:'move', name:'运动', score:78,
-   obj:[{nm:'今日步数', val:'8,420', unit:'步'},{nm:'久坐时长', val:'6.2', unit:'小时'}],
-   subj:[{k:'exercise_type', t:'今日运动', opts:['散步','快走','骑行','太极','挥拍类','游泳','力量训练','未运动']},
-         {k:'exercise_dur', t:'运动时长', opts:['15分钟','30分钟','45分钟','60分钟以上']}],
-   voiceDemo:'今天早上散步半小时，晚上快走20分钟，没做力量训练'},
-
-  {k:'body', name:'身体', score:74, type:'body',
-   obj:[{nm:'体重', val:'78.4', unit:'kg', input:'weight'},{nm:'BMI', val:'24.8', unit:'', auto:true},
-        {nm:'体脂率', val:'22.6', unit:'%'},{nm:'收缩压', val:'128', unit:'mmHg'},{nm:'舒张压', val:'82', unit:'mmHg'}],
-   voiceDemo:'今天感觉颈肩有点僵硬，大便有点干，其他还好'},
-
-  {k:'diet', name:'饮食', score:72, type:'diet',
-   obj:[{nm:'今日饮水', val:'1.2', unit:'L'},{nm:'补剂', val:'维生素D', unit:''}],
-   subj:[],
-   voiceDemo:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花，喝了两杯咖啡一杯红酒，吃了维生素D'},
-
-  {k:'sleep', name:'睡眠', score:88,
-   obj:[{nm:'睡眠效率', val:'92', unit:'%'},{nm:'深睡时长', val:'1h48m', unit:''},
-        {nm:'睡眠规律性', val:'较高', unit:''},{nm:'午睡时长', val:'28', unit:'分钟'}],
-   subj:[{k:'sleep_q', t:'昨晚睡得如何', opts:['很好','不错','一般','有点累','很累']}],
-   voiceDemo:'昨晚11点半睡的，早上7点醒的，夜里醒了两次，午睡半小时'},
-
-  {k:'breath', name:'呼吸', score:82, type:'breath',
-   obj:[{nm:'夜间血氧', val:'97', unit:'%'},{nm:'呼吸暂停指数', val:'3.2', unit:'次/时'}],
-   voiceDemo:'今天感觉有点胸闷，做了5分钟慢呼吸'},
-
-  {k:'env', name:'环境', score:82, type:'env',
-   obj:[{nm:'室内温度', val:'22', unit:'°C'},{nm:'湿度', val:'58', unit:'%'}],
-   voiceDemo:'今天在户外待了大概一个半小时，光线挺充足的，不过室内空气不太好'},
-
-  {k:'cognition', name:'认知', score:80,
-   obj:[],
-   subj:[{k:'focus', t:'今日专注度', opts:['好','一般','差']},
-         {k:'memory', t:'今日记忆力', opts:['好','一般','差']},
-         {k:'cog_prevent', t:'认知预防行为', opts:['学习新技能','读书','社交聚会','身体接触','都没有'], multi:true}],
-   voiceDemo:'今天读了一小时书，还和客户聚了会，专注度一般'},
-
-  /* 医疗 → 大事 */
-  {k:'event', name:'大事', score:76,
-   obj:[{nm:'重要程度', val:'中', unit:''},{nm:'影响范围', val:'工作', unit:''}],
-   subj:[{k:'big_today', t:'今天有大事吗', opts:['没有','有']},
-         {k:'big_type', t:'大事类型', opts:['工作','家庭','健康','财务','其他']},
-         {k:'big_impact', t:'对你的影响', opts:['正面','中性','负面']}],
-   voiceDemo:'今天有一个重要的客户谈判，谈成了，心情不错'}
+  {k:'stress', name:'情绪', score:68, voiceDemo:'今天开了三个小时的会，晚上还要加班到10点，有个客户谈成了是好事'},
+  {k:'move', name:'运动', score:78, voiceDemo:'今天早上散步半小时，晚上快走20分钟，没做力量训练'},
+  {k:'body', name:'身体', score:74, voiceDemo:'今天感觉颈肩有点僵硬，大便有点干，其他还好'},
+  {k:'diet', name:'饮食', score:72, voiceDemo:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花'},
+  {k:'sleep', name:'睡眠', score:88, voiceDemo:'昨晚11点半睡的，早上7点醒的，夜里醒了两次，午睡半小时'},
+  {k:'breath', name:'呼吸', score:82, voiceDemo:'今天感觉有点胸闷，做了5分钟慢呼吸'},
+  {k:'env', name:'环境', score:82, voiceDemo:'今天在户外待了大概一个半小时，光线挺充足的'},
+  {k:'cognition', name:'认知', score:80, voiceDemo:'今天读了一小时书，还和客户聚了会，专注度一般'},
+  {k:'event', name:'大事', score:76, voiceDemo:'今天有一个重要的客户谈判，谈成了，心情不错'}
 ];
 
-const ASSETS = [
+const DIM_GOOD_DIR = {
+  stress:'down', move:'up', body:'up', diet:'up', sleep:'up',
+  breath:'up', env:'up', cognition:'up', event:'up'
+};
+
+/* 具体指标：delta 为变化值；good 为 true/false；无数据 v=null */
+const DIM_SNAPSHOT = {
+  stress:[
+    {k:'压力得分', v:'42', unit:'', delta:-3, good:true},
+    {k:'情绪', v:'偏紧', unit:'', delta:0},
+    {k:'心率变异性（HRV）', v:'46', unit:'ms', delta:2, good:true},
+    {k:'静息心率', v:'68', unit:'bpm', delta:-1, good:true}
+  ],
+  move:[
+    {k:'步数', v:'8,420', unit:'步', delta:620, good:true},
+    {k:'久坐时长', v:'6.2', unit:'h', delta:-0.5, good:true},
+    {k:'中高强度运动时长', v:'30', unit:'min', delta:0},
+    {k:'锻炼记录', v:'1', unit:'次', delta:0}
+  ],
+  body:[
+    {k:'体重', v:'78.4', unit:'kg', delta:-0.3, good:true},
+    {k:'BMI', v:'24.8', unit:'', delta:-0.1, good:true},
+    {k:'血压', v:'128/82', unit:'mmHg', delta:0},
+    {k:'静息热量', v:'1,650', unit:'kcal', delta:30, good:true}
+  ],
+  diet:[],
+  sleep:[
+    {k:'睡眠总分', v:'82', unit:'', delta:4, good:true},
+    {k:'睡眠总时长', v:'7h12m', unit:'', delta:12, good:true},
+    {k:'深睡时长', v:'1h48m', unit:'', delta:8, good:true},
+    {k:'清醒次数', v:'2', unit:'次', delta:-1, good:true}
+  ],
+  breath:[
+    {k:'血氧', v:'97', unit:'%', delta:0},
+    {k:'呼吸睡眠得分', v:'78', unit:'', delta:3, good:true}
+  ],
+  env:[
+    {k:'户外时长', v:null, unit:'h', delta:null}
+  ],
+  cognition:[],
+  event:[]
+};
+
+const CHAT_FLOW = {
+  stress:[
+    {q:'今天整体感觉怎么样？', hint:'比如：还行 / 有点累 / 心情不错 / 有点烦'},
+    {q:'有没有什么大事发生？', hint:'工作、家庭、健康、财务上的都可以说'},
+    {q:'如果有点烦，是因为什么？', hint:'说具体的，我帮你记下来'}
+  ],
+  move:[
+    {q:'今天动了多久？做了什么运动？', hint:'比如：早上散步 30 分钟 / 晚上快走 20 分钟'},
+    {q:'走了多少步？坐得久吗？', hint:'比如：8,000 步，坐了 6 小时'},
+    {q:'有没有做力量训练？', hint:'深蹲、俯卧撑、举铁都算'}
+  ],
+  body:[
+    {q:'今天身体有什么不舒服吗？', hint:'比如：颈肩僵 / 头晕 / 便秘 / 没胃口'},
+    {q:'睡眠、排便、体重有什么要记的吗？', hint:'说个大致的就行'},
+    {q:'有没有需要特别关注的？', hint:'比如血压偏高、体重新高'}
+  ],
+  diet:[
+    {q:'今天三餐吃了什么？', hint:'比如：早餐小米粥鸡蛋，中午两碗米饭红烧肉'},
+    {q:'有没有应酬、饮酒、咖啡、茶？', hint:'喝了几杯也可以说'},
+    {q:'喝水够吗？吃了什么补剂？', hint:'维生素 D、Omega-3、钙片都算'}
+  ],
+  sleep:[
+    {q:'昨晚几点睡的，几点醒的？', hint:'比如：11 点半睡，7 点醒'},
+    {q:'夜里醒了几次？睡得踏实吗？', hint:'醒来后还能睡着吗'},
+    {q:'午睡了吗？', hint:'睡了多久'}
+  ],
+  breath:[
+    {q:'今天呼吸顺畅吗？', hint:'比如：有点闷 / 正常 / 气短'},
+    {q:'有没有打鼾、咳嗽？', hint:'打鼾被家人说过也可以说'},
+    {q:'有没有做呼吸练习？', hint:'慢呼吸、腹式呼吸都算'}
+  ],
+  env:[
+    {q:'今天在户外多久？', hint:'比如：1 小时 / 半小时'},
+    {q:'空气、噪声、二手烟有没有影响你？', hint:'有就说具体点'},
+    {q:'室内温度湿度怎么样？', hint:'比如：22°C，有点干'}
+  ],
+  cognition:[
+    {q:'今天专注度怎么样？', hint:'好 / 一般 / 容易分心'},
+    {q:'有没有读书、学习或者社交？', hint:'读了什么、见了谁都可以说'},
+    {q:'记忆力感觉如何？', hint:'好 / 一般 / 有点差'}
+  ],
+  event:[
+    {q:'今天有什么大事吗？', hint:'比如：重要谈判 / 家人住院 / 大额支出'},
+    {q:'是工作、家庭、健康还是财务上的？', hint:'选最主要的说'},
+    {q:'对你的影响是正面、中性还是负面？', hint:'说说具体感受'}
+  ]
+};
+
+const ASSET_MAX = 120;
+const LEVELS = [
+  {key:'L1', name:'古稀', ageMin:73, ageMax:84, min:0,   max:59},
+  {key:'L2', name:'耄耋', ageMin:84, ageMax:91, min:60,  max:89},
+  {key:'L3', name:'期颐', ageMin:91, ageMax:100, min:90, max:109},
+  {key:'L4', name:'天年', ageMin:100, ageMax:120, min:110, max:120}
+];
+function levelOfAsset(asset){
+  return LEVELS.find(l=>asset >= l.min && asset <= l.max) || LEVELS[0];
+}
+function assetFromDims(scores){
+  let total = 0;
+  DIMS.forEach(d=>{
+    const s = Math.max(30, Math.min(99, scores[d.k] || 60));
+    total += s / 99 * (ASSET_MAX / DIMS.length);
+  });
+  return Math.round(Math.max(0, Math.min(ASSET_MAX, total)));
+}
+function trendIsGood(k, delta){
+  if(delta === 0) return true;
+  const dir = DIM_GOOD_DIR[k] || 'up';
+  return dir === 'down' ? delta < 0 : delta > 0;
+}
+
+const ASSETS6 = [
   {k:'muscle', nm:'肌', sub:'肌肉量', score:78},
   {k:'bone',   nm:'骨', sub:'骨密度', score:82},
   {k:'blood',  nm:'血', sub:'心血管', score:85},
@@ -826,50 +614,6 @@ const ASSETS = [
   {k:'gut',    nm:'肠', sub:'代谢',   score:72},
   {k:'heart',  nm:'心', sub:'心灵情绪', score:68}
 ];
-
-const LIFE = {china:78.2, boss:76.5, mine:8620, club:12400};
-
-const SELF_JUDGE = [
-  {k:'sleep', t:'睡眠', opts:['好','一般','差']},
-  {k:'diet', t:'饮食', opts:['好','一般','差']},
-  {k:'digest', t:'排泄', opts:['好','一般','差']},
-  {k:'energy', t:'精力', opts:['好','一般','差']},
-  {k:'mood', t:'情绪', opts:['好','一般','差']}
-];
-const FAMILY_JUDGE = [
-  {k:'fat', t:'肥胖', opts:['没变化','稍胖','明显胖']},
-  {k:'spirit', t:'精神', opts:['好','一般','差']},
-  {k:'aging', t:'老化', opts:['正常','稍快','明显']},
-  {k:'sick', t:'爱生病', opts:['否','偶尔','经常']},
-  {k:'temper', t:'发脾气', opts:['少','一般','多']}
-];
-
-const DAY_DATA = {steps:{val:'8,420',delta:'+6%',up:true},sleep:{val:'7h12m',delta:'+12m',up:true},hrv:{val:'46',delta:'-2',up:false}};
-const WEEK_DATA = {steps:{val:'58,420',delta:'+12%',up:true},sleep:{val:'7h05m',delta:'+18m',up:true},hrv:{val:'48',delta:'-4',up:false}};
-const MONTH_DATA = {steps:{val:'248,600',delta:'+8%',up:true},sleep:{val:'6h58m',delta:'+22m',up:true},hrv:{val:'51',delta:'+3',up:true}};
-
-const MANUAL_PRESETS = [
-  {label:'近 7 天', start:'2026-10-07', end:'2026-10-13'},
-  {label:'近 30 天', start:'2026-09-14', end:'2026-10-13'},
-  {label:'近 90 天', start:'2026-07-16', end:'2026-10-13'}
-];
-
-const DIM_TREND_BY_RANGE = {
-  stress:{day:[42,44,43,45,44,43],week:[50,48,46,45,44,43,42],month:[55,52,50,48,45,43],year:[60,58,55,52,48,45,43],all:[70,66,62,58,54,50,46,43],manual:[48,46,45,44,43]},
-  move:{day:[7800,8200,8400,8600,8500,8420],week:[7600,8100,8400,8600,8800,8700,8420],month:[7200,7800,8200,8600,8420],year:[6000,6600,7200,7800,8200,8420],all:[5000,5800,6500,7200,7800,8420],manual:[7800,8100,8400,8420]},
-  body:{day:[74,75,74,76,75,74],week:[72,73,74,75,74,75,74],month:[70,72,74,76,74],year:[66,68,70,72,74],all:[60,64,68,72,74],manual:[71,72,73,74]},
-  diet:{day:[70,72,71,73,72,72],week:[68,70,72,71,73,72,72],month:[66,68,70,72,72],year:[60,64,68,70,72],all:[55,60,65,68,72],manual:[68,70,71,72]},
-  sleep:{day:[86,88,87,89,88,88],week:[84,86,87,88,89,88,88],month:[82,84,86,88,88],year:[76,80,84,86,88],all:[70,75,80,84,88],manual:[84,86,87,88]},
-  breath:{day:[80,82,81,83,82,82],week:[78,80,82,81,83,82,82],month:[76,78,80,82,82],year:[72,76,80,82,82],all:[68,72,76,80,82],manual:[79,80,81,82]},
-  env:{day:[80,82,81,83,82,82],week:[78,80,82,81,83,82,82],month:[76,78,80,82,82],year:[72,76,80,82,82],all:[68,72,76,80,82],manual:[79,80,81,82]},
-  cognition:{day:[78,80,79,81,80,80],week:[76,78,80,79,81,80,80],month:[74,76,78,80,80],year:[70,74,78,80,80],all:[66,70,74,78,80],manual:[77,78,79,80]},
-  event:{day:[74,76,75,77,76,76],week:[72,74,76,75,77,76,76],month:[70,72,74,76,76],year:[66,70,74,76,76],all:[62,66,70,74,76],manual:[73,74,75,76]}
-};
-const DIM_TREND_X = {
-  day:['06','09','12','15','18','21'], week:['一','二','三','四','五','六','日'],
-  month:['W1','W2','W3','W4','W5'], year:['1','2','3','4','5','6'],
-  all:['22','23','24','25','26','27'], manual:['起','','','','止']
-};
 
 const QUIZ = [
   {k:'age', q:'出生年份', type:'input', ph:'1965'},
@@ -890,7 +634,7 @@ const MAIN_GOAL = {
   id:'g1', dim:'情绪',
   title:'让自己松下来，晚上不再带着工作上床',
   desc:'HRV 连续偏低，压力是当前最大的短板。',
-  why:['HRV 46ms，低于近 30 天均值','压力指数 42/100，偏高','睡前仍在处理工作'],
+  why:['HRV 46ms，低于近 30 天均值','压力得分 42，偏高','睡前仍在处理工作'],
   progress:{
     day:{cur:1,total:1,label:'今天已做到'}, week:{cur:4,total:7,label:'本周做到天数'},
     month:{cur:14,total:30,label:'本月做到天数'}, year:{cur:96,total:365,label:'今年做到天数'},
@@ -909,90 +653,19 @@ const MAIN_GOAL = {
   ]
 };
 
-const TODAY_TODOS = [
-  {id:'t1', txt:'5 分钟慢呼吸', done:true, link:'p1'},
-  {id:'t2', txt:'睡前 90 分钟放下手机', done:false, link:'p2'},
-  {id:'t3', txt:'晚饭后走 12 分钟', done:false, link:'p4'},
-  {id:'t4', txt:'补记今日体重', done:false, link:null}
-];
-
-const NUTRITION_STD = {
-  staple:{min:4, max:6, unit:'碗', label:'主食'},
-  protein:{min:4, max:6, unit:'份', label:'蛋白'},
-  veg:{min:5, max:8, unit:'拳', label:'蔬菜'},
-  fruit:{min:2, max:4, unit:'份', label:'水果'},
-  oil:{min:0, max:25, unit:'g', label:'油'},
-  salt:{min:0, max:5, unit:'g', label:'盐'},
-  sugar:{min:0, max:25, unit:'g', label:'糖'},
-  alcohol:{min:0, max:0, unit:'份', label:'酒精'}
-};
-const QUICK_MEALS = [
-  {k:'b', name:'早餐', time:'07:00'},{k:'l', name:'午餐', time:'12:00'},
-  {k:'d', name:'晚餐', time:'19:00'},{k:'s', name:'加餐/夜宵', time:'随时'}
-];
-const QUICK_FOODS = [
-  {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
-  {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
-  {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
-  {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
-];
-const QUICK_EXTRAS = [
-  {k:'dessert', label:'甜点', opts:['没吃','少量','1份','2份+']},
-  {k:'bbq', label:'烧烤', opts:['没吃','少量','1份','2份+']},
-  {k:'fried', label:'油炸', opts:['没吃','少量','1份','2份+']},
-  {k:'snack', label:'零食', opts:['没吃','少量','1份','2份+']}
-];
-const STRUCT_ITEMS = [
-  {k:'social', lb:'今日应酬', opts:['没有','午餐','晚餐','午+晚']},
-  {k:'alcohol_extra', lb:'饮酒情况', opts:['没喝','少量','中等','较多']},
-  {k:'water', lb:'饮水', opts:['<4杯','4-6杯','7-8杯','9杯+']},
-  {k:'coffee', lb:'咖啡', opts:['0杯','1杯','2杯','3杯+']},
-  {k:'tea', lb:'茶', opts:['0杯','1杯','2杯','3杯+']},
-  {k:'taste', lb:'今日口味', opts:['清淡','适中','偏咸','偏油','偏辣']},
-  {k:'eating_speed', lb:'吃饭速度', opts:['慢','正常','快']},
-  {k:'late_night', lb:'夜宵', opts:['没有','偶尔','有']},
-  /* 补剂从医疗移入饮食 */
-  {k:'supplement', lb:'今日补剂', opts:['维生素D','Omega-3','钙片','益生菌','多维','没吃']}
-];
-const AI_PARSED = {
-  diet:{
-    transcript:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花，喝了两杯咖啡一杯红酒',
-    meals:[
-      {name:'早餐', time:'07:30', foods:[
-        {n:'鸡蛋 ×1', attr:[{t:'蛋白', lv:''}]},
-        {n:'小米粥 ×1碗', attr:[{t:'主食', lv:''}]},
-        {n:'咸菜 ×少量', attr:[{t:'盐', lv:'high'}]}
-      ]},
-      {name:'午餐', time:'12:15', foods:[
-        {n:'米饭 ×2碗', attr:[{t:'主食', lv:''}]},
-        {n:'红烧肉 ×1份', attr:[{t:'蛋白', lv:''}, {t:'油', lv:'high'}, {t:'盐', lv:'high'}]},
-        {n:'炒青菜 ×1拳', attr:[{t:'蔬菜', lv:''}, {t:'油', lv:''}]}
-      ]},
-      {name:'晚餐', time:'19:20', foods:[
-        {n:'米饭 ×半碗', attr:[{t:'主食', lv:''}]},
-        {n:'清蒸鱼 ×1份', attr:[{t:'蛋白', lv:''}]},
-        {n:'西兰花 ×1拳', attr:[{t:'蔬菜', lv:''}]},
-        {n:'红酒 ×1杯', attr:[{t:'酒精', lv:'high'}]}
-      ]}
-    ],
-    summary:{staple:3.5, protein:4.5, veg:2, fruit:0, oil:35, salt:8, sugar:15, alcohol:1},
-    coffee:2
-  }
-};
-
 const RANGES = [
   {k:'day', n:'天'}, {k:'week', n:'周'}, {k:'month', n:'月'},
   {k:'year', n:'年'}, {k:'all', n:'全'}, {k:'manual', n:'手动'}
 ];
 
 const ASSET_TREND = {
-  day:{title:'今日', x:['06','09','12','15','18','21'], v:[8500,8560,8600,8580,8640,8620]},
-  week:{title:'本周', x:['一','二','三','四','五','六','日'], v:[8200,8320,8400,8450,8550,8600,8620]},
-  month:{title:'本月', x:['W1','W2','W3','W4'], v:[7800,8100,8400,8620]},
-  year:{title:'今年', x:['1','2','3','4','5','6','7','8','9','10','11','12'],
-        v:[6200,6400,6600,6900,7200,7500,7700,8000,8200,8400,8500,8620]},
-  all:{title:'全部', x:['22年','23年','24年','25年','26年'], v:[3800,5200,6800,7800,8620]},
-  manual:{title:'所选区间', x:['起','','','','止'], v:[8200,8320,8400,8550,8620]}
+  day:  {x:['06','09','12','15','18','21'], v:[102,104,105,104,107,106]},
+  week: {x:['一','二','三','四','五','六','日'], v:[98,101,103,104,105,106,106]},
+  month:{x:['W1','W2','W3','W4'], v:[92,97,102,106]},
+  year: {x:['1','2','3','4','5','6','7','8','9','10','11','12'],
+         v:[74,78,82,86,90,93,96,99,101,103,105,106]},
+  all:  {x:['22年','23年','24年','25年','26年'], v:[62,72,84,96,106]},
+  manual:{x:['起','','','','止'], v:[98,101,103,105,106]}
 };
 
 const RANGE_ADJ = {
@@ -1004,16 +677,11 @@ const RANGE_ADJ = {
   manual:{sleep:1,diet:0,move:1,stress:-1,breath:0,body:0,env:0,cognition:0,event:0}
 };
 
-const ASSET_BY_RANGE = {
-  day:{mine:8620,d:'+20'}, week:{mine:8620,d:'+420'}, month:{mine:8620,d:'+820'},
-  year:{mine:8620,d:'+2420'}, all:{mine:8620,d:'+4820'}, manual:{mine:8620,d:'+420'}
-};
-
 const ADMIN = {
   kpi:[
     {v:'2,847', l:'总用户', d:'+12.4%', up:true},
     {v:'1,936', l:'今日活跃', d:'68.0%', up:true},
-    {v:'8,420', l:'平均健康资产', d:'+1.8%', up:true},
+    {v:'106', l:'平均健康资产', d:'+1.8%', up:true},
     {v:'86.5%', l:'7日留存', d:'+2.1%', up:true}
   ],
   dims:[
@@ -1022,22 +690,44 @@ const ADMIN = {
     {n:'环境', v:78}, {n:'认知', v:76}, {n:'大事', v:74}
   ],
   ranks:[
-    {n:'张先生', s:12400, sub:'连续 302 天 · 六项资产全优'},
-    {n:'李女士', s:11860, sub:'连续 186 天 · 情绪管理最佳'},
-    {n:'王先生', s:10920, sub:'连续 120 天 · 代谢改善明显'},
-    {n:'陈女士', s:9860, sub:'连续 90 天'},
-    {n:'刘先生', s:9240, sub:'连续 62 天'},
-    {n:'赵女士', s:8620, sub:'连续 48 天'},
-    {n:'周先生', s:8100, sub:'连续 30 天'}
+    {n:'张先生', s:118, sub:'连续 302 天 · 天年级'},
+    {n:'李女士', s:112, sub:'连续 186 天 · 天年级'},
+    {n:'王先生', s:106, sub:'连续 120 天 · 期颐级'},
+    {n:'陈女士', s:98,  sub:'连续 90 天 · 期颐级'},
+    {n:'刘先生', s:92,  sub:'连续 62 天 · 期颐级'},
+    {n:'赵女士', s:84,  sub:'连续 48 天 · 耄耋级'},
+    {n:'周先生', s:78,  sub:'连续 30 天 · 耄耋级'}
   ]
 };
 
-/* ============ State ============ */
+const DIM_TREND_BY_RANGE = {
+  stress:{day:[62,64,63,65,64,63],week:[70,68,66,65,64,63,62],month:[75,72,70,68,65,63],year:[80,78,75,72,68,65,63],all:[70,66,62,58,54,50,46,43],manual:[68,66,65,64,63]},
+  move:{day:[70,72,74,73,75,76],week:[68,71,73,72,74,75,76],month:[65,68,72,75,76],year:[60,66,70,74,76],all:[50,55,60,65,76],manual:[70,72,74,76]},
+  body:{day:[72,73,72,74,73,72],week:[70,71,72,73,72,73,72],month:[68,70,72,74,72],year:[64,66,68,70,72],all:[60,64,68,72,72],manual:[70,71,72,72]},
+  diet:{day:[70,72,71,73,72,72],week:[68,70,72,71,73,72,72],month:[66,68,70,72,72],year:[60,64,68,70,72],all:[55,60,65,68,72],manual:[68,70,71,72]},
+  sleep:{day:[80,82,81,83,82,82],week:[78,80,82,81,83,82,82],month:[76,78,80,82,82],year:[72,76,80,82,82],all:[70,75,80,84,88],manual:[80,81,82,82]},
+  breath:{day:[78,80,79,81,80,80],week:[76,78,80,79,81,80,80],month:[74,76,78,80,80],year:[70,74,78,80,80],all:[68,72,76,80,82],manual:[78,79,80,80]},
+  env:{day:[76,78,77,79,78,78],week:[74,76,78,77,79,78,78],month:[72,74,76,78,78],year:[68,72,76,78,78],all:[68,72,76,80,82],manual:[76,77,78,78]},
+  cognition:{day:[78,80,79,81,80,80],week:[76,78,80,79,81,80,80],month:[74,76,78,80,80],year:[70,74,78,80,80],all:[66,70,74,78,80],manual:[77,78,79,80]},
+  event:{day:[74,76,75,77,76,76],week:[72,74,76,75,77,76,76],month:[70,72,74,76,76],year:[66,70,74,76,76],all:[62,66,70,74,76],manual:[73,74,75,76]}
+};
+const DIM_TREND_X = {
+  day:['06','09','12','15','18','21'], week:['一','二','三','四','五','六','日'],
+  month:['W1','W2','W3','W4','W5'], year:['1','2','3','4','5','6'],
+  all:['22','23','24','25','26','27'], manual:['起','','','','止']
+};
+
+const MANUAL_PRESETS = [
+  {label:'近 7 天', start:'2026-10-07', end:'2026-10-13'},
+  {label:'近 30 天', start:'2026-09-14', end:'2026-10-13'},
+  {label:'近 90 天', start:'2026-07-16', end:'2026-10-13'}
+];
+
 const state = {
   view:'personal',
   onboarded:false,
   ob:{step:0, gender:'', birth:'1965', height:'178', weight:'78.4',
-      conditions:[], assistant:'he', focus:[], time:'21:00'},
+      conditions:[], focus:[], time:'21:00'},
   tab:'see',
   range:{see:'week', foresee:'week', change:'week', manage:'week'},
   manual:{see:{start:'2026-10-07', end:'2026-10-13'},
@@ -1045,29 +735,11 @@ const state = {
           change:{start:'2026-10-07', end:'2026-10-13'},
           manage:{start:'2026-10-07', end:'2026-10-13'}},
   records:{},
-  dayJudge:{}, weekJudge:{}, monthJudge:{}, familyJudge:{},
   quizIndex:0, quizAns:{},
-  weight:78.4,
-  dietMode:'quick',
-  dietParsed:null,
-  dietStruct:{},
-  dietQuick:{ b:{}, l:{}, d:{}, s:{} },
-  bodyFollowups:{},
-  breathFollowups:{},
-  envFollowups:{},
-  voiceTarget:null,
-  manualRecords:[
-    {t:'10-13 08:20', n:'血压', v:'128/82', u:'mmHg', note:'晨起，静坐 5 分钟后'},
-    {t:'10-12 22:40', n:'体重', v:'78.4', u:'kg', note:''},
-    {t:'10-12 07:10', n:'空腹血糖', v:'5.6', u:'mmol/L', note:'前一晚未进食'}
-  ],
-  mrType:'血压',
-  profile:{height:178, weight:78.4, smoke:'不吸', drink:'偶尔', exercise:'每周2-3次'},
   practiceState:{},
-  todos:TODAY_TODOS.map(t=>({...t})),
   shareFeel:'',
-  /* 开放式自然语言记录：维度 -> 历史文本 */
-  freeText:{ stress:[], move:[], body:[], diet:[], sleep:[], breath:[], env:[], cognition:[], event:[] },
+  chat:{},
+  dietMode:'quick', dietParsed:null, dietQuick:{b:{},l:{},d:{},s:{}},
   adminUser:null
 };
 MAIN_GOAL.practices.forEach(p=>{
@@ -1077,8 +749,6 @@ MAIN_GOAL.practices.forEach(p=>{
     streak: p.streak, week: p.week.slice()
   };
 });
-
-const MR_UNITS = {'血压':'mmHg','体重':'kg','血糖':'mmol/L','心率':'bpm','步数':'步','其他':''};
 
 /* ============ 工具 ============ */
 function gradeOf(s){
@@ -1092,11 +762,15 @@ function dimScores(range){
   DIMS.forEach(d=>{ o[d.k] = Math.max(30, Math.min(99, d.score + (adj[d.k]||0))); });
   return o;
 }
-function trendSvg(values, labels, color){
+function currentAsset(range){
+  return assetFromDims(dimScores(range));
+}
+function trendSvg(values, labels, color, maxV){
   const w=320, h=110, padL=10, padR=10, padT=14, padB=14;
-  let min=Math.min.apply(null,values), max=Math.max.apply(null,values);
+  const useMax = maxV || Math.max.apply(null, values);
+  let min=Math.min.apply(null,values), max=useMax;
   const raw = (max-min)||1;
-  min -= raw*0.3; max += raw*0.3;
+  min -= raw*0.15; max += raw*0.15;
   const rng = (max-min)||1;
   const iw = w-padL-padR, ih = h-padT-padB;
   const pts = values.map((v,i)=>{
@@ -1138,60 +812,8 @@ function xLabels(xs){
   return `<span>${xs[0]}</span><span>${mid}</span><span>${xs[xs.length-1]}</span>`;
 }
 function dimState(d){
-  /* 有自由文本记录视为已补充 */
-  if((state.freeText[d.k]||[]).length > 0) return 'full';
-  const hasObj = d.obj && d.obj.length > 0;
-  if(d.type === 'diet'){
-    const quickFilled = Object.keys(state.dietQuick).some(mk=>Object.keys(state.dietQuick[mk]).length > 0);
-    return (state.dietParsed || quickFilled) ? 'full' : (hasObj?'partial':'none');
-  }
-  if(d.type === 'body'){
-    const sym = state.records.symptom || [];
-    const real = sym.filter(x=>x!=='没有');
-    if(real.length === 0) return hasObj?'partial':'none';
-    const allDone = real.every(s=>{
-      const fu = SYMPTOM_FOLLOWUP[s];
-      if(!fu) return true;
-      return fu.every(f=>state.bodyFollowups[s] && state.bodyFollowups[s][f.q]);
-    });
-    return allDone?'full':'partial';
-  }
-  if(d.type === 'breath'){
-    const sym = state.records.breath_symptom || [];
-    const real = sym.filter(x=>x!=='没有');
-    const breathDone = state.records.breath_practice;
-    if(real.length === 0 && breathDone) return 'full';
-    if(real.length === 0) return hasObj?'partial':'none';
-    const allDone = real.every(s=>{
-      const fu = BREATH_FOLLOWUP[s];
-      if(!fu) return true;
-      return fu.every(f=>state.breathFollowups[s] && state.breathFollowups[s][f.q]);
-    });
-    return (allDone && breathDone) ? 'full' : 'partial';
-  }
-  if(d.type === 'env'){
-    const exps = state.records.env_exposure || [];
-    const real = exps.filter(x=>x!=='没有');
-    const naturalDone = state.records.natural_light && state.records.natural_time;
-    if(real.length === 0 && naturalDone) return 'full';
-    if(real.length === 0) return hasObj?'partial':'none';
-    const allDone = real.every(e=>{
-      const fu = ENV_EXPOSURE_FOLLOWUP[e];
-      if(!fu) return true;
-      return fu.every(f=>state.envFollowups[e] && state.envFollowups[e][f.q]);
-    });
-    return (allDone && naturalDone) ? 'full' : 'partial';
-  }
-  const hasSubj = d.subj && d.subj.length > 0;
-  if(!hasSubj) return hasObj?'partial':'none';
-  const filled = d.subj.filter(r=>{
-    const v = state.records[r.k];
-    if(r.multi) return Array.isArray(v) && v.length > 0;
-    return v !== undefined && v !== '';
-  }).length;
-  if(filled === 0) return hasObj?'partial':'none';
-  if(filled < d.subj.length) return 'partial';
-  return 'full';
+  if(Object.keys(state.records).some(k=>k.startsWith('chat_'+d.k) && state.records[k])) return 'full';
+  return 'partial';
 }
 
 const TABS=[
@@ -1201,9 +823,17 @@ const TABS=[
   {k:'manage',n:'管理',p:'M4 6h16M4 12h16M4 18h16'}
 ];
 
-function rangeLabel(k){
-  const m = {day:'天', week:'周', month:'月', year:'年', all:'全', manual:'手动'};
-  return m[k] || '';
+function formatRangeDate(start, end){
+  const s = new Date(start), e = new Date(end);
+  return `${s.getMonth()+1}月${s.getDate()}日-${e.getMonth()+1}月${e.getDate()}日`;
+}
+function rangeText(key){
+  const cur = state.range[key];
+  if(cur === 'manual'){
+    const m = state.manual[key];
+    return formatRangeDate(m.start, m.end);
+  }
+  return RANGE_DATES[cur] || RANGE_DATES.week;
 }
 function rangeBar(key){
   const cur = state.range[key];
@@ -1238,7 +868,7 @@ function manualPanelHtml(key){
           data-start="${p.start}" data-end="${p.end}">${p.label}</div>
       `).join('')}
     </div>
-    <div class="mp-summary">当前范围：${m.start} 至 ${m.end} · ${manualDays(m)} 天</div>
+    <div class="mp-summary">当前范围：${formatRangeDate(m.start, m.end)} · ${manualDays(m)} 天</div>
   </div>`;
 }
 function manualDays(m){
@@ -1247,11 +877,10 @@ function manualDays(m){
   return isNaN(d) || d < 1 ? 0 : d;
 }
 function manualTrendData(key){
-  const m = state.manual[key];
   const labels = ['起','','','','止'];
-  const start = 8000, end = 8620;
+  const start = 98, end = 106;
   const arr = labels.map((_,i)=> Math.round(start + (end-start) * (i/(labels.length-1))));
-  return {title:'所选区间', x:labels, v:arr};
+  return {x:labels, v:arr};
 }
 
 /* ============ 渲染入口 ============ */
@@ -1283,7 +912,7 @@ function render(){
   setTimeout(animateBars, 50);
 }
 function animateBars(){
-  document.querySelectorAll('.g9-bar span,.asset-row-fill,.cmp-fill,.adm-bar-fill,.result-bar-fill').forEach(el=>{
+  document.querySelectorAll('.g9-bar span,.asset-row-fill,.adm-bar-fill,.result-bar-fill,.level-seg span').forEach(el=>{
     if(el.dataset.w) el.style.width = el.dataset.w + '%';
   });
 }
@@ -1292,8 +921,8 @@ function animateBars(){
 function renderSee(){
   const range = state.range.see;
   const scores = dimScores(range);
+  const asset = currentAsset(range);
   const at = range === 'manual' ? manualTrendData('see') : ASSET_TREND[range];
-  const a = getAssistant(state.ob.assistant);
 
   const grid = DIMS.map(d=>{
     const sc = scores[d.k];
@@ -1313,42 +942,22 @@ function renderSee(){
     </div>`;
   }).join('');
 
-  let trendHtml;
-  if(range === 'manual'){
-    const m = state.manual.see;
-    trendHtml = `<div class="trendcard">
-      <div class="tc-hd">
-        <div>
-          <div class="tc-lb">健康资产 · ${m.start} 至 ${m.end}</div>
-          <div class="tc-num" style="color:var(--gold)">${at.v[at.v.length-1].toLocaleString()}<small>分</small></div>
-        </div>
-        <div class="tc-delta up">${manualDays(m)} 天</div>
+  const d = at.v[at.v.length-1] - at.v[0];
+  const isGood = d >= 0;
+  const color = isGood ? '#C8102E' : '#1A1A1A';
+  const deltaCls = isGood ? 'up' : 'down';
+  const sign = d >= 0 ? '+' : '';
+  const trendHtml = `<div class="trendcard">
+    <div class="tc-hd">
+      <div>
+        <div class="tc-lb">健康资产 · ${rangeText('see')}</div>
+        <div class="tc-num" style="color:${color}">${asset}</div>
       </div>
-      ${trendSvg(at.v, at.x, '#B8860B')}
-      <div class="trend-x">${xLabels(at.x)}</div>
-    </div>`;
-  } else {
-    const d = at.v[at.v.length-1] - at.v[0];
-    trendHtml = `<div class="trendcard">
-      <div class="tc-hd">
-        <div>
-          <div class="tc-lb">健康资产 · ${at.title}</div>
-          <div class="tc-num" style="color:var(--gold)">${at.v[at.v.length-1].toLocaleString()}<small>分</small></div>
-        </div>
-        <div class="tc-delta up">+${d.toLocaleString()}</div>
-      </div>
-      ${trendSvg(at.v, at.x, '#B8860B')}
-      <div class="trend-x">${xLabels(at.x)}</div>
-    </div>`;
-  }
-
-  const todoHtml = state.todos.map(t=>`
-    <div class="ai-todo-row">
-      <div class="ai-todo-dot ${t.done?'done':''}" data-todo-toggle="${t.id}">
-        ${t.done?'✓':''}
-      </div>
-      <div class="ai-todo-txt ${t.done?'done':''}">${t.txt}</div>
-    </div>`).join('');
+      <div class="tc-delta ${deltaCls}">${sign}${d}</div>
+    </div>
+    ${trendSvg(at.v, at.x, color, ASSET_MAX)}
+    <div class="trend-x">${xLabels(at.x)}</div>
+  </div>`;
 
   return `
     <div class="hd">
@@ -1362,18 +971,9 @@ function renderSee(){
     </div>
 
     ${rangeBar('see')}
-
-    <div class="ai-card">
-      <div class="ai-avatar-wrap">${assistantAvatarHtml(a)}</div>
-      <div style="flex:1;min-width:0">
-        <div class="ai-name">${a.name}<span>今天要做的事</span></div>
-        <div class="ai-todo">${todoHtml}</div>
-      </div>
-    </div>
-
     ${trendHtml}
 
-    <div class="sec"><span>身体九宫格</span><span class="more">点击格子记一笔</span></div>
+    <div class="sec"><span>健康九宫格</span><span class="more">点击格子记一笔</span></div>
     <div class="g9-grid">${grid}</div>
   `;
 }
@@ -1381,88 +981,82 @@ function renderSee(){
 /* ============ 预见 ============ */
 function renderForesee(){
   const range = state.range.foresee;
-  const manual = range === 'manual';
-  const lifeInfo = ASSET_BY_RANGE[range];
-  const mine = manual ? LIFE.mine : lifeInfo.mine;
+  const asset = currentAsset(range);
+  const lv = levelOfAsset(asset);
 
+  const adjMap = {muscle:'move', bone:'body', blood:'body', brain:'cognition', gut:'diet', heart:'stress'};
   const adj = RANGE_ADJ[range] || {};
-  const assetRows = ASSETS.map(a=>{
-    const sc = Math.max(30, Math.min(99, a.score + (adj[a.k==='muscle'?'move':a.k==='brain'?'cognition':'body']||0)));
-    const g = gradeOf(sc);
+  const assetRows = ASSETS6.map(a=>{
+    const score = Math.max(30, Math.min(99, a.score + (adj[adjMap[a.k]]||0)));
+    const g = gradeOf(score);
     return `<div class="asset-row">
       <div class="asset-row-nm">${a.nm}</div>
       <div class="asset-row-sub">${a.sub}</div>
       <div class="asset-row-bar">
-        <div class="asset-row-fill" data-w="${sc}" style="background:${g.color};width:0"></div>
+        <div class="asset-row-fill" data-w="${score}" style="background:${g.color};width:0"></div>
       </div>
-      <div class="asset-row-val" style="color:${g.color}">${sc}</div>
+      <div class="asset-row-val" style="color:${g.color}">${score}</div>
     </div>`;
   }).join('');
 
-  const at = manual ? manualTrendData('foresee') : ASSET_TREND[range];
-  const assetTrend = at ? (()=>{
-    const d = at.v[at.v.length-1] - at.v[0];
-    return `<div class="trendcard">
-      <div class="tc-hd">
-        <div>
-          <div class="tc-lb">健康资产趋势 · ${manual ? (state.manual.foresee.start+' 至 '+state.manual.foresee.end) : at.title}</div>
-          <div class="tc-num" style="color:var(--gold)">+${d.toLocaleString()}<small>分</small></div>
-        </div>
-        <div class="tc-delta up">${manual ? manualDays(state.manual.foresee)+' 天' : '增长'}</div>
+  const at = range === 'manual' ? manualTrendData('foresee') : ASSET_TREND[range];
+  const trendD = at.v[at.v.length-1] - at.v[0];
+  const isGood = trendD >= 0;
+  const color = isGood ? '#C8102E' : '#1A1A1A';
+  const deltaCls = isGood ? 'up' : 'down';
+  const sign = trendD >= 0 ? '+' : '';
+  const assetTrend = `<div class="trendcard">
+    <div class="tc-hd">
+      <div>
+        <div class="tc-lb">资产趋势 · ${rangeText('foresee')}</div>
+        <div class="tc-num" style="color:${color}">${sign}${trendD}</div>
       </div>
-      ${trendSvg(at.v, at.x, '#B8860B')}
-      <div class="trend-x">${xLabels(at.x)}</div>
+      <div class="tc-delta ${deltaCls}">${isGood ? '上升' : '下降'}</div>
+    </div>
+    ${trendSvg(at.v, at.x, color, ASSET_MAX)}
+    <div class="trend-x">${xLabels(at.x)}</div>
+  </div>`;
+
+  /* 纵向等级列表：天年在顶、古稀在底 */
+  const levelListHtml = [...LEVELS].reverse().map(l=>{
+    const cur = l.key === lv.key;
+    const reached = asset >= l.min;
+    const tag = cur ? '当前预估' : (reached ? '有望达到' : '');
+    return `<div class="level-row ${cur?'on':''} ${reached&&!cur?'done':''}">
+      <div class="level-row-name">${l.name}</div>
+      <div class="level-row-age">${l.ageMin}-${l.ageMax} 岁</div>
+      <div class="level-row-tag">${tag}</div>
     </div>`;
-  })() : '';
+  }).join('');
 
   return `
     <div class="hd">
-      <div class="hd-date">健康资产</div>
-      <div class="hd-title">预见</div>
+      <div class="hd-date">${rangeText('foresee')}</div>
+      <div class="hd-title">预见 · 健康寿命</div>
     </div>
 
     ${rangeBar('foresee')}
 
-    <div class="life">
-      <div class="life-tag">健康资产 · 你有多富</div>
-      <div class="life-title">你在哪一层？</div>
-      <div class="life-rows">
-        <div class="life-row"><div class="life-row-lb">俱乐部会员平均</div><div class="life-row-val">${LIFE.club.toLocaleString()}<small>分</small></div></div>
-        <div class="life-row mine"><div class="life-row-lb">你现在</div><div class="life-row-val">${mine.toLocaleString()}<small>分</small></div></div>
-        <div class="life-row"><div class="life-row-lb">老板群体平均</div><div class="life-row-val">${(LIFE.club-2200).toLocaleString()}<small>分</small></div></div>
+    <div class="level-card">
+      <div class="level-top">
+        <div class="level-badge">当前预估</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5)">${asset} / ${ASSET_MAX} 分</div>
       </div>
-      <div class="life-concl">
-        你已拥有 <b>${mine.toLocaleString()} 分</b> 健康资产 · 距第一梯队还差 <b>${(LIFE.club-mine).toLocaleString()} 分</b>
+      <div class="level-now">
+        <div class="level-now-lb">${lv.name} · 第 ${LEVELS.findIndex(x=>x.key===lv.key)+1} / ${LEVELS.length} 级</div>
+        <div class="level-now-name">${lv.name}</div>
+        <div class="level-now-age">预计 ${lv.ageMin}-${lv.ageMax} 岁</div>
       </div>
+      <div class="level-list">${levelListHtml}</div>
     </div>
 
+    <div class="sec"><span>资产趋势</span></div>
     ${assetTrend}
 
-    <div class="sec"><span>健康资产 · 肌骨血脑肠心</span></div>
-    <div class="asset"><div class="asset-rows">${assetRows}</div></div>
-
-    ${manual ? renderProfileForm() : ''}
-  `;
-}
-
-function renderProfileForm(){
-  const p = state.profile;
-  const opts = (arr, cur, key)=>
-    arr.map(o=>`<div class="ob-opt ${cur===o?'on':''}" data-prof="${key}" data-val="${o}"
-      style="padding:8px 14px;font-size:13px;border-radius:10px">${o}</div>`).join('');
-  return `
-    <div class="sec"><span>手动修改 · 影响健康资产的因素</span></div>
-    <div class="card">
-      <div class="form-row"><span>身高（cm）</span>
-        <input class="obj-input" type="number" data-prof-input="height" value="${p.height}"></div>
-      <div class="form-row"><span>体重（kg）</span>
-        <input class="obj-input" type="number" step="0.1" data-prof-input="weight" value="${p.weight}"></div>
-      <div class="form-row"><span>吸烟</span>
-        <div class="ob-opts">${opts(['不吸','偶尔','每天'], p.smoke, 'smoke')}</div></div>
-      <div class="form-row"><span>饮酒</span>
-        <div class="ob-opts">${opts(['不喝','偶尔','经常'], p.drink, 'drink')}</div></div>
-      <div class="form-row"><span>运动</span>
-        <div class="ob-opts">${opts(['几乎不动','每周1-2次','每周2-3次','每周4次以上'], p.exercise, 'exercise')}</div></div>
+    <div class="sec"><span>各维度拆分</span></div>
+    <div class="asset-list">
+      <div class="asset-list-hd">肌骨血脑肠心 · ${rangeText('foresee')}</div>
+      ${assetRows}
     </div>
   `;
 }
@@ -1488,7 +1082,7 @@ function renderChange(){
     const ps = state.practiceState[p.id];
     let btn;
     if(ps.joined && ps.checkedToday){
-      btn = `<button class="action-btn done" disabled>今日已打卡</button>`;
+      btn = `<button class="action-btn done" disabled>已打卡</button>`;
     } else if(ps.joined){
       btn = `<button class="action-btn check" data-practice-check="${p.id}">打卡</button>`;
     } else {
@@ -1526,17 +1120,14 @@ function renderChange(){
 
   return `
     <div class="hd">
-      <div class="hd-date">当前杠杆 · 行动目标</div>
+      <div class="hd-date">${rangeText('change')}</div>
       <div class="hd-title">改变</div>
     </div>
 
     ${rangeBar('change')}
-
     ${goalHtml}
-
     <div class="sec"><span>怎么做</span><span class="more">点击加入或打卡</span></div>
     <div class="action-list">${actionHtml}</div>
-
     <div class="sec"><span>做得怎么样</span></div>
     ${resultHtml}
   `;
@@ -1572,7 +1163,7 @@ function openGoalDetail(){
       <div class="detail-list">${whyHtml}</div>
     </div>
     <div class="detail-block">
-      <div class="detail-t">配套实践与本周打卡</div>
+      <div class="detail-t">配套实践</div>
       ${practicesHtml}
     </div>
     <div class="sh-btn ghost" data-close>关闭</div>
@@ -1582,9 +1173,7 @@ function openGoalDetail(){
 /* ============ 管理 ============ */
 function renderManage(){
   const range = state.range.manage;
-  const factor = {day:1, week:7, month:30, year:365, all:730, manual:7}[range] || 7;
   const streakDays = {day:1, week:12, month:48, year:186, all:302, manual:12}[range];
-  const steps = (8420 * factor).toLocaleString();
 
   const familyRows = [
     {n:'父亲', s:71, r:'已绑定'},
@@ -1602,7 +1191,7 @@ function renderManage(){
 
   return `
     <div class="hd">
-      <div class="hd-date">工具 · 管理</div>
+      <div class="hd-date">${rangeText('manage')}</div>
       <div class="hd-title">管理</div>
     </div>
 
@@ -1610,23 +1199,23 @@ function renderManage(){
 
     <div class="streak">
       <div class="streak-num">${streakDays}<small>天</small></div>
-      <div class="streak-lb">连续打卡 · ${range==='manual'?'手动范围':ASSET_TREND[range].title}</div>
+      <div class="streak-lb">连续打卡 · ${rangeText('manage')}</div>
     </div>
 
-    <div class="sec"><span>家庭管理</span></div>
+    <div class="sec"><span>家庭</span></div>
     <div class="mgr-group">
       ${familyRows}
       <div class="mgr-row" data-family>
         <div class="mgr-row-ico" style="background:var(--blue-bg);color:var(--mid)">+</div>
         <div class="mgr-row-main">
           <div class="mgr-row-t">邀请家人</div>
-          <div class="mgr-row-s">家人只能看到分数，看不到明细</div>
+          <div class="mgr-row-s">家人只能看到分数</div>
         </div>
         <div class="mgr-row-val">邀请</div>
       </div>
     </div>
 
-    <div class="sec"><span>设备管理</span></div>
+    <div class="sec"><span>设备</span></div>
     <div class="mgr-group">
       <div class="mgr-row"><div class="mgr-row-ico">戒</div>
         <div class="mgr-row-main"><div class="mgr-row-t">智能戒指</div>
@@ -1650,7 +1239,7 @@ function renderManage(){
     <div class="mgr-group">
       <div class="mgr-row" data-share><div class="mgr-row-ico">转</div>
         <div class="mgr-row-main"><div class="mgr-row-t">转发健康卡</div>
-        <div class="mgr-row-s">资产 · 趋势 · 一周摘要</div></div>
+        <div class="mgr-row-s">资产 · 等级 · 摘要</div></div>
         <div class="mgr-row-val">›</div></div>
       <div class="mgr-row"><div class="mgr-row-ico">医</div>
         <div class="mgr-row-main"><div class="mgr-row-t">就诊模式</div>
@@ -1681,7 +1270,7 @@ function renderAdmin(){
         <div class="rank-nm">${r.n}</div>
         <div class="rank-sub">${r.sub}</div>
       </div>
-      <div class="rank-asset">${r.s.toLocaleString()}<small>分</small></div>
+      <div class="rank-asset">${r.s}</div>
     </div>`;
   }).join('');
   return `
@@ -1690,7 +1279,7 @@ function renderAdmin(){
       <div class="hd-title">排行榜</div>
     </div>
     <div class="kpi-grid">${kpis}</div>
-    <div class="sec"><span>健康资产排行榜</span><span class="more">按资产值</span></div>
+    <div class="sec"><span>健康资产排行榜</span><span class="more">满分 ${ASSET_MAX}</span></div>
     <div class="card" style="padding:6px 18px">${ranks}</div>
     <div style="height:20px"></div>
   `;
@@ -1719,18 +1308,18 @@ function renderAdminUser(){
           <div class="hd-date">用户详情 · ${user}</div>
           <div class="hd-title">九宫格</div>
         </div>
-        <div class="share-btn" data-admin-back>← 返回排行榜</div>
+        <div class="share-btn" data-admin-back>← 返回</div>
       </div>
     </div>
     <div class="trendcard" style="margin-bottom:14px">
       <div class="tc-hd">
         <div>
           <div class="tc-lb">健康资产</div>
-          <div class="tc-num" style="color:var(--gold)">${(ADMIN.ranks.find(r=>r.n===user)||{s:8620}).s.toLocaleString()}<small>分</small></div>
+          <div class="tc-num" style="color:#C8102E">${(ADMIN.ranks.find(r=>r.n===user)||{s:106}).s}</div>
         </div>
-        <div class="tc-delta up">+420</div>
+        <div class="tc-delta up">+8</div>
       </div>
-      ${trendSvg([8200,8320,8400,8450,8550,8600,8620],['一','二','三','四','五','六','日'],'#B8860B')}
+      ${trendSvg([98,101,103,104,105,106,106],['一','二','三','四','五','六','日'],'#C8102E',ASSET_MAX)}
       <div class="trend-x">${xLabels(['一','二','三','四','五','六','日'])}</div>
     </div>
     <div class="sec"><span>九维度</span></div>
@@ -1761,9 +1350,9 @@ function renderOnboard(){
     body = `
       <div class="ob-body">
         <div class="ob-head">
-          <div class="ob-step">1 / 3 · 基础信息</div>
+          <div class="ob-step">基础信息</div>
           <div class="ob-title">先认识一下你</div>
-          <div class="ob-sub">这些信息只用于生成你的健康基线</div>
+          <div class="ob-sub">这些信息用于生成健康基线</div>
         </div>
         <div class="ob-field"><label>性别</label>
           <div class="ob-opts">${['男','女'].map(o=>`<div class="ob-opt ${ob.gender===o?'on':''}"
@@ -1779,42 +1368,6 @@ function renderOnboard(){
             `<div class="ob-opt ${ob.conditions.includes(o)?'on':''}"
               data-ob-multi="conditions" data-val="${o}">${o}</div>`).join('')}</div></div>
       </div>
-      <div class="ob-foot"><div class="ob-btn" data-ob-next>下一步</div></div>`;
-  } else if(ob.step === 2){
-    body = `
-      <div class="ob-body">
-        <div class="ob-head">
-          <div class="ob-step">2 / 3 · 选健康助理</div>
-          <div class="ob-title">选一个陪你的人</div>
-          <div class="ob-sub">他会在“看见”页列出你每天要做的事</div>
-        </div>
-        <div class="ob-field"><label>选一个形象</label>
-          <div class="ob-avatars">${ASSISTANTS.map(a=>assistantAvatarSmall(a)).join('')}</div></div>
-        <div class="ob-field"><label>他的性格</label>
-          <div class="ob-opts">${ASSISTANTS.map(a=>`<div class="ob-opt ${ob.assistant===a.key?'on':''}"
-            data-ob-set="assistant" data-val="${a.key}"
-            style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 16px;text-align:left">
-            <span style="font-weight:700;color:${a.color}">${a.name} · ${a.persona}</span>
-            <span style="font-size:11px;color:var(--ink3);font-weight:400">${a.traits}</span>
-          </div>`).join('')}</div></div>
-      </div>
-      <div class="ob-foot"><div class="ob-btn" data-ob-next>下一步</div></div>`;
-  } else if(ob.step === 3){
-    const focusOpts = ['活得更久','精力更好','睡得更好','指标正常','少生病','陪家人更久','体面老去'];
-    body = `
-      <div class="ob-body">
-        <div class="ob-head">
-          <div class="ob-step">3 / 3 · 建立关系</div>
-          <div class="ob-title">你最在意什么？</div>
-          <div class="ob-sub">我们按你在意的顺序，安排每天的提醒</div>
-        </div>
-        <div class="ob-field"><label>健康目标 <small>可多选</small></label>
-          <div class="ob-opts">${focusOpts.map(o=>`<div class="ob-opt ${ob.focus.includes(o)?'on':''}"
-            data-ob-multi="focus" data-val="${o}" style="padding:10px 14px;font-size:13.5px">${o}</div>`).join('')}</div></div>
-        <div class="ob-field"><label>每天什么时候聊</label>
-          <div class="ob-opts">${['07:00','12:00','21:00','22:00'].map(o=>`<div class="ob-opt ${ob.time===o?'on':''}"
-            data-ob-set="time" data-val="${o}">${o}</div>`).join('')}</div></div>
-      </div>
       <div class="ob-foot"><div class="ob-btn" data-ob-done>开始使用</div></div>`;
   }
   el.innerHTML = body;
@@ -1822,7 +1375,6 @@ function renderOnboard(){
 
 /* ============ Sheet ============ */
 function openSheet(title, body, voiceTarget){
-  const a = getAssistant(state.ob.assistant);
   document.getElementById('sheet').innerHTML = `
     <div class="sh-head">
       <div class="sh-title-row">
@@ -1834,7 +1386,7 @@ function openSheet(title, body, voiceTarget){
       </div>
     </div>
     ${body}
-    <div class="voice-bar">
+    <div class="voice-entry">
       <button class="voice-btn" data-voice="${voiceTarget||''}">
         <svg class="voice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="3" width="6" height="12" rx="3"/>
@@ -1842,7 +1394,7 @@ function openSheet(title, body, voiceTarget){
         </svg>
         <span>语音输入</span>
       </button>
-      <span class="voice-hint">${a.hint}</span>
+      <div class="voice-hint">说人话就行，我来帮你结构化</div>
     </div>`;
   document.getElementById('modal').classList.add('open');
   document.getElementById('sheet').scrollTop = 0;
@@ -1865,7 +1417,6 @@ function openSimpleSheet(title, body){
   setTimeout(animateBars, 60);
 }
 function closeModal(){ document.getElementById('modal').classList.remove('open'); }
-function calcBMI(w){ return (w / (1.78*1.78)).toFixed(1); }
 function toast(msg){
   const d = document.createElement('div');
   d.className = 'toast';
@@ -1874,726 +1425,240 @@ function toast(msg){
   setTimeout(()=>d.remove(), 1800);
 }
 
-/* ============ 范围提示 & 趋势块 ============ */
-function rangeHint(range){
-  if(range === 'manual'){
-    const m = state.manual.see;
-    return `<div class="sh-range"><span class="dot"></span>${m.start} 至 ${m.end} · 手动范围</div>`;
+/* ============ 总分趋势（100 分制） ============ */
+function totalScoreTrendHtml(k, range){
+  const dim = DIMS.find(x=>x.k===k);
+  const series = DIM_TREND_BY_RANGE[k] && DIM_TREND_BY_RANGE[k][range];
+  if(!series || !series.length){
+    return `<div class="empty-state" style="background:#fff;border:1px dashed var(--line);border-radius:14px;padding:24px 20px;text-align:center;margin-bottom:16px">
+      <div style="font-size:22px;color:var(--ink3);margin-bottom:8px">📈</div>
+      <div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px">还没有足够数据</div>
+      <div style="font-size:12px;color:var(--ink3);line-height:1.6">记录一次后就能看到趋势</div>
+    </div>`;
   }
-  const titles = {day:'今日', week:'本周', month:'本月', year:'今年', all:'全部'};
-  return `<div class="sh-range"><span class="dot"></span>${titles[range] || ''} · ${rangeLabel(range)}记录</div>`;
-}
-function dimTrendBlock(dimKey, range){
-  const key = range;
-  const series = DIM_TREND_BY_RANGE[dimKey] && DIM_TREND_BY_RANGE[dimKey][key]
-    ? DIM_TREND_BY_RANGE[dimKey][key]
-    : DIM_TREND_BY_RANGE[dimKey] ? DIM_TREND_BY_RANGE[dimKey].week : [70,72,73,72,74];
-  const xs = DIM_TREND_X[key] || DIM_TREND_X.week;
-  const v = series.slice();
-  const first = v[0], last = v[v.length-1];
+  const xs = DIM_TREND_X[range] || DIM_TREND_X.week;
+  const first = series[0], last = series[series.length-1];
   const delta = last - first;
-  const color = delta >= 0 ? '#B8860B' : '#1A1A1A';
-  return `<div class="trendcard" style="margin-top:18px">
+  const isGood = trendIsGood(k, delta);
+  const color = isGood ? '#C8102E' : '#1A1A1A';
+  const deltaCls = isGood ? 'up' : 'down';
+  const sign = delta >= 0 ? '+' : '';
+  return `<div class="trendcard" style="margin-top:0;margin-bottom:16px">
     <div class="tc-hd">
       <div>
-        <div class="tc-lb">${dimKeyLabel(dimKey)} · ${range==='manual'?'所选区间':(ASSET_TREND[key]?ASSET_TREND[key].title:'')}</div>
+        <div class="tc-lb">总分 · ${dim.name}（100 分制）</div>
         <div class="tc-num" style="color:${color}">${last}<small>分</small></div>
       </div>
-      <div class="tc-delta ${delta>=0?'up':'down'}">${delta>=0?'+':''}${delta}</div>
+      <div class="tc-delta ${deltaCls}">${sign}${delta}</div>
     </div>
-    ${trendSvg(v, xs, color)}
+    ${trendSvg(series, xs, color, 100)}
     <div class="trend-x">${xLabels(xs)}</div>
   </div>`;
 }
-function dimKeyLabel(k){
-  const m = {stress:'情绪',move:'运动',body:'身体',diet:'饮食',sleep:'睡眠',breath:'呼吸',env:'环境',cognition:'认知',event:'大事'};
-  return m[k] || k;
-}
 
-/* ============ 开放式自然语言录入 ============ */
-const NL_GUIDES = {
-  stress:'可以写：今天开了几个会、有没有让你情绪波动的事、晚上几点还在工作、有没有客户/家庭上的大事。',
-  move:'可以写：今天走了多少、做了什么运动、坐了多久、有没有力量训练。',
-  body:'可以写：哪里不舒服、睡眠、排便、体重、血压，或者任何身体感受。',
-  diet:'可以写：三餐吃了什么、有没有应酬喝酒、喝了多少水、吃了什么补剂。',
-  sleep:'可以写：几点睡、几点醒、夜里醒了几次、午睡多久、梦多不多。',
-  breath:'可以写：有没有胸闷、气短、打鼾、咳嗽，或者做了多久呼吸练习。',
-  env:'可以写：今天在户外多久、空气怎么样、有没有二手烟、噪声、装修。',
-  cognition:'可以写：今天专注度、记忆力、读了什么、学了什么、和谁聊了。',
-  event:'可以写：今天有没有大事，工作、家庭、健康、财务上的，对你影响如何。'
-};
-function nlInputHtml(k){
-  const history = state.freeText[k] || [];
-  const guide = NL_GUIDES[k] || '可以随意写今天的感受和细节。';
-  return `<div class="nl-block">
-    <div class="nl-hd">
-      <div class="nl-ico">AI</div>
-      <div class="nl-title">说人话，我来帮你记</div>
-    </div>
-    <div class="nl-guide">${guide}</div>
-    <textarea class="nl-textarea" id="nlText" data-nl-dim="${k}"
-      placeholder="比如：今天开了三个会，晚上十点还在回邮件，感觉有点紧…">${state.records['nl_'+k]||''}</textarea>
-    <div class="nl-foot">
-      <div class="nl-mic" data-voice="${k}">🎙 语音说</div>
-      <div class="nl-save" data-nl-save="${k}">记下这一笔</div>
-    </div>
-    <div id="nlParsed"></div>
-    ${history.length ? `<div class="nl-history">
-      <div class="nl-history-t">最近记录</div>
-      ${history.slice(0,3).map(h=>`<div class="nl-history-item">${h}</div>`).join('')}
-    </div>` : ''}
+/* ============ 具体指标（带加减变化） ============ */
+function metricsBlockHtml(k){
+  const items = DIM_SNAPSHOT[k] || [];
+  if(!items.length){
+    return `<div class="metrics-block">
+      <div class="metrics-hd"><span>具体指标</span><span class="cnt">暂无</span></div>
+      <div class="metrics-empty">这个维度没有可读取的设备指标<br>用下方对话记录今天的感受</div>
+    </div>`;
+  }
+  const rows = items.map(it=>{
+    const empty = it.v === null || it.v === undefined || it.v === '';
+    let deltaHtml = '<span class="metric-delta flat">—</span>';
+    if(!empty && it.delta !== null && it.delta !== undefined && it.delta !== 0){
+      const sign = it.delta > 0 ? '+' : '';
+      const cls = it.good ? 'good' : 'bad';
+      let dv = it.delta;
+      if(!Number.isInteger(dv)) dv = dv.toFixed(1);
+      deltaHtml = `<span class="metric-delta ${cls}">${sign}${dv}</span>`;
+    }
+    return `<div class="metric-row">
+      <div class="metric-nm">${it.k}</div>
+      <div class="metric-v ${empty?'empty':''}">${empty ? '—' : it.v}${!empty && it.unit ? `<small>${it.unit}</small>` : ''}</div>
+      ${deltaHtml}
+    </div>`;
+  }).join('');
+  return `<div class="metrics-block">
+    <div class="metrics-hd"><span>具体指标</span><span class="cnt">${items.length} 项</span></div>
+    ${rows}
   </div>`;
 }
 
-/* 简单结构化：从文本里提取数字/关键词，生成预览 */
-function parseNlText(k, text){
+/* ============ 引导式对话 ============ */
+function getChat(k){
+  if(!state.chat[k]) state.chat[k] = {step: 0, log: []};
+  return state.chat[k];
+}
+function parseChatText(k, text){
   const out = [];
   if(!text) return out;
   const t = text.trim();
   if(k === 'move'){
-    const m = t.match(/(\d{3,6})\s*步/);
-    if(m) out.push({k:'步数', v:m[1]+' 步'});
-    const min = t.match(/(\d{1,3})\s*分钟/);
-    if(min) out.push({k:'运动时长', v:min[1]+' 分钟'});
-    if(/力量训练|深蹲|俯卧撑|举铁/.test(t)) out.push({k:'力量训练', v:'有'});
-    if(/坐|久坐/.test(t)) out.push({k:'久坐', v:'提到'});
+    const m = t.match(/(\d{3,6})\s*步/); if(m) out.push({k:'步数', v:m[1]+' 步'});
+    const min = t.match(/(\d{1,3})\s*分钟/); if(min) out.push({k:'时长', v:min[1]+' 分钟'});
+    if(/力量训练|深蹲|俯卧撑|举铁/.test(t)) out.push({k:'力量', v:'有'});
   } else if(k === 'body'){
-    const w = t.match(/(\d{2,3}(\.\d)?)\s*(kg|公斤|斤)/);
-    if(w) out.push({k:'体重', v:w[1]+' kg'});
-    const bp = t.match(/(\d{2,3})\s*\/\s*(\d{2,3})/);
-    if(bp) out.push({k:'血压', v:bp[1]+'/'+bp[2]});
-    ['颈肩','便干','便秘','头晕','疲劳','心慌'].forEach(s=>{
-      if(t.includes(s)) out.push({k:'症状', v:s});
-    });
+    const w = t.match(/(\d{2,3}(\.\d)?)\s*(kg|公斤)/); if(w) out.push({k:'体重', v:w[1]+'kg'});
+    const bp = t.match(/(\d{2,3})\s*\/\s*(\d{2,3})/); if(bp) out.push({k:'血压', v:bp[1]+'/'+bp[2]});
+    ['颈肩','便干','便秘','头晕','疲劳','心慌','没胃口'].forEach(s=>{ if(t.includes(s)) out.push({k:'症状', v:s}); });
   } else if(k === 'stress'){
-    const meet = t.match(/(\d{1,2})\s*个?会/);
-    if(meet) out.push({k:'会议', v:meet[1]+' 个'});
-    if(/加班|十点|十一点|很晚/.test(t)) out.push({k:'工作状态', v:'偏晚/加班'});
-    if(/客户|谈判|签约/.test(t)) out.push({k:'工作事件', v:'有'});
+    const meet = t.match(/(\d{1,2})\s*个?会/); if(meet) out.push({k:'会议', v:meet[1]+' 个'});
+    if(/加班|十点|十一点|很晚/.test(t)) out.push({k:'工作', v:'偏晚'});
+    if(/客户|谈判|签约/.test(t)) out.push({k:'事件', v:'有'});
     if(/烦|紧|焦虑|压力/.test(t)) out.push({k:'情绪', v:'偏紧'});
+    if(/松|好|不错|开心/.test(t)) out.push({k:'情绪', v:'偏松'});
   } else if(k === 'diet'){
-    const water = t.match(/(\d+(\.\d)?)\s*(L|升|杯)/);
-    if(water) out.push({k:'饮水', v:water[1]+' '+water[3]});
+    const water = t.match(/(\d+(\.\d)?)\s*(L|升|杯)/); if(water) out.push({k:'饮水', v:water[1]+water[3]});
     if(/酒|红酒|白酒|啤酒/.test(t)) out.push({k:'饮酒', v:'有'});
     if(/维生素|鱼油|钙片|益生菌/.test(t)) out.push({k:'补剂', v:'有'});
-    if(/外卖|烧烤|油炸/.test(t)) out.push({k:'饮食风险', v:'有'});
+    if(/外卖|烧烤|油炸/.test(t)) out.push({k:'风险', v:'有'});
   } else if(k === 'sleep'){
-    const h = t.match(/(\d{1,2})\s*点.*?(\d{1,2})\s*点/);
-    if(h) out.push({k:'睡眠时段', v:h[1]+'点-'+h[2]+'点'});
-    const wake = t.match(/醒[了]?(\d{1,2})\s*次/);
-    if(wake) out.push({k:'夜醒', v:wake[1]+' 次'});
+    const h = t.match(/(\d{1,2})\s*点.*?(\d{1,2})\s*点/); if(h) out.push({k:'时段', v:h[1]+'-'+h[2]+'点'});
+    const wake = t.match(/醒[了]?(\d{1,2})\s*次/); if(wake) out.push({k:'夜醒', v:wake[1]+' 次'});
     if(/午睡|午觉/.test(t)) out.push({k:'午睡', v:'有'});
+    if(/好|不错|香/.test(t)) out.push({k:'体感', v:'好'});
+    if(/累|没睡好|失眠/.test(t)) out.push({k:'体感', v:'差'});
   } else if(k === 'breath'){
-    ['胸闷','气短','打鼾','咳嗽','咳痰','呼吸练习'].forEach(s=>{
-      if(t.includes(s)) out.push({k:'呼吸', v:s});
-    });
+    ['胸闷','气短','打鼾','咳嗽','咳痰','呼吸练习'].forEach(s=>{ if(t.includes(s)) out.push({k:'呼吸', v:s}); });
+    if(/顺畅|还好|没有/.test(t)) out.push({k:'体感', v:'好'});
   } else if(k === 'env'){
     if(/户外|外面|阳光/.test(t)) out.push({k:'户外', v:'有'});
     if(/二手烟|烟味/.test(t)) out.push({k:'二手烟', v:'有'});
-    if(/空气|雾霾|甲醛|装修/.test(t)) out.push({k:'空气', v:'有提及'});
+    if(/空气|雾霾|甲醛|装修/.test(t)) out.push({k:'空气', v:'提及'});
   } else if(k === 'cognition'){
     if(/读书|看了|学习|课程/.test(t)) out.push({k:'学习', v:'有'});
-    if(/专注|分心/.test(t)) out.push({k:'专注', v:'提到'});
+    if(/专注|分心/.test(t)) out.push({k:'专注', v:'提及'});
     if(/聚会|聊天|社交/.test(t)) out.push({k:'社交', v:'有'});
   } else if(k === 'event'){
-    if(/谈判|签约|客户|会议/.test(t)) out.push({k:'工作大事', v:'有'});
-    if(/家里|孩子|父母|家庭/.test(t)) out.push({k:'家庭大事', v:'有'});
-    if(/体检|医院|看病/.test(t)) out.push({k:'健康大事', v:'有'});
-    if(/股票|投资|钱|财务/.test(t)) out.push({k:'财务大事', v:'有'});
+    if(/谈判|签约|客户|会议/.test(t)) out.push({k:'工作', v:'有'});
+    if(/家里|孩子|父母|家庭/.test(t)) out.push({k:'家庭', v:'有'});
+    if(/体检|医院|看病/.test(t)) out.push({k:'健康', v:'有'});
+    if(/股票|投资|钱|财务/.test(t)) out.push({k:'财务', v:'有'});
     out.push({k:'影响', v:/好|成|顺利/.test(t)?'正面':(/差|失败|糟/.test(t)?'负面':'中性')});
   }
   return out;
 }
-
-function renderNlParsed(k){
-  const text = state.records['nl_'+k] || '';
-  const parsed = parseNlText(k, text);
-  const el = document.getElementById('nlParsed');
-  if(!el) return;
-  if(!text.trim()){ el.innerHTML = ''; return; }
-  if(!parsed.length){
-    el.innerHTML = `<div class="nl-parsed">
-      <div class="nl-parsed-t">我会先原样保存，之后再帮你结构化</div>
-      <div style="font-size:12.5px;color:var(--ink2);line-height:1.7">${text}</div>
+function chatBlockHtml(k){
+  const chat = getChat(k);
+  const flow = CHAT_FLOW[k] || [{q:'今天怎么样？'}];
+  let html = '<div class="chat-block">';
+  html += `<div class="chat-block-hd">手动记录</div>`;
+  chat.log.forEach((item)=>{
+    html += `<div class="chat-msg ai">
+      <div class="chat-avatar">AI</div>
+      <div class="chat-bubble">${item.q}${item.hint ? `<div class="chat-hint">${item.hint}</div>` : ''}</div>
     </div>`;
-    return;
+    html += `<div class="chat-msg user">
+      <div class="chat-avatar">我</div>
+      <div class="chat-bubble">${item.a}</div>
+    </div>`;
+    if(item.parsed && item.parsed.length){
+      html += `<div class="chat-parsed">${item.parsed.map(p=>`<span>${p.k} <b>${p.v}</b></span>`).join('')}</div>`;
+    }
+  });
+  if(chat.step < flow.length){
+    const cur = flow[chat.step];
+    const q = cur.q || cur;
+    const hint = cur.hint || '';
+    html += `<div class="chat-msg ai">
+      <div class="chat-avatar">AI</div>
+      <div class="chat-bubble">${q}${hint ? `<div class="chat-hint">${hint}</div>` : ''}</div>
+    </div>`;
+    html += `<div class="chat-input">
+      <input id="chatInput" placeholder="说点什么…" data-chat-dim="${k}">
+      <button data-chat-send="${k}">发送</button>
+    </div>`;
+  } else {
+    html += `<div class="chat-done">✓ 已记录 <b>${chat.log.length}</b> 条</div>`;
   }
-  el.innerHTML = `<div class="nl-parsed">
-    <div class="nl-parsed-t">我识别到这些</div>
-    ${parsed.map(p=>`<div class="nl-parsed-row">
-      <span class="k">${p.k}</span><span class="v">${p.v}</span>
-    </div>`).join('')}
-    <div style="font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.6">
-      原文会一并保存，识别结果用于趋势和提醒。
-    </div>
-  </div>`;
+  html += '</div>';
+  return html;
 }
 
-/* ============ 各维度弹窗 ============ */
-function renderBodySheet(range){
-  const d = DIMS.find(x=>x.k==='body');
-  const selected = state.records.symptom || [];
-  const objRows = d.obj.map(o=>{
-    if(o.input === 'weight'){
-      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-        <input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>`;
-    }
-    if(o.auto && o.nm === 'BMI'){
-      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-        <span class="obj-val">${calcBMI(state.weight)}</span></div>`;
-    }
-    return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-      <span class="obj-val">${o.val}<span>${o.unit}</span></span></div>`;
-  }).join('');
-  const groupsHtml = BODY_SYMPTOM_GROUPS.map(g=>{
-    const selectedInGroup = g.opts.filter(o=>selected.includes(o)).length;
-    const countHtml = selectedInGroup > 0 ? `<span class="count">${selectedInGroup}</span>` : '';
-    const opts = g.opts.map(o=>{
-      const on = selected.includes(o);
-      const isDanger = ['小便颜色异常','大便颜色异常'].includes(o);
-      return `<div class="sym-opt ${on?'on':''} ${on&&isDanger?'danger':''} ${isDanger?'alert':''}"
-        data-sym="${o}">${o}</div>`;
-    }).join('');
-    return `<div class="sym-group">
-      <div class="sym-group-t">${g.name} ${countHtml}</div>
-      <div class="sym-opts">${opts}</div>
-    </div>`;
-  }).join('');
-
-  const realSelected = selected.filter(x=>x!=='没有');
-  let fuHtml = '';
-  realSelected.forEach(sym=>{
-    const fus = SYMPTOM_FOLLOWUP[sym];
-    if(!fus) return;
-    const answers = state.bodyFollowups[sym] || {};
-    const items = fus.map(f=>{
-      const cur = answers[f.q];
-      const opts = f.opts.map(o=>{
-        const on = cur === o;
-        const isDangerOpt = f.danger && ['淡红','血红','黑色柏油样','鲜红色','灰白色'].includes(o);
-        return `<div class="fu-opt ${on?'on':''} ${isDangerOpt?'danger':''}"
-          data-fu-sym="${sym}" data-fu-q="${f.q}" data-fu-v="${o}">${o}</div>`;
-      }).join('');
-      return `<div class="fu-item"><div class="fu-label">${f.q}</div>
-        <div class="fu-opts">${opts}</div></div>`;
-    }).join('');
-    fuHtml += `<div class="fu-block"><div class="fu-hd">${sym} · 具体描述</div>${items}</div>`;
-  });
-
-  let urgentHtml = '';
-  URGENT_RULES.forEach(rule=>{
-    const ans = (state.bodyFollowups[rule.symptom] || {})['颜色'];
-    if(ans === rule.answer){
-      urgentHtml += `<div class="urgent-banner">
-        <div class="urgent-ico">!</div>
-        <div class="urgent-body">
-          <div class="urgent-t">建议尽快就医</div>
-          <div class="urgent-s">${rule.msg}</div>
-        </div>
-      </div>`;
-    }
-  });
-
-  const symptomNote = state.records.symptom_note || '';
-  openSheet('身体', `
-    ${rangeHint(range)}
-    ${nlInputHtml('body')}
-    ${dimTrendBlock('body', range)}
-    <div class="obj-block"><div class="obj-label">客观数据</div>${objRows}</div>
-    <div class="subj-label">身体症状 · 可多选</div>
-    ${groupsHtml}${fuHtml}${urgentHtml}
-    <div class="rec-item" style="margin-top:22px">
-      <div class="rec-label">今日整体感觉 <small>选填</small></div>
-      <input class="rec-note" placeholder="如果有什么想补充的，写在这里"
-        value="${symptomNote}" data-note="symptom">
-    </div>
-  `, 'body');
-}
-
-function renderBreathSheet(range){
-  const d = DIMS.find(x=>x.k==='breath');
-  const selected = state.records.breath_symptom || [];
-  const objRows = d.obj.map(o=>`
-    <div class="obj-row"><span class="obj-nm">${o.nm}</span>
-      <span class="obj-val">${o.val}<span>${o.unit}</span></span></div>
-  `).join('');
-  const symOpts = BREATH_SYMPTOMS.map(o=>{
-    const on = selected.includes(o);
-    return `<div class="sym-opt ${on?'on':''} ${on&&o==='咳痰'?'danger':''}"
-      data-breath-sym="${o}">${o}</div>`;
-  }).join('');
-
-  const realSelected = selected.filter(x=>x!=='没有');
-  let fuHtml = '';
-  realSelected.forEach(sym=>{
-    const fus = BREATH_FOLLOWUP[sym];
-    if(!fus) return;
-    const answers = state.breathFollowups[sym] || {};
-    const items = fus.map(f=>{
-      const cur = answers[f.q];
-      const opts = f.opts.map(o=>{
-        const on = cur === o;
-        const isDangerOpt = f.danger && ['带血'].includes(o);
-        return `<div class="fu-opt ${on?'on':''} ${isDangerOpt?'danger':''}"
-          data-breath-fu-sym="${sym}" data-breath-fu-q="${f.q}" data-breath-fu-v="${o}">${o}</div>`;
-      }).join('');
-      return `<div class="fu-item"><div class="fu-label">${f.q}</div>
-        <div class="fu-opts">${opts}</div></div>`;
-    }).join('');
-    fuHtml += `<div class="fu-block"><div class="fu-hd">${sym} · 具体描述</div>${items}</div>`;
-  });
-
-  let urgentHtml = '';
-  if((state.breathFollowups['咳痰'] || {})['颜色'] === '带血'){
-    urgentHtml = `<div class="urgent-banner">
-      <div class="urgent-ico">!</div>
-      <div class="urgent-body">
-        <div class="urgent-t">建议尽快就医</div>
-        <div class="urgent-s">咳痰带血，建议尽快排查呼吸系统问题。</div>
-      </div>
-    </div>`;
-  }
-  const practice = state.records.breath_practice;
-  const practiceOpts = ['5分钟慢呼吸','腹式呼吸','没有'].map(o=>
-    `<div class="rec-opt ${practice===o?'on':''}" data-rec="breath_practice" data-val="${o}">${o}</div>`
-  ).join('');
-  openSheet('呼吸', `
-    ${rangeHint(range)}
-    ${nlInputHtml('breath')}
-    ${dimTrendBlock('breath', range)}
-    <div class="obj-block"><div class="obj-label">客观数据</div>${objRows}</div>
-    <div class="subj-label">呼吸症状 · 可多选</div>
-    <div class="sym-opts" style="margin-bottom:16px">${symOpts}</div>
-    ${fuHtml}${urgentHtml}
-    <div class="rec-item" style="margin-top:22px">
-      <div class="rec-label">今日呼吸练习</div>
-      <div class="rec-opts">${practiceOpts}</div>
-    </div>
-  `, 'breath');
-}
-
-function renderEnvSheet(range){
-  const d = DIMS.find(x=>x.k==='env');
-  const selected = state.records.env_exposure || [];
-  const objRows = d.obj.map(o=>`
-    <div class="obj-row"><span class="obj-nm">${o.nm}</span>
-      <span class="obj-val">${o.val}<span>${o.unit}</span></span></div>
-  `).join('');
-  const expOpts = ENV_EXPOSURES.map(o=>{
-    const on = selected.includes(o);
-    const isAlert = ['空气污染','二手烟','高粉尘环境','装修污染'].includes(o);
-    return `<div class="sym-opt ${on?'on':''} ${isAlert?'alert':''}"
-      data-env-exp="${o}">${o}</div>`;
-  }).join('');
-
-  const realSelected = selected.filter(x=>x!=='没有');
-  let fuHtml = '';
-  realSelected.forEach(exp=>{
-    const fus = ENV_EXPOSURE_FOLLOWUP[exp];
-    if(!fus) return;
-    const answers = state.envFollowups[exp] || {};
-    const items = fus.map(f=>{
-      const cur = answers[f.q];
-      const opts = f.opts.map(o=>{
-        const on = cur === o;
-        return `<div class="fu-opt ${on?'on':''}"
-          data-env-fu-sym="${exp}" data-env-fu-q="${f.q}" data-env-fu-v="${o}">${o}</div>`;
-      }).join('');
-      return `<div class="fu-item"><div class="fu-label">${f.q}</div>
-        <div class="fu-opts">${opts}</div></div>`;
-    }).join('');
-    fuHtml += `<div class="fu-block"><div class="fu-hd">${exp} · 暴露情况</div>${items}</div>`;
-  });
-
-  const nl = state.records.natural_light;
-  const nt = state.records.natural_time;
-  const lightOpts = ['<30分钟','30-60分钟','1-2小时','2小时以上'].map(o=>
-    `<div class="rec-opt ${nl===o?'on':''}" data-rec="natural_light" data-val="${o}">${o}</div>`
-  ).join('');
-  const timeOpts = ['<30分钟','30-60分钟','1-2小时','2小时以上'].map(o=>
-    `<div class="rec-opt ${nt===o?'on':''}" data-rec="natural_time" data-val="${o}">${o}</div>`
-  ).join('');
-  openSheet('环境', `
-    ${rangeHint(range)}
-    ${nlInputHtml('env')}
-    ${dimTrendBlock('env', range)}
-    <div class="obj-block"><div class="obj-label">客观数据</div>${objRows}</div>
-    <div class="subj-label">今日环境暴露 · 可多选</div>
-    <div class="sym-opts" style="margin-bottom:16px">${expOpts}</div>
-    ${fuHtml}
-    <div class="rec-item" style="margin-top:22px">
-      <div class="rec-label">今日自然光线</div>
-      <div class="rec-opts">${lightOpts}</div>
-    </div>
-    <div class="rec-item">
-      <div class="rec-label">今日户外时间</div>
-      <div class="rec-opts">${timeOpts}</div>
-    </div>
-  `, 'env');
-}
-
+/* ============ 各维度弹窗：总分趋势 → 具体指标 → 对话 ============ */
 function openDimRecord(k, range){
   const d = DIMS.find(x=>x.k===k);
   if(!d) return;
-  if(d.type === 'diet'){ openDiet(); return; }
-  if(d.type === 'body'){ renderBodySheet(range); return; }
-  if(d.type === 'breath'){ renderBreathSheet(range); return; }
-  if(d.type === 'env'){ renderEnvSheet(range); return; }
-
-  /* 其余维度：先自然语言，再结构化选项 */
-  let body = '';
-  if(d.obj && d.obj.length > 0){
-    const rows = d.obj.map(o=>{
-      if(o.input === 'weight'){
-        return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-          <input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>`;
-      }
-      if(o.auto && o.nm === 'BMI'){
-        return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-          <span class="obj-val">${calcBMI(state.weight)}</span></div>`;
-      }
-      return `<div class="obj-row"><span class="obj-nm">${o.nm}</span>
-        <span class="obj-val">${o.val}<span>${o.unit}</span></span></div>`;
-    }).join('');
-    body += `<div class="obj-block"><div class="obj-label">客观数据</div>${rows}</div>`;
-  }
-  if(d.subj && d.subj.length > 0){
-    const items = d.subj.map(r=>{
-      const cur = state.records[r.k];
-      const opts = r.opts.map(o=>{
-        let sel = r.multi ? (Array.isArray(cur) && cur.includes(o)) : cur === o;
-        return `<div class="rec-opt ${sel?'on':''}" data-rec="${r.k}" data-val="${o}"
-          data-multi="${r.multi?'1':''}">${o}</div>`;
-      }).join('');
-      const noteHtml = r.note
-        ? `<input class="rec-note" placeholder="简单备注（选填）"
-            value="${state.records[r.k+'_note']||''}" data-note="${r.k}">` : '';
-      return `<div class="rec-item"><div class="rec-label">${r.t}</div>
-        <div class="rec-opts">${opts}</div>${noteHtml}</div>`;
-    }).join('');
-    body += `<div class="subj-label">主观感受</div>${items}`;
-  } else {
-    body += `<div class="subj-label">主观感受</div>
-      <div style="text-align:center;color:var(--ink3);font-size:13px;padding:16px 0;line-height:1.6">
-        该维度由系统自动记录，也可以直接写一笔</div>`;
-  }
-  openSheet(d.name, `${rangeHint(range)}${nlInputHtml(k)}${dimTrendBlock(k, range)}${body}`, k);
+  openSheet(d.name, `
+    ${totalScoreTrendHtml(k, range)}
+    ${metricsBlockHtml(k)}
+    ${chatBlockHtml(k)}
+  `, k);
 }
 
 /* 饮食 */
-function openDiet(){
+function openDiet(range){
+  const r = range || state.range.see;
+  openSheet('饮食', `
+    ${totalScoreTrendHtml('diet', r)}
+    ${metricsBlockHtml('diet')}
+    ${chatBlockHtml('diet')}
+    <button class="sh-btn ghost" style="margin-top:16px" data-diet-fine>精细记录</button>
+  `, 'diet');
+}
+function openDietFine(){
   const mode = state.dietMode;
   let body = `
-    <div class="nl-block">
-      <div class="nl-hd"><div class="nl-ico">AI</div><div class="nl-title">说人话，我来帮你记</div></div>
-      <div class="nl-guide">${NL_GUIDES.diet}</div>
-      <textarea class="nl-textarea" id="nlText" data-nl-dim="diet"
-        placeholder="比如：早餐鸡蛋小米粥，中午两碗米饭红烧肉，晚上清蒸鱼，喝了两杯咖啡">${state.records['nl_diet']||''}</textarea>
-      <div class="nl-foot">
-        <div class="nl-mic" data-voice="diet">🎙 语音说</div>
-        <div class="nl-save" data-nl-save="diet">记下这一笔</div>
-      </div>
-      <div id="nlParsed"></div>
-    </div>
-    <div class="obj-block" style="margin-bottom:16px">
-      <div class="obj-label">参考标准</div>
-      <div class="obj-row"><span class="obj-nm">当前体重</span>
-        <input class="obj-input" type="number" step="0.1" value="${state.weight}" data-weight-input></div>
-      <div class="obj-row"><span class="obj-nm">BMI</span>
-        <span class="obj-val">${calcBMI(state.weight)}</span></div>
-    </div>
     <div class="diet-tabs">
       <div class="diet-tab ${mode==='quick'?'on':''}" data-diet-mode="quick">快速选择</div>
       <div class="diet-tab ${mode==='voice'?'on':''}" data-diet-mode="voice">语音录入</div>
     </div>`;
   body += (mode === 'voice') ? renderDietVoice() : renderDietQuick();
-  openSheet('饮食', body, 'diet');
+  openSheet('饮食 · 精细记录', body, 'diet');
 }
-
 function renderDietVoice(){
   const parsed = state.dietParsed;
   if(!parsed){
-    return `<div class="parsed-block" style="text-align:center;padding:34px 20px">
+    return `<div style="text-align:center;padding:34px 20px;background:var(--gray-bg);border-radius:14px">
       <div style="font-size:40px;margin-bottom:14px">🎤</div>
-      <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:8px">点击下方语音按钮</div>
-      <div style="font-size:13px;color:var(--ink3);line-height:1.7">
-        像聊天一样说出今天吃了什么<br>AI 会自动解析出营养结构</div>
-      <div style="margin-top:20px;font-size:12px;color:var(--ink3);font-style:italic;background:#fff;
-        border-radius:10px;padding:12px;line-height:1.6;text-align:left">
-        "早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花"
-      </div>
+      <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">点击底部语音按钮</div>
+      <div style="font-size:12.5px;color:var(--ink3);line-height:1.7">
+        像聊天一样说出今天吃了什么</div>
     </div>`;
   }
-  const mealsHtml = parsed.meals.map(m=>{
-    const foods = m.foods.map(f=>{
-      const attrs = f.attr.map(a=>{
-        const cls = a.lv === 'high' ? 'high' : a.lv === 'low' ? 'low' : '';
-        return `<span class="attr ${cls}">${a.t}</span>`;
-      }).join('');
-      return `<span class="food-tag">${f.n} ${attrs}</span>`;
-    }).join('');
-    return `<div class="meal-block">
-      <div class="meal-hd"><span>${m.name}</span><span class="time">${m.time}</span></div>
-      <div>${foods}</div>
-    </div>`;
-  }).join('');
-  const structHtml = STRUCT_ITEMS.map(it=>{
-    const cur = state.dietStruct[it.k];
-    const opts = it.opts.map(o=>
-      `<div class="struct-opt ${cur===o?'on':''}" data-struct="${it.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="struct-item">
-      <div class="struct-label">${it.lb}</div>
-      <div class="struct-opts">${opts}</div>
-    </div>`;
-  }).join('');
-  const sum = computeDietSummary();
-  return `
-    <div class="parsed-block">
-      <div class="parsed-title">AI 从你的话里识别到</div>
-      ${mealsHtml}
+  return `<div style="background:#F8FAFD;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px">
+    <div style="font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;margin-bottom:12px">
+      识别结果
     </div>
-    <div class="struct-block">
-      <div class="struct-title">补充信息</div>
-      <div class="struct-sub">这些你可能没说，快速点一下就好</div>
-      ${structHtml}
-    </div>
-    ${renderCompare(sum)}
-    <button class="sh-btn ghost" data-voice="diet" style="margin-top:14px">重新说一次</button>`;
-}
-
-function renderDietQuick(){
-  const mealsHtml = QUICK_MEALS.map(m=>{
-    const cur = state.dietQuick[m.k] || {};
-    const foods = QUICK_FOODS.map(f=>{
-      const opts = f.opts.map(o=>{
-        const on = cur[f.k] === o ? 'on' : '';
-        return `<div class="quick-opt ${on}" data-quick-meal="${m.k}"
-          data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
-      }).join('');
-      return `<div class="quick-row">
-        <div class="quick-row-lb">${f.label}</div>
-        <div class="quick-row-opts">${opts}</div>
-      </div>`;
-    }).join('');
-    const extras = QUICK_EXTRAS.map(f=>{
-      const opts = f.opts.map(o=>{
-        const on = cur[f.k] === o ? 'on' : '';
-        return `<div class="quick-opt extra ${on}" data-quick-meal="${m.k}"
-          data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
-      }).join('');
-      return `<div class="quick-row">
-        <div class="quick-row-lb">${f.label}</div>
-        <div class="quick-row-opts">${opts}</div>
-      </div>`;
-    }).join('');
-    return `<div class="quick-meal">
-      <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
-      ${foods}${extras}
-    </div>`;
-  }).join('');
-  const structHtml = STRUCT_ITEMS.map(it=>{
-    const cur = state.dietStruct[it.k];
-    const opts = it.opts.map(o=>
-      `<div class="struct-opt ${cur===o?'on':''}" data-struct="${it.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="struct-item">
-      <div class="struct-label">${it.lb}</div>
-      <div class="struct-opts">${opts}</div>
-    </div>`;
-  }).join('');
-  const sum = computeDietSummary();
-  return `
-    <div class="struct-title" style="color:var(--mid);font-size:11px;font-weight:600;
-      letter-spacing:1.2px;margin-bottom:6px">一日三餐 · 份数</div>
-    <div style="font-size:11.5px;color:var(--ink3);margin-bottom:14px;line-height:1.5">
-      粗略点选即可，不用精确到克</div>
-    ${mealsHtml}
-    <div class="struct-block">
-      <div class="struct-title">补充信息</div>
-      <div class="struct-sub">应酬、饮酒、饮水、补剂等</div>
-      ${structHtml}
-    </div>
-    ${renderCompare(sum)}`;
-}
-
-function computeDietSummary(){
-  if(state.dietParsed && state.dietParsed.summary){
-    const sum = {...state.dietParsed.summary};
-    applyDietStruct(sum);
-    return sum;
-  }
-  const sum = {staple:0, protein:0, veg:0, fruit:0, oil:0, salt:0, sugar:0, alcohol:0};
-  const mapVal = (v)=>{
-    if(v==='0' || v==='没吃') return 0;
-    if(v==='半碗') return 0.5;
-    if(v==='1碗' || v==='1份' || v==='1拳') return 1;
-    if(v==='2碗' || v==='2份' || v==='2拳') return 2;
-    if(v==='3碗+' || v==='3份+' || v==='3拳+') return 3;
-    if(v==='少量') return 0.5;
-    if(v==='2份+') return 2;
-    return 0;
-  };
-  ['b','l','d','s'].forEach(mk=>{
-    const m = state.dietQuick[mk] || {};
-    sum.staple += mapVal(m.staple);
-    sum.protein += mapVal(m.protein);
-    sum.veg += mapVal(m.veg);
-    sum.fruit += mapVal(m.fruit);
-    sum.sugar += mapVal(m.dessert) * 8;
-    sum.oil += mapVal(m.bbq) * 10 + mapVal(m.fried) * 12 + mapVal(m.snack) * 5;
-    sum.salt += (mapVal(m.bbq) + mapVal(m.fried)) * 1.5;
-  });
-  applyDietStruct(sum);
-  return sum;
-}
-function applyDietStruct(sum){
-  if(state.dietStruct.alcohol_extra === '少量') sum.alcohol = Math.max(sum.alcohol || 0, 0.5);
-  if(state.dietStruct.alcohol_extra === '中等') sum.alcohol = Math.max(sum.alcohol || 0, 1.5);
-  if(state.dietStruct.alcohol_extra === '较多') sum.alcohol = Math.max(sum.alcohol || 0, 3);
-  if(state.dietStruct.alcohol_extra === '没喝') sum.alcohol = 0;
-  if(state.dietStruct.taste === '偏油') sum.oil = Math.max(sum.oil || 0, 40);
-  if(state.dietStruct.taste === '偏咸') sum.salt = Math.max(sum.salt || 0, 9);
-  if(state.dietStruct.late_night === '有') sum.staple = (sum.staple || 0) + 1;
-}
-function renderCompare(sum){
-  const compareRows = Object.keys(NUTRITION_STD).map(k=>{
-    const std = NUTRITION_STD[k];
-    const v = sum[k] || 0;
-    const scale = std.max * 1.5 || 1;
-    const pct = Math.min(100, v / scale * 100);
-    const rangeStart = std.min / scale * 100;
-    const rangeWidth = (std.max - std.min) / scale * 100;
-    let status, cls;
-    if(k === 'alcohol'){
-      if(v === 0){ status = '正常'; cls = 'normal'; }
-      else { status = '偏多'; cls = 'high'; }
-    } else {
-      if(v < std.min){ status = '偏少'; cls = 'low'; }
-      else if(v > std.max){ status = '偏多'; cls = 'high'; }
-      else { status = '正常'; cls = 'normal'; }
-    }
-    const rangeStyle = std.max > std.min
-      ? `<div class="cmp-range" style="left:${rangeStart}%;width:${rangeWidth}%"></div>` : '';
-    const stdTxt = std.max > std.min
-      ? ` · 建议 ${std.min}-${std.max}${std.unit}`
-      : (std.max > 0 ? ` · 建议 <${std.max}${std.unit}` : '');
-    return `<div class="cmp-row">
-      <div class="cmp-top">
-        <span class="cmp-nm">${std.label}</span>
-        <span class="cmp-v ${cls}">${v}${std.unit} · ${status}${stdTxt}</span>
+    ${parsed.meals.map(m=>`
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;color:var(--ink2);font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between">
+          <span>${m.name}</span><span style="color:var(--ink3);font-weight:400">${m.time}</span>
+        </div>
+        <div>${m.foods.map(f=>`<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:3px 4px 3px 0;font-size:12px">${f.n}</span>`).join('')}</div>
       </div>
-      <div class="cmp-bar">${rangeStyle}
-        <div class="cmp-fill ${cls}" data-w="${pct}" style="width:0"></div>
-      </div>
-    </div>`;
-  }).join('');
-  const issues = [];
-  if((sum.veg||0) < NUTRITION_STD.veg.min) issues.push('蔬菜偏少');
-  if((sum.oil||0) > NUTRITION_STD.oil.max) issues.push('油偏多');
-  if((sum.salt||0) > NUTRITION_STD.salt.max) issues.push('盐偏多');
-  if((sum.alcohol||0) > 0) issues.push('有饮酒');
-  if((sum.fruit||0) < NUTRITION_STD.fruit.min) issues.push('水果偏少');
-  const summaryText = issues.length > 0 ? `今天主要问题：${issues.join('、')}` : '今天结构均衡，继续保持';
-  const hasData = Object.keys(sum).some(k=>sum[k] > 0);
-  if(!hasData) return '';
-  return `<div class="compare">
-    <div class="compare-t">营养结构对比</div>
-    ${compareRows}
-    <div style="margin-top:20px;padding:14px 16px;background:#FDECEC;border-radius:12px;
-      font-size:13px;color:#C8102E;font-weight:500;line-height:1.6">${summaryText}</div>
+    `).join('')}
   </div>`;
 }
-
-/* ============ 天 / 周 / 月记录 ============ */
-function openDay(){
-  const D = DAY_DATA;
-  const self = SELF_JUDGE.map(j=>{
-    const cur = state.dayJudge[j.k];
-    const opts = j.opts.map(o=>
-      `<div class="judge-opt ${cur===o?'on':''}" data-day="${j.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="judge-item"><div class="judge-label">${j.t}</div>
-      <div class="judge-opts">${opts}</div></div>`;
-  }).join('');
-  openSheet('天记录', `
-    <div class="big-grid">
-      <div class="big-item"><div class="big-val">${D.steps.val}</div>
-        <div class="big-lb">步数</div>
-        <div class="big-delta ${D.steps.up?'up':'down'}">${D.steps.delta}</div></div>
-      <div class="big-item"><div class="big-val">${D.sleep.val}</div>
-        <div class="big-lb">睡眠</div>
-        <div class="big-delta ${D.sleep.up?'up':'down'}">${D.sleep.delta}</div></div>
-      <div class="big-item"><div class="big-val">${D.hrv.val}</div>
-        <div class="big-lb">HRV</div>
-        <div class="big-delta ${D.hrv.up?'up':'down'}">${D.hrv.delta}</div></div>
-    </div>
-    <div class="judge-group"><div class="judge-group-t">今天整体感觉</div>${self}</div>
-    <div class="sh-btn" data-close>保存</div>
-  `, 'day');
-}
-
-function openWeek(){
-  const W = WEEK_DATA;
-  const self = SELF_JUDGE.map(j=>{
-    const cur = state.weekJudge[j.k];
-    const opts = j.opts.map(o=>
-      `<div class="judge-opt ${cur===o?'on':''}" data-week="${j.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="judge-item"><div class="judge-label">${j.t}</div>
-      <div class="judge-opts">${opts}</div></div>`;
-  }).join('');
-  const fam = FAMILY_JUDGE.map(j=>{
-    const cur = state.familyJudge[j.k];
-    const opts = j.opts.map(o=>
-      `<div class="judge-opt ${cur===o?'on':''}" data-fam="${j.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="judge-item"><div class="judge-label">${j.t}
-      <small>身边人观察</small></div><div class="judge-opts">${opts}</div></div>`;
-  }).join('');
-  openSheet('周记录', `
-    <div class="big-grid">
-      <div class="big-item"><div class="big-val">${W.steps.val}</div>
-        <div class="big-lb">步数</div>
-        <div class="big-delta ${W.steps.up?'up':'down'}">${W.steps.delta}</div></div>
-      <div class="big-item"><div class="big-val">${W.sleep.val}</div>
-        <div class="big-lb">睡眠</div>
-        <div class="big-delta ${W.sleep.up?'up':'down'}">${W.sleep.delta}</div></div>
-      <div class="big-item"><div class="big-val">${W.hrv.val}</div>
-        <div class="big-lb">HRV</div>
-        <div class="big-delta ${W.hrv.up?'up':'down'}">${W.hrv.delta}</div></div>
-    </div>
-    <div class="judge-group"><div class="judge-group-t">本周整体感觉</div>${self}</div>
-    <div class="judge-group"><div class="judge-group-t">身边人感觉</div>${fam}</div>
-    <div class="sh-btn" data-close>保存</div>
-  `, 'week');
-}
-
-function openMonth(){
-  const M = MONTH_DATA;
-  const self = SELF_JUDGE.map(j=>{
-    const cur = state.monthJudge[j.k];
-    const opts = j.opts.map(o=>
-      `<div class="judge-opt ${cur===o?'on':''}" data-month="${j.k}" data-val="${o}">${o}</div>`
-    ).join('');
-    return `<div class="judge-item"><div class="judge-label">${j.t}</div>
-      <div class="judge-opts">${opts}</div></div>`;
-  }).join('');
-  openSheet('月记录', `
-    <div class="big-grid">
-      <div class="big-item"><div class="big-val">${M.steps.val}</div>
-        <div class="big-lb">步数</div>
-        <div class="big-delta ${M.steps.up?'up':'down'}">${M.steps.delta}</div></div>
-      <div class="big-item"><div class="big-val">${M.sleep.val}</div>
-        <div class="big-lb">睡眠</div>
-        <div class="big-delta ${M.sleep.up?'up':'down'}">${M.sleep.delta}</div></div>
-      <div class="big-item"><div class="big-val">${M.hrv.val}</div>
-        <div class="big-lb">HRV</div>
-        <div class="big-delta ${M.hrv.up?'up':'down'}">${M.hrv.delta}</div></div>
-    </div>
-    <div class="judge-group"><div class="judge-group-t">本月自我感觉</div>${self}</div>
-    <div class="sh-btn" data-close>保存</div>
-  `, 'month');
+function renderDietQuick(){
+  const QUICK_MEALS = [
+    {k:'b', name:'早餐', time:'07:00'},{k:'l', name:'午餐', time:'12:00'},
+    {k:'d', name:'晚餐', time:'19:00'},{k:'s', name:'加餐/夜宵', time:'随时'}
+  ];
+  const QUICK_FOODS = [
+    {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
+    {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
+    {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
+    {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
+  ];
+  return `<div>${QUICK_MEALS.map(m=>{
+    const cur = state.dietQuick[m.k] || {};
+    return `<div class="quick-meal">
+      <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
+      ${QUICK_FOODS.map(f=>`
+        <div class="quick-row">
+          <div class="quick-row-lb">${f.label}</div>
+          <div class="quick-row-opts">${f.opts.map(o=>{
+            const on = cur[f.k] === o ? 'on' : '';
+            return `<div class="quick-opt ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
+          }).join('')}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('')}</div>`;
 }
 
 /* ============ 微体检 ============ */
@@ -2604,17 +1669,19 @@ function renderQuiz(){
   const cur = state.quizAns[q.k];
   let opts = '';
   if(q.type==='input'){
-    opts = `<input class="qz-input" id="qzInput" placeholder="${q.ph}" value="${cur||''}"
-      maxlength="4" inputmode="numeric">`;
+    opts = `<input class="ob-input" id="qzInput" placeholder="${q.ph}" value="${cur||''}"
+      maxlength="4" inputmode="numeric" style="font-size:26px;text-align:center;letter-spacing:6px;padding:20px">`;
   } else if(q.type==='single'){
-    opts = `<div class="qz-opts">${q.opts.map((o,i)=>
-      `<div class="qz-opt ${cur===i+1?'on':''}" data-qz-single="${q.k}" data-val="${i+1}">${o}</div>`
+    opts = `<div style="margin-top:20px">${q.opts.map((o,i)=>
+      `<div class="rec-opt ${cur===i+1?'on':''}" data-qz-single="${q.k}" data-val="${i+1}"
+        style="display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
     ).join('')}</div>`;
   } else if(q.type==='multi'){
     const arr = cur||[];
-    opts = `<div class="qz-opts">${q.opts.map(o=>
-      `<div class="qz-opt ${arr.includes(o)?'on':''}" data-qz-multi="${q.k}"
-        data-val="${o}" data-excl="${q.excl||''}">${o}</div>`
+    opts = `<div style="margin-top:20px">${q.opts.map(o=>
+      `<div class="rec-opt ${arr.includes(o)?'on':''}" data-qz-multi="${q.k}"
+        data-val="${o}" data-excl="${q.excl||''}"
+        style="display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
     ).join('')}</div>`;
   }
   const canNext = state.quizAns[q.k]!==undefined;
@@ -2629,7 +1696,7 @@ function renderQuiz(){
         <div class="sh-x" data-close>✕</div>
       </div>
     </div>
-    <div class="qz-q">${q.q}</div>
+    <div style="font-size:19px;font-weight:600;line-height:1.5">${q.q}</div>
     ${opts}
     <div style="display:flex;gap:10px;margin-top:22px">
       ${state.quizIndex>0?'<div class="sh-btn ghost" data-qz-prev style="flex:1;margin:0">上一题</div>':''}
@@ -2645,13 +1712,12 @@ function renderQuiz(){
       if(y && y>=1920 && y<=2010){ state.quizAns[q.k]=y; btn.classList.remove('disabled'); }
       else { delete state.quizAns[q.k]; btn.classList.add('disabled'); }
     });
-    inp.addEventListener('keydown', e=>{
-      if(e.key==='Enter' && !btn.classList.contains('disabled')) btn.click();
-    });
     setTimeout(()=>inp.focus(), 300);
   }
 }
 function renderQuizResult(){
+  const asset = currentAsset(state.range.see);
+  const lv = levelOfAsset(asset);
   document.getElementById('sheet').innerHTML = `
     <div class="sh-head">
       <div class="sh-title-row">
@@ -2662,26 +1728,15 @@ function renderQuizResult(){
         <div class="sh-x" data-close>✕</div>
       </div>
     </div>
-    <div class="life" style="margin-bottom:16px">
-      <div class="life-tag">你的健康资产</div>
-      <div class="life-title" style="font-size:44px;font-weight:700;color:#FFD27A;letter-spacing:-1.5px">
-        ${LIFE.mine.toLocaleString()}<small style="font-size:14px;color:rgba(255,255,255,.5);font-weight:500;margin-left:6px">分</small>
+    <div class="level-card" style="margin-bottom:16px">
+      <div class="level-top">
+        <div class="level-badge">${lv.name}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5)">${rangeText('see')}</div>
       </div>
-      <div class="life-concl" style="margin-top:14px">
-        好好管理可达 <b>${LIFE.club.toLocaleString()} 分</b>
+      <div class="level-now" style="margin-top:12px">
+        <div class="level-now-name" style="font-size:36px">${asset} 分</div>
+        <div class="level-now-age">预计 ${lv.ageMin}-${lv.ageMax} 岁</div>
       </div>
-    </div>
-    <div style="display:flex;justify-content:space-between;padding:14px 0;
-      border-bottom:1px solid var(--line2);font-size:14px">
-      <span style="color:var(--ink2)">中国平均寿命</span><span style="font-weight:700">${LIFE.china} 岁</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;padding:14px 0;
-      border-bottom:1px solid var(--line2);font-size:14px">
-      <span style="color:var(--ink2)">老板群体平均寿命</span><span style="font-weight:700">${LIFE.boss} 岁</span>
-    </div>
-    <div style="display:flex;justify-content:space-between;padding:14px 0;font-size:14px">
-      <span style="color:var(--ink2)">俱乐部会员资产</span>
-      <span style="font-weight:700;color:#FFD27A">${LIFE.club.toLocaleString()} 分</span>
     </div>
     <div class="sh-btn" data-close>知道了</div>`;
   document.getElementById('modal').classList.add('open');
@@ -2692,14 +1747,13 @@ function renderQuizResult(){
 function openVoice(target){
   state.voiceTarget = target;
   const dim = DIMS.find(d=>d.k === target);
-  const transcript = dim ? dim.voiceDemo : (AI_PARSED[target] ? AI_PARSED[target].transcript : '');
-  const a = getAssistant(state.ob.assistant);
+  const transcript = dim ? dim.voiceDemo : '';
   const overlay = document.getElementById('voiceOverlay');
   overlay.classList.add('open');
   document.getElementById('voicePanel').innerHTML = `
     <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="voice-status">${a.voiceStatus}</div>
-    <div class="voice-transcript">${a.hint}，比如："${transcript.slice(0, 30)}..."</div>
+    <div class="voice-status">正在聆听...</div>
+    <div class="voice-transcript">说人话就行，比如："${transcript.slice(0, 30)}..."</div>
     <button class="voice-cancel" data-voice-cancel>取消</button>`;
   setTimeout(()=>{
     document.getElementById('voicePanel').innerHTML = `
@@ -2712,33 +1766,19 @@ function openVoice(target){
       <div style="font-size:40px;margin-bottom:14px">✓</div>
       <div class="voice-status" style="color:#B8860B">解析完成</div>
       <div class="voice-transcript" style="font-style:normal">"${transcript}"</div>
-      <button class="sh-btn" data-voice-done style="width:100%;margin-top:8px">查看解析结果</button>`;
+      <button class="sh-btn" data-voice-done style="width:100%;margin-top:8px">填入对话</button>`;
   }, 2600);
 }
 function closeVoice(){ document.getElementById('voiceOverlay').classList.remove('open'); }
 function applyVoice(){
   const target = state.voiceTarget;
-  /* 开放输入维度的语音：填进 nlText */
-  if(['stress','move','body','sleep','breath','env','cognition','event','diet'].includes(target)){
-    const dim = DIMS.find(d=>d.k === target);
-    const transcript = dim ? dim.voiceDemo : (AI_PARSED[target] ? AI_PARSED[target].transcript : '');
-    closeVoice();
-    setTimeout(()=>{
-      const ta = document.getElementById('nlText');
-      if(ta){
-        ta.value = transcript;
-        state.records['nl_'+target] = transcript;
-        renderNlParsed(target);
-      } else if(target === 'diet'){
-        state.dietParsed = JSON.parse(JSON.stringify(AI_PARSED.diet));
-        state.dietMode = 'voice';
-        closeModal();
-        setTimeout(openDiet, 260);
-      }
-    }, 200);
-    return;
-  }
+  const dim = DIMS.find(d=>d.k === target);
+  const transcript = dim ? dim.voiceDemo : '';
   closeVoice();
+  setTimeout(()=>{
+    const inp = document.getElementById('chatInput');
+    if(inp){ inp.value = transcript; inp.focus(); }
+  }, 200);
 }
 
 /* ============ 转发健康卡 ============ */
@@ -2752,9 +1792,8 @@ function getShareActions(){
   });
 }
 function shareCardHtml(){
-  const asset = ASSET_BY_RANGE[state.range.see] || ASSET_BY_RANGE.week;
-  const mine = asset.mine;
-  const gain = asset.d;
+  const asset = currentAsset(state.range.see);
+  const lv = levelOfAsset(asset);
   const actions = getShareActions();
   const actionsHtml = actions.length
     ? actions.map(a=>{
@@ -2771,25 +1810,22 @@ function shareCardHtml(){
         <span class="ok" style="background:rgba(255,255,255,.2)">·</span>
         <span>今天还没有打卡记录</span>
       </div>`;
-
   const effect = [
-    {b:'HRV', v:'46→50ms', s:'近 7 天'},
-    {b:'压力', v:'42→36', s:'指数下降'},
-    {b:'睡眠', v:'7h12m', s:'本周均值'}
+    {b:'HRV', v:'46→50ms', s:'上升'},
+    {b:'压力', v:'42→36', s:'下降'},
+    {b:'睡眠', v:'7h12m', s:'时长'}
   ];
-
   const feel = state.shareFeel && state.shareFeel.trim()
     ? `<div class="share-feel">“${state.shareFeel.trim()}”</div>`
     : `<div class="share-feel empty">写一句今天的感受，会让卡片更真实</div>`;
-
   return `<div class="share-card">
-    <div class="share-brand">老板健康 · 健康资产周报</div>
+    <div class="share-brand">老板健康 · 健康资产</div>
     <div class="share-top">
       <div>
-        <div class="share-score">${mine.toLocaleString()}<small>分</small></div>
-        <div class="share-score-lb">${TODAY} · 健康资产</div>
+        <div class="share-score">${asset}</div>
+        <div class="share-score-lb">${TODAY} · ${lv.name}</div>
       </div>
-      <div class="share-gain">本周 ${gain} 分</div>
+      <div class="share-gain">${lv.ageMin}-${lv.ageMax} 岁</div>
     </div>
     <div class="share-divider"></div>
     <div class="share-block-t">今天做了什么</div>
@@ -2804,20 +1840,16 @@ function shareCardHtml(){
     ${feel}
   </div>`;
 }
-
 function openShare(){
   openSimpleSheet('转发健康卡', `
     ${shareCardHtml()}
-    <div class="rec-item" style="margin-top:4px">
-      <div class="rec-label">写一句感受 <small>选填，会显示在卡片上</small></div>
-      <textarea class="rec-textarea" id="shareFeel" rows="3" maxlength="60"
-        placeholder="比如：这周终于能在 11 点前放下手机，早上起来没那么累了">${state.shareFeel||''}</textarea>
+    <div style="margin-top:16px">
+      <div class="sec" style="margin-top:0;margin-bottom:10px"><span>写一句感受 <small style="font-weight:400;color:var(--ink3)">选填</small></span></div>
+      <textarea id="shareFeel" rows="3" maxlength="60" style="width:100%;padding:11px 14px;border-radius:11px;background:var(--gray-bg);border:1.5px solid transparent;font-size:13.5px;font-family:inherit;color:var(--ink);outline:none;resize:none"
+        placeholder="比如：这周终于能在 11 点前放下手机">${state.shareFeel||''}</textarea>
       <div style="font-size:10.5px;color:var(--ink3);margin-top:6px;text-align:right">
         <span id="shareFeelCount">${(state.shareFeel||'').length}</span>/60
       </div>
-    </div>
-    <div style="margin-top:16px;font-size:12px;color:var(--ink3);line-height:1.7">
-      卡片只包含行动、变化和感受，不包含症状、用药、体检报告明细。
     </div>
     <div style="display:flex;gap:10px;margin-top:16px">
       <div class="sh-btn" style="flex:1;margin:0" data-share-to="friend">转发给朋友</div>
@@ -2833,10 +1865,9 @@ function refreshShareFeel(){
   tmp.innerHTML = shareCardHtml();
   card.replaceWith(tmp.firstElementChild);
 }
-
 function openFamily(){
   const members = [
-    {n:'我', r:'本人', s:Math.round(DIMS.reduce((s,d)=>s+d.score,0)/DIMS.length), a:'禾', c:'#1E6FFF'},
+    {n:'我', r:'本人', s:currentAsset(state.range.see), a:'禾', c:'#1E6FFF'},
     {n:'父亲', r:'已绑定', s:71, a:'父', c:'#B8860B'},
     {n:'母亲', r:'已绑定', s:79, a:'母', c:'#B8860B'},
     {n:'爱人', r:'已绑定', s:83, a:'爱', c:'#1E6FFF'}
@@ -2852,41 +1883,13 @@ function openFamily(){
     </div>`).join('');
   openSimpleSheet('家庭', `
     <div class="card" style="margin-bottom:14px;padding:6px 18px">${rows}</div>
-    <div class="card" style="background:var(--blue-bg);border:none;padding:16px">
-      <div style="font-size:13px;font-weight:600;color:var(--mid);margin-bottom:6px">家庭健康日历</div>
-      <div style="font-size:12.5px;color:var(--ink2);line-height:1.7">
-        家人可以看到彼此的资产分数与趋势，但看不到症状、用药、体检报告明细。
-      </div>
-    </div>
     <div class="sh-btn" data-family-invite>邀请家人加入</div>
     <div class="sh-btn ghost" data-close>关闭</div>
-  `);
-}
-function openAddRecord(){
-  const types = ['血压','体重','血糖','心率','步数','其他'];
-  openSimpleSheet('添加手动记录', `
-    <div class="rec-item">
-      <div class="rec-label">记录类型</div>
-      <div class="rec-opts">
-        ${types.map(o=>`<div class="rec-opt ${state.mrType===o?'on':''}"
-          data-mrtype="${o}">${o}</div>`).join('')}
-      </div>
-    </div>
-    <div class="rec-item">
-      <div class="rec-label">数值 <small>单位：${MR_UNITS[state.mrType]||'—'}</small></div>
-      <input class="rec-note" id="mrVal" placeholder="如 128/82">
-    </div>
-    <div class="rec-item">
-      <div class="rec-label">备注 <small>选填</small></div>
-      <input class="rec-note" id="mrNote" placeholder="如 晨起静坐 5 分钟">
-    </div>
-    <div class="sh-btn" id="mrSave">保存记录</div>
   `);
 }
 
 /* ============ 事件 ============ */
 document.addEventListener('click', e=>{
-  /* 引导 */
   if(e.target.closest('[data-ob-login]') || e.target.closest('[data-ob-phone]')){
     state.ob.step = 1; renderOnboard(); return;
   }
@@ -2903,31 +1906,24 @@ document.addEventListener('click', e=>{
     }
     renderOnboard(); return;
   }
-  if(e.target.closest('[data-ob-next]')){ state.ob.step = Math.min(3, state.ob.step + 1); renderOnboard(); return; }
   if(e.target.closest('[data-ob-done]')){
     state.onboarded = true;
     state.weight = parseFloat(state.ob.weight) || 78.4;
-    state.profile.height = parseFloat(state.ob.height) || 178;
-    state.profile.weight = state.weight;
     render(); return;
   }
 
-  /* 视角 */
   const vw = e.target.closest('[data-view]');
   if(vw){ state.view = vw.dataset.view; state.adminUser = null; render(); return; }
   if(e.target.closest('[data-admin-back]')){ state.adminUser = null; render(); return; }
   const rankUser = e.target.closest('[data-rank-user]');
   if(rankUser){ state.adminUser = rankUser.dataset.rankUser; render(); return; }
 
-  /* Tab */
   const t = e.target.closest('[data-tab]');
   if(t){ state.tab = t.dataset.tab; render(); return; }
 
-  /* 时间范围 */
   const rg = e.target.closest('[data-range]');
   if(rg){ state.range[rg.dataset.rtab] = rg.dataset.range; render(); return; }
 
-  /* 手动日期预设 */
   const mp = e.target.closest('[data-manual-preset]');
   if(mp){
     const key = mp.dataset.manualPreset;
@@ -2936,61 +1932,56 @@ document.addEventListener('click', e=>{
     render(); return;
   }
 
-  /* 维度 */
   const dim = e.target.closest('[data-dim]');
-  if(dim){ openDimRecord(dim.dataset.dim, dim.dataset.dimRange); return; }
+  if(dim){
+    const k = dim.dataset.dim;
+    if(k === 'diet'){ openDiet(); } else { openDimRecord(k, state.range.see); }
+    return;
+  }
 
-  /* 自然语言保存 */
-  const nlSave = e.target.closest('[data-nl-save]');
-  if(nlSave){
-    const k = nlSave.dataset.nlSave;
-    const ta = document.getElementById('nlText');
-    const text = (ta && ta.value || '').trim();
+  const sendBtn = e.target.closest('[data-chat-send]');
+  if(sendBtn){
+    const k = sendBtn.dataset.chatSend;
+    const inp = document.getElementById('chatInput');
+    const text = (inp && inp.value || '').trim();
     if(!text){ toast('先写点什么'); return; }
-    state.records['nl_'+k] = text;
-    if(!state.freeText[k]) state.freeText[k] = [];
-    state.freeText[k].unshift(text);
-    renderNlParsed(k);
-    toast('已记下');
+    const chat = getChat(k);
+    const flow = CHAT_FLOW[k] || [];
+    if(chat.step >= flow.length) return;
+    const cur = flow[chat.step];
+    const q = cur.q || cur;
+    const hint = cur.hint || '';
+    const parsed = parseChatText(k, text);
+    chat.log.push({q, hint, a: text, parsed});
+    chat.step++;
+    state.records['chat_'+k] = text;
+    if(k === 'diet'){ openDiet(); } else { openDimRecord(k, state.range.see); }
+    setTimeout(()=>{
+      const blk = document.querySelector('.chat-block');
+      if(blk) blk.scrollIntoView({behavior:'smooth', block:'end'});
+    }, 100);
     return;
   }
 
-  /* 今日待办 */
-  const todo = e.target.closest('[data-todo-toggle]');
-  if(todo){
-    const id = todo.dataset.todoToggle;
-    const item = state.todos.find(x=>x.id===id);
-    if(item){
-      item.done = !item.done;
-      if(item.link && state.practiceState[item.link]){
-        const ps = state.practiceState[item.link];
-        if(ps.joined){
-          ps.checkedToday = item.done;
-          if(item.done) ps.streak += 1;
-          else ps.streak = Math.max(0, ps.streak - 1);
-          ps.week[0] = item.done ? 1 : 0;
-        }
-      }
-      render();
-    }
-    return;
+  if(e.target.closest('[data-diet-fine]')){ openDietFine(); return; }
+  const dm = e.target.closest('[data-diet-mode]');
+  if(dm){ state.dietMode = dm.dataset.dietMode; openDietFine(); return; }
+  const qm = e.target.closest('[data-quick-meal]');
+  if(qm){
+    const mk = qm.dataset.quickMeal, ck = qm.dataset.quickCat, v = qm.dataset.quickVal;
+    if(!state.dietQuick[mk]) state.dietQuick[mk] = {};
+    state.dietQuick[mk][ck] = state.dietQuick[mk][ck] === v ? '' : v;
+    openDietFine(); return;
   }
 
-  /* 改变：目标详情 */
   if(e.target.closest('[data-goal-detail]')){ openGoalDetail(); return; }
-
-  /* 改变：加入 / 打卡 / 退出 */
   const pj = e.target.closest('[data-practice-join]');
   if(pj){
     const id = pj.dataset.practiceJoin;
     const ps = state.practiceState[id];
     if(ps){
       ps.joined = true; ps.checkedToday = false; ps.streak = 0; ps.week = [0,0,0,0,0,0,0];
-      const p = MAIN_GOAL.practices.find(x=>x.id===id);
-      if(p && !state.todos.some(x=>x.link===id)){
-        state.todos.push({id:'t_'+id, txt:p.t, done:false, link:id});
-      }
-      render(); toast('已加入，明天开始打卡');
+      render(); toast('已加入');
     }
     return;
   }
@@ -3002,25 +1993,11 @@ document.addEventListener('click', e=>{
       ps.checkedToday = !ps.checkedToday;
       if(ps.checkedToday){ ps.streak += 1; ps.week[0] = 1; }
       else { ps.streak = Math.max(0, ps.streak - 1); ps.week[0] = 0; }
-      const todoItem = state.todos.find(x=>x.link===id);
-      if(todoItem) todoItem.done = ps.checkedToday;
       render();
     }
     return;
   }
-  const pq = e.target.closest('[data-practice-quit]');
-  if(pq){
-    const id = pq.dataset.practiceQuit;
-    const ps = state.practiceState[id];
-    if(ps){
-      ps.joined = false; ps.checkedToday = false; ps.streak = 0; ps.week = [0,0,0,0,0,0,0];
-      state.todos = state.todos.filter(x=>x.link!==id);
-      render(); toast('已退出');
-    }
-    return;
-  }
 
-  /* 转发 / 家庭 */
   if(e.target.closest('[data-share]')){ openShare(); return; }
   const st2 = e.target.closest('[data-share-to]');
   if(st2){
@@ -3034,144 +2011,11 @@ document.addEventListener('click', e=>{
     closeModal(); setTimeout(()=>toast('邀请链接已复制'), 120); return;
   }
 
-  /* 手动记录 */
-  if(e.target.closest('[data-add-record]')){ openAddRecord(); return; }
-  const mrt = e.target.closest('[data-mrtype]');
-  if(mrt){ state.mrType = mrt.dataset.mrtype; openAddRecord(); return; }
-  if(e.target.id === 'mrSave'){
-    const vEl = document.getElementById('mrVal');
-    const nEl = document.getElementById('mrNote');
-    const v = (vEl && vEl.value || '').trim();
-    if(!v){ toast('请填写数值'); return; }
-    const note = (nEl && nEl.value || '').trim();
-    const d = new Date();
-    const pad = n=>String(n).padStart(2,'0');
-    state.manualRecords.unshift({
-      t:`${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`,
-      n:state.mrType, v, u:MR_UNITS[state.mrType]||'', note
-    });
-    closeModal(); render(); toast('已记录');
-    return;
-  }
-
-  /* 语音 */
   const vb = e.target.closest('[data-voice]');
   if(vb){ openVoice(vb.dataset.voice); return; }
   if(e.target.closest('[data-voice-cancel]')){ closeVoice(); return; }
   if(e.target.closest('[data-voice-done]')){ applyVoice(); return; }
 
-  /* 饮食 */
-  const dm = e.target.closest('[data-diet-mode]');
-  if(dm){ state.dietMode = dm.dataset.dietMode; openDiet(); return; }
-  const qm = e.target.closest('[data-quick-meal]');
-  if(qm){
-    const mk = qm.dataset.quickMeal, ck = qm.dataset.quickCat, v = qm.dataset.quickVal;
-    if(!state.dietQuick[mk]) state.dietQuick[mk] = {};
-    state.dietQuick[mk][ck] = state.dietQuick[mk][ck] === v ? '' : v;
-    openDiet(); return;
-  }
-  const st = e.target.closest('[data-struct]');
-  if(st){ state.dietStruct[st.dataset.struct] = st.dataset.val; openDiet(); return; }
-
-  /* 身体 */
-  const sym = e.target.closest('[data-sym]');
-  if(sym){
-    const v = sym.dataset.sym;
-    let arr = state.records.symptom || [];
-    if(v === '没有'){ arr = arr.includes('没有') ? [] : ['没有']; }
-    else {
-      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
-      if(arr.includes(v)){ arr = arr.filter(x=>x!==v); delete state.bodyFollowups[v]; }
-      else { arr.push(v); }
-    }
-    state.records.symptom = arr;
-    renderBodySheet(state.range.see); return;
-  }
-  const fu = e.target.closest('[data-fu-sym]');
-  if(fu){
-    const s = fu.dataset.fuSym, q = fu.dataset.fuQ, v = fu.dataset.fuV;
-    if(!state.bodyFollowups[s]) state.bodyFollowups[s] = {};
-    state.bodyFollowups[s][q] = v;
-    renderBodySheet(state.range.see); return;
-  }
-
-  /* 呼吸 */
-  const bsym = e.target.closest('[data-breath-sym]');
-  if(bsym){
-    const v = bsym.dataset.breathSym;
-    let arr = state.records.breath_symptom || [];
-    if(v === '没有'){ arr = arr.includes('没有') ? [] : ['没有']; }
-    else {
-      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
-      if(arr.includes(v)){ arr = arr.filter(x=>x!==v); delete state.breathFollowups[v]; }
-      else { arr.push(v); }
-    }
-    state.records.breath_symptom = arr;
-    renderBreathSheet(state.range.see); return;
-  }
-  const bfu = e.target.closest('[data-breath-fu-sym]');
-  if(bfu){
-    const s = bfu.dataset.breathFuSym, q = bfu.dataset.breathFuQ, v = bfu.dataset.breathFuV;
-    if(!state.breathFollowups[s]) state.breathFollowups[s] = {};
-    state.breathFollowups[s][q] = v;
-    renderBreathSheet(state.range.see); return;
-  }
-
-  /* 环境 */
-  const eexp = e.target.closest('[data-env-exp]');
-  if(eexp){
-    const v = eexp.dataset.envExp;
-    let arr = state.records.env_exposure || [];
-    if(v === '没有'){ arr = arr.includes('没有') ? [] : ['没有']; }
-    else {
-      if(arr.includes('没有')) arr = arr.filter(x=>x!=='没有');
-      if(arr.includes(v)){ arr = arr.filter(x=>x!==v); delete state.envFollowups[v]; }
-      else { arr.push(v); }
-    }
-    state.records.env_exposure = arr;
-    renderEnvSheet(state.range.see); return;
-  }
-  const efu = e.target.closest('[data-env-fu-sym]');
-  if(efu){
-    const s = efu.dataset.envFuSym, q = efu.dataset.envFuQ, v = efu.dataset.envFuV;
-    if(!state.envFollowups[s]) state.envFollowups[s] = {};
-    state.envFollowups[s][q] = v;
-    renderEnvSheet(state.range.see); return;
-  }
-
-  /* 通用单选/多选 */
-  const rec = e.target.closest('[data-rec]');
-  if(rec){
-    const k = rec.dataset.rec, v = rec.dataset.val;
-    const isMulti = rec.dataset.multi === '1';
-    if(isMulti){
-      let arr = state.records[k] || [];
-      if(v==='没有' || v==='都没有' || v==='没吃'){ arr = arr.includes(v) ? [] : [v]; }
-      else { arr = arr.includes(v) ? arr.filter(x=>x!==v) : [...arr.filter(x=>x!=='没有' && x!=='都没有' && x!=='没吃'), v]; }
-      state.records[k] = arr;
-    } else { state.records[k] = v; }
-    if(k.startsWith('breath')){ renderBreathSheet(state.range.see); return; }
-    if(k.startsWith('natural')){ renderEnvSheet(state.range.see); return; }
-    const d3 = DIMS.find(x=>x.subj && x.subj.some(r=>r.k===k));
-    if(d3){ openDimRecord(d3.k, state.range.see); }
-    return;
-  }
-
-  /* 天/周/月/家庭判断 */
-  const dy = e.target.closest('[data-day]');
-  if(dy){ state.dayJudge[dy.dataset.day] = dy.dataset.val; openDay(); return; }
-  const wk = e.target.closest('[data-week]');
-  if(wk){ state.weekJudge[wk.dataset.week] = wk.dataset.val; openWeek(); return; }
-  const mo = e.target.closest('[data-month]');
-  if(mo){ state.monthJudge[mo.dataset.month] = mo.dataset.val; openMonth(); return; }
-  const fa = e.target.closest('[data-fam]');
-  if(fa){ state.familyJudge[fa.dataset.fam] = fa.dataset.val; openWeek(); return; }
-
-  /* 基础资料 */
-  const prof = e.target.closest('[data-prof]');
-  if(prof){ state.profile[prof.dataset.prof] = prof.dataset.val; render(); return; }
-
-  /* 微体检 */
   const qzS = e.target.closest('[data-qz-single]');
   if(qzS){ state.quizAns[qzS.dataset.qzSingle] = parseInt(qzS.dataset.val); renderQuiz(); return; }
   const qzM = e.target.closest('[data-qz-multi]');
@@ -3196,11 +2040,9 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* 关闭 */
   if(e.target.closest('[data-close]') || e.target.id === 'modal'){ closeModal(); }
 });
 
-/* 日期输入 */
 document.addEventListener('change', e=>{
   if(e.target.hasAttribute('data-manual-start')){
     const key = e.target.dataset.manualStart;
@@ -3221,35 +2063,7 @@ document.addEventListener('change', e=>{
 });
 
 document.addEventListener('input', e=>{
-  if(e.target.classList.contains('rec-note')){
-    const nk = e.target.dataset.note;
-    if(nk) state.records[nk + '_note'] = e.target.value;
-  }
-  if(e.target.hasAttribute('data-weight-input')){
-    const v = parseFloat(e.target.value);
-    if(v && v>20 && v<300){
-      state.weight = v;
-      document.querySelectorAll('.obj-row').forEach(row=>{
-        const nm = row.querySelector('.obj-nm');
-        if(nm && nm.textContent === 'BMI'){
-          row.querySelector('.obj-val').textContent = calcBMI(v);
-        }
-      });
-    }
-  }
   if(e.target.hasAttribute('data-ob-input')){ state.ob[e.target.dataset.obInput] = e.target.value; }
-  if(e.target.hasAttribute('data-prof-input')){
-    const k = e.target.dataset.profInput;
-    const v = parseFloat(e.target.value);
-    if(!isNaN(v)) state.profile[k] = v;
-  }
-  /* 自然语言输入实时预览 */
-  if(e.target.hasAttribute('data-nl-dim')){
-    const k = e.target.dataset.nlDim;
-    state.records['nl_'+k] = e.target.value;
-    renderNlParsed(k);
-  }
-  /* 分享感受实时预览 */
   if(e.target.id === 'shareFeel'){
     state.shareFeel = e.target.value;
     const cnt = document.getElementById('shareFeelCount');
@@ -3258,7 +2072,6 @@ document.addEventListener('input', e=>{
   }
 });
 
-/* 启动 */
 render();
 </script>
 </body>
