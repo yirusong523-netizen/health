@@ -73,8 +73,7 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   font-weight:600;cursor:pointer;transition:.16s}
 .vb-seg span.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,27,45,.12)}
 
-.hd{padding:6px 2px 18px}
-.hd-date{font-size:var(--fs-sm);color:var(--ink3);letter-spacing:.5px}
+.hd{padding:6px 2px 16px}
 .hd-title{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px;line-height:1.2}
 .hd-row{display:flex;align-items:flex-end;justify-content:space-between}
 .share-btn{display:flex;align-items:center;gap:4px;font-size:var(--fs-sm);color:var(--ink2);
@@ -88,7 +87,7 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
   padding:var(--sp-pad);margin-bottom:var(--sp-gap)}
 
-.ranges{display:flex;gap:6px;margin:0 0 12px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.ranges{display:flex;gap:6px;margin:0 0 8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
 .ranges::-webkit-scrollbar{display:none}
 .range{flex-shrink:0;padding:7px 15px;border-radius:20px;background:#fff;
   border:1px solid var(--line);font-size:var(--fs-sm);color:var(--ink2);font-weight:500;
@@ -96,6 +95,10 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .range.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
 .range:active{transform:scale(.96)}
 .range .rng-dates{font-size:var(--fs-micro);font-weight:500;opacity:.85}
+
+/* 日期范围：展示在时间筛选下面 */
+.range-dates-text{font-size:var(--fs-xs);color:var(--ink3);margin:0 2px 12px;
+  letter-spacing:.3px;font-weight:500}
 
 .manual-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
   padding:14px 16px;margin-bottom:var(--sp-gap)}
@@ -318,7 +321,6 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .mf-saved{background:var(--gold-bg);border-radius:var(--r-sm);padding:10px 12px;font-size:var(--fs-sm);
   color:var(--gold);font-weight:500;line-height:1.6;margin-bottom:12px}
 
-/* 三餐快速选择 */
 .quick-meal{margin-bottom:14px}
 .quick-meal:last-child{margin-bottom:0}
 .quick-meal-hd{font-size:var(--fs-base);color:var(--ink);font-weight:600;margin-bottom:8px;
@@ -760,7 +762,7 @@ const MANUAL_PRESETS = [
   {label:'近 90 天', start:'2026-07-16', end:'2026-10-13'}
 ];
 
-/* ============ 统一语音记录配置（保留总入口） ============ */
+/* ============ 统一语音记录配置 ============ */
 const VOICE_CATS = [
   {k:'mood',      dim:'stress',    name:'心情情绪'},
   {k:'body',      dim:'body',      name:'身体小毛病'},
@@ -844,8 +846,8 @@ const state = {
           change:{start:'2026-10-07', end:'2026-10-13'},
           manage:{start:'2026-10-07', end:'2026-10-13'}},
   gridExpanded:false,
-  records:{},          /* 维度 -> 文本记录池，语音与手动都进这里 */
-  manualRecords:{},    /* 维度 -> 结构化手动记录值 */
+  records:{},
+  manualRecords:{},
   voice:null, voiceCov:null, voiceToken:null,
   quizIndex:0, quizAns:{},
   practiceState:{},
@@ -963,6 +965,7 @@ function rangeBar(key){
     return `<div class="range ${cur===r.k?'on':''}" data-range="${r.k}" data-rtab="${key}">
       ${r.n}${extra}</div>`;
   }).join('')}</div>
+  <div class="range-dates-text">${rangeText(key)}</div>
   ${cur === 'manual' ? manualPanelHtml(key) : ''}`;
 }
 function manualPanelHtml(key){
@@ -1012,7 +1015,6 @@ function flushManual(dim){
     if(Array.isArray(v) && !v.length) return;
     parts.push(g.label + '：' + (Array.isArray(v) ? v.join('、') : v));
   });
-  /* 饮食：三餐快速选择也纳入记录 */
   if(dim === 'diet'){
     const meals = [['b','早餐'],['l','午餐'],['d','晚餐'],['s','加餐']];
     const mt = [];
@@ -1281,7 +1283,6 @@ function renderForesee(){
 
   return `
     <div class="hd">
-      <div class="hd-date">${rangeText('foresee')}</div>
       <div class="hd-title">预见 · 健康寿命</div>
     </div>
 
@@ -1370,7 +1371,6 @@ function renderChange(){
 
   return `
     <div class="hd">
-      <div class="hd-date">${rangeText('change')}</div>
       <div class="hd-title">改变</div>
     </div>
 
@@ -1441,7 +1441,6 @@ function renderManage(){
 
   return `
     <div class="hd">
-      <div class="hd-date">${rangeText('manage')}</div>
       <div class="hd-title">管理</div>
     </div>
 
@@ -1525,7 +1524,6 @@ function renderAdmin(){
   }).join('');
   return `
     <div class="hd">
-      <div class="hd-date">运营后台 · 用户健康资产</div>
       <div class="hd-title">排行榜</div>
     </div>
     <div class="kpi-grid">${kpis}</div>
@@ -1555,8 +1553,7 @@ function renderAdminUser(){
     <div class="hd">
       <div class="hd-row">
         <div>
-          <div class="hd-date">用户详情 · ${user}</div>
-          <div class="hd-title">九宫格</div>
+          <div class="hd-title">用户九宫格</div>
         </div>
         <div class="share-btn" data-admin-back>← 返回</div>
       </div>
@@ -1564,7 +1561,7 @@ function renderAdminUser(){
     <div class="trendcard" style="margin-bottom:12px">
       <div class="tc-hd">
         <div>
-          <div class="tc-lb">健康资产</div>
+          <div class="tc-lb">${user} · 健康资产</div>
           <div class="tc-num" style="color:#C8102E">${(ADMIN.ranks.find(r=>r.n===user)||{s:106}).s}</div>
         </div>
         <div class="tc-delta up">+8</div>
@@ -2068,7 +2065,6 @@ function openFamily(){
 
 /* ============ 事件 ============ */
 document.addEventListener('click', e=>{
-  /* ---- 引导 ---- */
   if(e.target.closest('[data-ob-login]') || e.target.closest('[data-ob-phone]')){
     state.ob.step = 1; renderOnboard(); return;
   }
@@ -2090,7 +2086,6 @@ document.addEventListener('click', e=>{
     render(); return;
   }
 
-  /* ---- 视角 / 导航 ---- */
   const vw = e.target.closest('[data-view]');
   if(vw){ state.view = vw.dataset.view; state.adminUser = null; render(); return; }
   if(e.target.closest('[data-admin-back]')){ state.adminUser = null; render(); return; }
@@ -2111,13 +2106,11 @@ document.addEventListener('click', e=>{
     render(); return;
   }
 
-  /* ---- 九宫格展开 / 收起 ---- */
   if(e.target.closest('[data-grid-toggle]')){
     state.gridExpanded = !state.gridExpanded;
     render(); return;
   }
 
-  /* ---- 九宫格 ---- */
   const dim = e.target.closest('[data-dim]');
   if(dim){
     const k = dim.dataset.dim;
@@ -2125,7 +2118,6 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* ---- 手动记录：单选 ---- */
   const ms = e.target.closest('[data-manual-single]');
   if(ms){
     const d = ms.dataset.manualSingle, key = ms.dataset.key, val = ms.dataset.val;
@@ -2136,7 +2128,6 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* ---- 手动记录：多选 ---- */
   const mm = e.target.closest('[data-manual-multi]');
   if(mm){
     const d = mm.dataset.manualMulti, key = mm.dataset.key, val = mm.dataset.val;
@@ -2152,7 +2143,6 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* ---- 饮食三餐快速选择 ---- */
   const qm = e.target.closest('[data-quick-meal]');
   if(qm){
     const mk = qm.dataset.quickMeal, ck = qm.dataset.quickCat, v = qm.dataset.quickVal;
@@ -2163,7 +2153,6 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* ---- 改变 ---- */
   if(e.target.closest('[data-goal-detail]')){ openGoalDetail(); return; }
   const pj = e.target.closest('[data-practice-join]');
   if(pj){
@@ -2188,7 +2177,6 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* ---- 转发 / 家庭 ---- */
   if(e.target.closest('[data-share]')){ openShare(); return; }
   const st2 = e.target.closest('[data-share-to]');
   if(st2){
@@ -2202,11 +2190,9 @@ document.addEventListener('click', e=>{
     closeModal(); setTimeout(()=>toast('邀请链接已复制'), 120); return;
   }
 
-  /* ---- 统一语音 ---- */
   if(e.target.closest('[data-voice-open]')){ openVoiceSheet(); return; }
   if(e.target.closest('[data-voice-stop]')){ finishVoiceListen(); return; }
 
-  /* ---- 微体检 ---- */
   const qzS = e.target.closest('[data-qz-single]');
   if(qzS){ state.quizAns[qzS.dataset.qzSingle] = parseInt(qzS.dataset.val); renderQuiz(); return; }
   const qzM = e.target.closest('[data-qz-multi]');
@@ -2235,13 +2221,11 @@ document.addEventListener('click', e=>{
 });
 
 document.addEventListener('change', e=>{
-  /* 手动记录：文本输入，失焦保存 */
   if(e.target.hasAttribute('data-manual-input')){
     const d = e.target.dataset.manualInput, key = e.target.dataset.key;
     if(!state.manualRecords[d]) state.manualRecords[d] = {};
     state.manualRecords[d][key] = e.target.value.trim();
     flushManual(d);
-    /* 不重渲染，保持输入焦点 */
     return;
   }
   if(e.target.hasAttribute('data-manual-start')){
