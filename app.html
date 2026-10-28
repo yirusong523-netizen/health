@@ -6,14 +6,21 @@
 <title>老板健康</title>
 <style>
 :root{
-  --bg:#F7F9FC; --card:#FFFFFF; --line:#E8EEF5; --line2:#EEF2F7;
-  --ink:#0F1B2D; --ink2:#5A6B80; --ink3:#94A3B5;
-  --blue:#1E6FFF; --blue-bg:#EDF3FF;
-  --good:#C8102E; --mid:#1E6FFF; --bad:#1A1A1A;
-  --warn:#F5A623; --warn-bg:#FEF5E7;
+  --fs-display: 24px; --fs-num: 32px; --fs-num-sm: 22px;
+  --fs-title: 18px; --fs-sub: 17px; --fs-body-lg: 15px;
+  --fs-body: 14px; --fs-base: 13px; --fs-sm: 12px;
+  --fs-xs: 11px; --fs-micro: 10px;
+
+  --bg:#F6F8FB; --card:#FFFFFF;
+  --line:#E9EEF5; --line2:#F1F4F9;
+  --ink:#14202F; --ink2:#5A6B80; --ink3:#8C9AAB;
+  --blue:#2563EB; --blue-bg:#EEF3FF;
   --red:#C8102E; --red-bg:#FDECEC;
+  --gold:#B8860B; --gold-deep:#8A6408; --gold-bg:#FFF8E7;
   --gray-bg:#F2F5FA;
-  --gold:#B8860B; --gold-bg:#FFF8E7;
+
+  --r-lg:16px; --r-md:14px; --r-sm:10px; --r-xs:8px;
+  --sp-gap:12px; --sp-pad:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{overscroll-behavior:none}
@@ -25,10 +32,10 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   box-shadow:0 30px 80px rgba(15,27,45,.18),0 0 0 8px #fff,0 0 0 10px #D5DEE8;
   position:relative}
 .statusbar{height:44px;flex-shrink:0;display:flex;align-items:center;
-  justify-content:space-between;padding:0 28px;font-size:13px;font-weight:600;
+  justify-content:space-between;padding:0 26px;font-size:var(--fs-sm);font-weight:600;
   background:var(--bg);z-index:10}
-.statusbar .r{font-size:12px;color:var(--ink2);font-weight:500}
-.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 20px 100px;
+.statusbar .r{font-size:var(--fs-sm);color:var(--ink2);font-weight:500}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 110px;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .screen::-webkit-scrollbar{display:none}
 
@@ -36,204 +43,216 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
   border-top:1px solid var(--line);padding-bottom:16px;z-index:5}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;font-size:10px;color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
+  gap:5px;font-size:var(--fs-micro);color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
 .tab svg{width:22px;height:22px;stroke:var(--ink3);stroke-width:1.6;fill:none;
   stroke-linecap:round;stroke-linejoin:round;transition:.18s}
 .tab.active{color:var(--blue)}
 .tab.active svg{stroke:var(--blue);stroke-width:1.9}
 
+.voice-section{display:flex;align-items:center;justify-content:center;gap:7px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-radius:var(--r-md);
+  padding:15px;color:#fff;font-size:var(--fs-body-lg);font-weight:600;letter-spacing:.3px;
+  margin-bottom:var(--sp-gap);cursor:pointer;position:relative;overflow:hidden;
+  transition:.15s;box-shadow:0 8px 20px rgba(184,134,11,.20)}
+.voice-section:active{transform:scale(.985)}
+.voice-section::before{content:'';position:absolute;top:-50px;right:-30px;
+  width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08)}
+.voice-section .vs-arrow{font-size:16px;color:rgba(255,255,255,.65);position:relative;line-height:1}
+
+.grid-toggle{width:26px;height:26px;border-radius:50%;background:#fff;
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:.18s;flex-shrink:0}
+.grid-toggle:active{background:var(--gray-bg)}
+.grid-toggle svg{width:13px;height:13px;stroke:var(--ink2);stroke-width:2.2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.grid-toggle.open svg{transform:rotate(180deg)}
+
 #viewbar{display:flex;justify-content:center;padding:2px 0 6px;flex-shrink:0;z-index:9}
 .vb-seg{display:flex;background:#E4EAF2;border-radius:20px;padding:3px;gap:2px}
-.vb-seg span{padding:5px 16px;font-size:11.5px;border-radius:16px;color:var(--ink2);
+.vb-seg span{padding:5px 16px;font-size:var(--fs-sm);border-radius:16px;color:var(--ink2);
   font-weight:600;cursor:pointer;transition:.16s}
 .vb-seg span.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,27,45,.12)}
 
-.hd{padding:8px 2px 20px}
-.hd-date{font-size:12.5px;color:var(--ink3);letter-spacing:.5px}
-.hd-title{font-size:26px;font-weight:600;margin-top:8px;letter-spacing:-.3px;line-height:1.2}
-.hd-row{display:flex;align-items:flex-start;justify-content:space-between}
-.share-btn{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--ink2);
+.hd{padding:6px 2px 18px}
+.hd-date{font-size:var(--fs-sm);color:var(--ink3);letter-spacing:.5px}
+.hd-title{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px;line-height:1.2}
+.hd-row{display:flex;align-items:flex-end;justify-content:space-between}
+.share-btn{display:flex;align-items:center;gap:4px;font-size:var(--fs-sm);color:var(--ink2);
   background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:20px;
-  font-weight:500;cursor:pointer;margin-top:8px}
-.share-btn:active{background:#F2F5FA}
+  font-weight:500;cursor:pointer}
+.share-btn:active{background:var(--gray-bg)}
 
-.sec{font-size:13px;font-weight:600;color:var(--ink2);margin:24px 2px 12px;
-  display:flex;align-items:center;justify-content:space-between}
-.sec .more{font-size:12px;color:var(--ink3);font-weight:400;cursor:pointer}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:18px;margin-bottom:12px}
+.sec{font-size:var(--fs-sm);font-weight:600;color:var(--ink2);margin:22px 2px 10px;
+  display:flex;align-items:center;justify-content:space-between;letter-spacing:.2px}
+.sec .more{font-size:var(--fs-xs);color:var(--ink3);font-weight:400;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:var(--sp-pad);margin-bottom:var(--sp-gap)}
 
-.ranges{display:flex;gap:6px;margin:0 0 14px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.ranges{display:flex;gap:6px;margin:0 0 12px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
 .ranges::-webkit-scrollbar{display:none}
 .range{flex-shrink:0;padding:7px 15px;border-radius:20px;background:#fff;
-  border:1px solid var(--line);font-size:12.5px;color:var(--ink2);font-weight:500;
+  border:1px solid var(--line);font-size:var(--fs-sm);color:var(--ink2);font-weight:500;
   cursor:pointer;transition:.15s;display:flex;align-items:center;gap:4px}
 .range.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
 .range:active{transform:scale(.96)}
-.range .rng-dates{font-size:10.5px;font-weight:500;opacity:.85}
+.range .rng-dates{font-size:var(--fs-micro);font-weight:500;opacity:.85}
 
-.manual-panel{background:#fff;border:1px solid var(--line);border-radius:14px;
-  padding:14px 16px;margin-bottom:14px}
-.mp-title{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:12px}
+.manual-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:14px 16px;margin-bottom:var(--sp-gap)}
+.mp-title{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:12px}
 .mp-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
 .mp-field{flex:1;min-width:0}
-.mp-label{font-size:10.5px;color:var(--ink3);margin-bottom:6px;display:block}
-.mp-input{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);
-  font-size:14px;font-family:inherit;font-weight:600;color:var(--ink);outline:none;background:#fff}
-.mp-input:focus{border-color:var(--mid)}
+.mp-label{font-size:var(--fs-micro);color:var(--ink3);margin-bottom:6px;display:block}
+.mp-input{width:100%;padding:10px 12px;border-radius:var(--r-sm);border:1.5px solid var(--line);
+  font-size:var(--fs-body);font-family:inherit;font-weight:600;color:var(--ink);outline:none;background:#fff}
+.mp-input:focus{border-color:var(--blue)}
 .mp-quick{display:flex;gap:6px;flex-wrap:wrap}
-.mp-quick .rec-opt{padding:7px 12px;font-size:12px}
-.mp-summary{font-size:11.5px;background:var(--gold-bg);color:var(--gold);
-  padding:8px 12px;border-radius:10px;font-weight:600;margin-top:10px}
+.mp-summary{font-size:var(--fs-xs);background:var(--gold-bg);color:var(--gold);
+  padding:8px 12px;border-radius:var(--r-sm);font-weight:600;margin-top:10px}
 
-.trendcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:18px 18px 14px;margin-bottom:14px}
+.trendcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:16px 16px 12px;margin-bottom:var(--sp-gap)}
 .tc-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.tc-lb{font-size:12px;color:var(--ink3);font-weight:500}
-.tc-num{font-size:32px;font-weight:700;letter-spacing:-1.2px;line-height:1;margin-top:7px}
-.tc-num small{font-size:12px;font-weight:500;color:var(--ink3);margin-left:4px;letter-spacing:0}
-.tc-delta{font-size:12px;font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
+.tc-lb{font-size:var(--fs-sm);color:var(--ink3);font-weight:500}
+.tc-num{font-size:var(--fs-num);font-weight:700;letter-spacing:-1.2px;line-height:1;margin-top:6px}
+.tc-num small{font-size:var(--fs-xs);font-weight:500;color:var(--ink3);margin-left:4px;letter-spacing:0}
+.tc-delta{font-size:var(--fs-xs);font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
 .tc-delta.up{background:var(--red-bg);color:var(--red)}
 .tc-delta.down{background:var(--gray-bg);color:var(--ink2)}
-.trend{width:100%;height:110px;display:block;margin-top:6px}
-.trend-x{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);
+.trend{width:100%;height:108px;display:block;margin-top:6px}
+.trend-x{display:flex;justify-content:space-between;font-size:var(--fs-micro);color:var(--ink3);
   margin-top:2px;padding:0 4px}
-.mini-btn{padding:6px 12px;border-radius:20px;background:var(--gold-bg);color:var(--gold);
-  font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 
 .g9-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.g9{background:var(--card);border:1px solid var(--line);border-radius:14px;
-  padding:14px 11px;cursor:pointer;position:relative;transition:.15s}
+.g9{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:13px 10px;cursor:pointer;position:relative;transition:.15s}
 .g9:active{transform:scale(.96);background:#FAFCFF}
-.g9-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.g9-name{font-size:11.5px;color:var(--ink3);font-weight:500}
+.g9-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.g9-name{font-size:var(--fs-xs);color:var(--ink2);font-weight:500}
 .g9-dot{width:5px;height:5px;border-radius:50%;background:#D5DEE8;flex-shrink:0;transition:.2s}
 .g9-dot.full{background:var(--gold)}
-.g9-dot.partial{background:var(--mid)}
+.g9-dot.partial{background:var(--blue)}
 .g9-main{display:flex;align-items:baseline;gap:6px}
-.g9-grade{font-size:22px;font-weight:700;line-height:1;letter-spacing:-1px}
-.g9-score{font-size:11px;color:var(--ink3);font-weight:500;margin-left:auto}
-.g9-bar{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;margin-top:10px}
+.g9-grade{font-size:var(--fs-num-sm);font-weight:700;line-height:1;letter-spacing:-.8px}
+.g9-score{font-size:var(--fs-xs);color:var(--ink3);font-weight:500;margin-left:auto}
+.g9-bar{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;margin-top:9px}
 .g9-bar span{display:block;height:100%;border-radius:2px;transition:width .6s}
 
-/* 等级卡（纵向） */
-.level-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
-  padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden;color:#fff}
+.level-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
+  padding:20px 18px;margin-bottom:var(--sp-gap);position:relative;overflow:hidden;color:#fff}
 .level-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
   border-radius:50%;background:rgba(184,134,11,.20)}
 .level-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:relative}
 .level-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.22);
-  border:1px solid rgba(184,134,11,.45);color:#FFD27A;font-size:11px;font-weight:700;
+  border:1px solid rgba(184,134,11,.45);color:#FFD27A;font-size:var(--fs-xs);font-weight:700;
   padding:4px 10px;border-radius:20px;letter-spacing:.5px}
-
-.level-now{margin-top:18px;position:relative}
-.level-now-lb{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1.5px}
-.level-now-name{font-size:56px;font-weight:700;color:#FFD27A;letter-spacing:-2.4px;
+.level-now{margin-top:16px;position:relative}
+.level-now-lb{font-size:var(--fs-xs);color:rgba(255,255,255,.5);letter-spacing:1.5px}
+.level-now-name{font-size:52px;font-weight:700;color:#FFD27A;letter-spacing:-2.2px;
   line-height:1;margin-top:8px}
-.level-now-age{font-size:14px;color:rgba(255,255,255,.65);margin-top:8px;font-weight:500}
-
-.level-list{display:flex;flex-direction:column;gap:6px;margin-top:22px;position:relative}
+.level-now-age{font-size:var(--fs-base);color:rgba(255,255,255,.65);margin-top:8px;font-weight:500}
+.level-list{display:flex;flex-direction:column;gap:6px;margin-top:20px;position:relative}
 .level-row{display:flex;align-items:center;gap:12px;padding:11px 14px;
-  border-radius:12px;background:rgba(255,255,255,.05);transition:.2s}
+  border-radius:var(--r-sm);background:rgba(255,255,255,.05);transition:.2s}
 .level-row.on{background:rgba(184,134,11,.25);border:1px solid rgba(184,134,11,.5)}
-.level-row-name{font-size:15px;font-weight:700;color:rgba(255,255,255,.55);width:66px;flex-shrink:0}
-.level-row.on .level-row-name{color:#FFD27A;font-size:18px}
-.level-row-age{font-size:11.5px;color:rgba(255,255,255,.4);flex:1}
+.level-row-name{font-size:var(--fs-body);font-weight:700;color:rgba(255,255,255,.55);width:64px;flex-shrink:0}
+.level-row.on .level-row-name{color:#FFD27A;font-size:var(--fs-sub)}
+.level-row-age{font-size:var(--fs-sm);color:rgba(255,255,255,.4);flex:1}
 .level-row.on .level-row-age{color:rgba(255,255,255,.85)}
-.level-row-tag{font-size:10.5px;color:rgba(255,255,255,.35);font-weight:500;flex-shrink:0}
+.level-row-tag{font-size:var(--fs-micro);color:rgba(255,255,255,.35);font-weight:500;flex-shrink:0}
 .level-row.on .level-row-tag{color:#FFD27A;font-weight:700}
 .level-row.done .level-row-name{color:rgba(255,255,255,.8)}
 .level-row.done .level-row-tag{color:rgba(255,255,255,.55)}
 
-.asset-list{background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:16px 18px;margin-bottom:14px}
-.asset-list-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
+.asset-list{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:16px 18px;margin-bottom:var(--sp-gap)}
+.asset-list-hd{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
 .asset-row{display:flex;align-items:center;gap:12px;padding:8px 0}
-.asset-row-nm{width:22px;font-size:15px;font-weight:700;color:var(--ink);flex-shrink:0}
-.asset-row-sub{width:56px;font-size:11.5px;color:var(--ink3);flex-shrink:0}
+.asset-row-nm{width:20px;font-size:var(--fs-body);font-weight:700;color:var(--ink);flex-shrink:0}
+.asset-row-sub{width:54px;font-size:var(--fs-sm);color:var(--ink3);flex-shrink:0}
 .asset-row-bar{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
 .asset-row-fill{height:100%;border-radius:3px;transition:width .6s}
-.asset-row-val{width:30px;text-align:right;font-size:14px;font-weight:700;flex-shrink:0}
+.asset-row-val{width:28px;text-align:right;font-size:var(--fs-body);font-weight:700;flex-shrink:0}
 
-.goal-card{background:var(--card);border:1px solid var(--line);border-radius:18px;
-  padding:22px 20px;position:relative;overflow:hidden;margin-bottom:14px}
+.goal-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px 18px;position:relative;overflow:hidden;margin-bottom:var(--sp-gap)}
 .goal-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)}
 .goal-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.goal-tag{font-size:10.5px;color:var(--gold);background:var(--gold-bg);
-  padding:4px 10px;border-radius:20px;font-weight:600;letter-spacing:.8px;display:inline-block}
-.goal-more{font-size:11.5px;color:var(--ink3);cursor:pointer;white-space:nowrap;margin-top:2px}
-.goal-title{font-size:20px;font-weight:700;margin-top:12px;letter-spacing:-.3px;line-height:1.4}
-.goal-desc{font-size:12.5px;color:var(--ink2);margin-top:8px;line-height:1.6}
+.goal-tag{font-size:var(--fs-micro);color:var(--gold);background:var(--gold-bg);
+  padding:4px 10px;border-radius:20px;font-weight:600;letter-spacing:.6px;display:inline-block}
+.goal-more{font-size:var(--fs-xs);color:var(--ink3);cursor:pointer;white-space:nowrap;margin-top:2px}
+.goal-title{font-size:var(--fs-title);font-weight:700;margin-top:12px;letter-spacing:-.3px;line-height:1.4}
+.goal-desc{font-size:var(--fs-base);color:var(--ink2);margin-top:8px;line-height:1.6}
 
-.action-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.action-item{background:var(--card);border:1px solid var(--line);border-radius:14px;
+.action-list{display:flex;flex-direction:column;gap:10px;margin-bottom:var(--sp-gap)}
+.action-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
   padding:14px 16px;display:flex;align-items:center;gap:12px;transition:.15s}
 .action-item:active{background:#FAFCFF}
-.action-ico{width:34px;height:34px;border-radius:10px;background:var(--gold-bg);
+.action-ico{width:34px;height:34px;border-radius:var(--r-sm);background:var(--gold-bg);
   color:var(--gold);display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;flex-shrink:0}
+  font-size:var(--fs-base);font-weight:700;flex-shrink:0}
 .action-main{flex:1;min-width:0}
-.action-t{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.4}
-.action-s{font-size:11px;color:var(--ink3);margin-top:3px;display:flex;align-items:center;gap:6px}
-.action-src{background:var(--blue-bg);color:var(--mid);font-size:9.5px;padding:1px 5px;
+.action-t{font-size:var(--fs-base);font-weight:600;color:var(--ink);line-height:1.4}
+.action-s{font-size:var(--fs-xs);color:var(--ink3);margin-top:3px;display:flex;align-items:center;gap:6px}
+.action-src{background:var(--blue-bg);color:var(--blue);font-size:var(--fs-micro);padding:1px 5px;
   border-radius:4px;font-weight:600}
-.action-btn{flex-shrink:0;font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;
+.action-btn{flex-shrink:0;font-size:var(--fs-sm);font-weight:600;padding:8px 14px;border-radius:20px;
   cursor:pointer;white-space:nowrap;border:none;font-family:inherit;transition:.15s}
 .action-btn.join{color:var(--gold);background:var(--gold-bg)}
-.action-btn.check{color:var(--mid);background:var(--blue-bg)}
+.action-btn.check{color:var(--blue);background:var(--blue-bg)}
 .action-btn.done{color:var(--ink3);background:var(--gray-bg);cursor:default}
 
-.result-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:18px;
+.result-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
   padding:20px;color:#fff;position:relative;overflow:hidden}
 .result-card::before{content:'';position:absolute;top:-50px;right:-40px;width:140px;height:140px;
   border-radius:50%;background:rgba(184,134,11,.16)}
-.result-hd{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;
-  position:relative;margin-bottom:14px}
-.result-num{font-size:36px;font-weight:700;letter-spacing:-1.2px;line-height:1;position:relative}
-.result-num small{font-size:13px;color:rgba(255,255,255,.55);font-weight:500;margin-left:5px}
-.result-lb{font-size:12.5px;color:rgba(255,255,255,.7);margin-top:10px;position:relative}
-.result-bar{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;margin-top:16px;position:relative}
+.result-hd{font-size:var(--fs-micro);color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;
+  position:relative;margin-bottom:12px}
+.result-num{font-size:var(--fs-num);font-weight:700;letter-spacing:-1.2px;line-height:1;position:relative}
+.result-num small{font-size:var(--fs-sm);color:rgba(255,255,255,.55);font-weight:500;margin-left:5px}
+.result-lb{font-size:var(--fs-sm);color:rgba(255,255,255,.7);margin-top:10px;position:relative}
+.result-bar{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;margin-top:14px;position:relative}
 .result-bar-fill{height:100%;border-radius:4px;background:#FFD27A;transition:width .6s}
-.result-foot{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.55);
+.result-foot{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:rgba(255,255,255,.55);
   margin-top:10px;position:relative}
-.result-chg{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);
-  display:flex;justify-content:space-between;font-size:12.5px;position:relative}
+.result-chg{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);
+  display:flex;justify-content:space-between;font-size:var(--fs-sm);position:relative}
 .result-chg-lb{color:rgba(255,255,255,.6)}
 .result-chg-val{font-weight:700;color:#FFD27A}
 
-.detail-block{margin-bottom:20px}
+.detail-block{margin-bottom:18px}
 .detail-block:last-child{margin-bottom:0}
-.detail-t{font-size:10.5px;color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:10px}
-.detail-p{font-size:13.5px;color:var(--ink2);line-height:1.7}
+.detail-t{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:10px}
+.detail-p{font-size:var(--fs-base);color:var(--ink2);line-height:1.7}
 .detail-list{display:flex;flex-direction:column;gap:8px}
-.detail-li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink2);line-height:1.6}
+.detail-li{display:flex;align-items:flex-start;gap:8px;font-size:var(--fs-base);color:var(--ink2);line-height:1.6}
 .detail-li .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:7px;flex-shrink:0}
 .week-days{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
-.week-day{width:30px;height:30px;border-radius:8px;background:var(--gray-bg);
-  font-size:11px;color:var(--ink3);display:flex;align-items:center;justify-content:center}
+.week-day{width:30px;height:30px;border-radius:var(--r-xs);background:var(--gray-bg);
+  font-size:var(--fs-xs);color:var(--ink3);display:flex;align-items:center;justify-content:center}
 .week-day.on{background:var(--gold);color:#fff;font-weight:600}
 .week-day.today{border:1.5px solid var(--gold);color:var(--gold);font-weight:700}
 
-.mgr-group{background:var(--card);border:1px solid var(--line);border-radius:16px;
-  padding:6px 18px;margin-bottom:14px}
+.mgr-group{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:6px 18px;margin-bottom:var(--sp-gap)}
 .mgr-row{display:flex;align-items:center;gap:14px;padding:15px 0;
   border-bottom:1px solid var(--line2);cursor:pointer}
 .mgr-row:last-child{border-bottom:none}
-.mgr-row-ico{width:34px;height:34px;border-radius:10px;background:var(--gray-bg);
-  display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);
+.mgr-row-ico{width:34px;height:34px;border-radius:var(--r-sm);background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;font-size:var(--fs-sm);color:var(--ink2);
   flex-shrink:0;font-weight:600}
 .mgr-row-main{flex:1;min-width:0}
-.mgr-row-t{font-size:14px;color:var(--ink);font-weight:500}
-.mgr-row-s{font-size:11.5px;color:var(--ink3);margin-top:3px}
-.mgr-row-val{font-size:12px;font-weight:600;color:var(--gold)}
+.mgr-row-t{font-size:var(--fs-body);color:var(--ink);font-weight:500}
+.mgr-row-s{font-size:var(--fs-sm);color:var(--ink3);margin-top:3px}
+.mgr-row-val{font-size:var(--fs-sm);font-weight:600;color:var(--gold)}
 
-.streak{background:linear-gradient(135deg,#B8860B,#7A5A00);border-radius:18px;
-  padding:24px;color:#fff;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.streak{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-radius:var(--r-lg);
+  padding:22px;color:#fff;text-align:center;margin-bottom:var(--sp-gap);position:relative;overflow:hidden}
 .streak::before{content:'';position:absolute;top:-60px;right:-40px;width:160px;height:160px;
   border-radius:50%;background:rgba(255,255,255,.08)}
-.streak-num{font-size:44px;font-weight:700;line-height:1;letter-spacing:-1.5px;position:relative}
-.streak-num small{font-size:15px;font-weight:500;color:rgba(255,255,255,.75);margin-left:4px}
-.streak-lb{font-size:13px;color:rgba(255,255,255,.85);margin-top:10px;position:relative}
+.streak-num{font-size:42px;font-weight:700;line-height:1;letter-spacing:-1.5px;position:relative}
+.streak-num small{font-size:var(--fs-body);font-weight:500;color:rgba(255,255,255,.75);margin-left:4px}
+.streak-lb{font-size:var(--fs-base);color:rgba(255,255,255,.85);margin-top:10px;position:relative}
 
 .modal{position:fixed;inset:0;background:rgba(15,27,45,.45);backdrop-filter:blur(6px);
   display:none;align-items:flex-end;justify-content:center;z-index:99;
@@ -241,128 +260,112 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .modal.open{display:flex;animation:fade .2s}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .sheet{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;overflow-x:hidden;
-  background:#fff;border-radius:26px 26px 0 0;padding:24px 22px 40px;
+  background:#fff;border-radius:24px 24px 0 0;padding:22px 20px 38px;
   position:relative;animation:up .3s cubic-bezier(.2,.9,.3,1);
   scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   touch-action:pan-y}
 .sheet::-webkit-scrollbar{display:none}
 @keyframes up{from{transform:translateY(60px);opacity:.5}to{transform:translateY(0);opacity:1}}
-.sh-head{margin-bottom:20px}
+.sh-head{margin-bottom:18px}
 .sh-title-row{display:flex;align-items:flex-start;justify-content:space-between}
-.sh-name{font-size:19px;font-weight:600}
-.sh-date{font-size:12.5px;color:var(--ink3);margin-top:6px;letter-spacing:.3px}
-.sh-x{width:30px;height:30px;border-radius:50%;background:#F2F5FA;color:var(--ink2);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;
+.sh-name{font-size:var(--fs-title);font-weight:600}
+.sh-date{font-size:var(--fs-sm);color:var(--ink3);margin-top:5px;letter-spacing:.3px}
+.sh-x{width:30px;height:30px;border-radius:50%;background:var(--gray-bg);color:var(--ink2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:var(--fs-body);
   flex-shrink:0}
-.sh-btn{margin-top:20px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;
-  text-align:center;padding:15px;border-radius:14px;cursor:pointer}
+.sh-btn{margin-top:18px;background:var(--ink);color:#fff;font-size:var(--fs-body-lg);font-weight:600;
+  text-align:center;padding:14px;border-radius:var(--r-md);cursor:pointer}
 .sh-btn.disabled{background:#E8EEF5;color:var(--ink3);cursor:not-allowed}
 .sh-btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
 
-/* 具体指标行（带加减变化） */
-.metrics-block{background:#fff;border:1px solid var(--line);border-radius:14px;
-  padding:6px 16px;margin-bottom:18px}
-.metrics-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1px;
+.metrics-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:6px 16px;margin-bottom:16px}
+.metrics-hd{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1px;
   padding:12px 0 4px;display:flex;align-items:center;justify-content:space-between}
-.metrics-hd .cnt{font-size:10px;color:var(--ink3);font-weight:400}
-.metric-row{display:flex;align-items:center;gap:10px;padding:12px 0;
+.metrics-hd .cnt{font-size:var(--fs-micro);color:var(--ink3);font-weight:400}
+.metric-row{display:flex;align-items:center;gap:10px;padding:11px 0;
   border-bottom:1px solid var(--line2)}
 .metric-row:last-child{border-bottom:none}
-.metric-nm{font-size:12.5px;color:var(--ink2);flex:1;min-width:0;line-height:1.4}
-.metric-v{font-size:14px;font-weight:700;color:var(--ink);text-align:right;flex-shrink:0;letter-spacing:-.2px}
-.metric-v small{font-size:10.5px;color:var(--ink3);font-weight:500;margin-left:2px}
-.metric-v.empty{color:var(--ink3);font-weight:500;font-size:12.5px}
-.metric-delta{font-size:11.5px;font-weight:700;width:44px;text-align:right;flex-shrink:0}
+.metric-nm{font-size:var(--fs-base);color:var(--ink2);flex:1;min-width:0;line-height:1.4}
+.metric-v{font-size:var(--fs-body);font-weight:700;color:var(--ink);text-align:right;flex-shrink:0;letter-spacing:-.2px}
+.metric-v small{font-size:var(--fs-micro);color:var(--ink3);font-weight:500;margin-left:2px}
+.metric-v.empty{color:var(--ink3);font-weight:500;font-size:var(--fs-sm)}
+.metric-delta{font-size:var(--fs-xs);font-weight:700;width:44px;text-align:right;flex-shrink:0}
 .metric-delta.good{color:var(--red)}
 .metric-delta.bad{color:var(--ink2)}
 .metric-delta.flat{color:var(--ink3);font-weight:400}
+.metrics-empty{padding:16px 4px 18px;text-align:center;color:var(--ink3);font-size:var(--fs-sm);line-height:1.6}
 
-.metrics-empty{padding:16px 4px 18px;text-align:center;color:var(--ink3);font-size:12.5px;line-height:1.6}
+/* ===== 手动记录表单 ===== */
+.mf-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
+  padding:14px 16px;margin-bottom:12px}
+.mf-hd{font-size:var(--fs-sm);font-weight:600;color:var(--ink);margin-bottom:12px;
+  display:flex;align-items:center;gap:6px}
+.mf-hd::before{content:'记';background:var(--gold-bg);color:var(--gold);
+  font-size:var(--fs-micro);padding:2px 5px;border-radius:4px;font-weight:700}
+.mf-row{margin-bottom:14px}
+.mf-row:last-child{margin-bottom:0}
+.mf-lb{font-size:var(--fs-sm);color:var(--ink2);font-weight:500;margin-bottom:8px;display:block}
+.mf-chips{display:flex;flex-wrap:wrap;gap:6px}
+.mf-chip{padding:7px 12px;border-radius:var(--r-xs);background:var(--gray-bg);
+  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;font-weight:500;
+  transition:.15s;border:1px solid transparent;user-select:none}
+.mf-chip.on{background:var(--gold-bg);color:var(--gold);font-weight:600;border-color:rgba(184,134,11,.3)}
+.mf-chip:active{transform:scale(.96)}
+.mf-input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--r-sm);
+  font-size:var(--fs-base);font-family:inherit;color:var(--ink);outline:none;background:#fff}
+.mf-input:focus{border-color:var(--blue)}
+.mf-saved{background:var(--gold-bg);border-radius:var(--r-sm);padding:10px 12px;font-size:var(--fs-sm);
+  color:var(--gold);font-weight:500;line-height:1.6;margin-bottom:12px}
 
-/* 对话式输入 */
-.chat-block{background:#F8FAFD;border:1px solid var(--line);border-radius:14px;
-  padding:14px 14px 12px;margin-bottom:18px}
-.chat-block-hd{font-size:11px;color:var(--ink3);font-weight:600;letter-spacing:1px;
-  margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.chat-block-hd::before{content:'记录';background:var(--gold-bg);color:var(--gold);
-  font-size:9px;padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:0}
-.chat-msg{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
-.chat-msg.user{flex-direction:row-reverse}
-.chat-avatar{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;
-  font-weight:700;flex-shrink:0}
-.chat-msg.user .chat-avatar{background:linear-gradient(135deg,#B8860B,#7A5A00)}
-.chat-bubble{max-width:80%;background:#fff;border-radius:12px;padding:10px 12px;
-  font-size:13px;line-height:1.6;color:var(--ink);border:1px solid var(--line)}
-.chat-msg.user .chat-bubble{background:var(--gold-bg);color:var(--ink);border-color:transparent}
-.chat-hint{font-size:11.5px;color:var(--ink3);margin-top:6px;line-height:1.5}
-.chat-parsed{margin:2px 0 10px 34px;padding:8px 10px;background:#fff;border:1px dashed var(--line);
-  border-radius:10px;font-size:11.5px;color:var(--ink2);line-height:1.6}
-.chat-parsed b{color:var(--ink);font-weight:600}
-.chat-parsed span{display:inline-block;margin-right:12px}
-.chat-input{display:flex;gap:8px;margin-top:12px}
-.chat-input input{flex:1;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;
-  font-size:13.5px;outline:none;background:#fff;font-family:inherit;color:var(--ink)}
-.chat-input input:focus{border-color:var(--mid)}
-.chat-input button{background:var(--ink);color:#fff;border:none;border-radius:10px;
-  padding:0 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
-.chat-done{text-align:center;font-size:12px;color:var(--ink3);margin-top:10px;
-  padding:10px;background:#fff;border-radius:10px;border:1px dashed var(--line)}
-.chat-done b{color:var(--gold)}
-
-/* 语音入口 */
-.voice-entry{position:sticky;bottom:-1px;margin-top:22px;background:#fff;
-  border-top:1px solid var(--line);padding:14px 0 6px;z-index:5}
-.voice-btn{width:100%;background:linear-gradient(135deg,#1E6FFF,#0D4FD6);color:#fff;
-  border-radius:14px;padding:14px;text-align:center;font-size:14.5px;font-weight:600;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
-  border:none;font-family:inherit;transition:.15s}
-.voice-btn:active{transform:scale(.98)}
-.voice-icon{width:20px;height:20px;flex-shrink:0}
-.voice-hint{font-size:11px;color:var(--ink3);text-align:center;margin-top:8px}
-
-.diet-tabs{display:flex;background:#EEF2F7;border-radius:12px;padding:4px;margin-bottom:18px}
-.diet-tab{flex:1;text-align:center;padding:10px;font-size:13.5px;color:var(--ink2);
-  font-weight:500;border-radius:9px;cursor:pointer;transition:.18s}
-.diet-tab.on{background:#fff;color:var(--ink);font-weight:600;
-  box-shadow:0 1px 3px rgba(15,27,45,.08)}
-
-.quick-meal{margin-bottom:18px}
-.quick-meal-hd{font-size:13px;color:var(--ink);font-weight:600;margin-bottom:12px;
+/* 三餐快速选择 */
+.quick-meal{margin-bottom:14px}
+.quick-meal:last-child{margin-bottom:0}
+.quick-meal-hd{font-size:var(--fs-base);color:var(--ink);font-weight:600;margin-bottom:8px;
   display:flex;align-items:center;justify-content:space-between}
-.quick-meal-hd span{font-size:11px;color:var(--ink3);font-weight:400}
-.quick-row{display:flex;align-items:center;gap:10px;padding:6px 0}
-.quick-row-lb{font-size:12.5px;color:var(--ink2);width:44px;flex-shrink:0}
-.quick-row-opts{display:flex;flex-wrap:wrap;gap:6px;flex:1}
-.quick-opt{padding:7px 12px;border-radius:9px;background:var(--gray-bg);
-  font-size:12.5px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500;
-  min-width:44px;text-align:center}
+.quick-meal-hd span{font-size:var(--fs-xs);color:var(--ink3);font-weight:400}
+.quick-row{display:flex;align-items:center;gap:10px;padding:4px 0}
+.quick-row-lb{font-size:var(--fs-sm);color:var(--ink2);width:40px;flex-shrink:0}
+.quick-row-opts{display:flex;flex-wrap:wrap;gap:5px;flex:1}
+.quick-opt{padding:6px 10px;border-radius:var(--r-xs);background:var(--gray-bg);
+  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500;
+  min-width:38px;text-align:center;user-select:none}
 .quick-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
 
-.rec-opt{padding:10px 16px;border-radius:11px;background:var(--gray-bg);
-  font-size:13.5px;color:var(--ink2);cursor:pointer;transition:.15s}
+.rec-opt{padding:9px 14px;border-radius:var(--r-sm);background:var(--gray-bg);
+  font-size:var(--fs-base);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
 .rec-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
 
-.voice-overlay{position:fixed;inset:0;background:rgba(15,27,45,.7);backdrop-filter:blur(10px);
-  display:none;align-items:center;justify-content:center;z-index:200;padding:40px}
-.voice-overlay.open{display:flex;animation:fade .2s}
-.voice-panel{background:#fff;border-radius:24px;padding:32px 24px;text-align:center;
-  width:100%;max-width:340px}
-.voice-wave{display:flex;justify-content:center;gap:4px;height:60px;align-items:center;margin-bottom:22px}
-.voice-wave span{width:4px;background:var(--mid);border-radius:2px;animation:wave 1s ease-in-out infinite}
+/* ===== 语音面板 ===== */
+.voice-wave{display:flex;justify-content:center;gap:4px;height:56px;align-items:center;margin-bottom:14px}
+.voice-wave span{width:4px;background:var(--gold);border-radius:2px;animation:wave 1s ease-in-out infinite}
 .voice-wave span:nth-child(1){animation-delay:0s;height:20px}
 .voice-wave span:nth-child(2){animation-delay:.1s;height:36px}
 .voice-wave span:nth-child(3){animation-delay:.2s;height:48px}
 .voice-wave span:nth-child(4){animation-delay:.3s;height:36px}
 .voice-wave span:nth-child(5){animation-delay:.4s;height:20px}
 @keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.6)}}
-.voice-status{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:10px}
-.voice-transcript{font-size:13px;color:var(--ink2);line-height:1.7;min-height:60px;
-  padding:14px;background:var(--gray-bg);border-radius:12px;margin-bottom:18px;
-  text-align:left;font-style:italic}
-.voice-cancel{background:transparent;border:1px solid var(--line);color:var(--ink2);
-  padding:12px 20px;border-radius:12px;font-size:14px;font-weight:500;
-  cursor:pointer;font-family:inherit}
+.voice-status{font-size:var(--fs-body-lg);font-weight:600;color:var(--ink);margin-bottom:4px;text-align:center}
+
+.vc-hint{font-size:var(--fs-xs);color:var(--ink3);text-align:center;margin:2px 0 12px;line-height:1.6}
+.vc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:4px}
+.vc-cell{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:11px 8px 10px;text-align:center;transition:.3s}
+.vc-cell .vc-n{font-size:var(--fs-sm);color:var(--ink2);font-weight:600;line-height:1.2}
+.vc-cell .vc-s{font-size:var(--fs-micro);color:var(--ink3);margin-top:5px;line-height:1}
+.vc-cell.full{background:var(--gold-bg);border-color:rgba(184,134,11,.38)}
+.vc-cell.full .vc-n{color:var(--gold)}
+.vc-cell.full .vc-s{color:var(--gold)}
+.vc-cell.part{background:var(--blue-bg);border-color:rgba(37,99,235,.22)}
+.vc-cell.part .vc-n{color:var(--blue)}
+.vc-cell.part .vc-s{color:var(--blue)}
+.vc-cell.empty{opacity:.62}
+.vc-cell.live{border-color:var(--gold);background:#FFFBEF;
+  box-shadow:0 0 0 2px rgba(184,134,11,.16);animation:vcPulse 1.1s ease-in-out infinite}
+.vc-cell.live .vc-n{color:var(--gold)}
+.vc-cell.live .vc-s{color:var(--gold)}
+@keyframes vcPulse{0%,100%{box-shadow:0 0 0 2px rgba(184,134,11,.16)}
+  50%{box-shadow:0 0 0 5px rgba(184,134,11,.10)}}
 
 .onboard{position:absolute;inset:0;background:var(--bg);z-index:60;
   display:flex;flex-direction:column;overflow:hidden}
@@ -370,88 +373,88 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .ob-body{flex:1;overflow-y:auto;padding:0 26px;scrollbar-width:none;display:flex;flex-direction:column}
 .ob-body::-webkit-scrollbar{display:none}
 .ob-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
-.ob-logo{width:76px;height:76px;border-radius:24px;background:linear-gradient(135deg,#B8860B,#7A5A00);
-  color:#fff;font-size:34px;font-weight:700;display:flex;align-items:center;justify-content:center;
+.ob-logo{width:76px;height:76px;border-radius:22px;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#fff;font-size:32px;font-weight:700;display:flex;align-items:center;justify-content:center;
   box-shadow:0 16px 40px rgba(184,134,11,.28)}
-.ob-h1{font-size:27px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
-.ob-h2{font-size:13px;color:var(--ink3);letter-spacing:.5px}
+.ob-h1{font-size:26px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
+.ob-h2{font-size:var(--fs-base);color:var(--ink3);letter-spacing:.5px}
 .ob-foot{padding:20px 26px 40px;flex-shrink:0}
-.ob-btn{background:var(--ink);color:#fff;text-align:center;padding:16px;border-radius:15px;
-  font-size:15.5px;font-weight:600;cursor:pointer;margin-bottom:10px}
+.ob-btn{background:var(--ink);color:#fff;text-align:center;padding:15px;border-radius:var(--r-md);
+  font-size:var(--fs-body-lg);font-weight:600;cursor:pointer;margin-bottom:10px}
 .ob-btn:active{transform:scale(.99)}
 .ob-btn.ghost{background:#fff;color:var(--ink2);border:1px solid var(--line);font-weight:500}
-.ob-tip{font-size:11px;color:var(--ink3);text-align:center;margin-top:12px;line-height:1.6}
+.ob-tip{font-size:var(--fs-xs);color:var(--ink3);text-align:center;margin-top:12px;line-height:1.6}
 .ob-head{padding:60px 0 26px}
-.ob-step{font-size:11.5px;color:var(--gold);font-weight:600;letter-spacing:1.5px}
-.ob-title{font-size:24px;font-weight:700;letter-spacing:-.4px;margin-top:12px}
-.ob-sub{font-size:13px;color:var(--ink3);margin-top:10px;line-height:1.6}
-.ob-field{margin-bottom:22px}
-.ob-field>label{font-size:13px;color:var(--ink2);font-weight:600;display:block;margin-bottom:10px}
-.ob-field>label small{font-size:11px;color:var(--ink3);font-weight:400;margin-left:6px}
-.ob-input{width:100%;padding:14px 16px;border-radius:13px;border:1.5px solid var(--line);
-  background:#fff;font-size:16px;font-weight:600;font-family:inherit;color:var(--ink);outline:none}
-.ob-input:focus{border-color:var(--mid)}
+.ob-step{font-size:var(--fs-xs);color:var(--gold);font-weight:600;letter-spacing:1.5px}
+.ob-title{font-size:var(--fs-display);font-weight:700;letter-spacing:-.4px;margin-top:12px}
+.ob-sub{font-size:var(--fs-base);color:var(--ink3);margin-top:10px;line-height:1.6}
+.ob-field{margin-bottom:20px}
+.ob-field>label{font-size:var(--fs-base);color:var(--ink2);font-weight:600;display:block;margin-bottom:10px}
+.ob-field>label small{font-size:var(--fs-xs);color:var(--ink3);font-weight:400;margin-left:6px}
+.ob-input{width:100%;padding:13px 16px;border-radius:var(--r-md);border:1.5px solid var(--line);
+  background:#fff;font-size:var(--fs-body-lg);font-weight:600;font-family:inherit;color:var(--ink);outline:none}
+.ob-input:focus{border-color:var(--blue)}
 .ob-opts{display:flex;flex-wrap:wrap;gap:8px}
-.ob-opt{padding:11px 18px;border-radius:12px;background:#fff;border:1px solid var(--line);
-  font-size:14px;color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
+.ob-opt{padding:10px 18px;border-radius:var(--r-sm);background:#fff;border:1px solid var(--line);
+  font-size:var(--fs-base);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
 .ob-opt.on{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:600}
 
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:var(--sp-gap)}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
 .kpi-v{font-size:25px;font-weight:700;letter-spacing:-1px;line-height:1}
-.kpi-l{font-size:11.5px;color:var(--ink3);margin-top:8px}
-.kpi-d{font-size:11px;font-weight:600;margin-top:6px}
+.kpi-l{font-size:var(--fs-sm);color:var(--ink3);margin-top:8px}
+.kpi-d{font-size:var(--fs-xs);font-weight:600;margin-top:6px}
 .kpi-d.up{color:var(--red)}
-.kpi-d.down{color:var(--bad)}
+.kpi-d.down{color:var(--ink2)}
 
 .rank-row{display:flex;align-items:center;gap:12px;padding:13px 0;
   border-bottom:1px solid var(--line2);cursor:pointer}
 .rank-row:last-child{border-bottom:none}
-.rank-no{width:26px;height:26px;border-radius:9px;background:var(--gray-bg);
-  display:flex;align-items:center;justify-content:center;font-size:12px;
+.rank-no{width:26px;height:26px;border-radius:var(--r-xs);background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;font-size:var(--fs-sm);
   font-weight:700;color:var(--ink3);flex-shrink:0}
 .rank-no.top1{background:var(--gold-bg);color:var(--gold)}
-.rank-no.top2{background:#EEF2F7;color:#6B7A8F}
+.rank-no.top2{background:var(--line2);color:var(--ink2)}
 .rank-no.top3{background:#FFF4EC;color:#A0622D}
 .rank-main{flex:1;min-width:0}
-.rank-nm{font-size:14px;font-weight:600}
-.rank-sub{font-size:11px;color:var(--ink3);margin-top:3px}
-.rank-asset{font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0}
+.rank-nm{font-size:var(--fs-body);font-weight:600}
+.rank-sub{font-size:var(--fs-xs);color:var(--ink3);margin-top:3px}
+.rank-asset{font-size:var(--fs-body-lg);font-weight:700;color:var(--gold);flex-shrink:0}
 
-.share-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:20px;
-  padding:22px 20px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
+.share-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
+  padding:20px 18px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
 .share-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
   border-radius:50%;background:rgba(184,134,11,.22)}
-.share-brand{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;position:relative}
+.share-brand{font-size:var(--fs-micro);color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;position:relative}
 .share-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
   margin-top:14px;position:relative}
-.share-score{font-size:44px;font-weight:700;letter-spacing:-1.8px;line-height:1}
-.share-score-lb{font-size:11.5px;color:rgba(255,255,255,.55);margin-top:6px}
-.share-gain{font-size:12px;font-weight:700;color:#FFD27A;background:rgba(184,134,11,.22);
+.share-score{font-size:42px;font-weight:700;letter-spacing:-1.6px;line-height:1}
+.share-score-lb{font-size:var(--fs-xs);color:rgba(255,255,255,.55);margin-top:6px}
+.share-gain{font-size:var(--fs-sm);font-weight:700;color:#FFD27A;background:rgba(184,134,11,.22);
   padding:5px 10px;border-radius:20px;white-space:nowrap}
 .share-divider{height:1px;background:rgba(255,255,255,.1);margin:16px 0;position:relative}
-.share-block-t{font-size:10.5px;color:rgba(255,255,255,.45);letter-spacing:1.5px;
+.share-block-t{font-size:var(--fs-micro);color:rgba(255,255,255,.45);letter-spacing:1.5px;
   font-weight:600;margin-bottom:10px;position:relative}
 .share-actions{display:flex;flex-direction:column;gap:8px;position:relative}
-.share-action{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;
+.share-action{display:flex;align-items:flex-start;gap:8px;font-size:var(--fs-sm);
   color:rgba(255,255,255,.85);line-height:1.5}
 .share-action .ok{width:14px;height:14px;border-radius:50%;background:#FFD27A;
-  color:#0F1B2D;font-size:9px;font-weight:700;display:flex;align-items:center;
+  color:#0F1B2D;font-size:var(--fs-micro);font-weight:700;display:flex;align-items:center;
   justify-content:center;flex-shrink:0;margin-top:2px}
 .share-action .name{font-weight:600}
-.share-action .meta{display:block;font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+.share-action .meta{display:block;font-size:var(--fs-xs);color:rgba(255,255,255,.55);margin-top:2px}
 .share-action .meta b{color:#FFD27A;font-weight:600}
 .share-effect{display:flex;gap:8px;position:relative;margin-top:4px}
-.share-effect div{flex:1;background:rgba(255,255,255,.07);border-radius:12px;
+.share-effect div{flex:1;background:rgba(255,255,255,.07);border-radius:var(--r-sm);
   padding:11px 10px;text-align:center}
-.share-effect b{font-size:16px;font-weight:700;display:block;color:#FFD27A}
-.share-effect span{font-size:10px;color:rgba(255,255,255,.5);margin-top:5px;display:block}
-.share-feel{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.7;position:relative;
+.share-effect b{font-size:var(--fs-body-lg);font-weight:700;display:block;color:#FFD27A}
+.share-effect span{font-size:var(--fs-micro);color:rgba(255,255,255,.5);margin-top:5px;display:block}
+.share-feel{font-size:var(--fs-sm);color:rgba(255,255,255,.8);line-height:1.7;position:relative;
   font-style:italic;border-left:2px solid rgba(255,255,255,.25);padding-left:10px}
 .share-feel.empty{color:rgba(255,255,255,.35);font-style:normal}
 
 .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);
-  background:rgba(15,27,45,.9);color:#fff;font-size:13px;padding:11px 20px;
+  background:rgba(15,27,45,.9);color:#fff;font-size:var(--fs-base);padding:11px 20px;
   border-radius:20px;z-index:400;animation:fade .2s;white-space:nowrap}
 </style>
 </head>
@@ -464,7 +467,6 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   <div class="onboard hide" id="onboard"></div>
 </div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-<div class="voice-overlay" id="voiceOverlay"><div class="voice-panel" id="voicePanel"></div></div>
 
 <script>
 const TODAY = '10月13日 · 周二';
@@ -480,15 +482,15 @@ const RANGE_DATES = {
 
 /* ============ 数据 ============ */
 const DIMS = [
-  {k:'stress', name:'情绪', score:68, voiceDemo:'今天开了三个小时的会，晚上还要加班到10点，有个客户谈成了是好事'},
-  {k:'move', name:'运动', score:78, voiceDemo:'今天早上散步半小时，晚上快走20分钟，没做力量训练'},
-  {k:'body', name:'身体', score:74, voiceDemo:'今天感觉颈肩有点僵硬，大便有点干，其他还好'},
-  {k:'diet', name:'饮食', score:72, voiceDemo:'早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜，晚餐半碗米饭清蒸鱼西兰花'},
-  {k:'sleep', name:'睡眠', score:88, voiceDemo:'昨晚11点半睡的，早上7点醒的，夜里醒了两次，午睡半小时'},
-  {k:'breath', name:'呼吸', score:82, voiceDemo:'今天感觉有点胸闷，做了5分钟慢呼吸'},
-  {k:'env', name:'环境', score:82, voiceDemo:'今天在户外待了大概一个半小时，光线挺充足的'},
-  {k:'cognition', name:'认知', score:80, voiceDemo:'今天读了一小时书，还和客户聚了会，专注度一般'},
-  {k:'event', name:'大事', score:76, voiceDemo:'今天有一个重要的客户谈判，谈成了，心情不错'}
+  {k:'stress',    name:'情绪', score:68},
+  {k:'move',      name:'运动', score:78},
+  {k:'body',      name:'身体', score:74},
+  {k:'diet',      name:'饮食', score:72},
+  {k:'sleep',     name:'睡眠', score:88},
+  {k:'breath',    name:'呼吸', score:82},
+  {k:'env',       name:'环境', score:82},
+  {k:'cognition', name:'认知', score:80},
+  {k:'event',     name:'大事', score:76}
 ];
 
 const DIM_GOOD_DIR = {
@@ -496,7 +498,6 @@ const DIM_GOOD_DIR = {
   breath:'up', env:'up', cognition:'up', event:'up'
 };
 
-/* 具体指标：delta 为变化值；good 为 true/false；无数据 v=null */
 const DIM_SNAPSHOT = {
   stress:[
     {k:'压力得分', v:'42', unit:'', delta:-3, good:true},
@@ -534,52 +535,88 @@ const DIM_SNAPSHOT = {
   event:[]
 };
 
-const CHAT_FLOW = {
-  stress:[
-    {q:'今天整体感觉怎么样？', hint:'比如：还行 / 有点累 / 心情不错 / 有点烦'},
-    {q:'有没有什么大事发生？', hint:'工作、家庭、健康、财务上的都可以说'},
-    {q:'如果有点烦，是因为什么？', hint:'说具体的，我帮你记下来'}
-  ],
-  move:[
-    {q:'今天动了多久？做了什么运动？', hint:'比如：早上散步 30 分钟 / 晚上快走 20 分钟'},
-    {q:'走了多少步？坐得久吗？', hint:'比如：8,000 步，坐了 6 小时'},
-    {q:'有没有做力量训练？', hint:'深蹲、俯卧撑、举铁都算'}
-  ],
-  body:[
-    {q:'今天身体有什么不舒服吗？', hint:'比如：颈肩僵 / 头晕 / 便秘 / 没胃口'},
-    {q:'睡眠、排便、体重有什么要记的吗？', hint:'说个大致的就行'},
-    {q:'有没有需要特别关注的？', hint:'比如血压偏高、体重新高'}
-  ],
-  diet:[
-    {q:'今天三餐吃了什么？', hint:'比如：早餐小米粥鸡蛋，中午两碗米饭红烧肉'},
-    {q:'有没有应酬、饮酒、咖啡、茶？', hint:'喝了几杯也可以说'},
-    {q:'喝水够吗？吃了什么补剂？', hint:'维生素 D、Omega-3、钙片都算'}
-  ],
-  sleep:[
-    {q:'昨晚几点睡的，几点醒的？', hint:'比如：11 点半睡，7 点醒'},
-    {q:'夜里醒了几次？睡得踏实吗？', hint:'醒来后还能睡着吗'},
-    {q:'午睡了吗？', hint:'睡了多久'}
-  ],
-  breath:[
-    {q:'今天呼吸顺畅吗？', hint:'比如：有点闷 / 正常 / 气短'},
-    {q:'有没有打鼾、咳嗽？', hint:'打鼾被家人说过也可以说'},
-    {q:'有没有做呼吸练习？', hint:'慢呼吸、腹式呼吸都算'}
-  ],
-  env:[
-    {q:'今天在户外多久？', hint:'比如：1 小时 / 半小时'},
-    {q:'空气、噪声、二手烟有没有影响你？', hint:'有就说具体点'},
-    {q:'室内温度湿度怎么样？', hint:'比如：22°C，有点干'}
-  ],
-  cognition:[
-    {q:'今天专注度怎么样？', hint:'好 / 一般 / 容易分心'},
-    {q:'有没有读书、学习或者社交？', hint:'读了什么、见了谁都可以说'},
-    {q:'记忆力感觉如何？', hint:'好 / 一般 / 有点差'}
-  ],
-  event:[
-    {q:'今天有什么大事吗？', hint:'比如：重要谈判 / 家人住院 / 大额支出'},
-    {q:'是工作、家庭、健康还是财务上的？', hint:'选最主要的说'},
-    {q:'对你的影响是正面、中性还是负面？', hint:'说说具体感受'}
-  ]
+function hasDeviceData(k){
+  const s = DIM_SNAPSHOT[k] || [];
+  return s.some(it => it.v !== null && it.v !== undefined && it.v !== '');
+}
+
+/* ============ 手动记录表单配置：按维度归属 ============ */
+const MANUAL_FORMS = {
+  stress: {
+    title:'工作与情绪',
+    groups:[
+      {k:'work_pressure', label:'工作压力', type:'single', opts:['轻松','适中','较大','很大']},
+      {k:'work_hours', label:'工作时长', type:'single', opts:['<8h','8-10h','10-12h','>12h']},
+      {k:'meeting_hours', label:'开会时长', type:'single', opts:['0','<1h','1-2h','2-3h','>3h']},
+      {k:'travel', label:'是否出差', type:'single', opts:['否','是 · 1天','是 · 2-3天','是 · 3天以上']}
+    ]
+  },
+  body: {
+    title:'身体与就医',
+    groups:[
+      {k:'symptoms', label:'身体症状', type:'multi',
+        opts:['耳鸣','心慌','没胃口','颈肩僵','头晕','便秘','乏力','腰酸','无'], excl:'无'},
+      {k:'doctor', label:'是否看病', type:'single', opts:['没看','看了']},
+      {k:'doctor_note', label:'科室 / 病症', type:'input', ph:'如：耳鼻喉 · 耳鸣'}
+    ]
+  },
+  diet: {
+    title:'应酬与烟酒',
+    groups:[
+      {k:'social', label:'是否应酬', type:'single', opts:['无','有']},
+      {k:'alcohol', label:'喝酒', type:'single', opts:['不喝','少量','较多']},
+      {k:'smoke', label:'抽烟', type:'single', opts:['不抽','1-5支','5支以上']}
+    ]
+  },
+  event: {
+    title:'今日大事',
+    groups:[
+      {k:'event_type', label:'性质', type:'single', opts:['好事','坏事','中性']},
+      {k:'event_note', label:'一句话备注', type:'input', ph:'如：谈成了一个大客户'}
+    ]
+  },
+  move: {
+    title:'今日运动',
+    groups:[
+      {k:'move_type', label:'运动类型', type:'multi',
+        opts:['散步','快走','慢跑','力量训练','游泳','球类','无'], excl:'无'},
+      {k:'move_min', label:'运动时长', type:'single', opts:['<20min','20-40min','40-60min','>60min']},
+      {k:'sit', label:'久坐时长', type:'single', opts:['<4h','4-6h','6-8h','>8h']}
+    ]
+  },
+  sleep: {
+    title:'昨晚睡眠',
+    groups:[
+      {k:'sleep_at', label:'入睡时间', type:'single', opts:['22点前','22-23点','23-24点','0点后']},
+      {k:'wake_times', label:'夜醒次数', type:'single', opts:['0','1','2','3次以上']},
+      {k:'nap', label:'午睡', type:'single', opts:['无','<30min','30-60min','>60min']},
+      {k:'sleep_feel', label:'睡后感受', type:'single', opts:['很好','还行','没睡够','很差']}
+    ]
+  },
+  breath: {
+    title:'呼吸状态',
+    groups:[
+      {k:'breath_feel', label:'呼吸感受', type:'single', opts:['顺畅','有点闷','气短']},
+      {k:'snore', label:'打鼾 / 咳嗽', type:'multi', opts:['打鼾','咳嗽','咳痰','无'], excl:'无'},
+      {k:'breath_practice', label:'呼吸练习', type:'single', opts:['没做','做了 5 分钟','做了 10 分钟以上']}
+    ]
+  },
+  env: {
+    title:'环境暴露',
+    groups:[
+      {k:'outdoor', label:'户外时长', type:'single', opts:['几乎没出门','<30min','30-60min','>1h']},
+      {k:'air', label:'空气 / 二手烟', type:'multi', opts:['空气差','二手烟','装修味','无'], excl:'无'},
+      {k:'indoor', label:'室内感受', type:'single', opts:['舒适','偏干','偏闷','偏冷']}
+    ]
+  },
+  cognition: {
+    title:'认知与社交',
+    groups:[
+      {k:'focus', label:'专注度', type:'single', opts:['好','一般','容易分心']},
+      {k:'study', label:'阅读 / 学习', type:'single', opts:['无','<30min','30-60min','>1h']},
+      {k:'social', label:'社交', type:'single', opts:['无','有 · 工作','有 · 家庭朋友']}
+    ]
+  }
 };
 
 const ASSET_MAX = 120;
@@ -723,6 +760,78 @@ const MANUAL_PRESETS = [
   {label:'近 90 天', start:'2026-07-16', end:'2026-10-13'}
 ];
 
+/* ============ 统一语音记录配置（保留总入口） ============ */
+const VOICE_CATS = [
+  {k:'mood',      dim:'stress',    name:'心情情绪'},
+  {k:'body',      dim:'body',      name:'身体小毛病'},
+  {k:'event',     dim:'event',     name:'生活大事'},
+  {k:'diet',      dim:'diet',      name:'饮食'},
+  {k:'sleep',     dim:'sleep',     name:'睡眠'},
+  {k:'move',      dim:'move',      name:'运动'},
+  {k:'breath',    dim:'breath',    name:'呼吸'},
+  {k:'env',       dim:'env',       name:'环境'},
+  {k:'cognition', dim:'cognition', name:'认知'}
+];
+
+const VOICE_DEMO = '今天开了三个小时的会，晚上还要加班到十点，心情有点紧。颈肩有点僵，大便有点干。早上散步半小时，晚上快走20分钟。早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜。晚上有应酬喝了点酒。昨晚十一点半睡的，夜里醒了两次。今天没怎么在户外待。';
+
+function parseVoiceText(t){
+  const out = {};
+  const add = (c,s)=>{
+    if(!s) return;
+    if(!out[c]) out[c] = [];
+    if(!out[c].includes(s)) out[c].push(s);
+  };
+  if(/会/.test(t)) add('mood','有会议');
+  if(/加班/.test(t)) add('mood','加班到较晚');
+  if(/紧|烦|焦虑|压力|有点累/.test(t)) add('mood','情绪偏紧');
+  else if(/开心|不错|顺利|放松|挺好/.test(t)) add('mood','心情不错');
+  if(/颈肩|肩颈|脖子/.test(t)) add('body','颈肩僵硬');
+  if(/大便.*干|便秘|排便/.test(t)) add('body','排便偏干');
+  if(/头晕/.test(t)) add('body','头晕');
+  if(/耳鸣/.test(t)) add('body','耳鸣');
+  if(/心慌/.test(t)) add('body','心慌');
+  if(/胃|反酸|胀气|没胃口/.test(t)) add('body','胃部不适');
+  if(/乏力|没力气/.test(t)) add('body','容易疲劳');
+  if(/腰酸|腰疼/.test(t)) add('body','腰酸');
+  if(/看病|医院|就诊/.test(t)) add('body','有就医');
+  if(/出差/.test(t)) add('mood','出差中');
+  if(/散步/.test(t)) add('move','散步');
+  if(/快走/.test(t)) add('move','快走');
+  if(/力量训练|深蹲|举铁|俯卧撑/.test(t)) add('move','力量训练');
+  if(/没运动|没动|久坐/.test(t)) add('move','运动偏少');
+  ['早餐','早饭','午餐','午饭','晚餐','晚饭','夜宵'].forEach(m=>{
+    const r = t.match(new RegExp(m + '([^，。；！？]{1,24})'));
+    if(r && r[1]) add('diet', m + r[1].trim());
+  });
+  if(/应酬/.test(t)) add('diet','有应酬');
+  if(/酒/.test(t)) add('diet','饮酒');
+  if(/抽烟|烟/.test(t)) add('diet','抽烟');
+  if(/外卖/.test(t)) add('diet','吃外卖');
+  const CN = {'一':1,'二':2,'两':2,'三':3,'四':4,'五':5};
+  const wake = t.match(/醒[了]?([一二两三四五\d])\s*次/);
+  if(wake) add('sleep','夜醒 ' + (CN[wake[1]] || wake[1]) + ' 次');
+  if(/十一点半|11点半|睡得晚|熬夜/.test(t)) add('sleep','入睡偏晚');
+  if(/午睡|午觉/.test(t)) add('sleep','有午睡');
+  if(/失眠|睡不好/.test(t)) add('sleep','睡眠质量差');
+  if(/胸闷|有点闷/.test(t)) add('breath','有点胸闷');
+  if(/气短/.test(t)) add('breath','气短');
+  if(/打鼾/.test(t)) add('breath','打鼾');
+  if(/呼吸练习|慢呼吸|腹式呼吸/.test(t)) add('breath','做了呼吸练习');
+  if(/户外/.test(t)) add('env','户外时间' + (/没怎么|很少/.test(t) ? '偏少' : '充足'));
+  if(/二手烟/.test(t)) add('env','接触二手烟');
+  if(/空气差|雾霾/.test(t)) add('env','空气质量差');
+  if(/读书|看书/.test(t)) add('cognition','有阅读');
+  if(/专注/.test(t)) add('cognition','专注度好');
+  if(/分心/.test(t)) add('cognition','容易分心');
+  if(/聚会|社交|聊天/.test(t)) add('cognition','有社交');
+  if(/谈判|签约|客户/.test(t)) add('event','有重要谈判');
+  if(/住院|医院|体检/.test(t)) add('event','有就医相关');
+  if(/投资|股票|支出|买房/.test(t)) add('event','有财务事项');
+  return out;
+}
+
+/* ============ 状态 ============ */
 const state = {
   view:'personal',
   onboarded:false,
@@ -734,12 +843,14 @@ const state = {
           foresee:{start:'2026-10-07', end:'2026-10-13'},
           change:{start:'2026-10-07', end:'2026-10-13'},
           manage:{start:'2026-10-07', end:'2026-10-13'}},
-  records:{},
+  gridExpanded:false,
+  records:{},          /* 维度 -> 文本记录池，语音与手动都进这里 */
+  manualRecords:{},    /* 维度 -> 结构化手动记录值 */
+  voice:null, voiceCov:null, voiceToken:null,
   quizIndex:0, quizAns:{},
   practiceState:{},
   shareFeel:'',
-  chat:{},
-  dietMode:'quick', dietParsed:null, dietQuick:{b:{},l:{},d:{},s:{}},
+  dietQuick:{b:{},l:{},d:{},s:{}},
   adminUser:null
 };
 MAIN_GOAL.practices.forEach(p=>{
@@ -753,20 +864,27 @@ MAIN_GOAL.practices.forEach(p=>{
 /* ============ 工具 ============ */
 function gradeOf(s){
   if(s>=75) return {letter:'优', color:'#B8860B'};
-  if(s>=50) return {letter:'中', color:'#1E6FFF'};
-  return {letter:'差', color:'#1A1A1A'};
+  if(s>=50) return {letter:'中', color:'#2563EB'};
+  return {letter:'差', color:'#14202F'};
+}
+function hasRecord(k){
+  const r = state.records[k];
+  return !!(r && r.length);
 }
 function dimScores(range){
   const adj = RANGE_ADJ[range] || RANGE_ADJ.day;
   const o = {};
-  DIMS.forEach(d=>{ o[d.k] = Math.max(30, Math.min(99, d.score + (adj[d.k]||0))); });
+  DIMS.forEach(d=>{
+    const boost = hasRecord(d.k) ? (hasDeviceData(d.k) ? 1 : 6) : 0;
+    o[d.k] = Math.max(30, Math.min(99, d.score + (adj[d.k]||0) + boost));
+  });
   return o;
 }
 function currentAsset(range){
   return assetFromDims(dimScores(range));
 }
 function trendSvg(values, labels, color, maxV){
-  const w=320, h=110, padL=10, padR=10, padT=14, padB=14;
+  const w=320, h=108, padL=10, padR=10, padT=14, padB=14;
   const useMax = maxV || Math.max.apply(null, values);
   let min=Math.min.apply(null,values), max=useMax;
   const raw = (max-min)||1;
@@ -786,7 +904,7 @@ function trendSvg(values, labels, color, maxV){
   const grids = [0,0.5,1].map(t=>{
     const y = padT + ih*t;
     return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}"
-      stroke="#EEF2F7" stroke-width="1" stroke-dasharray="3 4"/>`;
+      stroke="#F1F4F9" stroke-width="1" stroke-dasharray="3 4"/>`;
   }).join('');
   const dots = pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6"
       fill="#fff" stroke="${color}" stroke-width="1.6"/>`).join('');
@@ -812,8 +930,7 @@ function xLabels(xs){
   return `<span>${xs[0]}</span><span>${mid}</span><span>${xs[xs.length-1]}</span>`;
 }
 function dimState(d){
-  if(Object.keys(state.records).some(k=>k.startsWith('chat_'+d.k) && state.records[k])) return 'full';
-  return 'partial';
+  return hasRecord(d.k) ? 'full' : 'partial';
 }
 
 const TABS=[
@@ -876,11 +993,134 @@ function manualDays(m){
   const d = Math.round((e - s) / 86400000) + 1;
   return isNaN(d) || d < 1 ? 0 : d;
 }
-function manualTrendData(key){
+function manualTrendData(){
   const labels = ['起','','','','止'];
   const start = 98, end = 106;
   const arr = labels.map((_,i)=> Math.round(start + (end-start) * (i/(labels.length-1))));
   return {x:labels, v:arr};
+}
+
+/* ============ 手动记录：保存与摘要 ============ */
+function flushManual(dim){
+  const form = MANUAL_FORMS[dim];
+  if(!form) return;
+  const m = state.manualRecords[dim] || {};
+  const parts = [];
+  form.groups.forEach(g=>{
+    const v = m[g.k];
+    if(v === undefined || v === null || v === '') return;
+    if(Array.isArray(v) && !v.length) return;
+    parts.push(g.label + '：' + (Array.isArray(v) ? v.join('、') : v));
+  });
+  /* 饮食：三餐快速选择也纳入记录 */
+  if(dim === 'diet'){
+    const meals = [['b','早餐'],['l','午餐'],['d','晚餐'],['s','加餐']];
+    const mt = [];
+    meals.forEach(([mk,mn])=>{
+      const q = state.dietQuick[mk]||{};
+      const p = [];
+      if(q.staple) p.push('主食'+q.staple);
+      if(q.protein) p.push('蛋白'+q.protein);
+      if(q.veg) p.push('蔬菜'+q.veg);
+      if(q.fruit) p.push('水果'+q.fruit);
+      if(p.length) mt.push(mn+'（'+p.join('，')+'）');
+    });
+    if(mt.length) parts.unshift('三餐：' + mt.join('；'));
+  }
+  if(!state.records[dim]) state.records[dim] = [];
+  state.records[dim] = state.records[dim].filter(x=>!x.startsWith('__m__'));
+  if(parts.length) state.records[dim].push('__m__' + parts.join('｜'));
+}
+
+function manualSummaryHtml(dim){
+  const form = MANUAL_FORMS[dim];
+  if(!form) return '';
+  const m = state.manualRecords[dim] || {};
+  const parts = [];
+  form.groups.forEach(g=>{
+    const v = m[g.k];
+    if(v === undefined || v === null || v === '') return;
+    if(Array.isArray(v) && !v.length) return;
+    parts.push(g.label + ' ' + (Array.isArray(v) ? v.join('、') : v));
+  });
+  if(dim === 'diet'){
+    const meals = [['b','早餐'],['l','午餐'],['d','晚餐'],['s','加餐']];
+    const mt = [];
+    meals.forEach(([mk,mn])=>{
+      const q = state.dietQuick[mk]||{};
+      const p = [];
+      if(q.staple) p.push('主食'+q.staple);
+      if(q.protein) p.push('蛋白'+q.protein);
+      if(q.veg) p.push('蔬菜'+q.veg);
+      if(q.fruit) p.push('水果'+q.fruit);
+      if(p.length) mt.push(mn+'（'+p.join('，')+'）');
+    });
+    if(mt.length) parts.unshift('三餐 ' + mt.join('；'));
+  }
+  if(!parts.length) return '';
+  return `<div class="mf-saved">今日已记：${parts.join('｜')}</div>`;
+}
+
+function manualFormHtml(dim){
+  const form = MANUAL_FORMS[dim];
+  if(!form) return '';
+  const m = state.manualRecords[dim] || {};
+  const blocks = form.groups.map(g=>{
+    let body = '';
+    if(g.type === 'single'){
+      body = `<div class="mf-chips">${g.opts.map(o=>{
+        const on = m[g.k] === o ? 'on' : '';
+        return `<span class="mf-chip ${on}" data-manual-single="${dim}" data-key="${g.k}" data-val="${o}">${o}</span>`;
+      }).join('')}</div>`;
+    } else if(g.type === 'multi'){
+      const arr = Array.isArray(m[g.k]) ? m[g.k] : [];
+      body = `<div class="mf-chips">${g.opts.map(o=>{
+        const on = arr.includes(o) ? 'on' : '';
+        return `<span class="mf-chip ${on}" data-manual-multi="${dim}" data-key="${g.k}" data-val="${o}" data-excl="${g.excl||''}">${o}</span>`;
+      }).join('')}</div>`;
+    } else if(g.type === 'input'){
+      body = `<input class="mf-input" placeholder="${g.ph||''}" value="${m[g.k]||''}" data-manual-input="${dim}" data-key="${g.k}">`;
+    }
+    return `<div class="mf-row">
+      <span class="mf-lb">${g.label}</span>
+      ${body}
+    </div>`;
+  }).join('');
+  return `<div class="mf-block">
+    <div class="mf-hd">${form.title}</div>
+    ${blocks}
+  </div>`;
+}
+
+function dietQuickHtml(){
+  const QUICK_MEALS = [
+    {k:'b', name:'早餐', time:'07:00'},{k:'l', name:'午餐', time:'12:00'},
+    {k:'d', name:'晚餐', time:'19:00'},{k:'s', name:'加餐/夜宵', time:'随时'}
+  ];
+  const QUICK_FOODS = [
+    {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
+    {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
+    {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
+    {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
+  ];
+  return `<div class="mf-block">
+    <div class="mf-hd">三餐记录</div>
+    ${QUICK_MEALS.map(m=>{
+      const cur = state.dietQuick[m.k] || {};
+      return `<div class="quick-meal">
+        <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
+        ${QUICK_FOODS.map(f=>`
+          <div class="quick-row">
+            <div class="quick-row-lb">${f.label}</div>
+            <div class="quick-row-opts">${f.opts.map(o=>{
+              const on = cur[f.k] === o ? 'on' : '';
+              return `<div class="quick-opt ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
+            }).join('')}</div>
+          </div>
+        `).join('')}
+      </div>`;
+    }).join('')}
+  </div>`;
 }
 
 /* ============ 渲染入口 ============ */
@@ -912,7 +1152,7 @@ function render(){
   setTimeout(animateBars, 50);
 }
 function animateBars(){
-  document.querySelectorAll('.g9-bar span,.asset-row-fill,.adm-bar-fill,.result-bar-fill,.level-seg span').forEach(el=>{
+  document.querySelectorAll('.g9-bar span,.asset-row-fill,.result-bar-fill').forEach(el=>{
     if(el.dataset.w) el.style.width = el.dataset.w + '%';
   });
 }
@@ -922,17 +1162,16 @@ function renderSee(){
   const range = state.range.see;
   const scores = dimScores(range);
   const asset = currentAsset(range);
-  const at = range === 'manual' ? manualTrendData('see') : ASSET_TREND[range];
+  const at = range === 'manual' ? manualTrendData() : ASSET_TREND[range];
 
   const grid = DIMS.map(d=>{
     const sc = scores[d.k];
     const g = gradeOf(sc);
     const st = dimState(d);
-    const dotCls = st==='full'?'full':st==='partial'?'partial':'';
     return `<div class="g9" data-dim="${d.k}" data-dim-range="${range}">
       <div class="g9-top">
         <div class="g9-name">${d.name}</div>
-        <div class="g9-dot ${dotCls}"></div>
+        <div class="g9-dot ${st}"></div>
       </div>
       <div class="g9-main">
         <span class="g9-grade" style="color:${g.color}">${g.letter}</span>
@@ -959,11 +1198,24 @@ function renderSee(){
     <div class="trend-x">${xLabels(at.x)}</div>
   </div>`;
 
+  const voiceSection = `<div class="voice-section" data-voice-open>
+    <span>语音记录健康</span>
+    <span class="vs-arrow">›</span>
+  </div>`;
+
+  const gridSection = `
+    <div class="sec" style="margin-bottom:${state.gridExpanded?'10px':'0'}">
+      <span>健康九宫格</span>
+      <span class="grid-toggle ${state.gridExpanded?'open':''}" data-grid-toggle>
+        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+    </div>
+    ${state.gridExpanded ? `<div class="g9-grid">${grid}</div>` : ''}`;
+
   return `
     <div class="hd">
       <div class="hd-row">
         <div>
-          <div class="hd-date">${TODAY}</div>
           <div class="hd-title">看见</div>
         </div>
         <div class="share-btn" data-share>↗ 转发</div>
@@ -972,9 +1224,8 @@ function renderSee(){
 
     ${rangeBar('see')}
     ${trendHtml}
-
-    <div class="sec"><span>健康九宫格</span><span class="more">点击格子记一笔</span></div>
-    <div class="g9-grid">${grid}</div>
+    ${voiceSection}
+    ${gridSection}
   `;
 }
 
@@ -999,7 +1250,7 @@ function renderForesee(){
     </div>`;
   }).join('');
 
-  const at = range === 'manual' ? manualTrendData('foresee') : ASSET_TREND[range];
+  const at = range === 'manual' ? manualTrendData() : ASSET_TREND[range];
   const trendD = at.v[at.v.length-1] - at.v[0];
   const isGood = trendD >= 0;
   const color = isGood ? '#C8102E' : '#1A1A1A';
@@ -1017,7 +1268,6 @@ function renderForesee(){
     <div class="trend-x">${xLabels(at.x)}</div>
   </div>`;
 
-  /* 纵向等级列表：天年在顶、古稀在底 */
   const levelListHtml = [...LEVELS].reverse().map(l=>{
     const cur = l.key === lv.key;
     const reached = asset >= l.min;
@@ -1147,7 +1397,7 @@ function openGoalDetail(){
       <div class="detail-t">${p.src}</div>
       <div class="detail-p" style="font-weight:600;margin-bottom:8px">${p.t}</div>
       <div class="week-days">${days}</div>
-      <div class="detail-p" style="font-size:11.5px;color:var(--ink3);margin-top:8px">
+      <div class="detail-p" style="font-size:11px;color:var(--ink3);margin-top:8px">
         ${ps.joined ? `已加入 · 连续 ${ps.streak} 天` : '未加入'}
       </div>
     </div>`;
@@ -1206,7 +1456,7 @@ function renderManage(){
     <div class="mgr-group">
       ${familyRows}
       <div class="mgr-row" data-family>
-        <div class="mgr-row-ico" style="background:var(--blue-bg);color:var(--mid)">+</div>
+        <div class="mgr-row-ico" style="background:var(--blue-bg);color:var(--blue)">+</div>
         <div class="mgr-row-main">
           <div class="mgr-row-t">邀请家人</div>
           <div class="mgr-row-s">家人只能看到分数</div>
@@ -1311,7 +1561,7 @@ function renderAdminUser(){
         <div class="share-btn" data-admin-back>← 返回</div>
       </div>
     </div>
-    <div class="trendcard" style="margin-bottom:14px">
+    <div class="trendcard" style="margin-bottom:12px">
       <div class="tc-hd">
         <div>
           <div class="tc-lb">健康资产</div>
@@ -1373,34 +1623,10 @@ function renderOnboard(){
   el.innerHTML = body;
 }
 
-/* ============ Sheet ============ */
-function openSheet(title, body, voiceTarget){
-  document.getElementById('sheet').innerHTML = `
-    <div class="sh-head">
-      <div class="sh-title-row">
-        <div style="flex:1;min-width:0">
-          <div class="sh-name">${title}</div>
-          <div class="sh-date">${TODAY}</div>
-        </div>
-        <div class="sh-x" data-close>✕</div>
-      </div>
-    </div>
-    ${body}
-    <div class="voice-entry">
-      <button class="voice-btn" data-voice="${voiceTarget||''}">
-        <svg class="voice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="9" y="3" width="6" height="12" rx="3"/>
-          <path d="M5 10c0 4 3 7 7 7s7-3 7-7M12 17v4"/>
-        </svg>
-        <span>语音输入</span>
-      </button>
-      <div class="voice-hint">说人话就行，我来帮你结构化</div>
-    </div>`;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('sheet').scrollTop = 0;
-  setTimeout(animateBars, 60);
-}
-function openSimpleSheet(title, body){
+/* ============ Sheet 基础 ============ */
+let sheetRenderer = null;
+function openSheet(title, body, renderer){
+  sheetRenderer = renderer || null;
   document.getElementById('sheet').innerHTML = `
     <div class="sh-head">
       <div class="sh-title-row">
@@ -1416,7 +1642,37 @@ function openSimpleSheet(title, body){
   document.getElementById('sheet').scrollTop = 0;
   setTimeout(animateBars, 60);
 }
-function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function openSimpleSheet(title, body){
+  sheetRenderer = null;
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-title-row">
+        <div style="flex:1;min-width:0">
+          <div class="sh-name">${title}</div>
+          <div class="sh-date">${TODAY}</div>
+        </div>
+        <div class="sh-x" data-close>✕</div>
+      </div>
+    </div>
+    ${body}`;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('sheet').scrollTop = 0;
+  setTimeout(animateBars, 60);
+}
+function rerenderSheet(){
+  if(!sheetRenderer) return;
+  const el = document.getElementById('sheet');
+  const top = el.scrollTop;
+  sheetRenderer();
+  requestAnimationFrame(()=>{ el.scrollTop = top; });
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+  sheetRenderer = null;
+  state.voice = null;
+  state.voiceToken = null;
+  state.voiceCov = null;
+}
 function toast(msg){
   const d = document.createElement('div');
   d.className = 'toast';
@@ -1425,15 +1681,15 @@ function toast(msg){
   setTimeout(()=>d.remove(), 1800);
 }
 
-/* ============ 总分趋势（100 分制） ============ */
+/* ============ 总分趋势 ============ */
 function totalScoreTrendHtml(k, range){
   const dim = DIMS.find(x=>x.k===k);
   const series = DIM_TREND_BY_RANGE[k] && DIM_TREND_BY_RANGE[k][range];
   if(!series || !series.length){
-    return `<div class="empty-state" style="background:#fff;border:1px dashed var(--line);border-radius:14px;padding:24px 20px;text-align:center;margin-bottom:16px">
+    return `<div style="background:#fff;border:1px dashed var(--line);border-radius:var(--r-md);padding:22px 20px;text-align:center;margin-bottom:16px">
       <div style="font-size:22px;color:var(--ink3);margin-bottom:8px">📈</div>
-      <div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px">还没有足够数据</div>
-      <div style="font-size:12px;color:var(--ink3);line-height:1.6">记录一次后就能看到趋势</div>
+      <div style="font-size:var(--fs-base);font-weight:600;color:var(--ink);margin-bottom:4px">还没有足够数据</div>
+      <div style="font-size:var(--fs-sm);color:var(--ink3);line-height:1.6">记录一次后就能看到趋势</div>
     </div>`;
   }
   const xs = DIM_TREND_X[range] || DIM_TREND_X.week;
@@ -1456,13 +1712,13 @@ function totalScoreTrendHtml(k, range){
   </div>`;
 }
 
-/* ============ 具体指标（带加减变化） ============ */
+/* ============ 具体指标 ============ */
 function metricsBlockHtml(k){
   const items = DIM_SNAPSHOT[k] || [];
   if(!items.length){
     return `<div class="metrics-block">
       <div class="metrics-hd"><span>具体指标</span><span class="cnt">暂无</span></div>
-      <div class="metrics-empty">这个维度没有可读取的设备指标<br>用下方对话记录今天的感受</div>
+      <div class="metrics-empty">这个维度没有可读取的设备指标<br>用下方手动记录补上今天的情况</div>
     </div>`;
   }
   const rows = items.map(it=>{
@@ -1487,178 +1743,32 @@ function metricsBlockHtml(k){
   </div>`;
 }
 
-/* ============ 引导式对话 ============ */
-function getChat(k){
-  if(!state.chat[k]) state.chat[k] = {step: 0, log: []};
-  return state.chat[k];
-}
-function parseChatText(k, text){
-  const out = [];
-  if(!text) return out;
-  const t = text.trim();
-  if(k === 'move'){
-    const m = t.match(/(\d{3,6})\s*步/); if(m) out.push({k:'步数', v:m[1]+' 步'});
-    const min = t.match(/(\d{1,3})\s*分钟/); if(min) out.push({k:'时长', v:min[1]+' 分钟'});
-    if(/力量训练|深蹲|俯卧撑|举铁/.test(t)) out.push({k:'力量', v:'有'});
-  } else if(k === 'body'){
-    const w = t.match(/(\d{2,3}(\.\d)?)\s*(kg|公斤)/); if(w) out.push({k:'体重', v:w[1]+'kg'});
-    const bp = t.match(/(\d{2,3})\s*\/\s*(\d{2,3})/); if(bp) out.push({k:'血压', v:bp[1]+'/'+bp[2]});
-    ['颈肩','便干','便秘','头晕','疲劳','心慌','没胃口'].forEach(s=>{ if(t.includes(s)) out.push({k:'症状', v:s}); });
-  } else if(k === 'stress'){
-    const meet = t.match(/(\d{1,2})\s*个?会/); if(meet) out.push({k:'会议', v:meet[1]+' 个'});
-    if(/加班|十点|十一点|很晚/.test(t)) out.push({k:'工作', v:'偏晚'});
-    if(/客户|谈判|签约/.test(t)) out.push({k:'事件', v:'有'});
-    if(/烦|紧|焦虑|压力/.test(t)) out.push({k:'情绪', v:'偏紧'});
-    if(/松|好|不错|开心/.test(t)) out.push({k:'情绪', v:'偏松'});
-  } else if(k === 'diet'){
-    const water = t.match(/(\d+(\.\d)?)\s*(L|升|杯)/); if(water) out.push({k:'饮水', v:water[1]+water[3]});
-    if(/酒|红酒|白酒|啤酒/.test(t)) out.push({k:'饮酒', v:'有'});
-    if(/维生素|鱼油|钙片|益生菌/.test(t)) out.push({k:'补剂', v:'有'});
-    if(/外卖|烧烤|油炸/.test(t)) out.push({k:'风险', v:'有'});
-  } else if(k === 'sleep'){
-    const h = t.match(/(\d{1,2})\s*点.*?(\d{1,2})\s*点/); if(h) out.push({k:'时段', v:h[1]+'-'+h[2]+'点'});
-    const wake = t.match(/醒[了]?(\d{1,2})\s*次/); if(wake) out.push({k:'夜醒', v:wake[1]+' 次'});
-    if(/午睡|午觉/.test(t)) out.push({k:'午睡', v:'有'});
-    if(/好|不错|香/.test(t)) out.push({k:'体感', v:'好'});
-    if(/累|没睡好|失眠/.test(t)) out.push({k:'体感', v:'差'});
-  } else if(k === 'breath'){
-    ['胸闷','气短','打鼾','咳嗽','咳痰','呼吸练习'].forEach(s=>{ if(t.includes(s)) out.push({k:'呼吸', v:s}); });
-    if(/顺畅|还好|没有/.test(t)) out.push({k:'体感', v:'好'});
-  } else if(k === 'env'){
-    if(/户外|外面|阳光/.test(t)) out.push({k:'户外', v:'有'});
-    if(/二手烟|烟味/.test(t)) out.push({k:'二手烟', v:'有'});
-    if(/空气|雾霾|甲醛|装修/.test(t)) out.push({k:'空气', v:'提及'});
-  } else if(k === 'cognition'){
-    if(/读书|看了|学习|课程/.test(t)) out.push({k:'学习', v:'有'});
-    if(/专注|分心/.test(t)) out.push({k:'专注', v:'提及'});
-    if(/聚会|聊天|社交/.test(t)) out.push({k:'社交', v:'有'});
-  } else if(k === 'event'){
-    if(/谈判|签约|客户|会议/.test(t)) out.push({k:'工作', v:'有'});
-    if(/家里|孩子|父母|家庭/.test(t)) out.push({k:'家庭', v:'有'});
-    if(/体检|医院|看病/.test(t)) out.push({k:'健康', v:'有'});
-    if(/股票|投资|钱|财务/.test(t)) out.push({k:'财务', v:'有'});
-    out.push({k:'影响', v:/好|成|顺利/.test(t)?'正面':(/差|失败|糟/.test(t)?'负面':'中性')});
-  }
-  return out;
-}
-function chatBlockHtml(k){
-  const chat = getChat(k);
-  const flow = CHAT_FLOW[k] || [{q:'今天怎么样？'}];
-  let html = '<div class="chat-block">';
-  html += `<div class="chat-block-hd">手动记录</div>`;
-  chat.log.forEach((item)=>{
-    html += `<div class="chat-msg ai">
-      <div class="chat-avatar">AI</div>
-      <div class="chat-bubble">${item.q}${item.hint ? `<div class="chat-hint">${item.hint}</div>` : ''}</div>
-    </div>`;
-    html += `<div class="chat-msg user">
-      <div class="chat-avatar">我</div>
-      <div class="chat-bubble">${item.a}</div>
-    </div>`;
-    if(item.parsed && item.parsed.length){
-      html += `<div class="chat-parsed">${item.parsed.map(p=>`<span>${p.k} <b>${p.v}</b></span>`).join('')}</div>`;
-    }
-  });
-  if(chat.step < flow.length){
-    const cur = flow[chat.step];
-    const q = cur.q || cur;
-    const hint = cur.hint || '';
-    html += `<div class="chat-msg ai">
-      <div class="chat-avatar">AI</div>
-      <div class="chat-bubble">${q}${hint ? `<div class="chat-hint">${hint}</div>` : ''}</div>
-    </div>`;
-    html += `<div class="chat-input">
-      <input id="chatInput" placeholder="说点什么…" data-chat-dim="${k}">
-      <button data-chat-send="${k}">发送</button>
-    </div>`;
-  } else {
-    html += `<div class="chat-done">✓ 已记录 <b>${chat.log.length}</b> 条</div>`;
-  }
-  html += '</div>';
-  return html;
-}
-
-/* ============ 各维度弹窗：总分趋势 → 具体指标 → 对话 ============ */
+/* ============ 各维度弹窗：趋势 + 指标 + 手动记录 ============ */
 function openDimRecord(k, range){
   const d = DIMS.find(x=>x.k===k);
   if(!d) return;
-  openSheet(d.name, `
+  let renderer;
+  renderer = () => openSheet(d.name, `
     ${totalScoreTrendHtml(k, range)}
     ${metricsBlockHtml(k)}
-    ${chatBlockHtml(k)}
-  `, k);
+    ${manualSummaryHtml(k)}
+    ${manualFormHtml(k)}
+  `, renderer);
+  renderer();
 }
 
-/* 饮食 */
+/* 饮食：趋势 + 指标 + 三餐 + 应酬烟酒 */
 function openDiet(range){
   const r = range || state.range.see;
-  openSheet('饮食', `
+  let renderer;
+  renderer = () => openSheet('饮食', `
     ${totalScoreTrendHtml('diet', r)}
     ${metricsBlockHtml('diet')}
-    ${chatBlockHtml('diet')}
-    <button class="sh-btn ghost" style="margin-top:16px" data-diet-fine>精细记录</button>
-  `, 'diet');
-}
-function openDietFine(){
-  const mode = state.dietMode;
-  let body = `
-    <div class="diet-tabs">
-      <div class="diet-tab ${mode==='quick'?'on':''}" data-diet-mode="quick">快速选择</div>
-      <div class="diet-tab ${mode==='voice'?'on':''}" data-diet-mode="voice">语音录入</div>
-    </div>`;
-  body += (mode === 'voice') ? renderDietVoice() : renderDietQuick();
-  openSheet('饮食 · 精细记录', body, 'diet');
-}
-function renderDietVoice(){
-  const parsed = state.dietParsed;
-  if(!parsed){
-    return `<div style="text-align:center;padding:34px 20px;background:var(--gray-bg);border-radius:14px">
-      <div style="font-size:40px;margin-bottom:14px">🎤</div>
-      <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px">点击底部语音按钮</div>
-      <div style="font-size:12.5px;color:var(--ink3);line-height:1.7">
-        像聊天一样说出今天吃了什么</div>
-    </div>`;
-  }
-  return `<div style="background:#F8FAFD;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:18px">
-    <div style="font-size:11px;color:var(--mid);font-weight:600;letter-spacing:1.2px;margin-bottom:12px">
-      识别结果
-    </div>
-    ${parsed.meals.map(m=>`
-      <div style="margin-bottom:14px">
-        <div style="font-size:12px;color:var(--ink2);font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between">
-          <span>${m.name}</span><span style="color:var(--ink3);font-weight:400">${m.time}</span>
-        </div>
-        <div>${m.foods.map(f=>`<span style="display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 9px;margin:3px 4px 3px 0;font-size:12px">${f.n}</span>`).join('')}</div>
-      </div>
-    `).join('')}
-  </div>`;
-}
-function renderDietQuick(){
-  const QUICK_MEALS = [
-    {k:'b', name:'早餐', time:'07:00'},{k:'l', name:'午餐', time:'12:00'},
-    {k:'d', name:'晚餐', time:'19:00'},{k:'s', name:'加餐/夜宵', time:'随时'}
-  ];
-  const QUICK_FOODS = [
-    {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
-    {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
-    {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
-    {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
-  ];
-  return `<div>${QUICK_MEALS.map(m=>{
-    const cur = state.dietQuick[m.k] || {};
-    return `<div class="quick-meal">
-      <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
-      ${QUICK_FOODS.map(f=>`
-        <div class="quick-row">
-          <div class="quick-row-lb">${f.label}</div>
-          <div class="quick-row-opts">${f.opts.map(o=>{
-            const on = cur[f.k] === o ? 'on' : '';
-            return `<div class="quick-opt ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
-          }).join('')}</div>
-        </div>
-      `).join('')}
-    </div>`;
-  }).join('')}</div>`;
+    ${manualSummaryHtml('diet')}
+    ${dietQuickHtml()}
+    ${manualFormHtml('diet')}
+  `, renderer);
+  renderer();
 }
 
 /* ============ 微体检 ============ */
@@ -1670,18 +1780,18 @@ function renderQuiz(){
   let opts = '';
   if(q.type==='input'){
     opts = `<input class="ob-input" id="qzInput" placeholder="${q.ph}" value="${cur||''}"
-      maxlength="4" inputmode="numeric" style="font-size:26px;text-align:center;letter-spacing:6px;padding:20px">`;
+      maxlength="4" inputmode="numeric" style="font-size:24px;text-align:center;letter-spacing:6px;padding:18px">`;
   } else if(q.type==='single'){
-    opts = `<div style="margin-top:20px">${q.opts.map((o,i)=>
+    opts = `<div style="margin-top:18px">${q.opts.map((o,i)=>
       `<div class="rec-opt ${cur===i+1?'on':''}" data-qz-single="${q.k}" data-val="${i+1}"
-        style="display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
+        style="display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
     ).join('')}</div>`;
   } else if(q.type==='multi'){
     const arr = cur||[];
-    opts = `<div style="margin-top:20px">${q.opts.map(o=>
+    opts = `<div style="margin-top:18px">${q.opts.map(o=>
       `<div class="rec-opt ${arr.includes(o)?'on':''}" data-qz-multi="${q.k}"
         data-val="${o}" data-excl="${q.excl||''}"
-        style="display:block;width:100%;text-align:left;padding:15px 18px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
+        style="display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
     ).join('')}</div>`;
   }
   const canNext = state.quizAns[q.k]!==undefined;
@@ -1696,9 +1806,9 @@ function renderQuiz(){
         <div class="sh-x" data-close>✕</div>
       </div>
     </div>
-    <div style="font-size:19px;font-weight:600;line-height:1.5">${q.q}</div>
+    <div style="font-size:var(--fs-title);font-weight:600;line-height:1.5">${q.q}</div>
     ${opts}
-    <div style="display:flex;gap:10px;margin-top:22px">
+    <div style="display:flex;gap:10px;margin-top:20px">
       ${state.quizIndex>0?'<div class="sh-btn ghost" data-qz-prev style="flex:1;margin:0">上一题</div>':''}
       <div class="sh-btn ${canNext?'':'disabled'}" data-qz-next style="flex:2;margin:0">${isLast?'完成':'下一题'}</div>
     </div>`;
@@ -1734,7 +1844,7 @@ function renderQuizResult(){
         <div style="font-size:11px;color:rgba(255,255,255,.5)">${rangeText('see')}</div>
       </div>
       <div class="level-now" style="margin-top:12px">
-        <div class="level-now-name" style="font-size:36px">${asset} 分</div>
+        <div class="level-now-name" style="font-size:34px">${asset} 分</div>
         <div class="level-now-age">预计 ${lv.ageMin}-${lv.ageMax} 岁</div>
       </div>
     </div>
@@ -1743,42 +1853,110 @@ function renderQuizResult(){
   document.getElementById('sheet').scrollTop = 0;
 }
 
-/* ============ 语音 ============ */
-function openVoice(target){
-  state.voiceTarget = target;
-  const dim = DIMS.find(d=>d.k === target);
-  const transcript = dim ? dim.voiceDemo : '';
-  const overlay = document.getElementById('voiceOverlay');
-  overlay.classList.add('open');
-  document.getElementById('voicePanel').innerHTML = `
-    <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="voice-status">正在聆听...</div>
-    <div class="voice-transcript">说人话就行，比如："${transcript.slice(0, 30)}..."</div>
-    <button class="voice-cancel" data-voice-cancel>取消</button>`;
-  setTimeout(()=>{
-    document.getElementById('voicePanel').innerHTML = `
-      <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="voice-status">识别中...</div>
-      <div class="voice-transcript">"${transcript}"</div>`;
-  }, 1200);
-  setTimeout(()=>{
-    document.getElementById('voicePanel').innerHTML = `
-      <div style="font-size:40px;margin-bottom:14px">✓</div>
-      <div class="voice-status" style="color:#B8860B">解析完成</div>
-      <div class="voice-transcript" style="font-style:normal">"${transcript}"</div>
-      <button class="sh-btn" data-voice-done style="width:100%;margin-top:8px">填入对话</button>`;
-  }, 2600);
+/* ============ 统一语音记录 ============ */
+function voiceCoverageData(){
+  const o = {};
+  DIMS.forEach(d=>{
+    if(hasRecord(d.k)) o[d.k] = 'full';
+    else if(hasDeviceData(d.k)) o[d.k] = 'part';
+    else o[d.k] = 'empty';
+  });
+  return o;
 }
-function closeVoice(){ document.getElementById('voiceOverlay').classList.remove('open'); }
-function applyVoice(){
-  const target = state.voiceTarget;
-  const dim = DIMS.find(d=>d.k === target);
-  const transcript = dim ? dim.voiceDemo : '';
-  closeVoice();
+function coverageHtml(){
+  const cov = state.voiceCov || voiceCoverageData();
+  return DIMS.map(d=>{
+    const lvl = cov[d.k] || 'empty';
+    const txt = lvl==='full' ? '已记录'
+              : lvl==='part' ? '有设备'
+              : lvl==='live' ? '识别中'
+              : '待补充';
+    return `<div class="vc-cell ${lvl}">
+      <div class="vc-n">${d.name}</div>
+      <div class="vc-s">${txt}</div>
+    </div>`;
+  }).join('');
+}
+function openVoiceSheet(){
+  state.voice = {step:'listening', text:'', items:{}};
+  state.voiceCov = voiceCoverageData();
+  const token = {};
+  state.voiceToken = token;
+  renderVoiceListening();
+
   setTimeout(()=>{
-    const inp = document.getElementById('chatInput');
-    if(inp){ inp.value = transcript; inp.focus(); }
-  }, 200);
+    if(state.voiceToken !== token) return;
+    const demoItems = parseVoiceText(VOICE_DEMO);
+    const cov = {...state.voiceCov};
+    VOICE_CATS.forEach(c=>{
+      if(demoItems[c.k] && demoItems[c.k].length){
+        if(cov[c.dim] !== 'full') cov[c.dim] = 'live';
+      }
+    });
+    state.voiceCov = cov;
+    const st = document.getElementById('voiceStatus');
+    if(st) st.textContent = '识别中…';
+    const g = document.getElementById('vcGrid');
+    if(g) g.innerHTML = coverageHtml();
+  }, 900);
+
+  setTimeout(()=>{
+    if(state.voiceToken !== token) return;
+    finishVoiceListen();
+  }, 2300);
+}
+function finishVoiceListen(){
+  if(!state.voice || state.voice.step === 'done') return;
+  state.voice.step = 'done';
+  state.voice.text = VOICE_DEMO;
+  state.voice.items = parseVoiceText(VOICE_DEMO);
+  saveVoice();
+}
+function renderVoiceListening(){
+  sheetRenderer = null;
+  document.getElementById('sheet').innerHTML = `
+    <div class="sh-head">
+      <div class="sh-title-row">
+        <div style="flex:1;min-width:0">
+          <div class="sh-name">语音记录健康</div>
+          <div class="sh-date">${TODAY} · 说一句就行，后台自动整理</div>
+        </div>
+        <div class="sh-x" data-close>✕</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:18px 0 4px">
+      <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="voice-status" id="voiceStatus">正在聆听…</div>
+    </div>
+
+    <div class="vc-hint">各维度数据完整程度 · 说到的会自动补上</div>
+    <div class="vc-grid" id="vcGrid">${coverageHtml()}</div>
+
+    <div class="sh-btn ghost" data-voice-stop>说完了</div>`;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('sheet').scrollTop = 0;
+}
+function saveVoice(){
+  const v = state.voice;
+  if(!v) return;
+  let dims = 0, total = 0;
+  Object.keys(v.items).forEach(cat=>{
+    const c = VOICE_CATS.find(x=>x.k===cat);
+    const arr = v.items[cat];
+    if(!c || !arr || !arr.length) return;
+    if(!state.records[c.dim]) state.records[c.dim] = [];
+    state.records[c.dim] = state.records[c.dim].concat(arr);
+    dims++;
+    total += arr.length;
+  });
+  closeModal();
+  render();
+  if(dims){
+    setTimeout(()=>toast(`已记录 ${total} 条，后台已归类到 ${dims} 个维度`), 120);
+  } else {
+    setTimeout(()=>toast('没听到有效内容，可以再说一次'), 120);
+  }
 }
 
 /* ============ 转发健康卡 ============ */
@@ -1845,9 +2023,9 @@ function openShare(){
     ${shareCardHtml()}
     <div style="margin-top:16px">
       <div class="sec" style="margin-top:0;margin-bottom:10px"><span>写一句感受 <small style="font-weight:400;color:var(--ink3)">选填</small></span></div>
-      <textarea id="shareFeel" rows="3" maxlength="60" style="width:100%;padding:11px 14px;border-radius:11px;background:var(--gray-bg);border:1.5px solid transparent;font-size:13.5px;font-family:inherit;color:var(--ink);outline:none;resize:none"
+      <textarea id="shareFeel" rows="3" maxlength="60" style="width:100%;padding:11px 14px;border-radius:var(--r-sm);background:var(--gray-bg);border:1.5px solid transparent;font-size:var(--fs-base);font-family:inherit;color:var(--ink);outline:none;resize:none"
         placeholder="比如：这周终于能在 11 点前放下手机">${state.shareFeel||''}</textarea>
-      <div style="font-size:10.5px;color:var(--ink3);margin-top:6px;text-align:right">
+      <div style="font-size:var(--fs-micro);color:var(--ink3);margin-top:6px;text-align:right">
         <span id="shareFeelCount">${(state.shareFeel||'').length}</span>/60
       </div>
     </div>
@@ -1867,10 +2045,10 @@ function refreshShareFeel(){
 }
 function openFamily(){
   const members = [
-    {n:'我', r:'本人', s:currentAsset(state.range.see), a:'禾', c:'#1E6FFF'},
+    {n:'我', r:'本人', s:currentAsset(state.range.see), a:'禾', c:'#2563EB'},
     {n:'父亲', r:'已绑定', s:71, a:'父', c:'#B8860B'},
     {n:'母亲', r:'已绑定', s:79, a:'母', c:'#B8860B'},
-    {n:'爱人', r:'已绑定', s:83, a:'爱', c:'#1E6FFF'}
+    {n:'爱人', r:'已绑定', s:83, a:'爱', c:'#2563EB'}
   ];
   const rows = members.map(m=>`
     <div class="mgr-row">
@@ -1882,7 +2060,7 @@ function openFamily(){
       <div class="mgr-row-val">${m.s} 分</div>
     </div>`).join('');
   openSimpleSheet('家庭', `
-    <div class="card" style="margin-bottom:14px;padding:6px 18px">${rows}</div>
+    <div class="card" style="margin-bottom:12px;padding:6px 18px">${rows}</div>
     <div class="sh-btn" data-family-invite>邀请家人加入</div>
     <div class="sh-btn ghost" data-close>关闭</div>
   `);
@@ -1890,6 +2068,7 @@ function openFamily(){
 
 /* ============ 事件 ============ */
 document.addEventListener('click', e=>{
+  /* ---- 引导 ---- */
   if(e.target.closest('[data-ob-login]') || e.target.closest('[data-ob-phone]')){
     state.ob.step = 1; renderOnboard(); return;
   }
@@ -1908,10 +2087,10 @@ document.addEventListener('click', e=>{
   }
   if(e.target.closest('[data-ob-done]')){
     state.onboarded = true;
-    state.weight = parseFloat(state.ob.weight) || 78.4;
     render(); return;
   }
 
+  /* ---- 视角 / 导航 ---- */
   const vw = e.target.closest('[data-view]');
   if(vw){ state.view = vw.dataset.view; state.adminUser = null; render(); return; }
   if(e.target.closest('[data-admin-back]')){ state.adminUser = null; render(); return; }
@@ -1932,6 +2111,13 @@ document.addEventListener('click', e=>{
     render(); return;
   }
 
+  /* ---- 九宫格展开 / 收起 ---- */
+  if(e.target.closest('[data-grid-toggle]')){
+    state.gridExpanded = !state.gridExpanded;
+    render(); return;
+  }
+
+  /* ---- 九宫格 ---- */
   const dim = e.target.closest('[data-dim]');
   if(dim){
     const k = dim.dataset.dim;
@@ -1939,41 +2125,45 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  const sendBtn = e.target.closest('[data-chat-send]');
-  if(sendBtn){
-    const k = sendBtn.dataset.chatSend;
-    const inp = document.getElementById('chatInput');
-    const text = (inp && inp.value || '').trim();
-    if(!text){ toast('先写点什么'); return; }
-    const chat = getChat(k);
-    const flow = CHAT_FLOW[k] || [];
-    if(chat.step >= flow.length) return;
-    const cur = flow[chat.step];
-    const q = cur.q || cur;
-    const hint = cur.hint || '';
-    const parsed = parseChatText(k, text);
-    chat.log.push({q, hint, a: text, parsed});
-    chat.step++;
-    state.records['chat_'+k] = text;
-    if(k === 'diet'){ openDiet(); } else { openDimRecord(k, state.range.see); }
-    setTimeout(()=>{
-      const blk = document.querySelector('.chat-block');
-      if(blk) blk.scrollIntoView({behavior:'smooth', block:'end'});
-    }, 100);
+  /* ---- 手动记录：单选 ---- */
+  const ms = e.target.closest('[data-manual-single]');
+  if(ms){
+    const d = ms.dataset.manualSingle, key = ms.dataset.key, val = ms.dataset.val;
+    if(!state.manualRecords[d]) state.manualRecords[d] = {};
+    state.manualRecords[d][key] = state.manualRecords[d][key] === val ? '' : val;
+    flushManual(d);
+    rerenderSheet();
     return;
   }
 
-  if(e.target.closest('[data-diet-fine]')){ openDietFine(); return; }
-  const dm = e.target.closest('[data-diet-mode]');
-  if(dm){ state.dietMode = dm.dataset.dietMode; openDietFine(); return; }
+  /* ---- 手动记录：多选 ---- */
+  const mm = e.target.closest('[data-manual-multi]');
+  if(mm){
+    const d = mm.dataset.manualMulti, key = mm.dataset.key, val = mm.dataset.val;
+    const excl = mm.dataset.excl;
+    if(!state.manualRecords[d]) state.manualRecords[d] = {};
+    let arr = Array.isArray(state.manualRecords[d][key]) ? [...state.manualRecords[d][key]] : [];
+    const isE = excl && val === excl;
+    if(arr.includes(val)) arr = arr.filter(x=>x!==val);
+    else { if(isE) arr = [val]; else { arr = arr.filter(x=>x!==excl); arr.push(val); } }
+    state.manualRecords[d][key] = arr;
+    flushManual(d);
+    rerenderSheet();
+    return;
+  }
+
+  /* ---- 饮食三餐快速选择 ---- */
   const qm = e.target.closest('[data-quick-meal]');
   if(qm){
     const mk = qm.dataset.quickMeal, ck = qm.dataset.quickCat, v = qm.dataset.quickVal;
     if(!state.dietQuick[mk]) state.dietQuick[mk] = {};
     state.dietQuick[mk][ck] = state.dietQuick[mk][ck] === v ? '' : v;
-    openDietFine(); return;
+    flushManual('diet');
+    rerenderSheet();
+    return;
   }
 
+  /* ---- 改变 ---- */
   if(e.target.closest('[data-goal-detail]')){ openGoalDetail(); return; }
   const pj = e.target.closest('[data-practice-join]');
   if(pj){
@@ -1998,6 +2188,7 @@ document.addEventListener('click', e=>{
     return;
   }
 
+  /* ---- 转发 / 家庭 ---- */
   if(e.target.closest('[data-share]')){ openShare(); return; }
   const st2 = e.target.closest('[data-share-to]');
   if(st2){
@@ -2011,11 +2202,11 @@ document.addEventListener('click', e=>{
     closeModal(); setTimeout(()=>toast('邀请链接已复制'), 120); return;
   }
 
-  const vb = e.target.closest('[data-voice]');
-  if(vb){ openVoice(vb.dataset.voice); return; }
-  if(e.target.closest('[data-voice-cancel]')){ closeVoice(); return; }
-  if(e.target.closest('[data-voice-done]')){ applyVoice(); return; }
+  /* ---- 统一语音 ---- */
+  if(e.target.closest('[data-voice-open]')){ openVoiceSheet(); return; }
+  if(e.target.closest('[data-voice-stop]')){ finishVoiceListen(); return; }
 
+  /* ---- 微体检 ---- */
   const qzS = e.target.closest('[data-qz-single]');
   if(qzS){ state.quizAns[qzS.dataset.qzSingle] = parseInt(qzS.dataset.val); renderQuiz(); return; }
   const qzM = e.target.closest('[data-qz-multi]');
@@ -2044,6 +2235,15 @@ document.addEventListener('click', e=>{
 });
 
 document.addEventListener('change', e=>{
+  /* 手动记录：文本输入，失焦保存 */
+  if(e.target.hasAttribute('data-manual-input')){
+    const d = e.target.dataset.manualInput, key = e.target.dataset.key;
+    if(!state.manualRecords[d]) state.manualRecords[d] = {};
+    state.manualRecords[d][key] = e.target.value.trim();
+    flushManual(d);
+    /* 不重渲染，保持输入焦点 */
+    return;
+  }
   if(e.target.hasAttribute('data-manual-start')){
     const key = e.target.dataset.manualStart;
     let v = e.target.value;
