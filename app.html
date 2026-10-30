@@ -6,10 +6,9 @@
 <title>老板健康</title>
 <style>
 :root{
-  --fs-display: 24px; --fs-num: 32px; --fs-num-sm: 22px;
-  --fs-title: 18px; --fs-sub: 17px; --fs-body-lg: 15px;
-  --fs-body: 14px; --fs-base: 13px; --fs-sm: 12px;
-  --fs-xs: 11px; --fs-micro: 10px;
+  --fs-display: 24px; --fs-num: 30px; --fs-title: 18px;
+  --fs-body-lg: 15px; --fs-body: 14px; --fs-base: 13px;
+  --fs-sm: 12px; --fs-xs: 11px; --fs-micro: 10px;
 
   --bg:#F6F8FB; --card:#FFFFFF;
   --line:#E9EEF5; --line2:#F1F4F9;
@@ -18,9 +17,9 @@
   --red:#C8102E; --red-bg:#FDECEC;
   --gold:#B8860B; --gold-deep:#8A6408; --gold-bg:#FFF8E7;
   --gray-bg:#F2F5FA;
+  --wechat:#07C160;
 
   --r-lg:16px; --r-md:14px; --r-sm:10px; --r-xs:8px;
-  --sp-gap:12px; --sp-pad:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{overscroll-behavior:none}
@@ -35,240 +34,225 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   justify-content:space-between;padding:0 26px;font-size:var(--fs-sm);font-weight:600;
   background:var(--bg);z-index:10}
 .statusbar .r{font-size:var(--fs-sm);color:var(--ink2);font-weight:500}
-.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 18px 110px;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .screen::-webkit-scrollbar{display:none}
 
 .tabbar{position:absolute;bottom:0;left:0;right:0;height:78px;display:flex;
   background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
   border-top:1px solid var(--line);padding-bottom:16px;z-index:5}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:5px;font-size:var(--fs-micro);color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
+  gap:4px;font-size:var(--fs-micro);color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
 .tab svg{width:22px;height:22px;stroke:var(--ink3);stroke-width:1.6;fill:none;
   stroke-linecap:round;stroke-linejoin:round;transition:.18s}
-.tab.active{color:var(--blue)}
-.tab.active svg{stroke:var(--blue);stroke-width:1.9}
+.tab.active{color:var(--gold)}
+.tab.active svg{stroke:var(--gold);stroke-width:1.9}
 
-.voice-section{display:flex;align-items:center;justify-content:center;gap:7px;
-  background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-radius:var(--r-md);
-  padding:15px;color:#fff;font-size:var(--fs-body-lg);font-weight:600;letter-spacing:.3px;
-  margin-bottom:var(--sp-gap);cursor:pointer;position:relative;overflow:hidden;
-  transition:.15s;box-shadow:0 8px 20px rgba(184,134,11,.20)}
-.voice-section:active{transform:scale(.985)}
-.voice-section::before{content:'';position:absolute;top:-50px;right:-30px;
-  width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08)}
-.voice-section .vs-arrow{font-size:16px;color:rgba(255,255,255,.65);position:relative;line-height:1}
+/* ===== 健康助手 ===== */
+.chat-wrap{height:100%;display:flex;flex-direction:column;background:var(--bg)}
+.chat-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 8px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chat-scroll::-webkit-scrollbar{display:none}
+.chat-head{padding:0 2px 16px}
+.chat-head-t{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px}
+.chat-head-s{font-size:var(--fs-sm);color:var(--ink3);margin-top:6px;line-height:1.6}
 
-.grid-toggle{width:26px;height:26px;border-radius:50%;background:#fff;
-  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:.18s;flex-shrink:0}
-.grid-toggle:active{background:var(--gray-bg)}
-.grid-toggle svg{width:13px;height:13px;stroke:var(--ink2);stroke-width:2.2;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
-.grid-toggle.open svg{transform:rotate(180deg)}
+.chat-msg{display:flex;margin-bottom:16px;gap:8px;align-items:flex-start}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:var(--fs-micro);font-weight:700;flex-shrink:0;color:#fff}
+.chat-avatar.ai{background:linear-gradient(135deg,var(--gold),var(--gold-deep))}
+.chat-avatar.user{background:linear-gradient(135deg,#2563EB,#1D4ED8)}
+.chat-bubble{max-width:78%;padding:11px 14px;border-radius:14px;font-size:var(--fs-body);
+  line-height:1.75;white-space:pre-wrap;word-break:break-word}
+.chat-msg.ai .chat-bubble{background:#fff;border:1px solid var(--line);color:var(--ink);
+  border-top-left-radius:5px}
+.chat-msg.user .chat-bubble{background:var(--gold-bg);color:var(--ink);border-top-right-radius:5px}
 
-#viewbar{display:flex;justify-content:center;padding:2px 0 6px;flex-shrink:0;z-index:9}
-.vb-seg{display:flex;background:#E4EAF2;border-radius:20px;padding:3px;gap:2px}
-.vb-seg span{padding:5px 16px;font-size:var(--fs-sm);border-radius:16px;color:var(--ink2);
-  font-weight:600;cursor:pointer;transition:.16s}
-.vb-seg span.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,27,45,.12)}
+.chat-suggests{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 18px}
+.chat-suggest{padding:8px 13px;border-radius:20px;background:#fff;border:1px solid var(--line);
+  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;transition:.15s}
+.chat-suggest:active{background:var(--gold-bg);color:var(--gold);border-color:rgba(184,134,11,.35)}
 
-.hd{padding:6px 2px 16px}
+/* 底部：语音输入 */
+.chat-input-bar{flex-shrink:0;padding:10px 18px 92px;background:#fff;
+  border-top:1px solid var(--line)}
+
+.voice-bar{display:flex;align-items:center;gap:10px}
+.voice-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  height:46px;border-radius:23px;border:none;cursor:pointer;font-family:inherit;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-size:var(--fs-body-lg);font-weight:600;letter-spacing:.3px;
+  box-shadow:0 8px 18px rgba(184,134,11,.25);transition:.15s}
+.voice-main:active{transform:scale(.98)}
+.voice-main svg{width:20px;height:20px;stroke:#fff;stroke-width:2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.kb-btn{width:44px;height:46px;border-radius:23px;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:.15s}
+.kb-btn:active{background:var(--gray-bg)}
+.kb-btn svg{width:20px;height:20px;stroke:var(--ink2);stroke-width:1.8;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* 文字输入模式 */
+.chat-input-row{display:flex;gap:8px;align-items:flex-end}
+.voice-mini{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;color:var(--gold);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:.15s}
+.voice-mini:active{background:var(--gold-bg)}
+.voice-mini svg{width:20px;height:20px;stroke:var(--gold);stroke-width:1.9;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.chat-input-row input{flex:1;padding:11px 16px;border:1.5px solid var(--line);
+  border-radius:22px;font-size:var(--fs-body);outline:none;font-family:inherit;
+  color:var(--ink);background:#fff;min-width:0}
+.chat-input-row input:focus{border-color:var(--gold)}
+.chat-send{width:42px;height:42px;border-radius:50%;background:var(--gold);color:#fff;
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:.15s}
+.chat-send:active{transform:scale(.94)}
+.chat-send svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== 语音浮层 ===== */
+.voice-overlay{position:absolute;inset:0;background:rgba(15,27,45,.55);backdrop-filter:blur(8px);
+  display:none;align-items:flex-end;justify-content:center;z-index:200;padding:0}
+.voice-overlay.open{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.voice-panel{width:100%;background:#fff;border-radius:26px 26px 0 0;
+  padding:28px 22px 44px;animation:up .28s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(60px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.voice-wave{display:flex;justify-content:center;gap:5px;height:56px;align-items:center;margin-bottom:14px}
+.voice-wave span{width:5px;background:var(--gold);border-radius:3px;
+  animation:wave 1s ease-in-out infinite}
+.voice-wave span:nth-child(1){animation-delay:0s;height:18px}
+.voice-wave span:nth-child(2){animation-delay:.1s;height:32px}
+.voice-wave span:nth-child(3){animation-delay:.2s;height:48px}
+.voice-wave span:nth-child(4){animation-delay:.3s;height:32px}
+.voice-wave span:nth-child(5){animation-delay:.4s;height:18px}
+@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.5)}}
+.voice-status{font-size:var(--fs-body-lg);font-weight:600;color:var(--ink);
+  text-align:center;margin-bottom:10px}
+.voice-transcript{font-size:var(--fs-body);color:var(--ink2);line-height:1.7;
+  min-height:56px;padding:13px 15px;background:var(--gray-bg);border-radius:12px;
+  margin-bottom:18px;font-style:italic;text-align:left}
+.voice-transcript.empty{color:var(--ink3);font-style:normal;display:flex;
+  align-items:center;justify-content:center;text-align:center}
+.voice-cancel{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);
+  background:transparent;color:var(--ink2);font-size:var(--fs-body-lg);font-weight:500;
+  cursor:pointer;font-family:inherit}
+.voice-cancel:active{background:var(--gray-bg)}
+
+/* ===== 最佳实践 ===== */
+.page{padding:16px 18px 100px}
+.hd{padding:0 2px 16px}
 .hd-title{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px;line-height:1.2}
-.hd-row{display:flex;align-items:flex-end;justify-content:space-between}
-.share-btn{display:flex;align-items:center;gap:4px;font-size:var(--fs-sm);color:var(--ink2);
-  background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:20px;
-  font-weight:500;cursor:pointer}
-.share-btn:active{background:var(--gray-bg)}
 
-.sec{font-size:var(--fs-sm);font-weight:600;color:var(--ink2);margin:22px 2px 10px;
-  display:flex;align-items:center;justify-content:space-between;letter-spacing:.2px}
-.sec .more{font-size:var(--fs-xs);color:var(--ink3);font-weight:400;cursor:pointer}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:var(--sp-pad);margin-bottom:var(--sp-gap)}
+.bp-search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:0 12px;margin-bottom:12px}
+.bp-search .bp-s-ico{color:var(--ink3);font-size:var(--fs-body)}
+.bp-search input{flex:1;border:none;outline:none;background:transparent;padding:11px 0;
+  font-size:var(--fs-body);font-family:inherit;color:var(--ink);min-width:0}
+.bp-search input::placeholder{color:var(--ink3)}
 
-.ranges{display:flex;gap:6px;margin:0 0 8px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
-.ranges::-webkit-scrollbar{display:none}
-.range{flex-shrink:0;padding:7px 15px;border-radius:20px;background:#fff;
-  border:1px solid var(--line);font-size:var(--fs-sm);color:var(--ink2);font-weight:500;
-  cursor:pointer;transition:.15s;display:flex;align-items:center;gap:4px}
-.range.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
-.range:active{transform:scale(.96)}
-.range .rng-dates{font-size:var(--fs-micro);font-weight:500;opacity:.85}
+.bp-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0;margin-bottom:12px}
+.bp-tabs::-webkit-scrollbar{display:none}
+.bp-tab{flex-shrink:0;padding:6px 13px;border-radius:20px;background:#fff;border:1px solid var(--line);
+  font-size:var(--fs-sm);color:var(--ink2);font-weight:500;cursor:pointer;transition:.15s}
+.bp-tab.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
+.bp-tab:active{transform:scale(.96)}
 
-/* 日期范围：展示在时间筛选下面 */
-.range-dates-text{font-size:var(--fs-xs);color:var(--ink3);margin:0 2px 12px;
-  letter-spacing:.3px;font-weight:500}
+.bp-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.bp-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:9px;transition:.15s;overflow:hidden;display:flex;flex-direction:column}
+.bp-cover{height:72px;border-radius:9px;margin-bottom:9px;position:relative;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  cursor:pointer;overflow:hidden;flex-shrink:0}
+.bp-cover::before{content:'';position:absolute;top:-34px;right:-24px;width:100px;height:100px;
+  border-radius:50%;background:rgba(255,255,255,.10)}
+.bp-cat-float{position:absolute;top:7px;left:7px;z-index:2;
+  font-size:9px;font-weight:600;padding:2px 6px;border-radius:5px;
+  background:rgba(255,255,255,.92);color:var(--ink2);line-height:1.3}
+.bp-cover-char{font-size:26px;font-weight:700;opacity:.9;letter-spacing:-1px;position:relative}
+.bp-cover-play{position:absolute;right:7px;bottom:7px;width:22px;height:22px;
+  border-radius:50%;background:rgba(0,0,0,.32);display:flex;align-items:center;
+  justify-content:center;font-size:8px;backdrop-filter:blur(4px)}
+.bp-cover-move{background:linear-gradient(135deg,#3B82F6,#1E40AF)}
+.bp-cover-diet{background:linear-gradient(135deg,#D97706,#92400E)}
+.bp-cover-breath{background:linear-gradient(135deg,#0891B2,#155E75)}
+.bp-cover-rest{background:linear-gradient(135deg,#6366F1,#3730A3)}
+.bp-cover-mind{background:linear-gradient(135deg,#BE123C,#881337)}
 
-.manual-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
-  padding:14px 16px;margin-bottom:var(--sp-gap)}
-.mp-title{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:12px}
-.mp-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
-.mp-field{flex:1;min-width:0}
-.mp-label{font-size:var(--fs-micro);color:var(--ink3);margin-bottom:6px;display:block}
-.mp-input{width:100%;padding:10px 12px;border-radius:var(--r-sm);border:1.5px solid var(--line);
-  font-size:var(--fs-body);font-family:inherit;font-weight:600;color:var(--ink);outline:none;background:#fff}
-.mp-input:focus{border-color:var(--blue)}
-.mp-quick{display:flex;gap:6px;flex-wrap:wrap}
-.mp-summary{font-size:var(--fs-xs);background:var(--gold-bg);color:var(--gold);
-  padding:8px 12px;border-radius:var(--r-sm);font-weight:600;margin-top:10px}
+.bp-title{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:5px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bp-inventor{font-size:10px;color:var(--ink3);line-height:1.4;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.bp-join-row{margin-top:6px}
+.bp-join-num{font-size:11px;color:var(--ink3);line-height:1.2}
+.bp-join-num b{color:var(--gold);font-size:19px;font-weight:700;margin-right:2px;
+  letter-spacing:-.5px;vertical-align:-1px}
 
-.trendcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:16px 16px 12px;margin-bottom:var(--sp-gap)}
-.tc-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.tc-lb{font-size:var(--fs-sm);color:var(--ink3);font-weight:500}
-.tc-num{font-size:var(--fs-num);font-weight:700;letter-spacing:-1.2px;line-height:1;margin-top:6px}
-.tc-num small{font-size:var(--fs-xs);font-weight:500;color:var(--ink3);margin-left:4px;letter-spacing:0}
-.tc-delta{font-size:var(--fs-xs);font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
-.tc-delta.up{background:var(--red-bg);color:var(--red)}
-.tc-delta.down{background:var(--gray-bg);color:var(--ink2)}
-.trend{width:100%;height:108px;display:block;margin-top:6px}
-.trend-x{display:flex;justify-content:space-between;font-size:var(--fs-micro);color:var(--ink3);
-  margin-top:2px;padding:0 4px}
+.bp-foot{display:flex;gap:5px;margin-top:8px}
+.bp-btn{flex:1;padding:6px 4px;border-radius:14px;border:none;font-family:inherit;
+  font-size:11px;font-weight:600;cursor:pointer;transition:.15s;text-align:center;
+  white-space:nowrap}
+.bp-btn:active{transform:scale(.97)}
+.bp-btn-join{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(184,134,11,.35)}
+.bp-btn-join.on{background:var(--gray-bg);color:var(--ink3);border-color:transparent}
+.bp-btn-share{background:#fff;color:var(--ink2);border:1px solid var(--line)}
 
-.g9-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.g9{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:13px 10px;cursor:pointer;position:relative;transition:.15s}
-.g9:active{transform:scale(.96);background:#FAFCFF}
-.g9-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.g9-name{font-size:var(--fs-xs);color:var(--ink2);font-weight:500}
-.g9-dot{width:5px;height:5px;border-radius:50%;background:#D5DEE8;flex-shrink:0;transition:.2s}
-.g9-dot.full{background:var(--gold)}
-.g9-dot.partial{background:var(--blue)}
-.g9-main{display:flex;align-items:baseline;gap:6px}
-.g9-grade{font-size:var(--fs-num-sm);font-weight:700;line-height:1;letter-spacing:-.8px}
-.g9-score{font-size:var(--fs-xs);color:var(--ink3);font-weight:500;margin-left:auto}
-.g9-bar{height:3px;background:var(--line2);border-radius:2px;overflow:hidden;margin-top:9px}
-.g9-bar span{display:block;height:100%;border-radius:2px;transition:width .6s}
+.bp-more{width:100%;padding:12px;border-radius:var(--r-md);background:#fff;
+  border:1px solid var(--line);color:var(--ink2);font-size:var(--fs-sm);font-weight:600;
+  cursor:pointer;font-family:inherit;margin-top:2px;display:block}
+.bp-more:active{background:var(--gray-bg)}
+.bp-empty{text-align:center;padding:28px 20px;color:var(--ink3);font-size:var(--fs-sm);
+  grid-column:1 / -1}
 
-.level-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
-  padding:20px 18px;margin-bottom:var(--sp-gap);position:relative;overflow:hidden;color:#fff}
-.level-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
-  border-radius:50%;background:rgba(184,134,11,.20)}
-.level-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;position:relative}
-.level-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(184,134,11,.22);
-  border:1px solid rgba(184,134,11,.45);color:#FFD27A;font-size:var(--fs-xs);font-weight:700;
-  padding:4px 10px;border-radius:20px;letter-spacing:.5px}
-.level-now{margin-top:16px;position:relative}
-.level-now-lb{font-size:var(--fs-xs);color:rgba(255,255,255,.5);letter-spacing:1.5px}
-.level-now-name{font-size:52px;font-weight:700;color:#FFD27A;letter-spacing:-2.2px;
-  line-height:1;margin-top:8px}
-.level-now-age{font-size:var(--fs-base);color:rgba(255,255,255,.65);margin-top:8px;font-weight:500}
-.level-list{display:flex;flex-direction:column;gap:6px;margin-top:20px;position:relative}
-.level-row{display:flex;align-items:center;gap:12px;padding:11px 14px;
-  border-radius:var(--r-sm);background:rgba(255,255,255,.05);transition:.2s}
-.level-row.on{background:rgba(184,134,11,.25);border:1px solid rgba(184,134,11,.5)}
-.level-row-name{font-size:var(--fs-body);font-weight:700;color:rgba(255,255,255,.55);width:64px;flex-shrink:0}
-.level-row.on .level-row-name{color:#FFD27A;font-size:var(--fs-sub)}
-.level-row-age{font-size:var(--fs-sm);color:rgba(255,255,255,.4);flex:1}
-.level-row.on .level-row-age{color:rgba(255,255,255,.85)}
-.level-row-tag{font-size:var(--fs-micro);color:rgba(255,255,255,.35);font-weight:500;flex-shrink:0}
-.level-row.on .level-row-tag{color:#FFD27A;font-weight:700}
-.level-row.done .level-row-name{color:rgba(255,255,255,.8)}
-.level-row.done .level-row-tag{color:rgba(255,255,255,.55)}
+/* ===== 健康管理 ===== */
+.user-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:18px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.user-avatar{width:52px;height:52px;border-radius:50%;background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;font-size:var(--fs-title);
+  font-weight:700;color:var(--ink3);flex-shrink:0;overflow:hidden}
+.user-avatar.logged{background:linear-gradient(135deg,var(--wechat),#059669);color:#fff}
+.user-main{flex:1;min-width:0}
+.user-name{font-size:var(--fs-title);font-weight:700;color:var(--ink)}
+.user-sub{font-size:var(--fs-sm);color:var(--ink3);margin-top:4px}
+.user-login-btn{flex-shrink:0;background:var(--wechat);color:#fff;border:none;
+  padding:9px 15px;border-radius:20px;font-size:var(--fs-sm);font-weight:600;
+  cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px}
+.user-login-btn:active{opacity:.9}
+.user-logout{flex-shrink:0;color:var(--ink3);font-size:var(--fs-sm);cursor:pointer;
+  padding:6px 4px}
 
-.asset-list{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:16px 18px;margin-bottom:var(--sp-gap)}
-.asset-list-hd{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:14px}
-.asset-row{display:flex;align-items:center;gap:12px;padding:8px 0}
-.asset-row-nm{width:20px;font-size:var(--fs-body);font-weight:700;color:var(--ink);flex-shrink:0}
-.asset-row-sub{width:54px;font-size:var(--fs-sm);color:var(--ink3);flex-shrink:0}
-.asset-row-bar{flex:1;height:6px;background:var(--line2);border-radius:3px;overflow:hidden}
-.asset-row-fill{height:100%;border-radius:3px;transition:width .6s}
-.asset-row-val{width:28px;text-align:right;font-size:var(--fs-body);font-weight:700;flex-shrink:0}
-
-.goal-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:20px 18px;position:relative;overflow:hidden;margin-bottom:var(--sp-gap)}
-.goal-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold)}
-.goal-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.goal-tag{font-size:var(--fs-micro);color:var(--gold);background:var(--gold-bg);
-  padding:4px 10px;border-radius:20px;font-weight:600;letter-spacing:.6px;display:inline-block}
-.goal-more{font-size:var(--fs-xs);color:var(--ink3);cursor:pointer;white-space:nowrap;margin-top:2px}
-.goal-title{font-size:var(--fs-title);font-weight:700;margin-top:12px;letter-spacing:-.3px;line-height:1.4}
-.goal-desc{font-size:var(--fs-base);color:var(--ink2);margin-top:8px;line-height:1.6}
-
-.action-list{display:flex;flex-direction:column;gap:10px;margin-bottom:var(--sp-gap)}
-.action-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:14px 16px;display:flex;align-items:center;gap:12px;transition:.15s}
-.action-item:active{background:#FAFCFF}
-.action-ico{width:34px;height:34px;border-radius:var(--r-sm);background:var(--gold-bg);
-  color:var(--gold);display:flex;align-items:center;justify-content:center;
-  font-size:var(--fs-base);font-weight:700;flex-shrink:0}
-.action-main{flex:1;min-width:0}
-.action-t{font-size:var(--fs-base);font-weight:600;color:var(--ink);line-height:1.4}
-.action-s{font-size:var(--fs-xs);color:var(--ink3);margin-top:3px;display:flex;align-items:center;gap:6px}
-.action-src{background:var(--blue-bg);color:var(--blue);font-size:var(--fs-micro);padding:1px 5px;
-  border-radius:4px;font-weight:600}
-.action-btn{flex-shrink:0;font-size:var(--fs-sm);font-weight:600;padding:8px 14px;border-radius:20px;
-  cursor:pointer;white-space:nowrap;border:none;font-family:inherit;transition:.15s}
-.action-btn.join{color:var(--gold);background:var(--gold-bg)}
-.action-btn.check{color:var(--blue);background:var(--blue-bg)}
-.action-btn.done{color:var(--ink3);background:var(--gray-bg);cursor:default}
-
-.result-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
-  padding:20px;color:#fff;position:relative;overflow:hidden}
-.result-card::before{content:'';position:absolute;top:-50px;right:-40px;width:140px;height:140px;
-  border-radius:50%;background:rgba(184,134,11,.16)}
-.result-hd{font-size:var(--fs-micro);color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;
-  position:relative;margin-bottom:12px}
-.result-num{font-size:var(--fs-num);font-weight:700;letter-spacing:-1.2px;line-height:1;position:relative}
-.result-num small{font-size:var(--fs-sm);color:rgba(255,255,255,.55);font-weight:500;margin-left:5px}
-.result-lb{font-size:var(--fs-sm);color:rgba(255,255,255,.7);margin-top:10px;position:relative}
-.result-bar{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;margin-top:14px;position:relative}
-.result-bar-fill{height:100%;border-radius:4px;background:#FFD27A;transition:width .6s}
-.result-foot{display:flex;justify-content:space-between;font-size:var(--fs-xs);color:rgba(255,255,255,.55);
-  margin-top:10px;position:relative}
-.result-chg{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);
-  display:flex;justify-content:space-between;font-size:var(--fs-sm);position:relative}
-.result-chg-lb{color:rgba(255,255,255,.6)}
-.result-chg-val{font-weight:700;color:#FFD27A}
-
-.detail-block{margin-bottom:18px}
-.detail-block:last-child{margin-bottom:0}
-.detail-t{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:10px}
-.detail-p{font-size:var(--fs-base);color:var(--ink2);line-height:1.7}
-.detail-list{display:flex;flex-direction:column;gap:8px}
-.detail-li{display:flex;align-items:flex-start;gap:8px;font-size:var(--fs-base);color:var(--ink2);line-height:1.6}
-.detail-li .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin-top:7px;flex-shrink:0}
-.week-days{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
-.week-day{width:30px;height:30px;border-radius:var(--r-xs);background:var(--gray-bg);
-  font-size:var(--fs-xs);color:var(--ink3);display:flex;align-items:center;justify-content:center}
-.week-day.on{background:var(--gold);color:#fff;font-weight:600}
-.week-day.today{border:1.5px solid var(--gold);color:var(--gold);font-weight:700}
-
+.sec{font-size:var(--fs-sm);font-weight:600;color:var(--ink2);margin:20px 2px 10px;
+  letter-spacing:.2px}
 .mgr-group{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:6px 18px;margin-bottom:var(--sp-gap)}
+  padding:0 16px;margin-bottom:8px}
 .mgr-row{display:flex;align-items:center;gap:14px;padding:15px 0;
   border-bottom:1px solid var(--line2);cursor:pointer}
 .mgr-row:last-child{border-bottom:none}
-.mgr-row-ico{width:34px;height:34px;border-radius:var(--r-sm);background:var(--gray-bg);
-  display:flex;align-items:center;justify-content:center;font-size:var(--fs-sm);color:var(--ink2);
-  flex-shrink:0;font-weight:600}
+.mgr-row:active{opacity:.7}
+.mgr-row-ico{width:34px;height:34px;border-radius:var(--r-sm);background:var(--gold-bg);
+  color:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:var(--fs-sm);font-weight:700;flex-shrink:0}
+.mgr-row-ico.blue{background:var(--blue-bg);color:var(--blue)}
 .mgr-row-main{flex:1;min-width:0}
 .mgr-row-t{font-size:var(--fs-body);color:var(--ink);font-weight:500}
-.mgr-row-s{font-size:var(--fs-sm);color:var(--ink3);margin-top:3px}
-.mgr-row-val{font-size:var(--fs-sm);font-weight:600;color:var(--gold)}
+.mgr-row-s{font-size:var(--fs-sm);color:var(--ink3);margin-top:3px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.mgr-row-val{font-size:var(--fs-sm);color:var(--ink3);flex-shrink:0}
 
-.streak{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-radius:var(--r-lg);
-  padding:22px;color:#fff;text-align:center;margin-bottom:var(--sp-gap);position:relative;overflow:hidden}
-.streak::before{content:'';position:absolute;top:-60px;right:-40px;width:160px;height:160px;
-  border-radius:50%;background:rgba(255,255,255,.08)}
-.streak-num{font-size:42px;font-weight:700;line-height:1;letter-spacing:-1.5px;position:relative}
-.streak-num small{font-size:var(--fs-body);font-weight:500;color:rgba(255,255,255,.75);margin-left:4px}
-.streak-lb{font-size:var(--fs-base);color:rgba(255,255,255,.85);margin-top:10px;position:relative}
-
+/* ===== Sheet ===== */
 .modal{position:fixed;inset:0;background:rgba(15,27,45,.45);backdrop-filter:blur(6px);
   display:none;align-items:flex-end;justify-content:center;z-index:99;
   overscroll-behavior:contain}
 .modal.open{display:flex;animation:fade .2s}
-@keyframes fade{from{opacity:0}to{opacity:1}}
 .sheet{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;overflow-x:hidden;
   background:#fff;border-radius:24px 24px 0 0;padding:22px 20px 38px;
   position:relative;animation:up .3s cubic-bezier(.2,.9,.3,1);
   scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   touch-action:pan-y}
 .sheet::-webkit-scrollbar{display:none}
-@keyframes up{from{transform:translateY(60px);opacity:.5}to{transform:translateY(0);opacity:1}}
 .sh-head{margin-bottom:18px}
 .sh-title-row{display:flex;align-items:flex-start;justify-content:space-between}
 .sh-name{font-size:var(--fs-title);font-weight:600}
@@ -276,184 +260,37 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .sh-x{width:30px;height:30px;border-radius:50%;background:var(--gray-bg);color:var(--ink2);
   display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:var(--fs-body);
   flex-shrink:0}
-.sh-btn{margin-top:18px;background:var(--ink);color:#fff;font-size:var(--fs-body-lg);font-weight:600;
-  text-align:center;padding:14px;border-radius:var(--r-md);cursor:pointer}
-.sh-btn.disabled{background:#E8EEF5;color:var(--ink3);cursor:not-allowed}
+
+.detail-block{margin-bottom:18px}
+.detail-block:last-child{margin-bottom:0}
+.detail-t{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1.2px;margin-bottom:10px}
+.detail-p{font-size:var(--fs-base);color:var(--ink2);line-height:1.75}
+
+.kv-row{display:flex;align-items:flex-start;gap:12px;padding:9px 0;
+  border-bottom:1px solid var(--line2);font-size:var(--fs-base)}
+.kv-row:last-child{border-bottom:none}
+.kv-k{width:76px;flex-shrink:0;color:var(--ink3);font-size:var(--fs-sm)}
+.kv-v{flex:1;color:var(--ink);line-height:1.6;text-align:right}
+
+.rec-item{padding:11px 0;border-bottom:1px solid var(--line2)}
+.rec-item:last-child{border-bottom:none}
+.rec-date{font-size:var(--fs-xs);color:var(--ink3)}
+.rec-title{font-size:var(--fs-base);font-weight:600;color:var(--ink);margin-top:3px}
+.rec-desc{font-size:var(--fs-sm);color:var(--ink2);line-height:1.6;margin-top:4px}
+
+.sh-btn{margin-top:18px;background:var(--ink);color:#fff;font-size:var(--fs-body-lg);
+  font-weight:600;text-align:center;padding:14px;border-radius:var(--r-md);cursor:pointer}
 .sh-btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
 
-.metrics-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
-  padding:6px 16px;margin-bottom:16px}
-.metrics-hd{font-size:var(--fs-micro);color:var(--ink3);font-weight:600;letter-spacing:1px;
-  padding:12px 0 4px;display:flex;align-items:center;justify-content:space-between}
-.metrics-hd .cnt{font-size:var(--fs-micro);color:var(--ink3);font-weight:400}
-.metric-row{display:flex;align-items:center;gap:10px;padding:11px 0;
-  border-bottom:1px solid var(--line2)}
-.metric-row:last-child{border-bottom:none}
-.metric-nm{font-size:var(--fs-base);color:var(--ink2);flex:1;min-width:0;line-height:1.4}
-.metric-v{font-size:var(--fs-body);font-weight:700;color:var(--ink);text-align:right;flex-shrink:0;letter-spacing:-.2px}
-.metric-v small{font-size:var(--fs-micro);color:var(--ink3);font-weight:500;margin-left:2px}
-.metric-v.empty{color:var(--ink3);font-weight:500;font-size:var(--fs-sm)}
-.metric-delta{font-size:var(--fs-xs);font-weight:700;width:44px;text-align:right;flex-shrink:0}
-.metric-delta.good{color:var(--red)}
-.metric-delta.bad{color:var(--ink2)}
-.metric-delta.flat{color:var(--ink3);font-weight:400}
-.metrics-empty{padding:16px 4px 18px;text-align:center;color:var(--ink3);font-size:var(--fs-sm);line-height:1.6}
-
-/* ===== 手动记录表单 ===== */
-.mf-block{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);
-  padding:14px 16px;margin-bottom:12px}
-.mf-hd{font-size:var(--fs-sm);font-weight:600;color:var(--ink);margin-bottom:12px;
-  display:flex;align-items:center;gap:6px}
-.mf-hd::before{content:'记';background:var(--gold-bg);color:var(--gold);
-  font-size:var(--fs-micro);padding:2px 5px;border-radius:4px;font-weight:700}
-.mf-row{margin-bottom:14px}
-.mf-row:last-child{margin-bottom:0}
-.mf-lb{font-size:var(--fs-sm);color:var(--ink2);font-weight:500;margin-bottom:8px;display:block}
-.mf-chips{display:flex;flex-wrap:wrap;gap:6px}
-.mf-chip{padding:7px 12px;border-radius:var(--r-xs);background:var(--gray-bg);
-  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;font-weight:500;
-  transition:.15s;border:1px solid transparent;user-select:none}
-.mf-chip.on{background:var(--gold-bg);color:var(--gold);font-weight:600;border-color:rgba(184,134,11,.3)}
-.mf-chip:active{transform:scale(.96)}
-.mf-input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--r-sm);
-  font-size:var(--fs-base);font-family:inherit;color:var(--ink);outline:none;background:#fff}
-.mf-input:focus{border-color:var(--blue)}
-.mf-saved{background:var(--gold-bg);border-radius:var(--r-sm);padding:10px 12px;font-size:var(--fs-sm);
-  color:var(--gold);font-weight:500;line-height:1.6;margin-bottom:12px}
-
-.quick-meal{margin-bottom:14px}
-.quick-meal:last-child{margin-bottom:0}
-.quick-meal-hd{font-size:var(--fs-base);color:var(--ink);font-weight:600;margin-bottom:8px;
-  display:flex;align-items:center;justify-content:space-between}
-.quick-meal-hd span{font-size:var(--fs-xs);color:var(--ink3);font-weight:400}
-.quick-row{display:flex;align-items:center;gap:10px;padding:4px 0}
-.quick-row-lb{font-size:var(--fs-sm);color:var(--ink2);width:40px;flex-shrink:0}
-.quick-row-opts{display:flex;flex-wrap:wrap;gap:5px;flex:1}
-.quick-opt{padding:6px 10px;border-radius:var(--r-xs);background:var(--gray-bg);
-  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500;
-  min-width:38px;text-align:center;user-select:none}
-.quick-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-
-.rec-opt{padding:9px 14px;border-radius:var(--r-sm);background:var(--gray-bg);
-  font-size:var(--fs-base);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
-.rec-opt.on{background:var(--gold-bg);color:var(--gold);font-weight:600}
-
-/* ===== 语音面板 ===== */
-.voice-wave{display:flex;justify-content:center;gap:4px;height:56px;align-items:center;margin-bottom:14px}
-.voice-wave span{width:4px;background:var(--gold);border-radius:2px;animation:wave 1s ease-in-out infinite}
-.voice-wave span:nth-child(1){animation-delay:0s;height:20px}
-.voice-wave span:nth-child(2){animation-delay:.1s;height:36px}
-.voice-wave span:nth-child(3){animation-delay:.2s;height:48px}
-.voice-wave span:nth-child(4){animation-delay:.3s;height:36px}
-.voice-wave span:nth-child(5){animation-delay:.4s;height:20px}
-@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.6)}}
-.voice-status{font-size:var(--fs-body-lg);font-weight:600;color:var(--ink);margin-bottom:4px;text-align:center}
-
-.vc-hint{font-size:var(--fs-xs);color:var(--ink3);text-align:center;margin:2px 0 12px;line-height:1.6}
-.vc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:4px}
-.vc-cell{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
-  padding:11px 8px 10px;text-align:center;transition:.3s}
-.vc-cell .vc-n{font-size:var(--fs-sm);color:var(--ink2);font-weight:600;line-height:1.2}
-.vc-cell .vc-s{font-size:var(--fs-micro);color:var(--ink3);margin-top:5px;line-height:1}
-.vc-cell.full{background:var(--gold-bg);border-color:rgba(184,134,11,.38)}
-.vc-cell.full .vc-n{color:var(--gold)}
-.vc-cell.full .vc-s{color:var(--gold)}
-.vc-cell.part{background:var(--blue-bg);border-color:rgba(37,99,235,.22)}
-.vc-cell.part .vc-n{color:var(--blue)}
-.vc-cell.part .vc-s{color:var(--blue)}
-.vc-cell.empty{opacity:.62}
-.vc-cell.live{border-color:var(--gold);background:#FFFBEF;
-  box-shadow:0 0 0 2px rgba(184,134,11,.16);animation:vcPulse 1.1s ease-in-out infinite}
-.vc-cell.live .vc-n{color:var(--gold)}
-.vc-cell.live .vc-s{color:var(--gold)}
-@keyframes vcPulse{0%,100%{box-shadow:0 0 0 2px rgba(184,134,11,.16)}
-  50%{box-shadow:0 0 0 5px rgba(184,134,11,.10)}}
-
-.onboard{position:absolute;inset:0;background:var(--bg);z-index:60;
-  display:flex;flex-direction:column;overflow:hidden}
-.onboard.hide{display:none}
-.ob-body{flex:1;overflow-y:auto;padding:0 26px;scrollbar-width:none;display:flex;flex-direction:column}
-.ob-body::-webkit-scrollbar{display:none}
-.ob-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
-.ob-logo{width:76px;height:76px;border-radius:22px;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
-  color:#fff;font-size:32px;font-weight:700;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 16px 40px rgba(184,134,11,.28)}
-.ob-h1{font-size:26px;font-weight:700;letter-spacing:-.5px;margin-top:6px}
-.ob-h2{font-size:var(--fs-base);color:var(--ink3);letter-spacing:.5px}
-.ob-foot{padding:20px 26px 40px;flex-shrink:0}
-.ob-btn{background:var(--ink);color:#fff;text-align:center;padding:15px;border-radius:var(--r-md);
-  font-size:var(--fs-body-lg);font-weight:600;cursor:pointer;margin-bottom:10px}
-.ob-btn:active{transform:scale(.99)}
-.ob-btn.ghost{background:#fff;color:var(--ink2);border:1px solid var(--line);font-weight:500}
-.ob-tip{font-size:var(--fs-xs);color:var(--ink3);text-align:center;margin-top:12px;line-height:1.6}
-.ob-head{padding:60px 0 26px}
-.ob-step{font-size:var(--fs-xs);color:var(--gold);font-weight:600;letter-spacing:1.5px}
-.ob-title{font-size:var(--fs-display);font-weight:700;letter-spacing:-.4px;margin-top:12px}
-.ob-sub{font-size:var(--fs-base);color:var(--ink3);margin-top:10px;line-height:1.6}
-.ob-field{margin-bottom:20px}
-.ob-field>label{font-size:var(--fs-base);color:var(--ink2);font-weight:600;display:block;margin-bottom:10px}
-.ob-field>label small{font-size:var(--fs-xs);color:var(--ink3);font-weight:400;margin-left:6px}
-.ob-input{width:100%;padding:13px 16px;border-radius:var(--r-md);border:1.5px solid var(--line);
-  background:#fff;font-size:var(--fs-body-lg);font-weight:600;font-family:inherit;color:var(--ink);outline:none}
-.ob-input:focus{border-color:var(--blue)}
-.ob-opts{display:flex;flex-wrap:wrap;gap:8px}
-.ob-opt{padding:10px 18px;border-radius:var(--r-sm);background:#fff;border:1px solid var(--line);
-  font-size:var(--fs-base);color:var(--ink2);cursor:pointer;transition:.15s;font-weight:500}
-.ob-opt.on{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:600}
-
-.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:var(--sp-gap)}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px}
-.kpi-v{font-size:25px;font-weight:700;letter-spacing:-1px;line-height:1}
-.kpi-l{font-size:var(--fs-sm);color:var(--ink3);margin-top:8px}
-.kpi-d{font-size:var(--fs-xs);font-weight:600;margin-top:6px}
-.kpi-d.up{color:var(--red)}
-.kpi-d.down{color:var(--ink2)}
-
-.rank-row{display:flex;align-items:center;gap:12px;padding:13px 0;
-  border-bottom:1px solid var(--line2);cursor:pointer}
-.rank-row:last-child{border-bottom:none}
-.rank-no{width:26px;height:26px;border-radius:var(--r-xs);background:var(--gray-bg);
-  display:flex;align-items:center;justify-content:center;font-size:var(--fs-sm);
-  font-weight:700;color:var(--ink3);flex-shrink:0}
-.rank-no.top1{background:var(--gold-bg);color:var(--gold)}
-.rank-no.top2{background:var(--line2);color:var(--ink2)}
-.rank-no.top3{background:#FFF4EC;color:#A0622D}
-.rank-main{flex:1;min-width:0}
-.rank-nm{font-size:var(--fs-body);font-weight:600}
-.rank-sub{font-size:var(--fs-xs);color:var(--ink3);margin-top:3px}
-.rank-asset{font-size:var(--fs-body-lg);font-weight:700;color:var(--gold);flex-shrink:0}
-
-.share-card{background:linear-gradient(150deg,#0F1B2D,#1A2D47);border-radius:var(--r-lg);
-  padding:20px 18px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px}
-.share-card::before{content:'';position:absolute;top:-60px;right:-50px;width:180px;height:180px;
-  border-radius:50%;background:rgba(184,134,11,.22)}
-.share-brand{font-size:var(--fs-micro);color:rgba(255,255,255,.5);letter-spacing:2px;font-weight:600;position:relative}
-.share-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
-  margin-top:14px;position:relative}
-.share-score{font-size:42px;font-weight:700;letter-spacing:-1.6px;line-height:1}
-.share-score-lb{font-size:var(--fs-xs);color:rgba(255,255,255,.55);margin-top:6px}
-.share-gain{font-size:var(--fs-sm);font-weight:700;color:#FFD27A;background:rgba(184,134,11,.22);
-  padding:5px 10px;border-radius:20px;white-space:nowrap}
-.share-divider{height:1px;background:rgba(255,255,255,.1);margin:16px 0;position:relative}
-.share-block-t{font-size:var(--fs-micro);color:rgba(255,255,255,.45);letter-spacing:1.5px;
-  font-weight:600;margin-bottom:10px;position:relative}
-.share-actions{display:flex;flex-direction:column;gap:8px;position:relative}
-.share-action{display:flex;align-items:flex-start;gap:8px;font-size:var(--fs-sm);
-  color:rgba(255,255,255,.85);line-height:1.5}
-.share-action .ok{width:14px;height:14px;border-radius:50%;background:#FFD27A;
-  color:#0F1B2D;font-size:var(--fs-micro);font-weight:700;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:2px}
-.share-action .name{font-weight:600}
-.share-action .meta{display:block;font-size:var(--fs-xs);color:rgba(255,255,255,.55);margin-top:2px}
-.share-action .meta b{color:#FFD27A;font-weight:600}
-.share-effect{display:flex;gap:8px;position:relative;margin-top:4px}
-.share-effect div{flex:1;background:rgba(255,255,255,.07);border-radius:var(--r-sm);
-  padding:11px 10px;text-align:center}
-.share-effect b{font-size:var(--fs-body-lg);font-weight:700;display:block;color:#FFD27A}
-.share-effect span{font-size:var(--fs-micro);color:rgba(255,255,255,.5);margin-top:5px;display:block}
-.share-feel{font-size:var(--fs-sm);color:rgba(255,255,255,.8);line-height:1.7;position:relative;
-  font-style:italic;border-left:2px solid rgba(255,255,255,.25);padding-left:10px}
-.share-feel.empty{color:rgba(255,255,255,.35);font-style:normal}
+.video-frame{height:168px;border-radius:var(--r-md);color:#fff;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:16px;position:relative;overflow:hidden}
+.video-frame::before{content:'';position:absolute;top:-60px;right:-40px;width:180px;height:180px;
+  border-radius:50%;background:rgba(255,255,255,.08)}
+.video-frame .vf-play{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;font-size:15px;position:relative}
+.video-frame .vf-t{font-size:var(--fs-sm);color:rgba(255,255,255,.75);position:relative}
+.video-frame .vf-char{position:absolute;font-size:80px;opacity:.12;font-weight:700}
 
 .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);
   background:rgba(15,27,45,.9);color:#fff;font-size:var(--fs-base);padding:11px 20px;
@@ -463,1213 +300,151 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 <body>
 <div class="phone">
   <div class="statusbar"><span>06:35</span><span class="r">5G · 87%</span></div>
-  <div id="viewbar"></div>
   <main class="screen" id="screen"></main>
   <nav class="tabbar" id="tabbar"></nav>
-  <div class="onboard hide" id="onboard"></div>
+
+  <!-- 语音浮层 -->
+  <div class="voice-overlay" id="voiceOverlay">
+    <div class="voice-panel" id="voicePanel"></div>
+  </div>
 </div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 
 <script>
-const TODAY = '10月13日 · 周二';
-const WEEKDAYS = ['一','二','三','四','五','六','日'];
-
-const RANGE_DATES = {
-  day:  '10月13日',
-  week: '10月7日-10月13日',
-  month:'9月14日-10月13日',
-  year: '2026年1月1日-10月13日',
-  all:  '2022年10月-2026年10月'
-};
-
 /* ============ 数据 ============ */
-const DIMS = [
-  {k:'stress',    name:'情绪', score:68},
-  {k:'move',      name:'运动', score:78},
-  {k:'body',      name:'身体', score:74},
-  {k:'diet',      name:'饮食', score:72},
-  {k:'sleep',     name:'睡眠', score:88},
-  {k:'breath',    name:'呼吸', score:82},
-  {k:'env',       name:'环境', score:82},
-  {k:'cognition', name:'认知', score:80},
-  {k:'event',     name:'大事', score:76}
+const TABS = [
+  {k:'assistant', n:'健康助手', p:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'},
+  {k:'practice', n:'最佳实践', p:'M12 2l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 16.8 6.2 19.9l1.1-6.5L2.6 8.8l6.5-.9z'},
+  {k:'manage', n:'健康管理', p:'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'}
 ];
 
-const DIM_GOOD_DIR = {
-  stress:'down', move:'up', body:'up', diet:'up', sleep:'up',
-  breath:'up', env:'up', cognition:'up', event:'up'
+const PRACTICE_CATS = ['全部','动作','饮食','呼吸','作息','心态'];
+const CAT_CLS = {'动作':'move','饮食':'diet','呼吸':'breath','作息':'rest','心态':'mind'};
+const CAT_CHAR = {'动作':'动','饮食':'食','呼吸':'息','作息':'眠','心态':'心'};
+
+const BEST_PRACTICES = [
+  {id:'bp1', cat:'动作', title:'靠墙静蹲 60 秒',
+   howText:'背靠墙站立，双脚与肩同宽，向前迈半步，沿墙下滑至大腿与地面平行，保持 60 秒，起身休息 30 秒，做 2 组。',
+   howVideo:'背贴墙面，膝盖不超过脚尖，呼吸均匀，起身时扶墙慢起。',
+   inventor:'钱主席', joins:342},
+  {id:'bp2', cat:'呼吸', title:'4-7-8 呼吸',
+   howText:'吸气 4 秒、屏息 7 秒、呼气 8 秒，做 4 轮，可在座位或车里完成。',
+   howVideo:'鼻吸口呼，肩膀放松，呼气时像吹蜡烛一样轻。',
+   inventor:'王总', joins:327},
+  {id:'bp3', cat:'饮食', title:'蒸番茄',
+   howText:'番茄对半切，水开后蒸 3 分钟，连皮一起吃，每周 3-4 次。',
+   howVideo:'番茄洗净对半切，摆盘上锅，水开后计时 3 分钟。',
+   inventor:'李总', joins:311},
+  {id:'bp4', cat:'动作', title:'提踵 30 次',
+   howText:'扶墙站立，脚跟抬起再缓慢落下，做 30 次，可分成 3 组完成。',
+   howVideo:'双脚与肩同宽，抬到最高点停 1 秒，落下时不要砸地。',
+   inventor:'赵总', joins:298},
+  {id:'bp5', cat:'作息', title:'午间闭眼 10 分钟',
+   howText:'午饭后靠椅背闭眼 10 分钟，不刷手机，不一定要睡着。',
+   howVideo:'坐姿靠稳椅背，双手放腿上，闭眼自然呼吸。',
+   inventor:'孙总', joins:281},
+  {id:'bp6', cat:'饮食', title:'醋泡黑豆',
+   howText:'每天早餐佐一小勺，约 10 粒，细嚼慢咽，坚持吃。',
+   howVideo:'黑豆提前泡发煮熟，加陈醋没过豆面，冷藏一周后食用。',
+   inventor:'周总', joins:274},
+  {id:'bp7', cat:'动作', title:'肩颈绕环 20 次',
+   howText:'双肩向前绕 10 次、向后绕 10 次，动作放慢，配合呼吸。',
+   howVideo:'坐直或站直，肩膀画大圈，不要耸肩。',
+   inventor:'吴总', joins:256},
+  {id:'bp8', cat:'呼吸', title:'会前 3 次深呼吸',
+   howText:'进会议室前站定，用鼻子深吸 3 次，每次呼气比吸气长，再推门。',
+   howVideo:'站姿放松，吸气 4 秒，呼气 6 秒，做 3 轮。',
+   inventor:'郑总', joins:243},
+  {id:'bp9', cat:'饮食', title:'特方茶',
+   howText:'饭后半小时一杯，温水冲泡，不额外加糖。',
+   howVideo:'取茶包一袋，85℃ 水冲泡 3 分钟即可。',
+   inventor:'陈总', joins:229},
+  {id:'bp10', cat:'作息', title:'睡前 90 分钟放下手机',
+   howText:'把手机放到卧室外充电，睡前用纸质书或拉伸替代刷手机。',
+   howVideo:'睡前闹钟一响，把手机拿到客厅充电，回卧室只带书。',
+   inventor:'刘总', joins:205},
+  {id:'bp11', cat:'心态', title:'写下今天一件好事',
+   howText:'睡前在备忘录写一句话，记录今天一件顺利或开心的事。',
+   howVideo:'打开备忘录，一句话即可，不用长篇。',
+   inventor:'张总', joins:189},
+  {id:'bp12', cat:'心态', title:'每周一天无应酬',
+   howText:'提前一周在日历上锁定这一天，不安排饭局和酒局。',
+   howVideo:'日历上标出这一天，设置为全天忙碌。',
+   inventor:'钱主席', joins:167}
+];
+
+const PROFILE = {
+  basic: [
+    {k:'性别', v:'男'},
+    {k:'出生年份', v:'1965'},
+    {k:'身高', v:'178 cm'},
+    {k:'体重', v:'78.4 kg'},
+    {k:'BMI', v:'24.8'},
+    {k:'慢病', v:'高血压、高血脂'}
+  ],
+  records: [
+    {date:'2026-09-20', title:'年度体检', desc:'血压 128/82 mmHg，总胆固醇 5.8 mmol/L，低密度脂蛋白偏高，建议控制饮食并复查。'},
+    {date:'2025-03-12', title:'颈椎病门诊', desc:'颈肩僵硬，颈椎生理曲度变直，建议理疗和姿势调整。'},
+    {date:'2024-11-05', title:'幽门螺旋杆菌复查', desc:'呼气试验转阴，建议每年复查一次。'}
+  ],
+  tcm: [
+    {k:'体质', v:'痰湿质'},
+    {k:'舌象', v:'舌体胖大，苔白腻'},
+    {k:'脉象', v:'弦滑'},
+    {k:'建议', v:'健脾祛湿，少食肥甘厚味，适度运动，避免久坐。'}
+  ]
 };
 
-const DIM_SNAPSHOT = {
-  stress:[
-    {k:'压力得分', v:'42', unit:'', delta:-3, good:true},
-    {k:'情绪', v:'偏紧', unit:'', delta:0},
-    {k:'心率变异性（HRV）', v:'46', unit:'ms', delta:2, good:true},
-    {k:'静息心率', v:'68', unit:'bpm', delta:-1, good:true}
-  ],
-  move:[
-    {k:'步数', v:'8,420', unit:'步', delta:620, good:true},
-    {k:'久坐时长', v:'6.2', unit:'h', delta:-0.5, good:true},
-    {k:'中高强度运动时长', v:'30', unit:'min', delta:0},
-    {k:'锻炼记录', v:'1', unit:'次', delta:0}
-  ],
-  body:[
-    {k:'体重', v:'78.4', unit:'kg', delta:-0.3, good:true},
-    {k:'BMI', v:'24.8', unit:'', delta:-0.1, good:true},
-    {k:'血压', v:'128/82', unit:'mmHg', delta:0},
-    {k:'静息热量', v:'1,650', unit:'kcal', delta:30, good:true}
-  ],
-  diet:[],
-  sleep:[
-    {k:'睡眠总分', v:'82', unit:'', delta:4, good:true},
-    {k:'睡眠总时长', v:'7h12m', unit:'', delta:12, good:true},
-    {k:'深睡时长', v:'1h48m', unit:'', delta:8, good:true},
-    {k:'清醒次数', v:'2', unit:'次', delta:-1, good:true}
-  ],
-  breath:[
-    {k:'血氧', v:'97', unit:'%', delta:0},
-    {k:'呼吸睡眠得分', v:'78', unit:'', delta:3, good:true}
-  ],
-  env:[
-    {k:'户外时长', v:null, unit:'h', delta:null}
-  ],
-  cognition:[],
-  event:[]
-};
+const AGREEMENTS = {
+  user: {
+    title:'用户协议',
+    body:`欢迎使用老板健康。
 
-function hasDeviceData(k){
-  const s = DIM_SNAPSHOT[k] || [];
-  return s.some(it => it.v !== null && it.v !== undefined && it.v !== '');
-}
+1. 本应用提供的健康建议仅供参考，不构成医疗诊断或治疗建议。
+2. 用户应保证填写信息的真实性，以便获得更准确的健康评估。
+3. 用户在使用过程中应遵守相关法律法规，不得利用本应用从事违法活动。
+4. 本应用保留根据业务需要调整服务内容的权利。
+5. 如对协议有疑问，可通过应用内反馈渠道联系我们。`
+  },
+  privacy: {
+    title:'隐私保护协议',
+    body:`我们重视你的隐私。
 
-/* ============ 手动记录表单配置：按维度归属 ============ */
-const MANUAL_FORMS = {
-  stress: {
-    title:'工作与情绪',
-    groups:[
-      {k:'work_pressure', label:'工作压力', type:'single', opts:['轻松','适中','较大','很大']},
-      {k:'work_hours', label:'工作时长', type:'single', opts:['<8h','8-10h','10-12h','>12h']},
-      {k:'meeting_hours', label:'开会时长', type:'single', opts:['0','<1h','1-2h','2-3h','>3h']},
-      {k:'travel', label:'是否出差', type:'single', opts:['否','是 · 1天','是 · 2-3天','是 · 3天以上']}
-    ]
-  },
-  body: {
-    title:'身体与就医',
-    groups:[
-      {k:'symptoms', label:'身体症状', type:'multi',
-        opts:['耳鸣','心慌','没胃口','颈肩僵','头晕','便秘','乏力','腰酸','无'], excl:'无'},
-      {k:'doctor', label:'是否看病', type:'single', opts:['没看','看了']},
-      {k:'doctor_note', label:'科室 / 病症', type:'input', ph:'如：耳鼻喉 · 耳鸣'}
-    ]
-  },
-  diet: {
-    title:'应酬与烟酒',
-    groups:[
-      {k:'social', label:'是否应酬', type:'single', opts:['无','有']},
-      {k:'alcohol', label:'喝酒', type:'single', opts:['不喝','少量','较多']},
-      {k:'smoke', label:'抽烟', type:'single', opts:['不抽','1-5支','5支以上']}
-    ]
-  },
-  event: {
-    title:'今日大事',
-    groups:[
-      {k:'event_type', label:'性质', type:'single', opts:['好事','坏事','中性']},
-      {k:'event_note', label:'一句话备注', type:'input', ph:'如：谈成了一个大客户'}
-    ]
-  },
-  move: {
-    title:'今日运动',
-    groups:[
-      {k:'move_type', label:'运动类型', type:'multi',
-        opts:['散步','快走','慢跑','力量训练','游泳','球类','无'], excl:'无'},
-      {k:'move_min', label:'运动时长', type:'single', opts:['<20min','20-40min','40-60min','>60min']},
-      {k:'sit', label:'久坐时长', type:'single', opts:['<4h','4-6h','6-8h','>8h']}
-    ]
-  },
-  sleep: {
-    title:'昨晚睡眠',
-    groups:[
-      {k:'sleep_at', label:'入睡时间', type:'single', opts:['22点前','22-23点','23-24点','0点后']},
-      {k:'wake_times', label:'夜醒次数', type:'single', opts:['0','1','2','3次以上']},
-      {k:'nap', label:'午睡', type:'single', opts:['无','<30min','30-60min','>60min']},
-      {k:'sleep_feel', label:'睡后感受', type:'single', opts:['很好','还行','没睡够','很差']}
-    ]
-  },
-  breath: {
-    title:'呼吸状态',
-    groups:[
-      {k:'breath_feel', label:'呼吸感受', type:'single', opts:['顺畅','有点闷','气短']},
-      {k:'snore', label:'打鼾 / 咳嗽', type:'multi', opts:['打鼾','咳嗽','咳痰','无'], excl:'无'},
-      {k:'breath_practice', label:'呼吸练习', type:'single', opts:['没做','做了 5 分钟','做了 10 分钟以上']}
-    ]
-  },
-  env: {
-    title:'环境暴露',
-    groups:[
-      {k:'outdoor', label:'户外时长', type:'single', opts:['几乎没出门','<30min','30-60min','>1h']},
-      {k:'air', label:'空气 / 二手烟', type:'multi', opts:['空气差','二手烟','装修味','无'], excl:'无'},
-      {k:'indoor', label:'室内感受', type:'single', opts:['舒适','偏干','偏闷','偏冷']}
-    ]
-  },
-  cognition: {
-    title:'认知与社交',
-    groups:[
-      {k:'focus', label:'专注度', type:'single', opts:['好','一般','容易分心']},
-      {k:'study', label:'阅读 / 学习', type:'single', opts:['无','<30min','30-60min','>1h']},
-      {k:'social', label:'社交', type:'single', opts:['无','有 · 工作','有 · 家庭朋友']}
-    ]
+1. 我们仅收集为你提供健康服务所必需的信息，包括基础信息、健康记录和设备数据。
+2. 你的健康数据仅用于生成健康评估和个性化建议，不会向第三方出售。
+3. 你可以随时在健康管理中查看、修改或删除你的健康档案。
+4. 我们采用加密传输和存储，保护你的数据安全。
+5. 如你注销账号，我们会在合理期限内删除你的个人数据。`
   }
 };
 
-const ASSET_MAX = 120;
-const LEVELS = [
-  {key:'L1', name:'古稀', ageMin:73, ageMax:84, min:0,   max:59},
-  {key:'L2', name:'耄耋', ageMin:84, ageMax:91, min:60,  max:89},
-  {key:'L3', name:'期颐', ageMin:91, ageMax:100, min:90, max:109},
-  {key:'L4', name:'天年', ageMin:100, ageMax:120, min:110, max:120}
+/* 语音识别演示句 */
+const VOICE_DEMOS = [
+  '今天走了六千步，晚上有个应酬，喝了点酒',
+  '昨晚十一点半睡的，夜里醒了两次，今天有点累',
+  '体检报告上低密度脂蛋白偏高，帮我看看是什么意思',
+  '下周要去医院复查，帮我整理一下要跟医生说的'
 ];
-function levelOfAsset(asset){
-  return LEVELS.find(l=>asset >= l.min && asset <= l.max) || LEVELS[0];
-}
-function assetFromDims(scores){
-  let total = 0;
-  DIMS.forEach(d=>{
-    const s = Math.max(30, Math.min(99, scores[d.k] || 60));
-    total += s / 99 * (ASSET_MAX / DIMS.length);
-  });
-  return Math.round(Math.max(0, Math.min(ASSET_MAX, total)));
-}
-function trendIsGood(k, delta){
-  if(delta === 0) return true;
-  const dir = DIM_GOOD_DIR[k] || 'up';
-  return dir === 'down' ? delta < 0 : delta > 0;
-}
-
-const ASSETS6 = [
-  {k:'muscle', nm:'肌', sub:'肌肉量', score:78},
-  {k:'bone',   nm:'骨', sub:'骨密度', score:82},
-  {k:'blood',  nm:'血', sub:'心血管', score:85},
-  {k:'brain',  nm:'脑', sub:'认知',   score:80},
-  {k:'gut',    nm:'肠', sub:'代谢',   score:72},
-  {k:'heart',  nm:'心', sub:'心灵情绪', score:68}
-];
-
-const QUIZ = [
-  {k:'age', q:'出生年份', type:'input', ph:'1965'},
-  {k:'goal', q:'希望健康活到多少岁', type:'single', opts:['75岁','80岁','85岁','90岁','95岁以上']},
-  {k:'sleep_onset', q:'入睡困难吗', type:'single', opts:['从不','偶尔','有时','经常','总是']},
-  {k:'sleep_wake', q:'夜间容易醒吗', type:'single', opts:['从不','偶尔','有时','经常','总是']},
-  {k:'diet_veg', q:'蔬菜占每餐大部分吗', type:'single', opts:['每餐都占大部分','大部分餐次占一半','偶尔','以肉食为主']},
-  {k:'diet_alc', q:'每周饮酒几次', type:'single', opts:['不喝','1-2次','3-4次','5次以上']},
-  {k:'move_aerobic', q:'每周运动超过150分钟吗', type:'single', opts:['150分钟以上','100-150分钟','50-100分钟','少于50分钟']},
-  {k:'move_sit', q:'每天久坐时间', type:'single', opts:['少于4小时','4-6小时','6-8小时','8小时以上']},
-  {k:'mind_stress', q:'工作压力感受', type:'single', opts:['轻松','适中','较大','很大']},
-  {k:'social_family', q:'每周与家人吃晚饭', type:'single', opts:['几乎每天','4-5次','2-3次','很少']},
-  {k:'signal', q:'困扰的小毛病', type:'multi', opts:['颈肩僵硬','胸闷心悸','前列腺问题','胃部不适','持续疲劳','以上都没有'], excl:'以上都没有'},
-  {k:'checkup', q:'每年全面体检', type:'single', opts:['每年都做','每年基本体检','偶尔做','很少做']}
-];
-
-const MAIN_GOAL = {
-  id:'g1', dim:'情绪',
-  title:'让自己松下来，晚上不再带着工作上床',
-  desc:'HRV 连续偏低，压力是当前最大的短板。',
-  why:['HRV 46ms，低于近 30 天均值','压力得分 42，偏高','睡前仍在处理工作'],
-  progress:{
-    day:{cur:1,total:1,label:'今天已做到'}, week:{cur:4,total:7,label:'本周做到天数'},
-    month:{cur:14,total:30,label:'本月做到天数'}, year:{cur:96,total:365,label:'今年做到天数'},
-    all:{cur:186,total:730,label:'累计做到天数'}, manual:{cur:4,total:7,label:'手动范围做到天数'}
-  },
-  change:{
-    day:{v:'+1 天',note:'今天已打卡'}, week:{v:'+4 天',note:'比上周多 1 天'},
-    month:{v:'+14 天',note:'比上月多 3 天'}, year:{v:'+96 天',note:'比去年多 12 天'},
-    all:{v:'+186 天',note:'持续积累'}, manual:{v:'+4 天',note:'所选区间内'}
-  },
-  practices:[
-    {id:'p1', t:'每天 5 分钟慢呼吸', src:'知识库 · 压力管理', streak:5, week:[1,1,1,1,1,0,0]},
-    {id:'p2', t:'睡前 90 分钟放下手机', src:'知识库 · 睡眠改善', streak:3, week:[1,1,1,0,0,0,0]},
-    {id:'p3', t:'每周设一天无应酬', src:'知识库 · 应酬管理', streak:1, week:[1,0,0,0,0,0,0]},
-    {id:'p4', t:'晚饭后走 12 分钟', src:'知识库 · 血糖管理', streak:0, week:[0,0,0,0,0,0,0]}
-  ]
-};
-
-const RANGES = [
-  {k:'day', n:'天'}, {k:'week', n:'周'}, {k:'month', n:'月'},
-  {k:'year', n:'年'}, {k:'all', n:'全'}, {k:'manual', n:'手动'}
-];
-
-const ASSET_TREND = {
-  day:  {x:['06','09','12','15','18','21'], v:[102,104,105,104,107,106]},
-  week: {x:['一','二','三','四','五','六','日'], v:[98,101,103,104,105,106,106]},
-  month:{x:['W1','W2','W3','W4'], v:[92,97,102,106]},
-  year: {x:['1','2','3','4','5','6','7','8','9','10','11','12'],
-         v:[74,78,82,86,90,93,96,99,101,103,105,106]},
-  all:  {x:['22年','23年','24年','25年','26年'], v:[62,72,84,96,106]},
-  manual:{x:['起','','','','止'], v:[98,101,103,105,106]}
-};
-
-const RANGE_ADJ = {
-  day:{sleep:0,diet:0,move:0,stress:0,breath:0,body:0,env:0,cognition:0,event:0},
-  week:{sleep:2,diet:-1,move:2,stress:-2,breath:1,body:1,env:1,cognition:1,event:0},
-  month:{sleep:3,diet:1,move:4,stress:-3,breath:2,body:2,env:2,cognition:2,event:1},
-  year:{sleep:4,diet:2,move:6,stress:-4,breath:3,body:3,env:2,cognition:3,event:2},
-  all:{sleep:5,diet:3,move:7,stress:-5,breath:4,body:4,env:3,cognition:4,event:3},
-  manual:{sleep:1,diet:0,move:1,stress:-1,breath:0,body:0,env:0,cognition:0,event:0}
-};
-
-const ADMIN = {
-  kpi:[
-    {v:'2,847', l:'总用户', d:'+12.4%', up:true},
-    {v:'1,936', l:'今日活跃', d:'68.0%', up:true},
-    {v:'106', l:'平均健康资产', d:'+1.8%', up:true},
-    {v:'86.5%', l:'7日留存', d:'+2.1%', up:true}
-  ],
-  dims:[
-    {n:'情绪', v:63}, {n:'运动', v:71}, {n:'身体', v:72},
-    {n:'饮食', v:69}, {n:'睡眠', v:82}, {n:'呼吸', v:80},
-    {n:'环境', v:78}, {n:'认知', v:76}, {n:'大事', v:74}
-  ],
-  ranks:[
-    {n:'张先生', s:118, sub:'连续 302 天 · 天年级'},
-    {n:'李女士', s:112, sub:'连续 186 天 · 天年级'},
-    {n:'王先生', s:106, sub:'连续 120 天 · 期颐级'},
-    {n:'陈女士', s:98,  sub:'连续 90 天 · 期颐级'},
-    {n:'刘先生', s:92,  sub:'连续 62 天 · 期颐级'},
-    {n:'赵女士', s:84,  sub:'连续 48 天 · 耄耋级'},
-    {n:'周先生', s:78,  sub:'连续 30 天 · 耄耋级'}
-  ]
-};
-
-const DIM_TREND_BY_RANGE = {
-  stress:{day:[62,64,63,65,64,63],week:[70,68,66,65,64,63,62],month:[75,72,70,68,65,63],year:[80,78,75,72,68,65,63],all:[70,66,62,58,54,50,46,43],manual:[68,66,65,64,63]},
-  move:{day:[70,72,74,73,75,76],week:[68,71,73,72,74,75,76],month:[65,68,72,75,76],year:[60,66,70,74,76],all:[50,55,60,65,76],manual:[70,72,74,76]},
-  body:{day:[72,73,72,74,73,72],week:[70,71,72,73,72,73,72],month:[68,70,72,74,72],year:[64,66,68,70,72],all:[60,64,68,72,72],manual:[70,71,72,72]},
-  diet:{day:[70,72,71,73,72,72],week:[68,70,72,71,73,72,72],month:[66,68,70,72,72],year:[60,64,68,70,72],all:[55,60,65,68,72],manual:[68,70,71,72]},
-  sleep:{day:[80,82,81,83,82,82],week:[78,80,82,81,83,82,82],month:[76,78,80,82,82],year:[72,76,80,82,82],all:[70,75,80,84,88],manual:[80,81,82,82]},
-  breath:{day:[78,80,79,81,80,80],week:[76,78,80,79,81,80,80],month:[74,76,78,80,80],year:[70,74,78,80,80],all:[68,72,76,80,82],manual:[78,79,80,80]},
-  env:{day:[76,78,77,79,78,78],week:[74,76,78,77,79,78,78],month:[72,74,76,78,78],year:[68,72,76,78,78],all:[68,72,76,80,82],manual:[76,77,78,78]},
-  cognition:{day:[78,80,79,81,80,80],week:[76,78,80,79,81,80,80],month:[74,76,78,80,80],year:[70,74,78,80,80],all:[66,70,74,78,80],manual:[77,78,79,80]},
-  event:{day:[74,76,75,77,76,76],week:[72,74,76,75,77,76,76],month:[70,72,74,76,76],year:[66,70,74,76,76],all:[62,66,70,74,76],manual:[73,74,75,76]}
-};
-const DIM_TREND_X = {
-  day:['06','09','12','15','18','21'], week:['一','二','三','四','五','六','日'],
-  month:['W1','W2','W3','W4','W5'], year:['1','2','3','4','5','6'],
-  all:['22','23','24','25','26','27'], manual:['起','','','','止']
-};
-
-const MANUAL_PRESETS = [
-  {label:'近 7 天', start:'2026-10-07', end:'2026-10-13'},
-  {label:'近 30 天', start:'2026-09-14', end:'2026-10-13'},
-  {label:'近 90 天', start:'2026-07-16', end:'2026-10-13'}
-];
-
-/* ============ 统一语音记录配置 ============ */
-const VOICE_CATS = [
-  {k:'mood',      dim:'stress',    name:'心情情绪'},
-  {k:'body',      dim:'body',      name:'身体小毛病'},
-  {k:'event',     dim:'event',     name:'生活大事'},
-  {k:'diet',      dim:'diet',      name:'饮食'},
-  {k:'sleep',     dim:'sleep',     name:'睡眠'},
-  {k:'move',      dim:'move',      name:'运动'},
-  {k:'breath',    dim:'breath',    name:'呼吸'},
-  {k:'env',       dim:'env',       name:'环境'},
-  {k:'cognition', dim:'cognition', name:'认知'}
-];
-
-const VOICE_DEMO = '今天开了三个小时的会，晚上还要加班到十点，心情有点紧。颈肩有点僵，大便有点干。早上散步半小时，晚上快走20分钟。早餐一个鸡蛋一碗小米粥，午餐两碗米饭红烧肉炒青菜。晚上有应酬喝了点酒。昨晚十一点半睡的，夜里醒了两次。今天没怎么在户外待。';
-
-function parseVoiceText(t){
-  const out = {};
-  const add = (c,s)=>{
-    if(!s) return;
-    if(!out[c]) out[c] = [];
-    if(!out[c].includes(s)) out[c].push(s);
-  };
-  if(/会/.test(t)) add('mood','有会议');
-  if(/加班/.test(t)) add('mood','加班到较晚');
-  if(/紧|烦|焦虑|压力|有点累/.test(t)) add('mood','情绪偏紧');
-  else if(/开心|不错|顺利|放松|挺好/.test(t)) add('mood','心情不错');
-  if(/颈肩|肩颈|脖子/.test(t)) add('body','颈肩僵硬');
-  if(/大便.*干|便秘|排便/.test(t)) add('body','排便偏干');
-  if(/头晕/.test(t)) add('body','头晕');
-  if(/耳鸣/.test(t)) add('body','耳鸣');
-  if(/心慌/.test(t)) add('body','心慌');
-  if(/胃|反酸|胀气|没胃口/.test(t)) add('body','胃部不适');
-  if(/乏力|没力气/.test(t)) add('body','容易疲劳');
-  if(/腰酸|腰疼/.test(t)) add('body','腰酸');
-  if(/看病|医院|就诊/.test(t)) add('body','有就医');
-  if(/出差/.test(t)) add('mood','出差中');
-  if(/散步/.test(t)) add('move','散步');
-  if(/快走/.test(t)) add('move','快走');
-  if(/力量训练|深蹲|举铁|俯卧撑/.test(t)) add('move','力量训练');
-  if(/没运动|没动|久坐/.test(t)) add('move','运动偏少');
-  ['早餐','早饭','午餐','午饭','晚餐','晚饭','夜宵'].forEach(m=>{
-    const r = t.match(new RegExp(m + '([^，。；！？]{1,24})'));
-    if(r && r[1]) add('diet', m + r[1].trim());
-  });
-  if(/应酬/.test(t)) add('diet','有应酬');
-  if(/酒/.test(t)) add('diet','饮酒');
-  if(/抽烟|烟/.test(t)) add('diet','抽烟');
-  if(/外卖/.test(t)) add('diet','吃外卖');
-  const CN = {'一':1,'二':2,'两':2,'三':3,'四':4,'五':5};
-  const wake = t.match(/醒[了]?([一二两三四五\d])\s*次/);
-  if(wake) add('sleep','夜醒 ' + (CN[wake[1]] || wake[1]) + ' 次');
-  if(/十一点半|11点半|睡得晚|熬夜/.test(t)) add('sleep','入睡偏晚');
-  if(/午睡|午觉/.test(t)) add('sleep','有午睡');
-  if(/失眠|睡不好/.test(t)) add('sleep','睡眠质量差');
-  if(/胸闷|有点闷/.test(t)) add('breath','有点胸闷');
-  if(/气短/.test(t)) add('breath','气短');
-  if(/打鼾/.test(t)) add('breath','打鼾');
-  if(/呼吸练习|慢呼吸|腹式呼吸/.test(t)) add('breath','做了呼吸练习');
-  if(/户外/.test(t)) add('env','户外时间' + (/没怎么|很少/.test(t) ? '偏少' : '充足'));
-  if(/二手烟/.test(t)) add('env','接触二手烟');
-  if(/空气差|雾霾/.test(t)) add('env','空气质量差');
-  if(/读书|看书/.test(t)) add('cognition','有阅读');
-  if(/专注/.test(t)) add('cognition','专注度好');
-  if(/分心/.test(t)) add('cognition','容易分心');
-  if(/聚会|社交|聊天/.test(t)) add('cognition','有社交');
-  if(/谈判|签约|客户/.test(t)) add('event','有重要谈判');
-  if(/住院|医院|体检/.test(t)) add('event','有就医相关');
-  if(/投资|股票|支出|买房/.test(t)) add('event','有财务事项');
-  return out;
-}
 
 /* ============ 状态 ============ */
 const state = {
-  view:'personal',
-  onboarded:false,
-  ob:{step:0, gender:'', birth:'1965', height:'178', weight:'78.4',
-      conditions:[], focus:[], time:'21:00'},
-  tab:'see',
-  range:{see:'week', foresee:'week', change:'week', manage:'week'},
-  manual:{see:{start:'2026-10-07', end:'2026-10-13'},
-          foresee:{start:'2026-10-07', end:'2026-10-13'},
-          change:{start:'2026-10-07', end:'2026-10-13'},
-          manage:{start:'2026-10-07', end:'2026-10-13'}},
-  gridExpanded:false,
-  records:{},
-  manualRecords:{},
-  voice:null, voiceCov:null, voiceToken:null,
-  quizIndex:0, quizAns:{},
-  practiceState:{},
-  shareFeel:'',
-  dietQuick:{b:{},l:{},d:{},s:{}},
-  adminUser:null
+  tab: 'assistant',
+  inputMode: 'voice',   /* voice | text */
+  chat: [
+    {role:'ai', text:'你好呀，我是你的健康助手，你可以把我当作你的儿女。\n\n平时不用特意想起我，我会每天来问问你今天怎么样。你吃了什么、走了多少步、睡得好不好，都可以随口跟我说一句，我帮你记着。\n\n体检报告上那些看不懂的指标，或者下周要去看医生，也可以先跟我说说，我帮你理清楚、列出来。累了、烦了，也随时找我。\n\n不着急，我们从今天开始。'}
+  ],
+  chatBusy: false,
+  voiceBusy: false,
+  voiceIndex: 0,
+  loggedIn: false,
+  user: {name:'', id:''},
+  practiceCat: '全部',
+  practiceQuery: '',
+  practiceLimit: 4,
+  joined: {}
 };
-MAIN_GOAL.practices.forEach(p=>{
-  const joined = p.streak > 0;
-  state.practiceState[p.id] = {
-    joined, checkedToday: joined && p.week[0]===1,
-    streak: p.streak, week: p.week.slice()
-  };
-});
 
 /* ============ 工具 ============ */
-function gradeOf(s){
-  if(s>=75) return {letter:'优', color:'#B8860B'};
-  if(s>=50) return {letter:'中', color:'#2563EB'};
-  return {letter:'差', color:'#14202F'};
-}
-function hasRecord(k){
-  const r = state.records[k];
-  return !!(r && r.length);
-}
-function dimScores(range){
-  const adj = RANGE_ADJ[range] || RANGE_ADJ.day;
-  const o = {};
-  DIMS.forEach(d=>{
-    const boost = hasRecord(d.k) ? (hasDeviceData(d.k) ? 1 : 6) : 0;
-    o[d.k] = Math.max(30, Math.min(99, d.score + (adj[d.k]||0) + boost));
-  });
-  return o;
-}
-function currentAsset(range){
-  return assetFromDims(dimScores(range));
-}
-function trendSvg(values, labels, color, maxV){
-  const w=320, h=108, padL=10, padR=10, padT=14, padB=14;
-  const useMax = maxV || Math.max.apply(null, values);
-  let min=Math.min.apply(null,values), max=useMax;
-  const raw = (max-min)||1;
-  min -= raw*0.15; max += raw*0.15;
-  const rng = (max-min)||1;
-  const iw = w-padL-padR, ih = h-padT-padB;
-  const pts = values.map((v,i)=>{
-    const x = padL + (values.length===1 ? iw/2 : iw*i/(values.length-1));
-    const y = padT + ih*(1-(v-min)/rng);
-    return [x,y];
-  });
-  const line = pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
-  const area = 'M '+pts[0][0].toFixed(1)+','+(h-padB)+' L '+
-               pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L ')+
-               ' L '+pts[pts.length-1][0].toFixed(1)+','+(h-padB)+' Z';
-  const gid = 'tg'+Math.random().toString(36).slice(2,8);
-  const grids = [0,0.5,1].map(t=>{
-    const y = padT + ih*t;
-    return `<line x1="${padL}" y1="${y}" x2="${w-padR}" y2="${y}"
-      stroke="#F1F4F9" stroke-width="1" stroke-dasharray="3 4"/>`;
-  }).join('');
-  const dots = pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.6"
-      fill="#fff" stroke="${color}" stroke-width="1.6"/>`).join('');
-  const last = pts[pts.length-1];
-  return `<svg class="trend" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${color}" stop-opacity=".18"/>
-      <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
-    </linearGradient></defs>
-    ${grids}
-    <path d="${area}" fill="url(#${gid})"/>
-    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round"/>
-    ${dots}
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="4" fill="${color}"/>
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="7"
-      fill="${color}" opacity=".16"/>
-  </svg>`;
-}
-function xLabels(xs){
-  if(xs.length<=7) return xs.map(l=>`<span>${l}</span>`).join('');
-  const mid = xs[Math.floor(xs.length/2)];
-  return `<span>${xs[0]}</span><span>${mid}</span><span>${xs[xs.length-1]}</span>`;
-}
-function dimState(d){
-  return hasRecord(d.k) ? 'full' : 'partial';
-}
-
-const TABS=[
-  {k:'see',n:'看见',p:'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'},
-  {k:'foresee',n:'预见',p:'M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1'},
-  {k:'change',n:'改变',p:'M4 12l5 5L20 6'},
-  {k:'manage',n:'管理',p:'M4 6h16M4 12h16M4 18h16'}
-];
-
-function formatRangeDate(start, end){
-  const s = new Date(start), e = new Date(end);
-  return `${s.getMonth()+1}月${s.getDate()}日-${e.getMonth()+1}月${e.getDate()}日`;
-}
-function rangeText(key){
-  const cur = state.range[key];
-  if(cur === 'manual'){
-    const m = state.manual[key];
-    return formatRangeDate(m.start, m.end);
-  }
-  return RANGE_DATES[cur] || RANGE_DATES.week;
-}
-function rangeBar(key){
-  const cur = state.range[key];
-  const m = state.manual[key];
-  return `<div class="ranges">${RANGES.map(r=>{
-    let extra = '';
-    if(r.k === 'manual' && cur === 'manual'){
-      extra = `<span class="rng-dates">${m.start.slice(5)}~${m.end.slice(5)}</span>`;
-    }
-    return `<div class="range ${cur===r.k?'on':''}" data-range="${r.k}" data-rtab="${key}">
-      ${r.n}${extra}</div>`;
-  }).join('')}</div>
-  <div class="range-dates-text">${rangeText(key)}</div>
-  ${cur === 'manual' ? manualPanelHtml(key) : ''}`;
-}
-function manualPanelHtml(key){
-  const m = state.manual[key];
-  return `<div class="manual-panel">
-    <div class="mp-title">手动选择日期范围</div>
-    <div class="mp-row">
-      <div class="mp-field">
-        <span class="mp-label">开始日期</span>
-        <input class="mp-input" type="date" value="${m.start}" data-manual-start="${key}">
-      </div>
-      <div class="mp-field">
-        <span class="mp-label">结束日期</span>
-        <input class="mp-input" type="date" value="${m.end}" data-manual-end="${key}">
-      </div>
-    </div>
-    <div class="mp-quick">
-      ${MANUAL_PRESETS.map(p=>`
-        <div class="rec-opt" data-manual-preset="${key}"
-          data-start="${p.start}" data-end="${p.end}">${p.label}</div>
-      `).join('')}
-    </div>
-    <div class="mp-summary">当前范围：${formatRangeDate(m.start, m.end)} · ${manualDays(m)} 天</div>
-  </div>`;
-}
-function manualDays(m){
-  const s = new Date(m.start), e = new Date(m.end);
-  const d = Math.round((e - s) / 86400000) + 1;
-  return isNaN(d) || d < 1 ? 0 : d;
-}
-function manualTrendData(){
-  const labels = ['起','','','','止'];
-  const start = 98, end = 106;
-  const arr = labels.map((_,i)=> Math.round(start + (end-start) * (i/(labels.length-1))));
-  return {x:labels, v:arr};
-}
-
-/* ============ 手动记录：保存与摘要 ============ */
-function flushManual(dim){
-  const form = MANUAL_FORMS[dim];
-  if(!form) return;
-  const m = state.manualRecords[dim] || {};
-  const parts = [];
-  form.groups.forEach(g=>{
-    const v = m[g.k];
-    if(v === undefined || v === null || v === '') return;
-    if(Array.isArray(v) && !v.length) return;
-    parts.push(g.label + '：' + (Array.isArray(v) ? v.join('、') : v));
-  });
-  if(dim === 'diet'){
-    const meals = [['b','早餐'],['l','午餐'],['d','晚餐'],['s','加餐']];
-    const mt = [];
-    meals.forEach(([mk,mn])=>{
-      const q = state.dietQuick[mk]||{};
-      const p = [];
-      if(q.staple) p.push('主食'+q.staple);
-      if(q.protein) p.push('蛋白'+q.protein);
-      if(q.veg) p.push('蔬菜'+q.veg);
-      if(q.fruit) p.push('水果'+q.fruit);
-      if(p.length) mt.push(mn+'（'+p.join('，')+'）');
-    });
-    if(mt.length) parts.unshift('三餐：' + mt.join('；'));
-  }
-  if(!state.records[dim]) state.records[dim] = [];
-  state.records[dim] = state.records[dim].filter(x=>!x.startsWith('__m__'));
-  if(parts.length) state.records[dim].push('__m__' + parts.join('｜'));
-}
-
-function manualSummaryHtml(dim){
-  const form = MANUAL_FORMS[dim];
-  if(!form) return '';
-  const m = state.manualRecords[dim] || {};
-  const parts = [];
-  form.groups.forEach(g=>{
-    const v = m[g.k];
-    if(v === undefined || v === null || v === '') return;
-    if(Array.isArray(v) && !v.length) return;
-    parts.push(g.label + ' ' + (Array.isArray(v) ? v.join('、') : v));
-  });
-  if(dim === 'diet'){
-    const meals = [['b','早餐'],['l','午餐'],['d','晚餐'],['s','加餐']];
-    const mt = [];
-    meals.forEach(([mk,mn])=>{
-      const q = state.dietQuick[mk]||{};
-      const p = [];
-      if(q.staple) p.push('主食'+q.staple);
-      if(q.protein) p.push('蛋白'+q.protein);
-      if(q.veg) p.push('蔬菜'+q.veg);
-      if(q.fruit) p.push('水果'+q.fruit);
-      if(p.length) mt.push(mn+'（'+p.join('，')+'）');
-    });
-    if(mt.length) parts.unshift('三餐 ' + mt.join('；'));
-  }
-  if(!parts.length) return '';
-  return `<div class="mf-saved">今日已记：${parts.join('｜')}</div>`;
-}
-
-function manualFormHtml(dim){
-  const form = MANUAL_FORMS[dim];
-  if(!form) return '';
-  const m = state.manualRecords[dim] || {};
-  const blocks = form.groups.map(g=>{
-    let body = '';
-    if(g.type === 'single'){
-      body = `<div class="mf-chips">${g.opts.map(o=>{
-        const on = m[g.k] === o ? 'on' : '';
-        return `<span class="mf-chip ${on}" data-manual-single="${dim}" data-key="${g.k}" data-val="${o}">${o}</span>`;
-      }).join('')}</div>`;
-    } else if(g.type === 'multi'){
-      const arr = Array.isArray(m[g.k]) ? m[g.k] : [];
-      body = `<div class="mf-chips">${g.opts.map(o=>{
-        const on = arr.includes(o) ? 'on' : '';
-        return `<span class="mf-chip ${on}" data-manual-multi="${dim}" data-key="${g.k}" data-val="${o}" data-excl="${g.excl||''}">${o}</span>`;
-      }).join('')}</div>`;
-    } else if(g.type === 'input'){
-      body = `<input class="mf-input" placeholder="${g.ph||''}" value="${m[g.k]||''}" data-manual-input="${dim}" data-key="${g.k}">`;
-    }
-    return `<div class="mf-row">
-      <span class="mf-lb">${g.label}</span>
-      ${body}
-    </div>`;
-  }).join('');
-  return `<div class="mf-block">
-    <div class="mf-hd">${form.title}</div>
-    ${blocks}
-  </div>`;
-}
-
-function dietQuickHtml(){
-  const QUICK_MEALS = [
-    {k:'b', name:'早餐', time:'07:00'},{k:'l', name:'午餐', time:'12:00'},
-    {k:'d', name:'晚餐', time:'19:00'},{k:'s', name:'加餐/夜宵', time:'随时'}
-  ];
-  const QUICK_FOODS = [
-    {k:'staple', label:'主食', opts:['0','半碗','1碗','2碗','3碗+']},
-    {k:'protein', label:'蛋白', opts:['0','1份','2份','3份+']},
-    {k:'veg', label:'蔬菜', opts:['0','1拳','2拳','3拳+']},
-    {k:'fruit', label:'水果', opts:['0','1份','2份','3份+']}
-  ];
-  return `<div class="mf-block">
-    <div class="mf-hd">三餐记录</div>
-    ${QUICK_MEALS.map(m=>{
-      const cur = state.dietQuick[m.k] || {};
-      return `<div class="quick-meal">
-        <div class="quick-meal-hd">${m.name} <span>${m.time}</span></div>
-        ${QUICK_FOODS.map(f=>`
-          <div class="quick-row">
-            <div class="quick-row-lb">${f.label}</div>
-            <div class="quick-row-opts">${f.opts.map(o=>{
-              const on = cur[f.k] === o ? 'on' : '';
-              return `<div class="quick-opt ${on}" data-quick-meal="${m.k}" data-quick-cat="${f.k}" data-quick-val="${o}">${o}</div>`;
-            }).join('')}</div>
-          </div>
-        `).join('')}
-      </div>`;
-    }).join('')}
-  </div>`;
-}
-
-/* ============ 渲染入口 ============ */
-function render(){
-  if(!state.onboarded){ renderOnboard(); return; }
-  document.getElementById('onboard').classList.add('hide');
-
-  document.getElementById('viewbar').innerHTML = `
-    <div class="vb-seg">
-      <span class="${state.view==='personal'?'on':''}" data-view="personal">个人视角</span>
-      <span class="${state.view==='admin'?'on':''}" data-view="admin">后台视角</span>
-    </div>`;
-
-  if(state.view === 'admin'){
-    document.getElementById('tabbar').style.display = 'none';
-    document.getElementById('screen').innerHTML = renderAdmin();
-    document.getElementById('screen').scrollTop = 0;
-    setTimeout(animateBars, 50);
-    return;
-  }
-  document.getElementById('tabbar').style.display = 'flex';
-  const map = {see:renderSee, foresee:renderForesee, change:renderChange, manage:renderManage};
-  document.getElementById('screen').innerHTML = map[state.tab]();
-  document.getElementById('tabbar').innerHTML = TABS.map(t=>
-    `<div class="tab ${t.k===state.tab?'active':''}" data-tab="${t.k}">
-      <svg viewBox="0 0 24 24"><path d="${t.p}"/></svg><div>${t.n}</div>
-    </div>`).join('');
-  document.getElementById('screen').scrollTop = 0;
-  setTimeout(animateBars, 50);
-}
-function animateBars(){
-  document.querySelectorAll('.g9-bar span,.asset-row-fill,.result-bar-fill').forEach(el=>{
-    if(el.dataset.w) el.style.width = el.dataset.w + '%';
-  });
-}
-
-/* ============ 看见 ============ */
-function renderSee(){
-  const range = state.range.see;
-  const scores = dimScores(range);
-  const asset = currentAsset(range);
-  const at = range === 'manual' ? manualTrendData() : ASSET_TREND[range];
-
-  const grid = DIMS.map(d=>{
-    const sc = scores[d.k];
-    const g = gradeOf(sc);
-    const st = dimState(d);
-    return `<div class="g9" data-dim="${d.k}" data-dim-range="${range}">
-      <div class="g9-top">
-        <div class="g9-name">${d.name}</div>
-        <div class="g9-dot ${st}"></div>
-      </div>
-      <div class="g9-main">
-        <span class="g9-grade" style="color:${g.color}">${g.letter}</span>
-        <span class="g9-score">${sc}</span>
-      </div>
-      <div class="g9-bar"><span data-w="${sc}" style="background:${g.color};width:0"></span></div>
-    </div>`;
-  }).join('');
-
-  const d = at.v[at.v.length-1] - at.v[0];
-  const isGood = d >= 0;
-  const color = isGood ? '#C8102E' : '#1A1A1A';
-  const deltaCls = isGood ? 'up' : 'down';
-  const sign = d >= 0 ? '+' : '';
-  const trendHtml = `<div class="trendcard">
-    <div class="tc-hd">
-      <div>
-        <div class="tc-lb">健康资产 · ${rangeText('see')}</div>
-        <div class="tc-num" style="color:${color}">${asset}</div>
-      </div>
-      <div class="tc-delta ${deltaCls}">${sign}${d}</div>
-    </div>
-    ${trendSvg(at.v, at.x, color, ASSET_MAX)}
-    <div class="trend-x">${xLabels(at.x)}</div>
-  </div>`;
-
-  const voiceSection = `<div class="voice-section" data-voice-open>
-    <span>语音记录健康</span>
-    <span class="vs-arrow">›</span>
-  </div>`;
-
-  const gridSection = `
-    <div class="sec" style="margin-bottom:${state.gridExpanded?'10px':'0'}">
-      <span>健康九宫格</span>
-      <span class="grid-toggle ${state.gridExpanded?'open':''}" data-grid-toggle>
-        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-      </span>
-    </div>
-    ${state.gridExpanded ? `<div class="g9-grid">${grid}</div>` : ''}`;
-
-  return `
-    <div class="hd">
-      <div class="hd-row">
-        <div>
-          <div class="hd-title">看见</div>
-        </div>
-        <div class="share-btn" data-share>↗ 转发</div>
-      </div>
-    </div>
-
-    ${rangeBar('see')}
-    ${trendHtml}
-    ${voiceSection}
-    ${gridSection}
-  `;
-}
-
-/* ============ 预见 ============ */
-function renderForesee(){
-  const range = state.range.foresee;
-  const asset = currentAsset(range);
-  const lv = levelOfAsset(asset);
-
-  const adjMap = {muscle:'move', bone:'body', blood:'body', brain:'cognition', gut:'diet', heart:'stress'};
-  const adj = RANGE_ADJ[range] || {};
-  const assetRows = ASSETS6.map(a=>{
-    const score = Math.max(30, Math.min(99, a.score + (adj[adjMap[a.k]]||0)));
-    const g = gradeOf(score);
-    return `<div class="asset-row">
-      <div class="asset-row-nm">${a.nm}</div>
-      <div class="asset-row-sub">${a.sub}</div>
-      <div class="asset-row-bar">
-        <div class="asset-row-fill" data-w="${score}" style="background:${g.color};width:0"></div>
-      </div>
-      <div class="asset-row-val" style="color:${g.color}">${score}</div>
-    </div>`;
-  }).join('');
-
-  const at = range === 'manual' ? manualTrendData() : ASSET_TREND[range];
-  const trendD = at.v[at.v.length-1] - at.v[0];
-  const isGood = trendD >= 0;
-  const color = isGood ? '#C8102E' : '#1A1A1A';
-  const deltaCls = isGood ? 'up' : 'down';
-  const sign = trendD >= 0 ? '+' : '';
-  const assetTrend = `<div class="trendcard">
-    <div class="tc-hd">
-      <div>
-        <div class="tc-lb">资产趋势 · ${rangeText('foresee')}</div>
-        <div class="tc-num" style="color:${color}">${sign}${trendD}</div>
-      </div>
-      <div class="tc-delta ${deltaCls}">${isGood ? '上升' : '下降'}</div>
-    </div>
-    ${trendSvg(at.v, at.x, color, ASSET_MAX)}
-    <div class="trend-x">${xLabels(at.x)}</div>
-  </div>`;
-
-  const levelListHtml = [...LEVELS].reverse().map(l=>{
-    const cur = l.key === lv.key;
-    const reached = asset >= l.min;
-    const tag = cur ? '当前预估' : (reached ? '有望达到' : '');
-    return `<div class="level-row ${cur?'on':''} ${reached&&!cur?'done':''}">
-      <div class="level-row-name">${l.name}</div>
-      <div class="level-row-age">${l.ageMin}-${l.ageMax} 岁</div>
-      <div class="level-row-tag">${tag}</div>
-    </div>`;
-  }).join('');
-
-  return `
-    <div class="hd">
-      <div class="hd-title">预见 · 健康寿命</div>
-    </div>
-
-    ${rangeBar('foresee')}
-
-    <div class="level-card">
-      <div class="level-top">
-        <div class="level-badge">当前预估</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5)">${asset} / ${ASSET_MAX} 分</div>
-      </div>
-      <div class="level-now">
-        <div class="level-now-lb">${lv.name} · 第 ${LEVELS.findIndex(x=>x.key===lv.key)+1} / ${LEVELS.length} 级</div>
-        <div class="level-now-name">${lv.name}</div>
-        <div class="level-now-age">预计 ${lv.ageMin}-${lv.ageMax} 岁</div>
-      </div>
-      <div class="level-list">${levelListHtml}</div>
-    </div>
-
-    <div class="sec"><span>资产趋势</span></div>
-    ${assetTrend}
-
-    <div class="sec"><span>各维度拆分</span></div>
-    <div class="asset-list">
-      <div class="asset-list-hd">肌骨血脑肠心 · ${rangeText('foresee')}</div>
-      ${assetRows}
-    </div>
-  `;
-}
-
-/* ============ 改变 ============ */
-function renderChange(){
-  const range = state.range.change;
-  const g = MAIN_GOAL;
-  const prog = g.progress[range] || g.progress.week;
-  const chg = g.change[range] || g.change.week;
-  const pct = Math.min(100, Math.round(prog.cur / prog.total * 100));
-
-  const goalHtml = `<div class="goal-card">
-    <div class="goal-hd">
-      <span class="goal-tag">当前目标 · ${g.dim}</span>
-      <span class="goal-more" data-goal-detail>为什么是这个 ›</span>
-    </div>
-    <div class="goal-title">${g.title}</div>
-    <div class="goal-desc">${g.desc}</div>
-  </div>`;
-
-  const actionHtml = g.practices.map(p=>{
-    const ps = state.practiceState[p.id];
-    let btn;
-    if(ps.joined && ps.checkedToday){
-      btn = `<button class="action-btn done" disabled>已打卡</button>`;
-    } else if(ps.joined){
-      btn = `<button class="action-btn check" data-practice-check="${p.id}">打卡</button>`;
-    } else {
-      btn = `<button class="action-btn join" data-practice-join="${p.id}">加入</button>`;
-    }
-    const streakTxt = ps.joined
-      ? `<span style="color:var(--gold);font-weight:600">连续 ${ps.streak} 天</span>`
-      : '';
-    return `<div class="action-item">
-      <div class="action-ico">${p.t.slice(0,1)}</div>
-      <div class="action-main">
-        <div class="action-t">${p.t}</div>
-        <div class="action-s">
-          <span class="action-src">${p.src}</span>
-          ${streakTxt}
-        </div>
-      </div>
-      ${btn}
-    </div>`;
-  }).join('');
-
-  const resultHtml = `<div class="result-card">
-    <div class="result-hd">完成结果</div>
-    <div class="result-num">${prog.cur}<small>/ ${prog.total} 天</small></div>
-    <div class="result-lb">${prog.label}</div>
-    <div class="result-bar">
-      <div class="result-bar-fill" data-w="${pct}" style="width:0"></div>
-    </div>
-    <div class="result-foot"><span>完成 ${pct}%</span><span>${prog.cur===prog.total?'已达成':'继续'}</span></div>
-    <div class="result-chg">
-      <span class="result-chg-lb">这段时间的变化</span>
-      <span class="result-chg-val">${chg.v} · ${chg.note}</span>
-    </div>
-  </div>`;
-
-  return `
-    <div class="hd">
-      <div class="hd-title">改变</div>
-    </div>
-
-    ${rangeBar('change')}
-    ${goalHtml}
-    <div class="sec"><span>怎么做</span><span class="more">点击加入或打卡</span></div>
-    <div class="action-list">${actionHtml}</div>
-    <div class="sec"><span>做得怎么样</span></div>
-    ${resultHtml}
-  `;
-}
-
-function openGoalDetail(){
-  const g = MAIN_GOAL;
-  const whyHtml = g.why.map(w=>`<div class="detail-li"><span class="dot"></span>${w}</div>`).join('');
-  const practicesHtml = g.practices.map(p=>{
-    const ps = state.practiceState[p.id];
-    const days = WEEKDAYS.map((d,i)=>{
-      const on = ps.joined && ps.week[i]===1;
-      const isToday = i===0;
-      return `<div class="week-day ${on?'on':''} ${isToday&&!on?'today':''}">${d}</div>`;
-    }).join('');
-    return `<div class="detail-block">
-      <div class="detail-t">${p.src}</div>
-      <div class="detail-p" style="font-weight:600;margin-bottom:8px">${p.t}</div>
-      <div class="week-days">${days}</div>
-      <div class="detail-p" style="font-size:11px;color:var(--ink3);margin-top:8px">
-        ${ps.joined ? `已加入 · 连续 ${ps.streak} 天` : '未加入'}
-      </div>
-    </div>`;
-  }).join('');
-  openSimpleSheet('为什么是这个目标', `
-    <div class="detail-block">
-      <div class="detail-t">目标</div>
-      <div class="detail-p" style="font-weight:600">${g.title}</div>
-      <div class="detail-p" style="margin-top:8px">${g.desc}</div>
-    </div>
-    <div class="detail-block">
-      <div class="detail-t">依据</div>
-      <div class="detail-list">${whyHtml}</div>
-    </div>
-    <div class="detail-block">
-      <div class="detail-t">配套实践</div>
-      ${practicesHtml}
-    </div>
-    <div class="sh-btn ghost" data-close>关闭</div>
-  `);
-}
-
-/* ============ 管理 ============ */
-function renderManage(){
-  const range = state.range.manage;
-  const streakDays = {day:1, week:12, month:48, year:186, all:302, manual:12}[range];
-
-  const familyRows = [
-    {n:'父亲', s:71, r:'已绑定'},
-    {n:'母亲', s:79, r:'已绑定'},
-    {n:'爱人', s:83, r:'已绑定'}
-  ].map(m=>`
-    <div class="mgr-row" data-family>
-      <div class="mgr-row-ico" style="background:var(--gold-bg);color:var(--gold)">${m.n[0]}</div>
-      <div class="mgr-row-main">
-        <div class="mgr-row-t">${m.n}</div>
-        <div class="mgr-row-s">${m.r} · 已同步健康资产</div>
-      </div>
-      <div class="mgr-row-val">${m.s}</div>
-    </div>`).join('');
-
-  return `
-    <div class="hd">
-      <div class="hd-title">管理</div>
-    </div>
-
-    ${rangeBar('manage')}
-
-    <div class="streak">
-      <div class="streak-num">${streakDays}<small>天</small></div>
-      <div class="streak-lb">连续打卡 · ${rangeText('manage')}</div>
-    </div>
-
-    <div class="sec"><span>家庭</span></div>
-    <div class="mgr-group">
-      ${familyRows}
-      <div class="mgr-row" data-family>
-        <div class="mgr-row-ico" style="background:var(--blue-bg);color:var(--blue)">+</div>
-        <div class="mgr-row-main">
-          <div class="mgr-row-t">邀请家人</div>
-          <div class="mgr-row-s">家人只能看到分数</div>
-        </div>
-        <div class="mgr-row-val">邀请</div>
-      </div>
-    </div>
-
-    <div class="sec"><span>设备</span></div>
-    <div class="mgr-group">
-      <div class="mgr-row"><div class="mgr-row-ico">戒</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">智能戒指</div>
-        <div class="mgr-row-s">睡眠 · HRV · 血氧</div></div>
-        <div class="mgr-row-val">已连接</div></div>
-      <div class="mgr-row"><div class="mgr-row-ico">糖</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">CGM 动态血糖</div>
-        <div class="mgr-row-s">实时血糖 · 14 天趋势</div></div>
-        <div class="mgr-row-val">已连接</div></div>
-      <div class="mgr-row"><div class="mgr-row-ico">压</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">血压计</div>
-        <div class="mgr-row-s">晨起 · 睡前</div></div>
-        <div class="mgr-row-val">已连接</div></div>
-      <div class="mgr-row"><div class="mgr-row-ico">秤</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">体脂秤</div>
-        <div class="mgr-row-s">体重 · 体脂 · 肌肉量</div></div>
-        <div class="mgr-row-val">已连接</div></div>
-    </div>
-
-    <div class="sec"><span>隐私与分享</span></div>
-    <div class="mgr-group">
-      <div class="mgr-row" data-share><div class="mgr-row-ico">转</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">转发健康卡</div>
-        <div class="mgr-row-s">资产 · 等级 · 摘要</div></div>
-        <div class="mgr-row-val">›</div></div>
-      <div class="mgr-row"><div class="mgr-row-ico">医</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">就诊模式</div>
-        <div class="mgr-row-s">一键切换给医生看</div></div>
-        <div class="mgr-row-val">›</div></div>
-      <div class="mgr-row" data-family><div class="mgr-row-ico">家</div>
-        <div class="mgr-row-main"><div class="mgr-row-t">分享给家人</div>
-        <div class="mgr-row-s">仅看评分</div></div>
-        <div class="mgr-row-val">›</div></div>
-    </div>
-  `;
-}
-
-/* ============ 后台视角 ============ */
-function renderAdmin(){
-  if(state.adminUser) return renderAdminUser();
-  const kpis = ADMIN.kpi.map(k=>`
-    <div class="kpi">
-      <div class="kpi-v">${k.v}</div>
-      <div class="kpi-l">${k.l}</div>
-      <div class="kpi-d ${k.up?'up':'down'}">${k.d}</div>
-    </div>`).join('');
-  const ranks = ADMIN.ranks.map((r,i)=>{
-    const top = i===0?'top1':i===1?'top2':i===2?'top3':'';
-    return `<div class="rank-row" data-rank-user="${r.n}">
-      <div class="rank-no ${top}">${i+1}</div>
-      <div class="rank-main">
-        <div class="rank-nm">${r.n}</div>
-        <div class="rank-sub">${r.sub}</div>
-      </div>
-      <div class="rank-asset">${r.s}</div>
-    </div>`;
-  }).join('');
-  return `
-    <div class="hd">
-      <div class="hd-title">排行榜</div>
-    </div>
-    <div class="kpi-grid">${kpis}</div>
-    <div class="sec"><span>健康资产排行榜</span><span class="more">满分 ${ASSET_MAX}</span></div>
-    <div class="card" style="padding:6px 18px">${ranks}</div>
-    <div style="height:20px"></div>
-  `;
-}
-
-function renderAdminUser(){
-  const user = state.adminUser;
-  const cells = ADMIN.dims.map(d=>{
-    const g = gradeOf(d.v);
-    return `<div class="g9">
-      <div class="g9-top">
-        <div class="g9-name">${d.n}</div>
-        <div class="g9-dot ${d.v>=75?'full':d.v>=50?'partial':''}"></div>
-      </div>
-      <div class="g9-main">
-        <span class="g9-grade" style="color:${g.color}">${g.letter}</span>
-        <span class="g9-score">${d.v}</span>
-      </div>
-      <div class="g9-bar"><span data-w="${d.v}" style="background:${g.color};width:0"></span></div>
-    </div>`;
-  }).join('');
-  return `
-    <div class="hd">
-      <div class="hd-row">
-        <div>
-          <div class="hd-title">用户九宫格</div>
-        </div>
-        <div class="share-btn" data-admin-back>← 返回</div>
-      </div>
-    </div>
-    <div class="trendcard" style="margin-bottom:12px">
-      <div class="tc-hd">
-        <div>
-          <div class="tc-lb">${user} · 健康资产</div>
-          <div class="tc-num" style="color:#C8102E">${(ADMIN.ranks.find(r=>r.n===user)||{s:106}).s}</div>
-        </div>
-        <div class="tc-delta up">+8</div>
-      </div>
-      ${trendSvg([98,101,103,104,105,106,106],['一','二','三','四','五','六','日'],'#C8102E',ASSET_MAX)}
-      <div class="trend-x">${xLabels(['一','二','三','四','五','六','日'])}</div>
-    </div>
-    <div class="sec"><span>九维度</span></div>
-    <div class="g9-grid">${cells}</div>
-    <div style="height:20px"></div>
-  `;
-}
-
-/* ============ 引导流程 ============ */
-function renderOnboard(){
-  const el = document.getElementById('onboard');
-  el.classList.remove('hide');
-  const ob = state.ob;
-  let body = '';
-  if(ob.step === 0){
-    body = `
-      <div class="ob-hero">
-        <div class="ob-logo">健</div>
-        <div class="ob-h1">老板健康</div>
-        <div class="ob-h2">看见身体 · 预见未来 · 改变今天</div>
-      </div>
-      <div class="ob-foot">
-        <div class="ob-btn" data-ob-login>微信一键登录</div>
-        <div class="ob-btn ghost" data-ob-phone>手机号登录</div>
-        <div class="ob-tip">登录即表示同意《用户协议》《隐私政策》</div>
-      </div>`;
-  } else if(ob.step === 1){
-    body = `
-      <div class="ob-body">
-        <div class="ob-head">
-          <div class="ob-step">基础信息</div>
-          <div class="ob-title">先认识一下你</div>
-          <div class="ob-sub">这些信息用于生成健康基线</div>
-        </div>
-        <div class="ob-field"><label>性别</label>
-          <div class="ob-opts">${['男','女'].map(o=>`<div class="ob-opt ${ob.gender===o?'on':''}"
-            data-ob-set="gender" data-val="${o}">${o}</div>`).join('')}</div></div>
-        <div class="ob-field"><label>出生年份</label>
-          <input class="ob-input" type="number" data-ob-input="birth" value="${ob.birth}" placeholder="1965"></div>
-        <div class="ob-field"><label>身高（cm）</label>
-          <input class="ob-input" type="number" data-ob-input="height" value="${ob.height}" placeholder="178"></div>
-        <div class="ob-field"><label>体重（kg）</label>
-          <input class="ob-input" type="number" step="0.1" data-ob-input="weight" value="${ob.weight}" placeholder="78.4"></div>
-        <div class="ob-field"><label>已有慢病 <small>可多选，没有可跳过</small></label>
-          <div class="ob-opts">${['高血压','糖尿病','高血脂','脂肪肝','痛风','没有'].map(o=>
-            `<div class="ob-opt ${ob.conditions.includes(o)?'on':''}"
-              data-ob-multi="conditions" data-val="${o}">${o}</div>`).join('')}</div></div>
-      </div>
-      <div class="ob-foot"><div class="ob-btn" data-ob-done>开始使用</div></div>`;
-  }
-  el.innerHTML = body;
-}
-
-/* ============ Sheet 基础 ============ */
-let sheetRenderer = null;
-function openSheet(title, body, renderer){
-  sheetRenderer = renderer || null;
-  document.getElementById('sheet').innerHTML = `
-    <div class="sh-head">
-      <div class="sh-title-row">
-        <div style="flex:1;min-width:0">
-          <div class="sh-name">${title}</div>
-          <div class="sh-date">${TODAY}</div>
-        </div>
-        <div class="sh-x" data-close>✕</div>
-      </div>
-    </div>
-    ${body}`;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('sheet').scrollTop = 0;
-  setTimeout(animateBars, 60);
-}
-function openSimpleSheet(title, body){
-  sheetRenderer = null;
-  document.getElementById('sheet').innerHTML = `
-    <div class="sh-head">
-      <div class="sh-title-row">
-        <div style="flex:1;min-width:0">
-          <div class="sh-name">${title}</div>
-          <div class="sh-date">${TODAY}</div>
-        </div>
-        <div class="sh-x" data-close>✕</div>
-      </div>
-    </div>
-    ${body}`;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('sheet').scrollTop = 0;
-  setTimeout(animateBars, 60);
-}
-function rerenderSheet(){
-  if(!sheetRenderer) return;
-  const el = document.getElementById('sheet');
-  const top = el.scrollTop;
-  sheetRenderer();
-  requestAnimationFrame(()=>{ el.scrollTop = top; });
-}
-function closeModal(){
-  document.getElementById('modal').classList.remove('open');
-  sheetRenderer = null;
-  state.voice = null;
-  state.voiceToken = null;
-  state.voiceCov = null;
-}
 function toast(msg){
   const d = document.createElement('div');
   d.className = 'toast';
@@ -1677,582 +452,584 @@ function toast(msg){
   document.querySelector('.phone').appendChild(d);
   setTimeout(()=>d.remove(), 1800);
 }
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
 
-/* ============ 总分趋势 ============ */
-function totalScoreTrendHtml(k, range){
-  const dim = DIMS.find(x=>x.k===k);
-  const series = DIM_TREND_BY_RANGE[k] && DIM_TREND_BY_RANGE[k][range];
-  if(!series || !series.length){
-    return `<div style="background:#fff;border:1px dashed var(--line);border-radius:var(--r-md);padding:22px 20px;text-align:center;margin-bottom:16px">
-      <div style="font-size:22px;color:var(--ink3);margin-bottom:8px">📈</div>
-      <div style="font-size:var(--fs-base);font-weight:600;color:var(--ink);margin-bottom:4px">还没有足够数据</div>
-      <div style="font-size:var(--fs-sm);color:var(--ink3);line-height:1.6">记录一次后就能看到趋势</div>
-    </div>`;
-  }
-  const xs = DIM_TREND_X[range] || DIM_TREND_X.week;
-  const first = series[0], last = series[series.length-1];
-  const delta = last - first;
-  const isGood = trendIsGood(k, delta);
-  const color = isGood ? '#C8102E' : '#1A1A1A';
-  const deltaCls = isGood ? 'up' : 'down';
-  const sign = delta >= 0 ? '+' : '';
-  return `<div class="trendcard" style="margin-top:0;margin-bottom:16px">
-    <div class="tc-hd">
-      <div>
-        <div class="tc-lb">总分 · ${dim.name}（100 分制）</div>
-        <div class="tc-num" style="color:${color}">${last}<small>分</small></div>
-      </div>
-      <div class="tc-delta ${deltaCls}">${sign}${delta}</div>
-    </div>
-    ${trendSvg(series, xs, color, 100)}
-    <div class="trend-x">${xLabels(xs)}</div>
+/* ============ 健康助手 ============ */
+function chatMsgHtml(m){
+  const isUser = m.role === 'user';
+  return `<div class="chat-msg ${isUser?'user':'ai'}">
+    <div class="chat-avatar ${isUser?'user':'ai'}">${isUser?'我':'AI'}</div>
+    <div class="chat-bubble">${escapeHtml(m.text)}</div>
   </div>`;
 }
 
-/* ============ 具体指标 ============ */
-function metricsBlockHtml(k){
-  const items = DIM_SNAPSHOT[k] || [];
-  if(!items.length){
-    return `<div class="metrics-block">
-      <div class="metrics-hd"><span>具体指标</span><span class="cnt">暂无</span></div>
-      <div class="metrics-empty">这个维度没有可读取的设备指标<br>用下方手动记录补上今天的情况</div>
-    </div>`;
+function aiReply(text){
+  const t = text || '';
+
+  if(/早餐|早饭|午饭|午餐|晚饭|晚餐|吃了|喝了|走了.*步/.test(t) && !/怎么|什么|为什么/.test(t)){
+    return '好，我记下了。\n这一餐主食和蛋白都有，算稳的。\n如果方便，再跟我说说中午和晚上吃了什么，我帮你看看一天的整体节奏。';
   }
-  const rows = items.map(it=>{
-    const empty = it.v === null || it.v === undefined || it.v === '';
-    let deltaHtml = '<span class="metric-delta flat">—</span>';
-    if(!empty && it.delta !== null && it.delta !== undefined && it.delta !== 0){
-      const sign = it.delta > 0 ? '+' : '';
-      const cls = it.good ? 'good' : 'bad';
-      let dv = it.delta;
-      if(!Number.isInteger(dv)) dv = dv.toFixed(1);
-      deltaHtml = `<span class="metric-delta ${cls}">${sign}${dv}</span>`;
-    }
-    return `<div class="metric-row">
-      <div class="metric-nm">${it.k}</div>
-      <div class="metric-v ${empty?'empty':''}">${empty ? '—' : it.v}${!empty && it.unit ? `<small>${it.unit}</small>` : ''}</div>
-      ${deltaHtml}
-    </div>`;
-  }).join('');
-  return `<div class="metrics-block">
-    <div class="metrics-hd"><span>具体指标</span><span class="cnt">${items.length} 项</span></div>
-    ${rows}
+  if(/这周|本周|趋势|比上周|最近几天/.test(t)){
+    return '这周你平均睡了 7 小时 12 分钟，比上周多了 12 分钟，夜里醒的次数也从 3 次降到 2 次。\n有两天睡得偏晚，是不是那两天有事？\n整体在往好的方向走，不用着急。';
+  }
+  if(/低密度|胆固醇|指标|报告|体检.*意思/.test(t)){
+    return '低密度脂蛋白是“坏胆固醇”，偏高会让血管更容易堵。\n你这次 3.8，比正常上限 3.4 高一点，先不用紧张。\n少吃油炸和肥肉，多走动，三个月后复查一次就好。';
+  }
+  if(/看医生|就诊|整理.*说|去医院/.test(t)){
+    return '好，我帮你理一份，到时候直接给医生看：\n· 最近血压 128/82 左右，偶尔头晕\n· 颈肩僵，伏案久了更明显\n· 正在吃的药：降压药每天一次\n· 想确认：要不要调药、多久复查\n还需要补充别的吗？';
+  }
+  if(/提醒|复查|到时候/.test(t)){
+    return '好，我记下了，三个月后提醒你复查。\n到时候我会提前一周来问你，免得你忙起来忘了。\n要提醒的还有别的吗？';
+  }
+  if(/累|烦|焦虑|压力|心情|不开心|撑不住/.test(t)){
+    return '嗯，累了就歇一会儿，不用硬撑。\n今天最让你烦的是哪件事？我陪你想想。\n如果不想说，我们就先做一次呼吸：吸气 4 秒，屏息 7 秒，呼气 8 秒，做 4 轮。';
+  }
+  if(/少问|多问|偏好|直接给结论|别啰嗦/.test(t)){
+    return '好，以后我少问一点，多直接给结论。\n有特别想让我盯着的，也随时告诉我。\n比如血压、睡眠、应酬，你挑一个最想让我留意的？';
+  }
+  if(/睡|失眠|入睡|夜醒/.test(t)){
+    return '听起来昨晚没太休息好，辛苦了。\n今晚可以试试：睡前把手机放到卧室外面，给自己留 90 分钟安静下来。\n如果躺下 20 分钟还没睡着，就起来坐一会儿，等困了再回床。\n明天早上跟我说说，昨晚几点睡着的？';
+  }
+  if(/血压|心血管|心慌|胸闷/.test(t)){
+    return '嗯，血压这事确实值得多留意一点。\n不用紧张，我们可以先做几件小事：每天固定一个时间量一次并记下来；晚饭后慢走 12 分钟；应酬多的时候，尽量给自己留一天不喝酒。\n如果连续几天都偏高，我陪你去看看医生，好不好？';
+  }
+  if(/运动|久坐|散步|快走/.test(t)){
+    return '久坐一整天，身体确实会有点闷。\n要不我们从最小的开始：每坐一小时，起来站两分钟，做几个提踵。\n晚饭后如果有空，慢走 12 分钟就很好。\n你平时晚饭后一般在家还是在外面？我好帮你想想怎么安排。';
+  }
+  if(/吃|饮食|应酬|喝酒|血糖/.test(t)){
+    return '应酬多的时候，吃饭顺序其实能帮上不少忙。\n可以先吃几口蔬菜，再吃蛋白，最后吃主食，餐后血糖会稳一些。\n饭后如果方便，用一杯茶代替含糖饮料。\n你最近应酬大概一周几次？我按你的节奏来想办法。';
+  }
+  if(/颈肩|脖子|腰酸/.test(t)){
+    return '颈肩僵起来确实难受，我能理解。\n现在就可以试一下：双肩慢慢向前绕 10 次，再向后绕 10 次，动作轻一点。\n平时伏案一小时，记得起来活动两分钟。\n如果手麻或者头晕，记得早点去看医生，别硬扛。';
+  }
+  return '嗯，我在听。\n你可以跟我说说最近睡得怎么样、血压有没有变化、应酬多不多，或者哪里不太舒服。\n不着急，我们一点一点来，我会每天来问问你。';
+}
+
+function renderAssistant(){
+  const msgs = state.chat.map(chatMsgHtml).join('');
+  const isStart = state.chat.length <= 1;
+  const suggests = isStart ? `
+    <div class="chat-suggests">
+      <div class="chat-suggest" data-suggest="最近总是睡不好">最近总是睡不好</div>
+      <div class="chat-suggest" data-suggest="体检报告上低密度脂蛋白偏高，是什么意思？">帮我看看体检指标</div>
+      <div class="chat-suggest" data-suggest="下周要去看医生，帮我整理一下要说的">看医生前帮我整理</div>
+      <div class="chat-suggest" data-suggest="今天有点累，也有点烦">今天有点累</div>
+    </div>` : '';
+
+  const inputBar = state.inputMode === 'voice'
+    ? `<div class="voice-bar">
+         <button class="voice-main" data-voice-start>
+           <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 10c0 4 3 7 7 7s7-3 7-7M12 17v4"/></svg>
+           <span>点一下，说给我听</span>
+         </button>
+         <button class="kb-btn" data-input-mode="text" title="切换键盘">
+           <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M9 14h6"/></svg>
+         </button>
+       </div>`
+    : `<div class="chat-input-row">
+         <button class="voice-mini" data-input-mode="voice" title="切换语音">
+           <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 10c0 4 3 7 7 7s7-3 7-7M12 17v4"/></svg>
+         </button>
+         <input id="chatInput" placeholder="今天想跟我说点什么…" autocomplete="off">
+         <button class="chat-send" data-chat-send>
+           <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+         </button>
+       </div>`;
+
+  return `<div class="chat-wrap">
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat-head">
+        <div class="chat-head-t">健康助手</div>
+        <div class="chat-head-s">我是你的电子儿女，会每天来关心你</div>
+      </div>
+      ${msgs}
+      ${suggests}
+    </div>
+    <div class="chat-input-bar">${inputBar}</div>
   </div>`;
 }
 
-/* ============ 各维度弹窗：趋势 + 指标 + 手动记录 ============ */
-function openDimRecord(k, range){
-  const d = DIMS.find(x=>x.k===k);
-  if(!d) return;
-  let renderer;
-  renderer = () => openSheet(d.name, `
-    ${totalScoreTrendHtml(k, range)}
-    ${metricsBlockHtml(k)}
-    ${manualSummaryHtml(k)}
-    ${manualFormHtml(k)}
-  `, renderer);
-  renderer();
+function appendChatMessage(m){
+  const scroll = document.getElementById('chatScroll');
+  if(!scroll) return;
+  const sug = scroll.querySelector('.chat-suggests');
+  if(sug) sug.remove();
+  const tmp = document.createElement('div');
+  tmp.innerHTML = chatMsgHtml(m);
+  scroll.appendChild(tmp.firstElementChild);
 }
+function scrollChatToBottom(){
+  const scroll = document.getElementById('chatScroll');
+  if(scroll) scroll.scrollTop = scroll.scrollHeight;
+}
+function sendChat(text){
+  const t = (text || '').trim();
+  if(!t || state.chatBusy) return;
 
-/* 饮食：趋势 + 指标 + 三餐 + 应酬烟酒 */
-function openDiet(range){
-  const r = range || state.range.see;
-  let renderer;
-  renderer = () => openSheet('饮食', `
-    ${totalScoreTrendHtml('diet', r)}
-    ${metricsBlockHtml('diet')}
-    ${manualSummaryHtml('diet')}
-    ${dietQuickHtml()}
-    ${manualFormHtml('diet')}
-  `, renderer);
-  renderer();
-}
+  const userMsg = {role:'user', text:t};
+  state.chat.push(userMsg);
+  appendChatMessage(userMsg);
+  scrollChatToBottom();
 
-/* ============ 微体检 ============ */
-function openQuiz(){ state.quizIndex=0; state.quizAns={}; renderQuiz(); }
-function renderQuiz(){
-  const q = QUIZ[state.quizIndex];
-  if(!q){ closeModal(); return; }
-  const cur = state.quizAns[q.k];
-  let opts = '';
-  if(q.type==='input'){
-    opts = `<input class="ob-input" id="qzInput" placeholder="${q.ph}" value="${cur||''}"
-      maxlength="4" inputmode="numeric" style="font-size:24px;text-align:center;letter-spacing:6px;padding:18px">`;
-  } else if(q.type==='single'){
-    opts = `<div style="margin-top:18px">${q.opts.map((o,i)=>
-      `<div class="rec-opt ${cur===i+1?'on':''}" data-qz-single="${q.k}" data-val="${i+1}"
-        style="display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
-    ).join('')}</div>`;
-  } else if(q.type==='multi'){
-    const arr = cur||[];
-    opts = `<div style="margin-top:18px">${q.opts.map(o=>
-      `<div class="rec-opt ${arr.includes(o)?'on':''}" data-qz-multi="${q.k}"
-        data-val="${o}" data-excl="${q.excl||''}"
-        style="display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:9px;border:1.5px solid var(--line)">${o}</div>`
-    ).join('')}</div>`;
-  }
-  const canNext = state.quizAns[q.k]!==undefined;
-  const isLast = state.quizIndex===QUIZ.length-1;
-  document.getElementById('sheet').innerHTML = `
-    <div class="sh-head">
-      <div class="sh-title-row">
-        <div style="flex:1;min-width:0">
-          <div class="sh-name">微体检</div>
-          <div class="sh-date">${TODAY} · ${state.quizIndex+1}/${QUIZ.length}</div>
-        </div>
-        <div class="sh-x" data-close>✕</div>
-      </div>
-    </div>
-    <div style="font-size:var(--fs-title);font-weight:600;line-height:1.5">${q.q}</div>
-    ${opts}
-    <div style="display:flex;gap:10px;margin-top:20px">
-      ${state.quizIndex>0?'<div class="sh-btn ghost" data-qz-prev style="flex:1;margin:0">上一题</div>':''}
-      <div class="sh-btn ${canNext?'':'disabled'}" data-qz-next style="flex:2;margin:0">${isLast?'完成':'下一题'}</div>
-    </div>`;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('sheet').scrollTop = 0;
-  if(q.type==='input'){
-    const inp = document.getElementById('qzInput');
-    const btn = document.querySelector('[data-qz-next]');
-    inp.addEventListener('input', e=>{
-      const y = parseInt(e.target.value,10);
-      if(y && y>=1920 && y<=2010){ state.quizAns[q.k]=y; btn.classList.remove('disabled'); }
-      else { delete state.quizAns[q.k]; btn.classList.add('disabled'); }
-    });
-    setTimeout(()=>inp.focus(), 300);
-  }
-}
-function renderQuizResult(){
-  const asset = currentAsset(state.range.see);
-  const lv = levelOfAsset(asset);
-  document.getElementById('sheet').innerHTML = `
-    <div class="sh-head">
-      <div class="sh-title-row">
-        <div style="flex:1;min-width:0">
-          <div class="sh-name">健康资产</div>
-          <div class="sh-date">${TODAY}</div>
-        </div>
-        <div class="sh-x" data-close>✕</div>
-      </div>
-    </div>
-    <div class="level-card" style="margin-bottom:16px">
-      <div class="level-top">
-        <div class="level-badge">${lv.name}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5)">${rangeText('see')}</div>
-      </div>
-      <div class="level-now" style="margin-top:12px">
-        <div class="level-now-name" style="font-size:34px">${asset} 分</div>
-        <div class="level-now-age">预计 ${lv.ageMin}-${lv.ageMax} 岁</div>
-      </div>
-    </div>
-    <div class="sh-btn" data-close>知道了</div>`;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('sheet').scrollTop = 0;
-}
+  const input = document.getElementById('chatInput');
+  if(input) input.value = '';
 
-/* ============ 统一语音记录 ============ */
-function voiceCoverageData(){
-  const o = {};
-  DIMS.forEach(d=>{
-    if(hasRecord(d.k)) o[d.k] = 'full';
-    else if(hasDeviceData(d.k)) o[d.k] = 'part';
-    else o[d.k] = 'empty';
-  });
-  return o;
-}
-function coverageHtml(){
-  const cov = state.voiceCov || voiceCoverageData();
-  return DIMS.map(d=>{
-    const lvl = cov[d.k] || 'empty';
-    const txt = lvl==='full' ? '已记录'
-              : lvl==='part' ? '有设备'
-              : lvl==='live' ? '识别中'
-              : '待补充';
-    return `<div class="vc-cell ${lvl}">
-      <div class="vc-n">${d.name}</div>
-      <div class="vc-s">${txt}</div>
-    </div>`;
-  }).join('');
-}
-function openVoiceSheet(){
-  state.voice = {step:'listening', text:'', items:{}};
-  state.voiceCov = voiceCoverageData();
-  const token = {};
-  state.voiceToken = token;
-  renderVoiceListening();
+  state.chatBusy = true;
+  const loading = {role:'ai', text:'我想一想…'};
+  appendChatMessage(loading);
+  scrollChatToBottom();
 
   setTimeout(()=>{
-    if(state.voiceToken !== token) return;
-    const demoItems = parseVoiceText(VOICE_DEMO);
-    const cov = {...state.voiceCov};
-    VOICE_CATS.forEach(c=>{
-      if(demoItems[c.k] && demoItems[c.k].length){
-        if(cov[c.dim] !== 'full') cov[c.dim] = 'live';
-      }
-    });
-    state.voiceCov = cov;
-    const st = document.getElementById('voiceStatus');
-    if(st) st.textContent = '识别中…';
-    const g = document.getElementById('vcGrid');
-    if(g) g.innerHTML = coverageHtml();
+    const scroll = document.getElementById('chatScroll');
+    if(scroll){
+      const last = scroll.lastElementChild;
+      if(last && last.classList.contains('chat-msg')) last.remove();
+    }
+    const reply = {role:'ai', text: aiReply(t)};
+    state.chat.push(reply);
+    appendChatMessage(reply);
+    scrollChatToBottom();
+    state.chatBusy = false;
+  }, 700);
+}
+
+/* ============ 语音输入 ============ */
+function openVoicePanel(){
+  if(state.voiceBusy) return;
+  state.voiceBusy = true;
+
+  const overlay = document.getElementById('voiceOverlay');
+  const panel = document.getElementById('voicePanel');
+  overlay.classList.add('open');
+
+  panel.innerHTML = `
+    <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="voice-status" id="voiceStatus">正在聆听…</div>
+    <div class="voice-transcript empty" id="voiceTranscript">说人话就行，我听着呢</div>
+    <button class="voice-cancel" data-voice-cancel>取消</button>
+  `;
+
+  const text = VOICE_DEMOS[state.voiceIndex % VOICE_DEMOS.length];
+  state.voiceIndex += 1;
+
+  setTimeout(()=>{
+    const status = document.getElementById('voiceStatus');
+    const tr = document.getElementById('voiceTranscript');
+    if(!overlay.classList.contains('open')) return;
+    if(status) status.textContent = '识别中…';
+    if(tr){
+      tr.classList.remove('empty');
+      tr.textContent = '“' + text + '”';
+    }
   }, 900);
 
   setTimeout(()=>{
-    if(state.voiceToken !== token) return;
-    finishVoiceListen();
-  }, 2300);
+    if(!overlay.classList.contains('open')) return;
+    closeVoicePanel();
+    sendChat(text);
+  }, 1900);
 }
-function finishVoiceListen(){
-  if(!state.voice || state.voice.step === 'done') return;
-  state.voice.step = 'done';
-  state.voice.text = VOICE_DEMO;
-  state.voice.items = parseVoiceText(VOICE_DEMO);
-  saveVoice();
+function closeVoicePanel(){
+  const overlay = document.getElementById('voiceOverlay');
+  overlay.classList.remove('open');
+  state.voiceBusy = false;
 }
-function renderVoiceListening(){
-  sheetRenderer = null;
+
+/* ============ 最佳实践 ============ */
+function practiceTabsHtml(){
+  return PRACTICE_CATS.map(c=>
+    `<div class="bp-tab ${state.practiceCat===c?'on':''}" data-practice-cat="${c}">${c}</div>`
+  ).join('');
+}
+function practiceCardHtml(p){
+  const on = !!state.joined[p.id];
+  const cls = CAT_CLS[p.cat] || 'mind';
+  const char = CAT_CHAR[p.cat] || '·';
+  return `<div class="bp-card">
+    <div class="bp-cover bp-cover-${cls}" data-bp-video="${p.id}">
+      <span class="bp-cat-float">${p.cat}</span>
+      <span class="bp-cover-char">${char}</span>
+      <span class="bp-cover-play">▶</span>
+    </div>
+    <div class="bp-title">${p.title}</div>
+    <div class="bp-inventor">发明人：${p.inventor}</div>
+    <div class="bp-join-row">
+      <span class="bp-join-num"><b>${p.joins}</b> 个康友加入</span>
+    </div>
+    <div class="bp-foot">
+      <button class="bp-btn bp-btn-join ${on?'on':''}" data-bp-join="${p.id}">${on?'已加入':'加入'}</button>
+      <button class="bp-btn bp-btn-share" data-bp-share="${p.id}">转发</button>
+    </div>
+  </div>`;
+}
+function practiceListHtml(){
+  let list = BEST_PRACTICES.slice().sort((a,b)=>b.joins-a.joins);
+  if(state.practiceCat !== '全部') list = list.filter(p=>p.cat===state.practiceCat);
+
+  const q = (state.practiceQuery || '').trim().toLowerCase();
+  if(q){
+    list = list.filter(p=>{
+      const hay = [p.title, p.cat, p.inventor, p.howText].join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  const total = list.length;
+  const limit = q ? 999 : state.practiceLimit;
+  const shown = list.slice(0, limit);
+  const cards = shown.length
+    ? shown.map(practiceCardHtml).join('')
+    : `<div class="bp-empty">没有找到相关实践</div>`;
+  const moreBtn = (!q && total > shown.length)
+    ? `<button class="bp-more" data-bp-more>查看全部 ${total} 个</button>` : '';
+  return cards + moreBtn;
+}
+function renderPractice(){
+  return `<div class="page">
+    <div class="hd"><div class="hd-title">最佳实践</div></div>
+    <div class="bp-search">
+      <span class="bp-s-ico">⌕</span>
+      <input placeholder="搜场景、痛点或发明人" data-bp-search value="${state.practiceQuery}">
+    </div>
+    <div class="bp-tabs" id="bpTabs">${practiceTabsHtml()}</div>
+    <div class="bp-list" id="bpList">${practiceListHtml()}</div>
+  </div>`;
+}
+function refreshPracticeList(){
+  const tabs = document.getElementById('bpTabs');
+  const list = document.getElementById('bpList');
+  if(tabs) tabs.innerHTML = practiceTabsHtml();
+  if(list) list.innerHTML = practiceListHtml();
+}
+
+/* ============ 健康管理 ============ */
+function renderManage(){
+  const logged = state.loggedIn;
+  const name = state.user.name || '';
+  const avatarChar = name ? name.slice(-1) : '';
+
+  return `<div class="page">
+    <div class="hd"><div class="hd-title">健康管理</div></div>
+
+    <div class="user-card">
+      <div class="user-avatar ${logged?'logged':''}">${logged ? avatarChar : '·'}</div>
+      <div class="user-main">
+        <div class="user-name">${logged ? name : '未登录'}</div>
+        <div class="user-sub">${logged ? 'ID：' + state.user.id : '登录后可同步健康档案'}</div>
+      </div>
+      ${logged
+        ? `<div class="user-logout" data-logout>退出</div>`
+        : `<button class="user-login-btn" data-login>
+             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+               <path d="M8.7 15.6c-1.9-.9-3.2-2.7-3.2-4.7 0-3 2.9-5.4 6.5-5.4s6.5 2.4 6.5 5.4c0 2-1.3 3.8-3.2 4.7l.6 2.4-2.6-1.4-2.6 1.4.6-2.4z"/>
+             </svg>
+             微信登录
+           </button>`
+      }
+    </div>
+
+    <div class="sec">健康档案</div>
+    <div class="mgr-group">
+      <div class="mgr-row" data-profile="basic">
+        <div class="mgr-row-ico">基</div>
+        <div class="mgr-row-main">
+          <div class="mgr-row-t">基础信息</div>
+          <div class="mgr-row-s">性别 · 年龄 · 身高体重 · 慢病</div>
+        </div>
+        <div class="mgr-row-val">›</div>
+      </div>
+      <div class="mgr-row" data-profile="records">
+        <div class="mgr-row-ico blue">病</div>
+        <div class="mgr-row-main">
+          <div class="mgr-row-t">病例与体检报告</div>
+          <div class="mgr-row-s">${PROFILE.records.length} 条记录</div>
+        </div>
+        <div class="mgr-row-val">›</div>
+      </div>
+      <div class="mgr-row" data-profile="tcm">
+        <div class="mgr-row-ico">中</div>
+        <div class="mgr-row-main">
+          <div class="mgr-row-t">中医诊断</div>
+          <div class="mgr-row-s">体质 · 舌象 · 脉象</div>
+        </div>
+        <div class="mgr-row-val">›</div>
+      </div>
+    </div>
+
+    <div class="sec">隐私与分享</div>
+    <div class="mgr-group">
+      <div class="mgr-row" data-agreement="user">
+        <div class="mgr-row-ico blue">协</div>
+        <div class="mgr-row-main">
+          <div class="mgr-row-t">用户协议</div>
+          <div class="mgr-row-s">使用本应用前请阅读</div>
+        </div>
+        <div class="mgr-row-val">›</div>
+      </div>
+      <div class="mgr-row" data-agreement="privacy">
+        <div class="mgr-row-ico blue">隐</div>
+        <div class="mgr-row-main">
+          <div class="mgr-row-t">隐私保护协议</div>
+          <div class="mgr-row-s">我们如何收集和使用你的数据</div>
+        </div>
+        <div class="mgr-row-val">›</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============ 渲染入口 ============ */
+function render(){
+  const map = {
+    assistant: renderAssistant,
+    practice: renderPractice,
+    manage: renderManage
+  };
+  document.getElementById('screen').innerHTML = map[state.tab]();
+
+  document.getElementById('tabbar').innerHTML = TABS.map(t=>
+    `<div class="tab ${t.k===state.tab?'active':''}" data-tab="${t.k}">
+      <svg viewBox="0 0 24 24"><path d="${t.p}"/></svg><div>${t.n}</div>
+    </div>`).join('');
+
+  if(state.tab === 'assistant'){
+    setTimeout(scrollChatToBottom, 30);
+  }
+}
+
+/* ============ Sheet ============ */
+function openSheet(title, body){
   document.getElementById('sheet').innerHTML = `
     <div class="sh-head">
       <div class="sh-title-row">
         <div style="flex:1;min-width:0">
-          <div class="sh-name">语音记录健康</div>
-          <div class="sh-date">${TODAY} · 说一句就行，后台自动整理</div>
+          <div class="sh-name">${title}</div>
         </div>
         <div class="sh-x" data-close>✕</div>
       </div>
     </div>
-
-    <div style="text-align:center;padding:18px 0 4px">
-      <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="voice-status" id="voiceStatus">正在聆听…</div>
-    </div>
-
-    <div class="vc-hint">各维度数据完整程度 · 说到的会自动补上</div>
-    <div class="vc-grid" id="vcGrid">${coverageHtml()}</div>
-
-    <div class="sh-btn ghost" data-voice-stop>说完了</div>`;
+    ${body}`;
   document.getElementById('modal').classList.add('open');
   document.getElementById('sheet').scrollTop = 0;
 }
-function saveVoice(){
-  const v = state.voice;
-  if(!v) return;
-  let dims = 0, total = 0;
-  Object.keys(v.items).forEach(cat=>{
-    const c = VOICE_CATS.find(x=>x.k===cat);
-    const arr = v.items[cat];
-    if(!c || !arr || !arr.length) return;
-    if(!state.records[c.dim]) state.records[c.dim] = [];
-    state.records[c.dim] = state.records[c.dim].concat(arr);
-    dims++;
-    total += arr.length;
-  });
-  closeModal();
-  render();
-  if(dims){
-    setTimeout(()=>toast(`已记录 ${total} 条，后台已归类到 ${dims} 个维度`), 120);
-  } else {
-    setTimeout(()=>toast('没听到有效内容，可以再说一次'), 120);
+function closeModal(){
+  document.getElementById('modal').classList.remove('open');
+}
+
+function openProfile(key){
+  if(key === 'basic'){
+    const rows = PROFILE.basic.map(it=>
+      `<div class="kv-row"><div class="kv-k">${it.k}</div><div class="kv-v">${it.v}</div></div>`
+    ).join('');
+    openSheet('基础信息', `
+      <div class="detail-block">${rows}</div>
+      <div class="sh-btn ghost" data-close>关闭</div>
+    `);
+    return;
+  }
+  if(key === 'records'){
+    const rows = PROFILE.records.map(r=>
+      `<div class="rec-item">
+        <div class="rec-date">${r.date}</div>
+        <div class="rec-title">${r.title}</div>
+        <div class="rec-desc">${r.desc}</div>
+      </div>`
+    ).join('');
+    openSheet('病例与体检报告', `
+      <div class="detail-block">${rows}</div>
+      <div class="sh-btn ghost" data-close>关闭</div>
+    `);
+    return;
+  }
+  if(key === 'tcm'){
+    const rows = PROFILE.tcm.map(it=>
+      `<div class="kv-row"><div class="kv-k">${it.k}</div><div class="kv-v">${it.v}</div></div>`
+    ).join('');
+    openSheet('中医诊断', `
+      <div class="detail-block">${rows}</div>
+      <div class="sh-btn ghost" data-close>关闭</div>
+    `);
+    return;
   }
 }
 
-/* ============ 转发健康卡 ============ */
-function getShareActions(){
-  const joined = MAIN_GOAL.practices.filter(p=>state.practiceState[p.id].joined);
-  const todayChecked = joined.filter(p=>state.practiceState[p.id].checkedToday);
-  const list = (todayChecked.length ? todayChecked : joined).slice(0, 3);
-  return list.map(p=>{
-    const ps = state.practiceState[p.id];
-    return {t:p.t, streak:ps.streak || 0, checked:ps.checkedToday};
-  });
-}
-function shareCardHtml(){
-  const asset = currentAsset(state.range.see);
-  const lv = levelOfAsset(asset);
-  const actions = getShareActions();
-  const actionsHtml = actions.length
-    ? actions.map(a=>{
-        const streakTxt = a.streak > 0 ? `已坚持 ${a.streak} 天` : '今天开始';
-        return `<div class="share-action">
-          <span class="ok">${a.checked?'✓':'·'}</span>
-          <div>
-            <span class="name">${a.t}</span>
-            <span class="meta">${a.checked ? '<b>今天做了</b> · ' : ''}${streakTxt}</span>
-          </div>
-        </div>`;
-      }).join('')
-    : `<div class="share-action" style="color:rgba(255,255,255,.5)">
-        <span class="ok" style="background:rgba(255,255,255,.2)">·</span>
-        <span>今天还没有打卡记录</span>
-      </div>`;
-  const effect = [
-    {b:'HRV', v:'46→50ms', s:'上升'},
-    {b:'压力', v:'42→36', s:'下降'},
-    {b:'睡眠', v:'7h12m', s:'时长'}
-  ];
-  const feel = state.shareFeel && state.shareFeel.trim()
-    ? `<div class="share-feel">“${state.shareFeel.trim()}”</div>`
-    : `<div class="share-feel empty">写一句今天的感受，会让卡片更真实</div>`;
-  return `<div class="share-card">
-    <div class="share-brand">老板健康 · 健康资产</div>
-    <div class="share-top">
-      <div>
-        <div class="share-score">${asset}</div>
-        <div class="share-score-lb">${TODAY} · ${lv.name}</div>
-      </div>
-      <div class="share-gain">${lv.ageMin}-${lv.ageMax} 岁</div>
+function openAgreement(key){
+  const a = AGREEMENTS[key];
+  if(!a) return;
+  openSheet(a.title, `
+    <div class="detail-block">
+      <div class="detail-p" style="white-space:pre-wrap">${escapeHtml(a.body)}</div>
     </div>
-    <div class="share-divider"></div>
-    <div class="share-block-t">今天做了什么</div>
-    <div class="share-actions">${actionsHtml}</div>
-    <div class="share-divider"></div>
-    <div class="share-block-t">带来了什么变化</div>
-    <div class="share-effect">
-      ${effect.map(e=>`<div><b>${e.v}</b><span>${e.b} · ${e.s}</span></div>`).join('')}
-    </div>
-    <div class="share-divider"></div>
-    <div class="share-block-t">我的感受</div>
-    ${feel}
-  </div>`;
-}
-function openShare(){
-  openSimpleSheet('转发健康卡', `
-    ${shareCardHtml()}
-    <div style="margin-top:16px">
-      <div class="sec" style="margin-top:0;margin-bottom:10px"><span>写一句感受 <small style="font-weight:400;color:var(--ink3)">选填</small></span></div>
-      <textarea id="shareFeel" rows="3" maxlength="60" style="width:100%;padding:11px 14px;border-radius:var(--r-sm);background:var(--gray-bg);border:1.5px solid transparent;font-size:var(--fs-base);font-family:inherit;color:var(--ink);outline:none;resize:none"
-        placeholder="比如：这周终于能在 11 点前放下手机">${state.shareFeel||''}</textarea>
-      <div style="font-size:var(--fs-micro);color:var(--ink3);margin-top:6px;text-align:right">
-        <span id="shareFeelCount">${(state.shareFeel||'').length}</span>/60
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:16px">
-      <div class="sh-btn" style="flex:1;margin:0" data-share-to="friend">转发给朋友</div>
-      <div class="sh-btn ghost" style="flex:1;margin:0" data-share-to="family">分享到家庭</div>
-    </div>
-    <div class="sh-btn ghost" data-share-to="image">保存为图片</div>
+    <div class="sh-btn ghost" data-close>关闭</div>
   `);
 }
-function refreshShareFeel(){
-  const card = document.querySelector('.share-card');
-  if(!card) return;
-  const tmp = document.createElement('div');
-  tmp.innerHTML = shareCardHtml();
-  card.replaceWith(tmp.firstElementChild);
-}
-function openFamily(){
-  const members = [
-    {n:'我', r:'本人', s:currentAsset(state.range.see), a:'禾', c:'#2563EB'},
-    {n:'父亲', r:'已绑定', s:71, a:'父', c:'#B8860B'},
-    {n:'母亲', r:'已绑定', s:79, a:'母', c:'#B8860B'},
-    {n:'爱人', r:'已绑定', s:83, a:'爱', c:'#2563EB'}
-  ];
-  const rows = members.map(m=>`
-    <div class="mgr-row">
-      <div class="mgr-row-ico" style="background:var(--gold-bg);color:${m.c}">${m.a}</div>
-      <div class="mgr-row-main">
-        <div class="mgr-row-t">${m.n}</div>
-        <div class="mgr-row-s">${m.r}</div>
+
+function openPracticeVideo(id){
+  const p = BEST_PRACTICES.find(x=>x.id===id);
+  if(!p) return;
+  const on = !!state.joined[p.id];
+  const cls = CAT_CLS[p.cat] || 'mind';
+  const char = CAT_CHAR[p.cat] || '·';
+  openSheet('视频做法', `
+    <div class="video-frame bp-cover-${cls}">
+      <div class="vf-char">${char}</div>
+      <div class="vf-play">▶</div>
+      <div class="vf-t">${p.title}</div>
+    </div>
+    <div class="detail-block">
+      <div class="detail-t">画面说明</div>
+      <div class="detail-p">${p.howVideo || '视频待补充'}</div>
+    </div>
+    <div class="detail-block">
+      <div class="detail-t">文字做法</div>
+      <div class="detail-p">${p.howText}</div>
+    </div>
+    <div class="detail-block">
+      <div class="detail-t">发明人</div>
+      <div class="detail-p">${p.inventor}</div>
+      <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink3)">
+        <b style="color:var(--gold);font-size:22px;font-weight:700;margin-right:4px">${p.joins}</b> 个康友加入
       </div>
-      <div class="mgr-row-val">${m.s} 分</div>
-    </div>`).join('');
-  openSimpleSheet('家庭', `
-    <div class="card" style="margin-bottom:12px;padding:6px 18px">${rows}</div>
-    <div class="sh-btn" data-family-invite>邀请家人加入</div>
+    </div>
+    <div class="sh-btn" data-bp-join="${p.id}">${on?'已加入':'加入这个实践'}</div>
     <div class="sh-btn ghost" data-close>关闭</div>
+  `);
+}
+
+function openPracticeShare(id){
+  const p = BEST_PRACTICES.find(x=>x.id===id);
+  if(!p) return;
+  openSheet('转发实践', `
+    <div class="detail-block">
+      <div class="detail-t">${p.title}</div>
+      <div class="detail-p">${p.howText}</div>
+      <div class="detail-p" style="margin-top:10px;color:var(--ink3);font-size:var(--fs-sm)">
+        发明人：${p.inventor} · ${p.joins} 个康友加入
+      </div>
+    </div>
+    <div class="sh-btn" data-share-done>转发给朋友</div>
+    <div class="sh-btn ghost" data-close>取消</div>
   `);
 }
 
 /* ============ 事件 ============ */
 document.addEventListener('click', e=>{
-  if(e.target.closest('[data-ob-login]') || e.target.closest('[data-ob-phone]')){
-    state.ob.step = 1; renderOnboard(); return;
+  const tab = e.target.closest('[data-tab]');
+  if(tab){
+    state.tab = tab.dataset.tab;
+    render();
+    return;
   }
-  const obSet = e.target.closest('[data-ob-set]');
-  if(obSet){ state.ob[obSet.dataset.obSet] = obSet.dataset.val; renderOnboard(); return; }
-  const obMulti = e.target.closest('[data-ob-multi]');
-  if(obMulti){
-    const key = obMulti.dataset.obMulti, v = obMulti.dataset.val;
-    const arr = state.ob[key] || [];
-    if(v === '没有'){ state.ob[key] = arr.includes('没有') ? [] : ['没有']; }
-    else {
-      const filtered = arr.filter(x=>x!=='没有');
-      state.ob[key] = filtered.includes(v) ? filtered.filter(x=>x!==v) : [...filtered, v];
+
+  /* 语音 / 文字切换 */
+  const modeBtn = e.target.closest('[data-input-mode]');
+  if(modeBtn){
+    state.inputMode = modeBtn.dataset.inputMode;
+    render();
+    setTimeout(()=>{
+      if(state.inputMode === 'text'){
+        const inp = document.getElementById('chatInput');
+        if(inp) inp.focus();
+      }
+      scrollChatToBottom();
+    }, 30);
+    return;
+  }
+
+  /* 打开语音 */
+  if(e.target.closest('[data-voice-start]')){
+    openVoicePanel();
+    return;
+  }
+  if(e.target.closest('[data-voice-cancel]')){
+    closeVoicePanel();
+    return;
+  }
+
+  if(e.target.closest('[data-chat-send]')){
+    const input = document.getElementById('chatInput');
+    sendChat(input ? input.value : '');
+    return;
+  }
+  const sug = e.target.closest('[data-suggest]');
+  if(sug){
+    sendChat(sug.dataset.suggest);
+    return;
+  }
+
+  const cat = e.target.closest('[data-practice-cat]');
+  if(cat){
+    state.practiceCat = cat.dataset.practiceCat;
+    refreshPracticeList();
+    return;
+  }
+  if(e.target.closest('[data-bp-more]')){
+    state.practiceLimit = 999;
+    refreshPracticeList();
+    return;
+  }
+  const joinBtn = e.target.closest('[data-bp-join]');
+  if(joinBtn){
+    const id = joinBtn.dataset.bpJoin;
+    if(state.joined[id]){
+      delete state.joined[id];
+    } else {
+      state.joined[id] = true;
     }
-    renderOnboard(); return;
-  }
-  if(e.target.closest('[data-ob-done]')){
-    state.onboarded = true;
-    render(); return;
-  }
-
-  const vw = e.target.closest('[data-view]');
-  if(vw){ state.view = vw.dataset.view; state.adminUser = null; render(); return; }
-  if(e.target.closest('[data-admin-back]')){ state.adminUser = null; render(); return; }
-  const rankUser = e.target.closest('[data-rank-user]');
-  if(rankUser){ state.adminUser = rankUser.dataset.rankUser; render(); return; }
-
-  const t = e.target.closest('[data-tab]');
-  if(t){ state.tab = t.dataset.tab; render(); return; }
-
-  const rg = e.target.closest('[data-range]');
-  if(rg){ state.range[rg.dataset.rtab] = rg.dataset.range; render(); return; }
-
-  const mp = e.target.closest('[data-manual-preset]');
-  if(mp){
-    const key = mp.dataset.manualPreset;
-    state.manual[key].start = mp.dataset.start;
-    state.manual[key].end = mp.dataset.end;
-    render(); return;
-  }
-
-  if(e.target.closest('[data-grid-toggle]')){
-    state.gridExpanded = !state.gridExpanded;
-    render(); return;
-  }
-
-  const dim = e.target.closest('[data-dim]');
-  if(dim){
-    const k = dim.dataset.dim;
-    if(k === 'diet'){ openDiet(); } else { openDimRecord(k, state.range.see); }
-    return;
-  }
-
-  const ms = e.target.closest('[data-manual-single]');
-  if(ms){
-    const d = ms.dataset.manualSingle, key = ms.dataset.key, val = ms.dataset.val;
-    if(!state.manualRecords[d]) state.manualRecords[d] = {};
-    state.manualRecords[d][key] = state.manualRecords[d][key] === val ? '' : val;
-    flushManual(d);
-    rerenderSheet();
-    return;
-  }
-
-  const mm = e.target.closest('[data-manual-multi]');
-  if(mm){
-    const d = mm.dataset.manualMulti, key = mm.dataset.key, val = mm.dataset.val;
-    const excl = mm.dataset.excl;
-    if(!state.manualRecords[d]) state.manualRecords[d] = {};
-    let arr = Array.isArray(state.manualRecords[d][key]) ? [...state.manualRecords[d][key]] : [];
-    const isE = excl && val === excl;
-    if(arr.includes(val)) arr = arr.filter(x=>x!==val);
-    else { if(isE) arr = [val]; else { arr = arr.filter(x=>x!==excl); arr.push(val); } }
-    state.manualRecords[d][key] = arr;
-    flushManual(d);
-    rerenderSheet();
-    return;
-  }
-
-  const qm = e.target.closest('[data-quick-meal]');
-  if(qm){
-    const mk = qm.dataset.quickMeal, ck = qm.dataset.quickCat, v = qm.dataset.quickVal;
-    if(!state.dietQuick[mk]) state.dietQuick[mk] = {};
-    state.dietQuick[mk][ck] = state.dietQuick[mk][ck] === v ? '' : v;
-    flushManual('diet');
-    rerenderSheet();
-    return;
-  }
-
-  if(e.target.closest('[data-goal-detail]')){ openGoalDetail(); return; }
-  const pj = e.target.closest('[data-practice-join]');
-  if(pj){
-    const id = pj.dataset.practiceJoin;
-    const ps = state.practiceState[id];
-    if(ps){
-      ps.joined = true; ps.checkedToday = false; ps.streak = 0; ps.week = [0,0,0,0,0,0,0];
-      render(); toast('已加入');
+    refreshPracticeList();
+    if(document.getElementById('modal').classList.contains('open')){
+      openPracticeVideo(id);
     }
     return;
   }
-  const pc = e.target.closest('[data-practice-check]');
-  if(pc){
-    const id = pc.dataset.practiceCheck;
-    const ps = state.practiceState[id];
-    if(ps && ps.joined){
-      ps.checkedToday = !ps.checkedToday;
-      if(ps.checkedToday){ ps.streak += 1; ps.week[0] = 1; }
-      else { ps.streak = Math.max(0, ps.streak - 1); ps.week[0] = 0; }
-      render();
-    }
+  const video = e.target.closest('[data-bp-video]');
+  if(video){ openPracticeVideo(video.dataset.bpVideo); return; }
+  const share = e.target.closest('[data-bp-share]');
+  if(share){ openPracticeShare(share.dataset.bpShare); return; }
+
+  if(e.target.closest('[data-login]')){
+    state.loggedIn = true;
+    state.user = {name:'钱主席', id:'BR-2026-0813'};
+    render();
+    setTimeout(()=>toast('登录成功'), 120);
     return;
   }
+  if(e.target.closest('[data-logout]')){
+    state.loggedIn = false;
+    state.user = {name:'', id:''};
+    render();
+    return;
+  }
+  const profile = e.target.closest('[data-profile]');
+  if(profile){ openProfile(profile.dataset.profile); return; }
+  const agr = e.target.closest('[data-agreement]');
+  if(agr){ openAgreement(agr.dataset.agreement); return; }
 
-  if(e.target.closest('[data-share]')){ openShare(); return; }
-  const st2 = e.target.closest('[data-share-to]');
-  if(st2){
-    const to = st2.dataset.shareTo;
+  if(e.target.closest('[data-share-done]')){
     closeModal();
-    setTimeout(()=>toast(to==='image'?'已保存到相册':'已发送'), 120);
+    setTimeout(()=>toast('已发送'), 120);
     return;
   }
-  if(e.target.closest('[data-family]')){ openFamily(); return; }
-  if(e.target.closest('[data-family-invite]')){
-    closeModal(); setTimeout(()=>toast('邀请链接已复制'), 120); return;
-  }
-
-  if(e.target.closest('[data-voice-open]')){ openVoiceSheet(); return; }
-  if(e.target.closest('[data-voice-stop]')){ finishVoiceListen(); return; }
-
-  const qzS = e.target.closest('[data-qz-single]');
-  if(qzS){ state.quizAns[qzS.dataset.qzSingle] = parseInt(qzS.dataset.val); renderQuiz(); return; }
-  const qzM = e.target.closest('[data-qz-multi]');
-  if(qzM){
-    const k = qzM.dataset.qzMulti, v = qzM.dataset.val, excl = qzM.dataset.excl;
-    let arr = state.quizAns[k] ? [...state.quizAns[k]] : [];
-    const isE = excl && v === excl;
-    if(arr.includes(v)) arr = arr.filter(x=>x!==v);
-    else { if(isE) arr = [v]; else { arr = arr.filter(x=>x!==excl); arr.push(v); } }
-    state.quizAns[k] = arr;
-    renderQuiz(); return;
-  }
-  if(e.target.closest('[data-qz-prev]')){
-    if(state.quizIndex>0){ state.quizIndex--; renderQuiz(); }
-    return;
-  }
-  if(e.target.closest('[data-qz-next]')){
-    const b = e.target.closest('[data-qz-next]');
-    if(b.classList.contains('disabled')) return;
-    if(state.quizIndex < QUIZ.length-1){ state.quizIndex++; renderQuiz(); }
-    else { renderQuizResult(); }
-    return;
-  }
-
-  if(e.target.closest('[data-close]') || e.target.id === 'modal'){ closeModal(); }
-});
-
-document.addEventListener('change', e=>{
-  if(e.target.hasAttribute('data-manual-input')){
-    const d = e.target.dataset.manualInput, key = e.target.dataset.key;
-    if(!state.manualRecords[d]) state.manualRecords[d] = {};
-    state.manualRecords[d][key] = e.target.value.trim();
-    flushManual(d);
-    return;
-  }
-  if(e.target.hasAttribute('data-manual-start')){
-    const key = e.target.dataset.manualStart;
-    let v = e.target.value;
-    if(!v) return;
-    if(v > state.manual[key].end) v = state.manual[key].end;
-    state.manual[key].start = v;
-    render();
-  }
-  if(e.target.hasAttribute('data-manual-end')){
-    const key = e.target.dataset.manualEnd;
-    let v = e.target.value;
-    if(!v) return;
-    if(v < state.manual[key].start) v = state.manual[key].start;
-    state.manual[key].end = v;
-    render();
+  if(e.target.closest('[data-close]') || e.target.id === 'modal'){
+    closeModal();
   }
 });
 
 document.addEventListener('input', e=>{
-  if(e.target.hasAttribute('data-ob-input')){ state.ob[e.target.dataset.obInput] = e.target.value; }
-  if(e.target.id === 'shareFeel'){
-    state.shareFeel = e.target.value;
-    const cnt = document.getElementById('shareFeelCount');
-    if(cnt) cnt.textContent = e.target.value.length;
-    refreshShareFeel();
+  if(e.target.hasAttribute('data-bp-search')){
+    state.practiceQuery = e.target.value;
+    refreshPracticeList();
+  }
+});
+
+document.addEventListener('keydown', e=>{
+  if(e.target.id === 'chatInput' && e.key === 'Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendChat(e.target.value);
   }
 });
 
