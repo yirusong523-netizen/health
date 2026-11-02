@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宋博士养生术</title>
+<style>
+:root{
+  --bg:#F4F5F3;
+  --card:#FFFFFF;
+  --line:#E5E7E3;
+  --line-soft:#EFF1ED;
+  --ink:#1B1E1C;
+  --ink-2:#656C68;
+  --ink-3:#9AA09C;
+  --brand:#24594C;
+  --brand-2:#1B463C;
+  --brand-soft:#EBF1EF;
+  --accent:#A67C3D;
+  --danger:#B0433A;
+  --danger-soft:#FAF0EE;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;
+     background:#DDE0DC;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
+     color:var(--ink);-webkit-font-smoothing:antialiased}
+.phone{width:390px;height:800px;max-height:96vh;background:var(--bg);border-radius:28px;overflow:hidden;
+       position:relative;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.22)}
+.statusbar{height:24px;flex:0 0 auto;background:#fff;color:var(--ink-3);font-size:10.5px;
+           display:flex;align-items:center;justify-content:space-between;padding:0 20px;letter-spacing:.4px}
+.navbar{height:48px;flex:0 0 auto;background:#fff;color:var(--ink);font-size:15px;font-weight:600;
+        display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line-soft);letter-spacing:.5px}
+.content{flex:1 1 auto;overflow-y:auto;padding:16px 16px 28px;scroll-behavior:smooth}
+.content::-webkit-scrollbar{width:0}
+.page{display:none}
+.page.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 16px;margin-bottom:14px}
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+.field>label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:8px;letter-spacing:.3px}
+.field>label i{color:var(--danger);font-style:normal;margin-left:2px}
+.hint{font-weight:400;color:var(--ink-3);font-size:11px;margin-left:5px;letter-spacing:0}
+input,textarea,select{width:100%;border:1px solid var(--line);background:#FCFCFB;border-radius:6px;
+      padding:0 12px;height:42px;font-size:14px;outline:none;font-family:inherit;color:var(--ink);transition:.15s}
+textarea{height:auto;min-height:80px;padding:11px 12px;resize:vertical;line-height:1.65}
+input::placeholder,textarea::placeholder{color:#B9BEBA}
+input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#fff}
+.row{display:flex;gap:10px;align-items:center}
+.row select{width:108px;flex:0 0 auto}
+.unit{font-size:13px;color:var(--ink-3);flex:0 0 auto}
+.btn{width:100%;border:none;border-radius:6px;height:46px;font-size:15px;font-weight:600;
+     cursor:pointer;font-family:inherit;letter-spacing:.5px;transition:.15s}
+.btn.primary{background:var(--brand);color:#fff}
+.btn.primary:active{background:var(--brand-2)}
+.btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+.btn.sm{height:38px;font-size:13.5px;font-weight:500;margin-top:14px}
+.btn:disabled{opacity:.45;cursor:default}
+.tip{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:12px;line-height:1.6}
+.section-label{font-size:11.5px;color:var(--ink-3);letter-spacing:.6px;margin:0 0 12px 2px;font-weight:500}
+.divider{height:1px;background:var(--line-soft);margin:18px 0}
+
+.brand{text-align:center;padding:48px 0 32px}
+.brand-mark{width:56px;height:56px;border-radius:6px;background:var(--brand);color:#fff;
+      font-size:26px;font-weight:500;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.brand h1{font-size:20px;font-weight:600;letter-spacing:2px;margin-bottom:10px}
+.brand-en{font-size:9.5px;color:var(--ink-3);letter-spacing:2.6px;font-weight:500}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:0 12px;height:32px;line-height:30px;border-radius:4px;background:#fff;color:var(--ink-2);
+      font-size:12.5px;border:1px solid var(--line);cursor:pointer;transition:.15s;user-select:none;white-space:nowrap}
+.chip:hover{border-color:#C9CFC9}
+.chip.on{background:var(--brand-soft);color:var(--brand);border-color:var(--brand);font-weight:600}
+
+.stars{display:flex;gap:8px;font-size:20px;color:#DCDEDA;line-height:1}
+.star{cursor:pointer;transition:.1s}
+.star.on{color:var(--accent)}
+
+.upload{border:1px dashed #D3D8D3;border-radius:8px;padding:16px;background:#FAFAF9;text-align:center}
+.upload-btns{display:flex;gap:10px}
+.upload-btns button{flex:1;height:38px;border:1px solid var(--line);background:#fff;border-radius:6px;
+      font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink-2);transition:.15s}
+.upload-btns button:hover{border-color:var(--brand);color:var(--brand)}
+.media-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;justify-content:flex-start}
+.thumb-wrap{position:relative;width:60px;height:60px}
+.thumb{width:60px;height:60px;border-radius:6px;object-fit:cover;background:#EEF0EE;border:1px solid var(--line);
+       display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--ink-3);letter-spacing:1px}
+.thumb-del{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--ink);
+     color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
+.media-row{display:flex;gap:8px;margin:0 0 14px}
+.media-row .thumb{width:52px;height:52px}
+
+.diff-box{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.diff-reason{font-size:11.5px;color:var(--ink-3);line-height:1.6;flex:1;min-width:140px}
+.diff-reason b{color:var(--ink-2);font-weight:600}
+.diff-reason a{color:var(--brand);cursor:pointer;text-decoration:underline;text-underline-offset:2px;margin-left:4px}
+.ver-count-wrap{margin-top:12px;display:none;align-items:center;gap:10px}
+.ver-count-wrap input{width:92px;height:38px}
+.ver-count-wrap span{font-size:13px;color:var(--ink-3)}
+
+/* 专家输入 */
+.expert-wrap{margin-top:14px;display:none}
+.expert-row{display:flex;gap:8px;align-items:center;margin-bottom:9px}
+.expert-row input{height:38px;font-size:13px}
+.expert-row select{width:74px;height:38px;flex:0 0 auto;font-size:12.5px}
+.expert-del{flex:0 0 auto;width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+            color:var(--danger);cursor:pointer;font-size:17px;line-height:1}
+
+.tabbar{height:60px;flex:0 0 auto;display:flex;background:#fff;border-top:1px solid var(--line-soft)}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+          font-size:10.5px;color:var(--ink-3);cursor:pointer;letter-spacing:.4px;transition:.15s}
+.tab-item svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;
+              stroke-linecap:round;stroke-linejoin:round}
+.tab-item.on{color:var(--brand);font-weight:600}
+
+.search-box{display:flex;align-items:center;gap:9px;background:#FAFAF9;border:1px solid var(--line);
+            border-radius:6px;padding:0 12px;height:40px;margin-bottom:10px}
+.search-box:focus-within{border-color:var(--brand);background:#fff}
+.search-box svg{width:15px;height:15px;fill:none;stroke:var(--ink-3);stroke-width:1.7;stroke-linecap:round;flex:0 0 auto}
+.search-box input{border:none;background:transparent;padding:0;height:100%;font-size:13.5px}
+.search-box input:focus{background:transparent}
+.search-box .clr{font-size:13px;color:#C4C9C4;cursor:pointer;padding:4px;flex:0 0 auto}
+.hist-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.hist-label{font-size:10.5px;color:var(--ink-3);width:100%;margin-bottom:1px;letter-spacing:.5px}
+.hist-chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 9px;border-radius:4px;
+           background:#F2F4F1;color:var(--ink-2);font-size:11.5px;cursor:pointer}
+.hist-chip:hover{background:var(--brand-soft);color:var(--brand)}
+.hist-chip b{font-weight:400;color:#C4C9C4;padding:0 1px;font-size:12px}
+.hist-chip b:hover{color:var(--danger)}
+.sel-count{font-size:11px;color:var(--brand);margin-bottom:9px;font-weight:500}
+.no-result{font-size:12px;color:var(--ink-3);padding:4px 0}
+
+.res-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 16px;margin-bottom:12px}
+.res-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:12px}
+.res-name{font-size:16px;font-weight:600;line-height:1.4;letter-spacing:.2px}
+.res-score{text-align:right;flex:0 0 auto;line-height:1}
+.res-score b{font-size:22px;font-weight:600;color:var(--brand);font-variant-numeric:tabular-nums}
+.res-score span{display:block;font-size:9.5px;color:var(--ink-3);margin-top:5px;letter-spacing:1px}
+.res-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{font-size:10.5px;padding:3px 7px;border-radius:3px;background:#F3F4F2;color:var(--ink-2);letter-spacing:.2px}
+.tag.cat{background:#EDF1F7;color:#3E6091}
+.tag.ver{background:#F8F1E7;color:#8A6528}
+.tag.eff{background:var(--brand-soft);color:var(--brand)}
+.bar{height:3px;background:#EDEFEC;border-radius:2px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;background:var(--brand);border-radius:2px;transition:width .5s}
+.bar i.bad{background:var(--danger)}
+.warn{background:var(--danger-soft);color:var(--danger);font-size:12px;padding:10px 12px;border-radius:6px;
+      margin-bottom:14px;line-height:1.6}
+.kv{display:flex;gap:12px;font-size:13px;line-height:1.72;margin-bottom:7px}
+.kv>span{flex:0 0 62px;color:var(--ink-3);font-size:12.5px}
+.kv>p{flex:1;color:var(--ink)}
+
+.profile{display:flex;align-items:center;gap:15px;background:var(--brand);color:#fff;
+         padding:22px 18px;border-radius:10px;margin-bottom:14px}
+.avatar{width:50px;height:50px;border-radius:6px;background:rgba(255,255,255,.16);
+        display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500}
+.pname{font-size:17px;font-weight:600;letter-spacing:1px;margin-bottom:5px}
+.profile .sub{font-size:11px;opacity:.72;letter-spacing:.3px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:15px 6px;text-align:center}
+.stat .num{font-size:19px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.stat .lbl{font-size:10.5px;color:var(--ink-3);margin-top:6px;letter-spacing:.3px}
+.quota{background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 16px;
+       font-size:12.5px;color:var(--ink-2);margin-bottom:14px;line-height:1.7}
+.list-item{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 0;
+           border-bottom:1px solid var(--line-soft)}
+.list-item:first-child{padding-top:2px}
+.list-item:last-child{border-bottom:none;padding-bottom:2px}
+.list-item .t{font-size:14px;font-weight:500;line-height:1.5}
+.list-item .sub{font-size:11.5px;color:var(--ink-3);margin-top:4px;line-height:1.6}
+.list-item .quote{font-size:11.5px;color:var(--ink-2);margin-top:6px;padding-left:9px;
+                  border-left:2px solid var(--line);line-height:1.6}
+.mini-btn{flex:0 0 auto;height:30px;padding:0 13px;border:1px solid var(--brand);background:#fff;
+          color:var(--brand);border-radius:4px;font-size:12px;cursor:pointer;font-family:inherit;transition:.15s}
+.mini-btn:hover{background:var(--brand-soft)}
+.badge{flex:0 0 auto;font-size:10.5px;color:#8A6528;background:#F8F1E7;padding:3px 8px;border-radius:3px}
+.empty{text-align:center;color:var(--ink-3);font-size:12.5px;padding:30px 0}
+
+.modal-mask{position:absolute;inset:0;background:rgba(20,24,22,.42);display:none;
+            align-items:flex-end;z-index:100;backdrop-filter:blur(1px)}
+.modal-mask.show{display:flex}
+.modal{width:100%;background:#fff;border-radius:14px 14px 0 0;padding:24px 20px 28px;animation:up .24s ease}
+@keyframes up{from{transform:translateY(60px);opacity:.6}to{transform:none;opacity:1}}
+.modal h3{font-size:16px;font-weight:600;margin-bottom:6px;letter-spacing:.3px}
+.modal .m-sub{font-size:11.5px;color:var(--ink-3);margin-bottom:22px;line-height:1.6}
+.modal .m-label{font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:10px;letter-spacing:.3px}
+.m-actions{display:flex;gap:10px;margin-top:20px}
+
+.toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,10px);background:rgba(27,30,28,.92);
+       color:#fff;padding:11px 18px;border-radius:6px;font-size:12.5px;opacity:0;pointer-events:none;
+       transition:.25s;z-index:120;max-width:82%;text-align:center;line-height:1.6;letter-spacing:.3px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="statusbar"><span>9:41</span><span>5G&nbsp;&nbsp;100%</span></div>
+  <div class="navbar" id="navbar">宋博士养生术</div>
+
+  <div class="content" id="content">
+
+    <!-- ============ 登录 ============ -->
+    <section class="page active" id="page-login">
+      <div class="brand">
+        <div class="brand-mark">养</div>
+        <h1>宋博士养生术</h1>
+        <p class="brand-en">SONG HEALTH · WELLNESS LIBRARY</p>
+      </div>
+      <div class="card">
+        <div class="field"><label>姓名 / 昵称 <i>*</i></label>
+          <input id="lgName" placeholder="请输入"></div>
+        <div class="field"><label>年龄 <i>*</i></label>
+          <input id="lgAge" type="number" placeholder="请输入年龄"></div>
+        <div class="field"><label>密码 <i>*</i></label>
+          <input id="lgPwd" type="password" placeholder="首次登录即注册"></div>
+        <button class="btn primary" onclick="doLogin()">进入</button>
+        <p class="tip">首次登录自动创建账号<br>年龄每年 1 月 1 日系统自动 +1</p>
+      </div>
+    </section>
+
+    <!-- ============ 我有妙招 ============ -->
+    <section class="page" id="page-add">
+      <div class="card">
+        <div class="field"><label>妙招名称 <i>*</i></label>
+          <input id="fName" placeholder="如：睡前艾叶泡脚" oninput="refreshDifficulty()"></div>
+
+        <div class="field"><label>提供人</label>
+          <input id="fProvider" placeholder="默认上次输入"></div>
+
+        <div class="field"><label>发明人</label>
+          <input id="fInventor" placeholder="如：民间流传 / 张大爷"></div>
+
+        <div class="field"><label>发明人寿命</label>
+          <div class="row">
+            <select id="fInvStatus">
+              <option value="alive" selected>健在</option>
+              <option value="deceased">已去世</option>
+            </select>
+            <input id="fInvAge" type="number" placeholder="年龄">
+            <span class="unit">岁</span>
+          </div>
+        </div>
+
+        <div class="field"><label>方法 <i>*</i></label>
+          <textarea id="fMethod" placeholder="请详细描述操作步骤，系统将自动评估难度" oninput="refreshDifficulty()"></textarea></div>
+
+        <div class="field"><label>图片 / 视频<span class="hint">展示操作过程，增强可信度</span></label>
+          <div class="upload">
+            <input type="file" id="fImages" accept="image/*" multiple hidden>
+            <input type="file" id="fVideo" accept="video/*" hidden>
+            <div class="upload-btns">
+              <button type="button" onclick="document.getElementById('fImages').click()">选择图片</button>
+              <button type="button" onclick="document.getElementById('fVideo').click()">选择视频</button>
+            </div>
+            <div class="media-preview" id="mediaPreview"></div>
+          </div>
+        </div>
+
+        <div class="field"><label>剂量</label>
+          <input id="fDose" placeholder="如：20分钟 / 30次"></div>
+
+        <div class="field"><label>频率</label>
+          <input id="fFreq" placeholder="如：每天1次"></div>
+
+        <!-- 症状：搜索式，不展示全量标签 -->
+        <div class="field">
+          <label>针对症状 <i>*</i><span class="hint">输入搜索，回车可添加自定义症状</span></label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input id="fSymSearch" placeholder="如：夜尿 / 腰膝 / 失眠" oninput="renderAddSymptomPicker()" onkeydown="onAddSymptomKey(event)">
+            <span class="clr" onclick="clearAddSymptom()">×</span>
+          </div>
+          <div class="sel-count" id="fSymSelCount"></div>
+          <div class="chips" id="fSymptoms"></div>
+        </div>
+
+        <!-- 禁忌：仅展示常用几个 -->
+        <div class="field"><label>禁忌<span class="hint">常用项，可多选</span></label>
+          <div class="chips" id="fContra"></div></div>
+
+        <div class="field"><label>知识 / 原理</label>
+          <textarea id="fKnowledge" placeholder="对应的知识或原理"></textarea></div>
+
+        <div class="field"><label>难度 <span class="hint">系统自动评估，可手动调整</span></label>
+          <div class="diff-box">
+            <div class="stars" id="fDifficulty"></div>
+            <div class="diff-reason" id="diffReason">填写方法后自动评估</div>
+          </div>
+        </div>
+
+        <div class="field"><label>分类 <i>*</i></label>
+          <div class="chips" id="fCategory"></div></div>
+
+        <!-- 验证程度 -->
+        <div class="field"><label>验证程度 <span class="hint">人数越多越可信</span></label>
+          <div class="chips" id="fVerification"></div>
+
+          <!-- 多人验证人数 -->
+          <div class="ver-count-wrap" id="verCountWrap">
+            <span>验证人数</span>
+            <input id="fVerCount" type="number" min="2" value="3">
+            <span>人</span>
+          </div>
+
+          <!-- 专家列表：名称 + 职称 -->
+          <div class="expert-wrap" id="expertWrap">
+            <div id="expertList"></div>
+            <button type="button" class="btn ghost sm" onclick="addExpert()">+ 添加专家</button>
+          </div>
+        </div>
+
+        <div class="field" id="fScoreWrap"><label>我的评价</label>
+          <div class="stars" id="fMyScore"></div></div>
+
+        <div class="field"><label>来源</label>
+          <div class="chips" id="fSource"></div>
+          <input id="fSourceDetail" placeholder="书名 / 链接备注" style="margin-top:10px">
+        </div>
+
+        <button class="btn primary" onclick="submitTechnique()">提交妙招</button>
+        <p class="tip" id="addQuotaTip">今日还可添加 10 个</p>
+      </div>
+    </section>
+
+    <!-- ============ 我要选用 ============ -->
+    <section class="page" id="page-use">
+      <div class="card">
+        <div class="row">
+          <div class="field" style="flex:1;margin-bottom:0"><label>姓名 / 昵称</label>
+            <input id="uName" placeholder="默认本人"></div>
+          <div class="field" style="flex:1;margin-bottom:0"><label>年龄</label>
+            <input id="uAge" type="number" placeholder="年龄"></div>
+        </div>
+        <p class="tip" style="text-align:left;margin:12px 0 0">帮他人查找时，可直接修改姓名和年龄</p>
+
+        <div class="divider"></div>
+
+        <div class="field">
+          <label>我的症状 <i>*</i><span class="hint">可搜索、可多选</span></label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input id="uSymSearch" placeholder="搜索症状，如 夜尿 / 腰膝" oninput="renderSymptomPicker()" onkeydown="onSearchKey(event,'symptom')">
+            <span class="clr" onclick="clearSearch('uSymSearch','symptom')">×</span>
+          </div>
+          <div class="hist-wrap" id="symHist"></div>
+          <div class="sel-count" id="symSelCount"></div>
+          <div class="chips" id="uSymptoms"></div>
+        </div>
+
+        <div class="field">
+          <label>我的禁忌<span class="hint">可搜索、可多选，用于安全过滤</span></label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input id="uConSearch" placeholder="搜索禁忌，如 糖尿病 / 抗凝" oninput="renderContraPicker()" onkeydown="onSearchKey(event,'contraindication')">
+            <span class="clr" onclick="clearSearch('uConSearch','contraindication')">×</span>
+          </div>
+          <div class="hist-wrap" id="conHist"></div>
+          <div class="sel-count" id="conSelCount"></div>
+          <div class="chips" id="uContra"></div>
+        </div>
+
+        <button class="btn primary" onclick="doRecommend()">智能匹配</button>
+        <p class="tip" id="useQuotaTip">今日还可选用 3 个</p>
+      </div>
+      <div id="resultWrap"></div>
+    </section>
+
+    <!-- ============ 我的记录 ============ -->
+    <section class="page" id="page-me">
+      <div class="profile">
+        <div class="avatar" id="meAvatar">康</div>
+        <div>
+          <div class="pname" id="meName">—</div>
+          <div class="sub" id="meAge">—</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num" id="meContribCount">0</div><div class="lbl">贡献妙招</div></div>
+        <div class="stat"><div class="num" id="meContribMoney">¥0</div><div class="lbl">贡献值</div></div>
+        <div class="stat"><div class="num" id="meUseCount">0</div><div class="lbl">选用妙招</div></div>
+        <div class="stat"><div class="num" id="meUseMoney">¥0</div><div class="lbl">贡献值</div></div>
+        <div class="stat"><div class="num" id="meLogin">1</div><div class="lbl">登录次数</div></div>
+      </div>
+      <div class="quota" id="meQuota">今日额度加载中…</div>
+
+      <div class="card">
+        <div class="section-label">我选用的妙招 · 体验后可评价</div>
+        <div id="meAdoptedList"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-label">我贡献的妙招</div>
+        <div id="meList"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="tabbar" id="tabbar" style="display:none">
+    <div class="tab-item on" data-tab="add">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>我有妙招</span>
+    </div>
+    <div class="tab-item" data-tab="use">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><span>我要选用</span>
+    </div>
+    <div class="tab-item" data-tab="me">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6"/></svg><span>我的记录</span>
+    </div>
+  </nav>
+
+  <div class="modal-mask" id="fbMask" onclick="if(event.target===this)closeFeedback()">
+    <div class="modal">
+      <h3 id="fbTitle">评价妙招</h3>
+      <div class="m-sub" id="fbSub"></div>
+      <div class="m-label">有效性</div>
+      <div class="stars" id="fbStars" style="margin-bottom:22px"></div>
+      <div class="m-label">体验描述<span class="hint">选填</span></div>
+      <textarea id="fbText" placeholder="如：坚持两周，夜尿从3次减到1次，睡眠明显改善"></textarea>
+      <div class="m-actions">
+        <button class="btn ghost" onclick="closeFeedback()">取消</button>
+        <button class="btn primary" onclick="submitFeedback()">提交评价</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ================= 字典 ================= */
+const SYMPTOMS = [
+  '尿频尿急','夜尿多','前列腺不适','腰膝酸软','耳鸣','视物模糊','关节疼痛',
+  '高血压','高血糖','胸闷气短','心悸','便秘','失眠','记忆力减退','头晕',
+  '手脚冰凉','畏寒怕冷','咳嗽痰多','食欲不振','肩颈僵硬','下肢水肿',
+  '脱发白发','乏力易倦','口干口苦'
+];
+const CONTRA_LIST = [
+  '严重心脏病','高血压未控制','糖尿病','前列腺术后','骨折未愈','皮肤破损',
+  '发热期','空腹','饱腹','饮酒后','严重骨质疏松','肝肾功能不全','青光眼',
+  '白内障术后','过敏体质','服用抗凝药','近期手术','急性炎症'
+];
+// 禁忌仅展示常用几项
+const COMMON_CONTRA = ['严重心脏病','高血压未控制','糖尿病','皮肤破损','发热期','饱腹','服用抗凝药','严重骨质疏松'];
+
+const CATEGORIES = ['运动','食补','穴位按摩','药品药材','器材','环境','其它'];
+const VERIFICATIONS = ['未验证','个人验证','多人验证','专家验证'];
+const SOURCES = ['网络','书籍','其它'];
+const VER_INDEX = {'未验证':0,'个人验证':1,'多人验证':2,'专家验证':3};
+
+/* ================= 演示数据 ================= */
+const TECHNIQUES = [
+  { id:'T001', name:'睡前艾叶泡脚', provider:'康友·王大爷', inventor:'民间流传', inventorLife:'—',
+    method:'取干艾叶一把，加水煮开5分钟，兑温水至40℃左右，泡脚至微微出汗即可。',
+    dose:'20分钟', freq:'每天1次（睡前）',
+    symptoms:['手脚冰凉','畏寒怕冷','失眠','夜尿多'],
+    contra:['皮肤破损','发热期','糖尿病'],
+    knowledge:'足部有涌泉、太溪等穴位，温热刺激可扩张末梢血管、促进血液循环，帮助放松入睡。',
+    difficulty:2, category:'其它', verification:'多人验证',
+    validations:[{name:'王大爷',age:68,score:5},{name:'李叔',age:62,score:4},{name:'张伯',age:71,score:4},{name:'赵叔',age:65,score:5}],
+    rating:4.5, source:'书籍·《民间养生方》', useCount:862, media:[], experiences:[] },
+
+  { id:'T002', name:'八段锦·两手托天理三焦', provider:'宋博士健康助理', inventor:'传统功法', inventorLife:'—',
+    method:'双脚与肩同宽，双手十指交叉掌心向上，缓慢上托至头顶，脚跟微抬，保持3秒后缓慢放下，配合呼吸。',
+    dose:'8次', freq:'每天1-2次',
+    symptoms:['肩颈僵硬','腰膝酸软','乏力易倦','失眠'],
+    contra:['严重心脏病','近期手术'],
+    knowledge:'拉伸任脉与三焦经，改善胸廓活动度，缓解久坐导致的肩背僵硬。',
+    difficulty:3, category:'运动', verification:'专家验证',
+    validations:[
+      {name:'宋博士',title:'主任医师',score:5},
+      {name:'刘医生',title:'康复科医师',score:5},
+      {name:'陈主任',title:'骨科主任',score:5}
+    ],
+    rating:5.0, source:'书籍·《八段锦养生功》', useCount:1520, media:[],
+    experiences:[{user:'刘叔',score:5,content:'练了两个月，肩颈轻松很多，晚上睡得沉'},{user:'周伯',score:4,content:'动作不难，但要坚持'}] },
+
+  { id:'T003', name:'按揉合谷穴', provider:'康友·陈叔', inventor:'中医经络学', inventorLife:'—',
+    method:'以拇指指腹按压虎口处合谷穴，力度以有酸胀感为宜，按揉打圈。',
+    dose:'3分钟', freq:'每天2-3次',
+    symptoms:['头晕','视物模糊','口干口苦'],
+    contra:['皮肤破损','急性炎症'],
+    knowledge:'合谷为手阳明大肠经原穴，常用于缓解头面部不适。',
+    difficulty:1, category:'穴位按摩', verification:'多人验证',
+    validations:[{name:'陈叔',age:61,score:4},{name:'林伯',age:66,score:4},{name:'赵先生',age:58,score:5}],
+    rating:4.3, source:'书籍·《针灸大成》', useCount:634, media:[], experiences:[] },
+
+  { id:'T004', name:'生姜红枣茶', provider:'康友·李婶', inventor:'民间流传', inventorLife:'—',
+    method:'生姜3片、红枣5枚（去核），加水500ml煮10分钟，温热饮用。',
+    dose:'500ml', freq:'每天1次（早晨）',
+    symptoms:['手脚冰凉','畏寒怕冷','食欲不振','乏力易倦'],
+    contra:['发热期','糖尿病','过敏体质'],
+    knowledge:'生姜辛温散寒，红枣补中益气，适合虚寒体质人群。',
+    difficulty:1, category:'食补', verification:'多人验证',
+    validations:[{name:'李婶',age:64,score:4},{name:'周叔',age:67,score:4},{name:'孙伯',age:70,score:4}],
+    rating:4.0, source:'书籍·《本草纲目》食养篇', useCount:980, media:[], experiences:[] },
+
+  { id:'T005', name:'腹式呼吸放松法', provider:'宋博士健康助理', inventor:'现代医学', inventorLife:'—',
+    method:'鼻吸4秒、屏息2秒、口呼6秒；吸气时腹部鼓起，呼气时腹部收回，肩部放松。',
+    dose:'10分钟', freq:'每天2次',
+    symptoms:['高血压','焦虑紧张','失眠','心悸'],
+    contra:[],
+    knowledge:'延长呼气时间可激活副交感神经，降低心率与血压，改善睡眠质量。',
+    difficulty:1, category:'其它', verification:'专家验证',
+    validations:[
+      {name:'宋博士',title:'主任医师',score:5},
+      {name:'张医生',title:'心内科医师',score:4}
+    ],
+    rating:4.6, source:'书籍·《压力管理与自主神经》', useCount:1210, media:[],
+    experiences:[{user:'马叔',score:5,content:'血压从150降到135左右，医生也认可'}] },
+
+  { id:'T006', name:'枸杞菊花茶', provider:'康友·小林', inventor:'民间流传', inventorLife:'—',
+    method:'枸杞10粒、菊花5朵，沸水冲泡焖5分钟后代茶饮。',
+    dose:'1杯', freq:'每天1次',
+    symptoms:['视物模糊','头晕','口干口苦'],
+    contra:['发热期','过敏体质'],
+    knowledge:'菊花清肝明目，枸杞滋补肝肾，适合用眼过度人群。',
+    difficulty:1, category:'食补', verification:'个人验证',
+    validations:[{name:'小林',age:35,score:4}],
+    rating:4.0, source:'网络·公众号文章', useCount:410, media:[], experiences:[] },
+
+  { id:'T007', name:'艾灸足三里', provider:'康友·赵大爷', inventor:'中医灸法', inventorLife:'—',
+    method:'取足三里穴（外膝眼下三寸，胫骨外侧一横指），艾条悬灸，距皮肤3cm左右，以温热不灼痛为度。',
+    dose:'15分钟', freq:'每天1次',
+    symptoms:['食欲不振','乏力易倦','便秘','腰膝酸软'],
+    contra:['发热期','皮肤破损','糖尿病','服用抗凝药'],
+    knowledge:'足三里为足阳明胃经合穴，艾灸可温补脾胃、增强体力。',
+    difficulty:4, category:'器材', verification:'多人验证',
+    validations:[{name:'赵大爷',age:70,score:5},{name:'钱伯',age:66,score:4},{name:'吴叔',age:63,score:4}],
+    rating:4.4, source:'书籍·《针灸大成》', useCount:720, media:[], experiences:[] },
+
+  { id:'T008', name:'顺时针摩腹法', provider:'康友·周叔', inventor:'民间流传', inventorLife:'—',
+    method:'仰卧屈膝，双手叠放于肚脐，以肚脐为中心顺时针缓慢打圈按摩，力度轻柔。',
+    dose:'5分钟', freq:'每天1次（晨起或睡前）',
+    symptoms:['便秘','食欲不振','前列腺不适'],
+    contra:['饱腹','近期手术','急性炎症'],
+    knowledge:'顺时针方向顺应结肠走向，可促进肠道蠕动、改善便秘。',
+    difficulty:1, category:'穴位按摩', verification:'多人验证',
+    validations:[{name:'周叔',age:65,score:4},{name:'吴伯',age:72,score:4},{name:'郑叔',age:60,score:4}],
+    rating:4.1, source:'网络·视频教程', useCount:890, media:[], experiences:[] },
+
+  { id:'T009', name:'靠墙站立法', provider:'康友·孙伯', inventor:'体态训练', inventorLife:'—',
+    method:'后脑、肩胛、臀部、小腿、脚跟五点贴墙，收腹提臀，目视前方，自然呼吸。',
+    dose:'5-10分钟', freq:'每天1次',
+    symptoms:['肩颈僵硬','腰膝酸软','乏力易倦'],
+    contra:['严重心脏病','近期手术','严重骨质疏松'],
+    knowledge:'纠正头前伸与骨盆前倾，激活核心肌群，改善久坐体态。',
+    difficulty:2, category:'运动', verification:'个人验证',
+    validations:[{name:'孙伯',age:69,score:4}],
+    rating:4.0, source:'网络·短视频', useCount:350, media:[], experiences:[] },
+
+  { id:'T010', name:'小米南瓜粥', provider:'宋博士健康助理', inventor:'传统食疗', inventorLife:'—',
+    method:'小米50g淘净，南瓜100g切小块，加水适量煮至软烂。',
+    dose:'1碗', freq:'每天1次（早餐）',
+    symptoms:['食欲不振','乏力易倦','便秘'],
+    contra:['糖尿病'],
+    knowledge:'小米健脾和胃，南瓜富含果胶，可保护胃黏膜。',
+    difficulty:1, category:'食补', verification:'专家验证',
+    validations:[
+      {name:'宋博士',title:'主任医师',score:5},
+      {name:'王医生',title:'营养科医师',score:4}
+    ],
+    rating:4.5, source:'书籍·《中国居民膳食指南》', useCount:1100, media:[], experiences:[] },
+
+  { id:'T011', name:'拍打胆经', provider:'康友·冯大爷', inventor:'民间流传', inventorLife:'—',
+    method:'双手握空拳，沿大腿外侧（胆经循行线）自上而下轻轻拍打，双侧各做一遍。',
+    dose:'3分钟', freq:'每天1次',
+    symptoms:['乏力易倦','下肢水肿','腰膝酸软'],
+    contra:['皮肤破损','服用抗凝药','严重骨质疏松'],
+    knowledge:'中医认为拍打胆经有助于疏肝理气、促进代谢（目前缺乏严格临床证据）。',
+    difficulty:2, category:'运动', verification:'未验证',
+    validations:[], rating:0, source:'网络·短视频', useCount:120, media:[], experiences:[] },
+
+  { id:'T012', name:'黄芪泡水', provider:'康友·钱大爷', inventor:'中药学', inventorLife:'—',
+    method:'生黄芪10g，沸水冲泡代茶饮，可反复冲泡至味淡。',
+    dose:'1杯', freq:'每天1次',
+    symptoms:['乏力易倦','畏寒怕冷','夜尿多'],
+    contra:['发热期','过敏体质','肝肾功能不全','高血压未控制'],
+    knowledge:'黄芪补气固表，适合气虚乏力者；实证、热证及阴虚火旺者不宜。',
+    difficulty:1, category:'药品药材', verification:'个人验证',
+    validations:[{name:'钱大爷',age:73,score:4}],
+    rating:4.0, source:'书籍·《中药学》', useCount:260, media:[], experiences:[] },
+
+  { id:'T013', name:'睡前揉按太溪穴', provider:'康友·郑叔', inventor:'中医经络学', inventorLife:'—',
+    method:'太溪穴位于内踝尖与跟腱之间凹陷处。睡前用拇指按揉，力度以酸胀为度，双脚交替。',
+    dose:'3-5分钟', freq:'每天1次（睡前）',
+    symptoms:['夜尿多','耳鸣','腰膝酸软','失眠'],
+    contra:['皮肤破损','急性炎症'],
+    knowledge:'太溪为足少阴肾经原穴，常用于缓解肾虚引起的腰膝酸软、耳鸣、夜尿多。',
+    difficulty:2, category:'穴位按摩', verification:'多人验证',
+    validations:[{name:'郑叔',age:67,score:5},{name:'王伯',age:71,score:4},{name:'李大爷',age:69,score:4}],
+    rating:4.5, source:'书籍·《针灸大成》', useCount:540, media:[], experiences:[] }
+];
+
+/* ================= 状态 ================= */
+const state = {
+  user:null,
+  techniques:JSON.parse(JSON.stringify(TECHNIQUES)),
+  myTechniqueIds:[],
+  usages:[],
+  adoptedIds:new Set(),
+  loginCount:0,
+  lastProvider:'',
+  quota:{ add:0, use:0, addMax:10, useMax:3 }
+};
+const addState = {
+  symptoms:new Set(), contra:new Set(), category:new Set(),
+  verification:new Set(['个人验证']), source:new Set(['网络']),
+  difficulty:3, myScore:5, media:[],
+  experts:[{ name:'', title:'', score:5 }]
+};
+let autoDiffEnabled = true;
+const useStateForm = { symptoms:new Set(), contra:new Set() };
+
+/* ================= 搜索历史（我要选用） ================= */
+const HIST_MAX = 10;
+const histKey = t => `ss_hist_${t}_${state.user ? encodeURIComponent(state.user.name) : 'guest'}`;
+function getHist(t){ try{ return JSON.parse(localStorage.getItem(histKey(t)) || '[]'); }catch(e){ return []; } }
+function pushHist(t, kw){
+  kw = (kw || '').trim(); if(!kw) return;
+  const arr = getHist(t).filter(x => x !== kw);
+  arr.unshift(kw);
+  try{ localStorage.setItem(histKey(t), JSON.stringify(arr.slice(0, HIST_MAX))); }catch(e){}
+  renderHist(t);
+}
+function delHist(t, kw){
+  const arr = getHist(t).filter(x => x !== kw);
+  try{ localStorage.setItem(histKey(t), JSON.stringify(arr)); }catch(e){}
+  renderHist(t);
+}
+function renderHist(t){
+  const box = $(t === 'symptom' ? 'symHist' : 'conHist');
+  const arr = getHist(t);
+  if(!arr.length){ box.innerHTML = ''; return; }
+  box.innerHTML = '<span class="hist-label">最近搜索</span>' + arr.map(k =>
+    `<span class="hist-chip" onclick="useHist('${t}','${escapeAttr(k)}')">${k}
+      <b onclick="event.stopPropagation();delHist('${t}','${escapeAttr(k)}')">×</b></span>`).join('');
+}
+const escapeAttr = s => String(s).replace(/'/g, "\\'");
+function useHist(t, kw){
+  $(t === 'symptom' ? 'uSymSearch' : 'uConSearch').value = kw;
+  t === 'symptom' ? renderSymptomPicker() : renderContraPicker();
+}
+function clearSearch(id, t){
+  $(id).value = '';
+  t === 'symptom' ? renderSymptomPicker() : renderContraPicker();
+}
+function onSearchKey(e, t){
+  if(e.key === 'Enter' && e.target.value.trim()) pushHist(t, e.target.value.trim());
+}
+
+/* ================= 工具 ================= */
+const $ = id => document.getElementById(id);
+const val = id => ($(id).value || '').trim();
+let toastTimer;
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function renderChips(id, list, set, labelFn){
+  $(id).innerHTML = list.map(v =>
+    `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${labelFn ? labelFn(v) : v}</span>`).join('');
+}
+function bindChipGroup(id, set, multi, onChange){
+  $(id).addEventListener('click', e => {
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    const v = chip.dataset.v;
+    if(multi){ set.has(v) ? set.delete(v) : set.add(v); }
+    else { set.clear(); set.add(v); }
+    [...$(id).children].forEach(c => c.classList.toggle('on', set.has(c.dataset.v)));
+    onChange && onChange();
+  });
+}
+
+/* ================= 我有妙招：症状搜索式选择 ================= */
+function renderAddSymptomPicker(){
+  const kw = ($('fSymSearch').value || '').trim();
+  const set = addState.symptoms;
+  let list;
+  if(kw){
+    const matched = SYMPTOMS.filter(v => v.includes(kw));
+    list = [...new Set([...matched, ...[...set]])];
+  } else {
+    list = [...set];
+  }
+  const el = $('fSymptoms');
+  if(!list.length){
+    el.innerHTML = kw ? `<span class="no-result">没有匹配项，回车可添加「${kw}」</span>` : '';
+  } else {
+    el.innerHTML = list.map(v =>
+      `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${v}</span>`).join('');
+  }
+  $('fSymSelCount').textContent = set.size ? `已选 ${set.size} 项` : '';
+}
+function onAddSymptomKey(e){
+  if(e.key !== 'Enter') return;
+  const kw = ($('fSymSearch').value || '').trim();
+  if(!kw) return;
+  addState.symptoms.add(kw);
+  $('fSymSearch').value = '';
+  renderAddSymptomPicker();
+}
+function clearAddSymptom(){
+  $('fSymSearch').value = '';
+  renderAddSymptomPicker();
+}
+
+/* ================= 我有妙招：禁忌（常用） ================= */
+function contraDisplayList(){
+  return [...new Set([...COMMON_CONTRA, ...addState.contra])];
+}
+function renderContraChips(){
+  renderChips('fContra', contraDisplayList(), addState.contra);
+}
+
+/* ================= 我有妙招：专家列表 ================= */
+function renderExpertList(){
+  $('expertList').innerHTML = addState.experts.map((ex, i) => `
+    <div class="expert-row">
+      <input placeholder="专家姓名" value="${ex.name}" oninput="updateExpert(${i},'name',this.value)">
+      <input placeholder="职称" value="${ex.title}" oninput="updateExpert(${i},'title',this.value)">
+      <select onchange="updateExpert(${i},'score',+this.value)">
+        ${[5,4,3,2,1].map(s => `<option value="${s}"${ex.score === s ? ' selected' : ''}>${s}星</option>`).join('')}
+      </select>
+      ${addState.experts.length > 1 ? `<span class="expert-del" onclick="removeExpert(${i})">×</span>` : ''}
+    </div>
+  `).join('');
+}
+function updateExpert(i, key, v){ addState.experts[i][key] = v; }
+function addExpert(){
+  if(addState.experts.length >= 8) return toast('最多添加 8 位专家');
+  addState.experts.push({ name:'', title:'', score:5 });
+  renderExpertList();
+}
+function removeExpert(i){
+  if(addState.experts.length <= 1) return;
+  addState.experts.splice(i, 1);
+  renderExpertList();
+}
+
+/* ================= 难度自动评估 ================= */
+function autoEvaluateDifficulty(method, name, category){
+  if(!method || !method.trim()) return { level:3, reason:'未填写方法，默认中等难度' };
+  const text = (method || '') + (name || '');
+  let score = 0; const details = [];
+
+  const len = method.trim().length;
+  if(len > 100){ score += 1.8; details.push('描述详尽'); }
+  else if(len > 50){ score += 1.2; details.push('描述较详'); }
+  else score += 0.5;
+
+  const steps = method.split(/[。；;.!?！？]/).filter(s => s.trim().length > 1).length;
+  score += Math.min(steps * 0.4, 1.6);
+  if(steps >= 3) details.push(`${steps}个步骤`);
+
+  const hard = ['艾灸','明火','针','拔罐','刮痧','器械','仪器','设备','加热','煮沸','熬','煎','熏','烫','切割','测量'];
+  const mid  = ['穴位','按压','揉捏','推拿','拉伸','锻炼','运动','泡','敷','煮','冲泡','炖'];
+  let hc = 0, mc = 0;
+  hard.forEach(w => { if(text.includes(w)){ score += 1.0; hc++; } });
+  mid.forEach(w => { if(text.includes(w)){ score += 0.35; mc++; } });
+  if(hc) details.push(`${hc}项高难操作`);
+  if(mc) details.push(`${mc}项中等操作`);
+
+  const adj = {'运动':0.6,'食补':0.1,'穴位按摩':-0.4,'药品药材':0.9,'器材':1.6,'环境':-0.6,'其它':0};
+  if(category){ score += adj[category] || 0; details.push(category); }
+
+  let level = Math.round(score / 1.3) + 1;
+  level = Math.max(1, Math.min(5, level));
+  return { level, reason: details.join(' · ') || '综合评估' };
+}
+function refreshDifficulty(){
+  if(!autoDiffEnabled) return;
+  const r = autoEvaluateDifficulty(val('fMethod'), val('fName'), [...addState.category][0]);
+  addState.difficulty = r.level;
+  paintDiffStars();
+  $('diffReason').innerHTML = `自动评估 <b>${r.level} 星</b> · ${r.reason} <a onclick="reenableAutoDiff()">重新评估</a>`;
+}
+function reenableAutoDiff(){ autoDiffEnabled = true; refreshDifficulty(); }
+const paintDiffStars = () => $('fDifficulty').innerHTML = [1,2,3,4,5].map(i =>
+  `<span class="star${i <= addState.difficulty ? ' on' : ''}" data-i="${i}">★</span>`).join('');
+const paintMyScoreStars = () => $('fMyScore').innerHTML = [1,2,3,4,5].map(i =>
+  `<span class="star${i <= addState.myScore ? ' on' : ''}" data-i="${i}">★</span>`).join('');
+
+/* ================= 媒体上传 ================= */
+function renderMediaPreview(){
+  $('mediaPreview').innerHTML = addState.media.map((m, i) => `
+    <div class="thumb-wrap">
+      ${m.type === 'image' ? `<img src="${m.url}" class="thumb">` : `<div class="thumb">VIDEO</div>`}
+      <div class="thumb-del" onclick="removeMedia(${i})">×</div>
+    </div>`).join('');
+}
+function removeMedia(i){ addState.media.splice(i, 1); renderMediaPreview(); }
+function bindMediaUpload(){
+  $('fImages').addEventListener('change', e => {
+    [...e.target.files].forEach(file => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        addState.media.push({ type:'image', url:ev.target.result, name:file.name });
+        renderMediaPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = '';
+  });
+  $('fVideo').addEventListener('change', e => {
+    const file = e.target.files[0]; if(!file) return;
+    addState.media.push({ type:'video', url:URL.createObjectURL(file), name:file.name });
+    renderMediaPreview();
+    e.target.value = '';
+  });
+}
+
+/* ================= 页面切换 / 登录 ================= */
+const TITLES = { add:'我有妙招', use:'我要选用', me:'我的记录' };
+function switchTab(tab){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  $('page-' + tab).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(i => i.classList.toggle('on', i.dataset.tab === tab));
+  $('navbar').textContent = TITLES[tab] || '宋博士养生术';
+  $('content').scrollTop = 0;
+  if(tab === 'me') renderMe();
+}
+function doLogin(){
+  const name = val('lgName'), age = parseInt(val('lgAge'), 10), pwd = $('lgPwd').value;
+  if(!name) return toast('请输入姓名或昵称');
+  if(!age || age < 1 || age > 120) return toast('请输入有效年龄');
+  if(!pwd || pwd.length < 6) return toast('密码至少 6 位');
+
+  state.user = { name, age };
+  state.loginCount = 1;
+  $('tabbar').style.display = 'flex';
+  $('fProvider').value = name;
+  $('uName').value = name;
+  $('uAge').value = age;
+
+  renderHist('symptom');
+  renderHist('contraindication');
+  switchTab('add');
+  toast('欢迎，' + name);
+}
+
+/* ================= 提交妙招 ================= */
+function invLifeText(){
+  const st = $('fInvStatus').value, age = val('fInvAge');
+  if(!age) return '—';
+  return st === 'deceased' ? `${age}岁去世` : `${age}岁健在`;
+}
+function buildValidations(verification){
+  if(verification === '未验证') return [];
+  if(verification === '个人验证') return [{ name:state.user.name, age:state.user.age, score:addState.myScore }];
+  if(verification === '专家验证'){
+    const list = addState.experts.filter(e => e.name.trim());
+    return list.map(e => ({ name:e.name.trim(), title:e.title.trim() || '专家', score:e.score }));
+  }
+  // 多人验证
+  const n = Math.max(2, parseInt(val('fVerCount') || '3', 10));
+  const arr = [];
+  const names = ['康友A','康友B','康友C','康友D','康友E','康友F','康友G','康友H','康友I','康友J'];
+  for(let i = 0; i < n; i++){
+    arr.push({
+      name:names[i % names.length], age:55 + (i % 20),
+      score:Math.max(3, Math.min(5, addState.myScore - (i % 2)))
+    });
+  }
+  return arr;
+}
+function submitTechnique(){
+  const name = val('fName'), method = val('fMethod'), category = [...addState.category][0];
+  if(!name) return toast('请填写妙招名称');
+  if(!method) return toast('请填写方法');
+  if(!category) return toast('请选择分类');
+  if(!addState.symptoms.size) return toast('请至少添加一个针对症状');
+  if(state.quota.add >= state.quota.addMax) return toast('今日添加次数已用完');
+
+  const verification = [...addState.verification][0] || '未验证';
+  if(verification === '专家验证'){
+    const experts = addState.experts.filter(e => e.name.trim());
+    if(!experts.length) return toast('请至少填写一位专家姓名');
+  }
+
+  const validations = buildValidations(verification);
+  const avg = validations.length
+    ? +(validations.reduce((s, v) => s + v.score, 0) / validations.length).toFixed(1) : 0;
+
+  const t = {
+    id:'T' + Date.now(),
+    name,
+    provider: val('fProvider') || state.user.name,
+    inventor: val('fInventor') || '—',
+    inventorLife: invLifeText(),
+    method,
+    dose: val('fDose') || '—',
+    freq: val('fFreq') || '—',
+    symptoms:[...addState.symptoms],
+    contra:[...addState.contra],
+    knowledge: val('fKnowledge') || '—',
+    difficulty: addState.difficulty,
+    category, verification, validations,
+    rating: avg,
+    source: [...addState.source][0] + (val('fSourceDetail') ? '·' + val('fSourceDetail') : ''),
+    useCount:0,
+    media: addState.media.map(m => ({ type:m.type, url:m.url, name:m.name })),
+    experiences:[]
+  };
+
+  state.techniques.unshift(t);
+  state.myTechniqueIds.push(t.id);
+  state.quota.add++;
+  state.lastProvider = t.provider;
+
+  resetAddForm();
+  updateQuotaTips();
+  toast(`提交成功 · ${verification}（${validations.length} 人）`);
+}
+function resetAddForm(){
+  ['fName','fInventor','fInvAge','fMethod','fDose','fFreq','fKnowledge','fSourceDetail']
+    .forEach(id => $(id).value = '');
+  $('fProvider').value = state.lastProvider || state.user.name;
+
+  addState.symptoms.clear();
+  addState.contra.clear();
+  addState.category.clear();
+  addState.verification = new Set(['个人验证']);
+  addState.source = new Set(['网络']);
+  addState.difficulty = 3;
+  addState.myScore = 5;
+  addState.media = [];
+  addState.experts = [{ name:'', title:'', score:5 }];
+  autoDiffEnabled = true;
+
+  $('fSymSearch').value = '';
+  renderAddSymptomPicker();
+  renderContraChips();
+  renderChips('fCategory', CATEGORIES, addState.category);
+  renderChips('fVerification', VERIFICATIONS, addState.verification, verLabel);
+  renderChips('fSource', SOURCES, addState.source);
+  renderExpertList();
+  $('fScoreWrap').style.display = 'block';
+  $('verCountWrap').style.display = 'none';
+  $('expertWrap').style.display = 'none';
+  paintDiffStars(); paintMyScoreStars(); renderMediaPreview(); refreshDifficulty();
+}
+function verLabel(v){
+  if(v === '未验证') return '未验证 · 0人';
+  if(v === '个人验证') return '个人验证 · 1人';
+  return v;
+}
+
+/* ================= 推荐算法 ================= */
+const W = { symptom:0.40, verify:0.18, rating:0.12, difficulty:0.10, heat:0.08, effect:0.12 };
+const V_SCORE = { '未验证':0.15, '个人验证':0.45, '多人验证':0.75, '专家验证':1.0 };
+function avgExperience(t){
+  const arr = (t.experiences || []).map(e => e.score);
+  return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+}
+function recommend(symptoms, contra, topN = 3){
+  return state.techniques.map(t => {
+    const hit = t.symptoms.filter(s => symptoms.includes(s));
+    const conflict = t.contra.filter(c => contra.includes(c));
+    const coverage = symptoms.length ? hit.length / symptoms.length : 0;
+    const breadth = t.symptoms.length ? Math.min(hit.length / t.symptoms.length * 2, 1) : 0;
+    const sm = 0.7 * coverage + 0.3 * breadth;
+    const vs = V_SCORE[t.verification] ?? 0.15;
+    const rs = Math.max(0, (t.rating - 1) / 4);
+    const ds = (5 - t.difficulty) / 4;
+    const hs = Math.min(t.useCount / 1000, 1);
+    const avgEff = avgExperience(t);
+    const es = avgEff ? (avgEff - 1) / 4 : 0.35;
+
+    let score = W.symptom * sm + W.verify * vs + W.rating * rs + W.difficulty * ds + W.heat * hs + W.effect * es;
+    if(!hit.length) score *= 0.25;
+    if(conflict.length) score *= 0.05;
+    return { ...t, _score:score, _hit:hit, _conflict:conflict, _avgEff:avgEff };
+  }).sort((a, b) => b._score - a._score).slice(0, topN);
+}
+function verTag(t){
+  const n = t.validations.length;
+  if(t.verification === '专家验证'){
+    const names = t.validations.slice(0, 2)
+      .map(v => v.title ? `${v.name}（${v.title}）` : v.name).join('、');
+    return `专家验证 ${n} 人${names ? ' · ' + names + (n > 2 ? ' 等' : '') : ''}`;
+  }
+  return {
+    '多人验证': `多人验证 ${n} 人 · 均${t.rating}分`,
+    '个人验证': `个人验证 ${n} 人 · ${t.rating}分`,
+    '未验证':   `未验证 0 人`
+  }[t.verification] || t.verification;
+}
+
+/* ================= 我要选用 ================= */
+function renderPicker(cfg){
+  const { inputId, chipsId, countId, dict, set } = cfg;
+  const kw = $(inputId).value.trim();
+  const matched = kw ? dict.filter(v => v.includes(kw)) : dict.slice();
+  const list = [...new Set([...matched, ...[...set]])];
+  $(chipsId).innerHTML = list.length
+    ? list.map(v => `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${v}</span>`).join('')
+    : `<span class="no-result">没有找到「${kw}」</span>`;
+  $(countId).textContent = set.size ? `已选 ${set.size} 项` : '';
+}
+const renderSymptomPicker = () => renderPicker({
+  inputId:'uSymSearch', chipsId:'uSymptoms', countId:'symSelCount', dict:SYMPTOMS, set:useStateForm.symptoms
+});
+const renderContraPicker = () => renderPicker({
+  inputId:'uConSearch', chipsId:'uContra', countId:'conSelCount', dict:CONTRA_LIST, set:useStateForm.contra
+});
+function bindPicker(cfg){
+  const { inputId, chipsId, set, histType } = cfg;
+  $(chipsId).addEventListener('click', e => {
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    const v = chip.dataset.v;
+    set.has(v) ? set.delete(v) : set.add(v);
+    if(set.has(v)) pushHist(histType, v);
+    renderPicker(cfg);
+  });
+  let timer;
+  $(inputId).addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      const kw = $(inputId).value.trim();
+      if(kw.length >= 2) pushHist(histType, kw);
+    }, 800);
+  });
+}
+function doRecommend(){
+  const symptoms = [...useStateForm.symptoms];
+  if(!symptoms.length) return toast('请至少选择一个症状');
+  symptoms.forEach(s => pushHist('symptom', s));
+  [...useStateForm.contra].forEach(c => pushHist('contraindication', c));
+  renderResults(recommend(symptoms, [...useStateForm.contra]));
+}
+function renderResults(list){
+  const wrap = $('resultWrap');
+  if(!list.length){ wrap.innerHTML = '<div class="empty">暂无匹配结果</div>'; return; }
+
+  wrap.innerHTML = '<div class="section-label" style="margin:0 2px 12px">为你匹配到 ' + list.length + ' 个妙招</div>' +
+    list.map(t => {
+      const pct = Math.round(t._score * 100);
+      const conflict = t._conflict.length > 0;
+      const adopted = state.adoptedIds.has(t.id);
+      const effN = (t.experiences || []).length;
+      const mediaHtml = (t.media && t.media.length)
+        ? `<div class="media-row">${t.media.slice(0, 3).map(m =>
+            m.type === 'image' ? `<img src="${m.url}" class="thumb">` : `<div class="thumb">VIDEO</div>`).join('')}</div>`
+        : '';
+      return `
+      <div class="res-card">
+        <div class="res-top">
+          <div class="res-name">${t.name}</div>
+          <div class="res-score"><b>${pct}</b><span>匹配</span></div>
+        </div>
+        <div class="res-tags">
+          <span class="tag cat">${t.category}</span>
+          <span class="tag ver">${verTag(t)}</span>
+          <span class="tag">难度 ${'★'.repeat(t.difficulty)}</span>
+          ${effN ? `<span class="tag eff">体验 ${t._avgEff.toFixed(1)} · ${effN}人</span>` : ''}
+        </div>
+        <div class="bar"><i class="${conflict ? 'bad' : ''}" style="width:${pct}%"></i></div>
+        ${conflict ? `<div class="warn">与你的禁忌冲突：${t._conflict.join('、')}，不建议使用</div>` : ''}
+        ${mediaHtml}
+        <div class="kv"><span>方法</span><p>${t.method}</p></div>
+        <div class="kv"><span>剂量</span><p>${t.dose} · ${t.freq}</p></div>
+        <div class="kv"><span>命中</span><p>${t._hit.join('、') || '—'}</p></div>
+        ${t.contra.length ? `<div class="kv"><span>禁忌</span><p>${t.contra.join('、')}</p></div>` : ''}
+        <div class="kv"><span>原理</span><p>${t.knowledge}</p></div>
+        <div class="kv"><span>来源</span><p>${t.source}</p></div>
+        <button class="btn primary sm" ${adopted ? 'disabled' : ''}
+          onclick="adoptTechnique('${t.id}')">${adopted ? '已选用' : '选用这个妙招'}</button>
+      </div>`;
+    }).join('');
+}
+function adoptTechnique(id){
+  if(state.adoptedIds.has(id)) return toast('你已经选用过这个妙招了');
+  if(state.quota.use >= state.quota.useMax) return toast('今日选用次数已用完');
+  const t = state.techniques.find(x => x.id === id);
+  state.quota.use++;
+  state.adoptedIds.add(id);
+  state.usages.push({
+    techniqueId:id, name:t.name,
+    date:new Date().toLocaleDateString('zh-CN'), feedback:null
+  });
+  t.useCount++;
+  updateQuotaTips();
+  renderResults(recommend([...useStateForm.symptoms], [...useStateForm.contra]));
+  toast('已选用，体验后可到「我的记录」评价');
+}
+
+/* ================= 体验评价 ================= */
+let fbTargetId = null, fbScore = 5;
+function openFeedback(techniqueId){
+  const u = state.usages.find(x => x.techniqueId === techniqueId);
+  if(!u) return;
+  fbTargetId = techniqueId;
+  fbScore = u.feedback ? u.feedback.effectiveness : 5;
+  $('fbTitle').textContent = u.name;
+  $('fbSub').textContent = `选用日期 ${u.date} · 你的评价会帮助其他康友，并参与推荐排序`;
+  $('fbText').value = u.feedback ? u.feedback.content : '';
+  paintFbStars();
+  $('fbMask').classList.add('show');
+}
+const paintFbStars = () => $('fbStars').innerHTML = [1,2,3,4,5].map(i =>
+  `<span class="star${i <= fbScore ? ' on' : ''}" data-i="${i}">★</span>`).join('');
+function closeFeedback(){ $('fbMask').classList.remove('show'); fbTargetId = null; }
+function submitFeedback(){
+  if(!fbTargetId) return;
+  const u = state.usages.find(x => x.techniqueId === fbTargetId);
+  const t = state.techniques.find(x => x.id === fbTargetId);
+  if(!u || !t) return;
+
+  const content = $('fbText').value.trim();
+  const today = new Date().toLocaleDateString('zh-CN');
+  u.feedback = { effectiveness:fbScore, content, date:today };
+
+  t.experiences = t.experiences || [];
+  const idx = t.experiences.findIndex(e => e.userId === 'self');
+  const rec = { userId:'self', user:state.user.name, score:fbScore, content, date:today };
+  idx >= 0 ? t.experiences[idx] = rec : t.experiences.push(rec);
+
+  closeFeedback();
+  renderMe();
+  toast('评价已提交');
+}
+
+/* ================= 我的记录 ================= */
+function renderMe(){
+  const u = state.user; if(!u) return;
+  $('meAvatar').textContent = u.name.slice(0, 1);
+  $('meName').textContent = u.name;
+  $('meAge').textContent = `${u.age} 岁 · 每年 1 月 1 日自动更新`;
+
+  const cCount = state.myTechniqueIds.length, uCount = state.usages.length;
+  $('meContribCount').textContent = cCount;
+  $('meContribMoney').textContent = '¥' + (cCount * 10);
+  $('meUseCount').textContent = uCount;
+  $('meUseMoney').textContent = '¥' + (uCount * 2);
+  $('meLogin').textContent = state.loginCount;
+  $('meQuota').textContent =
+    `今日额度　添加 ${state.quota.add} / ${state.quota.addMax}　·　选用 ${state.quota.use} / ${state.quota.useMax}`;
+
+  $('meAdoptedList').innerHTML = state.usages.length
+    ? state.usages.map(u => {
+        const fb = u.feedback;
+        return `
+        <div class="list-item">
+          <div>
+            <div class="t">${u.name}</div>
+            <div class="sub">${u.date} 选用${fb ? ` · 已评价 ${'★'.repeat(fb.effectiveness)}` : ' · 待评价'}</div>
+            ${fb && fb.content ? `<div class="quote">${fb.content}</div>` : ''}
+          </div>
+          <button class="mini-btn" onclick="openFeedback('${u.techniqueId}')">${fb ? '修改' : '评价'}</button>
+        </div>`;
+      }).join('')
+    : '<div class="empty">还没有选用过妙招</div>';
+
+  const list = state.myTechniqueIds.map(id => state.techniques.find(t => t.id === id)).filter(Boolean);
+  $('meList').innerHTML = list.length
+    ? list.map(t => `<div class="list-item"><div><div class="t">${t.name}</div>
+        <div class="sub">${verTag(t)}</div></div><span class="badge">待审核</span></div>`).join('')
+    : '<div class="empty">还没有贡献过妙招</div>';
+}
+
+/* ================= 初始化 ================= */
+function updateQuotaTips(){
+  $('addQuotaTip').textContent = `今日还可添加 ${Math.max(0, state.quota.addMax - state.quota.add)} 个`;
+  $('useQuotaTip').textContent = `今日还可选用 ${Math.max(0, state.quota.useMax - state.quota.use)} 个`;
+}
+function init(){
+  document.querySelectorAll('.tab-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if(!state.user) return toast('请先登录');
+      switchTab(item.dataset.tab);
+    });
+  });
+
+  // 我有妙招 —— 症状搜索式
+  $('fSymptoms').addEventListener('click', e => {
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    const v = chip.dataset.v;
+    addState.symptoms.has(v) ? addState.symptoms.delete(v) : addState.symptoms.add(v);
+    renderAddSymptomPicker();
+  });
+  renderAddSymptomPicker();
+
+  // 禁忌（常用）
+  renderContraChips();
+  bindChipGroup('fContra', addState.contra, true);
+
+  // 分类 / 验证 / 来源
+  renderChips('fCategory', CATEGORIES, addState.category);
+  renderChips('fVerification', VERIFICATIONS, addState.verification, verLabel);
+  renderChips('fSource', SOURCES, addState.source);
+  bindChipGroup('fCategory', addState.category, false, refreshDifficulty);
+  bindChipGroup('fSource', addState.source, false);
+  bindChipGroup('fVerification', addState.verification, false, () => {
+    const v = [...addState.verification][0];
+    $('fScoreWrap').style.display = v === '个人验证' ? 'block' : 'none';
+    $('verCountWrap').style.display = v === '多人验证' ? 'flex' : 'none';
+    $('expertWrap').style.display = v === '专家验证' ? 'block' : 'none';
+  });
+
+  // 专家列表
+  renderExpertList();
+
+  // 难度 / 我的评分
+  $('fDifficulty').addEventListener('click', e => {
+    const s = e.target.closest('.star'); if(!s) return;
+    autoDiffEnabled = false;
+    addState.difficulty = +s.dataset.i;
+    paintDiffStars();
+    $('diffReason').innerHTML =
+      `手动设置 <b>${addState.difficulty} 星</b> <a onclick="reenableAutoDiff()">恢复自动评估</a>`;
+  });
+  $('fMyScore').addEventListener('click', e => {
+    const s = e.target.closest('.star'); if(!s) return;
+    addState.myScore = +s.dataset.i;
+    paintMyScoreStars();
+  });
+
+  bindMediaUpload();
+
+  // 我要选用 —— 可搜索选择器
+  bindPicker({ inputId:'uSymSearch', chipsId:'uSymptoms', countId:'symSelCount',
+               dict:SYMPTOMS, set:useStateForm.symptoms, histType:'symptom' });
+  bindPicker({ inputId:'uConSearch', chipsId:'uContra', countId:'conSelCount',
+               dict:CONTRA_LIST, set:useStateForm.contra, histType:'contraindication' });
+  renderSymptomPicker();
+  renderContraPicker();
+
+  // 评价弹层
+  $('fbStars').addEventListener('click', e => {
+    const s = e.target.closest('.star'); if(!s) return;
+    fbScore = +s.dataset.i; paintFbStars();
+  });
+
+  paintDiffStars(); paintMyScoreStars(); updateQuotaTips();
+}
+init();
+</script>
+</body>
+</html>
