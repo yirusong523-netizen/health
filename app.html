@@ -34,57 +34,72 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   justify-content:space-between;padding:0 26px;font-size:var(--fs-sm);font-weight:600;
   background:var(--bg);z-index:10}
 .statusbar .r{font-size:var(--fs-sm);color:var(--ink2);font-weight:500}
-.screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.screen::-webkit-scrollbar{display:none}
 
-.tabbar{position:absolute;bottom:0;left:0;right:0;height:78px;display:flex;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
-  border-top:1px solid var(--line);padding-bottom:16px;z-index:5}
-.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;font-size:var(--fs-micro);color:var(--ink3);cursor:pointer;font-weight:500;letter-spacing:.3px}
-.tab svg{width:22px;height:22px;stroke:var(--ink3);stroke-width:1.6;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;transition:.18s}
-.tab.active{color:var(--gold)}
-.tab.active svg{stroke:var(--gold);stroke-width:1.9}
+/* ===== 顶部栏 ===== */
+.appbar{height:52px;flex-shrink:0;display:flex;align-items:center;gap:8px;
+  padding:0 12px;background:var(--bg);position:relative;z-index:20}
+.appbar-btn{width:36px;height:36px;border-radius:10px;border:none;background:transparent;
+  color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:.15s;flex-shrink:0}
+.appbar-btn:active{background:rgba(20,32,47,.07)}
+.appbar-title{flex:1;text-align:center;font-size:var(--fs-body-lg);font-weight:600;
+  letter-spacing:.2px;margin-right:36px}
+
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;position:relative}
+.screen::-webkit-scrollbar{display:none}
 
 /* ===== 健康助手 ===== */
 .chat-wrap{height:100%;display:flex;flex-direction:column;background:var(--bg)}
-.chat-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:18px 18px 8px;
+.chat-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 16px 8px;
   scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .chat-scroll::-webkit-scrollbar{display:none}
-.chat-head{padding:0 2px 16px}
-.chat-head-t{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px}
-.chat-head-s{font-size:var(--fs-sm);color:var(--ink3);margin-top:6px;line-height:1.6}
 
-.chat-msg{display:flex;margin-bottom:16px;gap:8px;align-items:flex-start}
+.chat-msg{display:flex;margin-bottom:14px;gap:8px;align-items:flex-start;
+  animation:msgIn .3s cubic-bezier(.2,.9,.3,1) both}
+@keyframes msgIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 .chat-msg.user{flex-direction:row-reverse}
 .chat-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
   justify-content:center;font-size:var(--fs-micro);font-weight:700;flex-shrink:0;color:#fff}
 .chat-avatar.ai{background:linear-gradient(135deg,var(--gold),var(--gold-deep))}
 .chat-avatar.user{background:linear-gradient(135deg,#2563EB,#1D4ED8)}
-.chat-bubble{max-width:78%;padding:11px 14px;border-radius:14px;font-size:var(--fs-body);
-  line-height:1.75;white-space:pre-wrap;word-break:break-word}
+.chat-bubble{max-width:80%;padding:11px 14px;border-radius:14px;font-size:var(--fs-body);
+  line-height:1.72;word-break:break-word}
+.chat-bubble.plain{white-space:pre-wrap}
 .chat-msg.ai .chat-bubble{background:#fff;border:1px solid var(--line);color:var(--ink);
   border-top-left-radius:5px}
 .chat-msg.user .chat-bubble{background:var(--gold-bg);color:var(--ink);border-top-right-radius:5px}
 
-.chat-suggests{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 18px}
-.chat-suggest{padding:8px 13px;border-radius:20px;background:#fff;border:1px solid var(--line);
-  font-size:var(--fs-sm);color:var(--ink2);cursor:pointer;transition:.15s}
-.chat-suggest:active{background:var(--gold-bg);color:var(--gold);border-color:rgba(184,134,11,.35)}
+/* markdown */
+.md-p{margin:0 0 9px}
+.md-p:last-child{margin-bottom:0}
+.md-ul{margin:2px 0 9px;padding-left:17px}
+.md-ul:last-child{margin-bottom:0}
+.md-ul li{margin:3px 0}
+.md-h{font-size:14px;font-weight:700;margin:3px 0 7px;color:var(--ink)}
+.md-ul li::marker{color:var(--gold)}
+.chat-bubble strong{font-weight:700;color:var(--ink)}
+.chat-bubble code{background:var(--gray-bg);padding:1px 5px;border-radius:4px;font-size:12px}
 
-/* 底部：语音输入 */
-.chat-input-bar{flex-shrink:0;padding:10px 18px 92px;background:#fff;
+/* typing */
+.typing{display:flex;gap:4px;align-items:center;padding:15px 16px !important}
+.typing i{width:5px;height:5px;border-radius:50%;background:var(--ink3);display:block;
+  animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.18s}
+.typing i:nth-child(3){animation-delay:.36s}
+@keyframes blink{0%,60%,100%{opacity:.28;transform:translateY(0)}30%{opacity:1;transform:translateY(-2px)}}
+
+/* 底部输入 */
+.chat-input-bar{flex-shrink:0;padding:10px 16px 20px;background:#fff;
   border-top:1px solid var(--line)}
-
 .voice-bar{display:flex;align-items:center;gap:10px}
 .voice-main{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
   height:46px;border-radius:23px;border:none;cursor:pointer;font-family:inherit;
   background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
   font-size:var(--fs-body-lg);font-weight:600;letter-spacing:.3px;
-  box-shadow:0 8px 18px rgba(184,134,11,.25);transition:.15s}
-.voice-main:active{transform:scale(.98)}
+  box-shadow:0 8px 18px rgba(184,134,11,.25);transition:.15s;
+  touch-action:none;user-select:none;-webkit-user-select:none}
+.voice-main:active,.voice-main.holding{transform:scale(.97)}
 .voice-main svg{width:20px;height:20px;stroke:#fff;stroke-width:2;fill:none;
   stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .kb-btn{width:44px;height:46px;border-radius:23px;border:1px solid var(--line);
@@ -94,7 +109,6 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .kb-btn svg{width:20px;height:20px;stroke:var(--ink2);stroke-width:1.8;fill:none;
   stroke-linecap:round;stroke-linejoin:round}
 
-/* 文字输入模式 */
 .chat-input-row{display:flex;gap:8px;align-items:flex-end}
 .voice-mini{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
   background:#fff;color:var(--gold);cursor:pointer;display:flex;align-items:center;
@@ -113,99 +127,96 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 .chat-send svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none;
   stroke-linecap:round;stroke-linejoin:round}
 
-/* ===== 语音浮层 ===== */
-.voice-overlay{position:absolute;inset:0;background:rgba(15,27,45,.55);backdrop-filter:blur(8px);
-  display:none;align-items:flex-end;justify-content:center;z-index:200;padding:0}
-.voice-overlay.open{display:flex;animation:fade .2s}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.voice-panel{width:100%;background:#fff;border-radius:26px 26px 0 0;
-  padding:28px 22px 44px;animation:up .28s cubic-bezier(.2,.9,.3,1)}
-@keyframes up{from{transform:translateY(60px);opacity:.6}to{transform:translateY(0);opacity:1}}
-.voice-wave{display:flex;justify-content:center;gap:5px;height:56px;align-items:center;margin-bottom:14px}
-.voice-wave span{width:5px;background:var(--gold);border-radius:3px;
-  animation:wave 1s ease-in-out infinite}
-.voice-wave span:nth-child(1){animation-delay:0s;height:18px}
-.voice-wave span:nth-child(2){animation-delay:.1s;height:32px}
-.voice-wave span:nth-child(3){animation-delay:.2s;height:48px}
-.voice-wave span:nth-child(4){animation-delay:.3s;height:32px}
-.voice-wave span:nth-child(5){animation-delay:.4s;height:18px}
-@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.5)}}
-.voice-status{font-size:var(--fs-body-lg);font-weight:600;color:var(--ink);
-  text-align:center;margin-bottom:10px}
-.voice-transcript{font-size:var(--fs-body);color:var(--ink2);line-height:1.7;
-  min-height:56px;padding:13px 15px;background:var(--gray-bg);border-radius:12px;
-  margin-bottom:18px;font-style:italic;text-align:left}
-.voice-transcript.empty{color:var(--ink3);font-style:normal;display:flex;
-  align-items:center;justify-content:center;text-align:center}
-.voice-cancel{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);
-  background:transparent;color:var(--ink2);font-size:var(--fs-body-lg);font-weight:500;
-  cursor:pointer;font-family:inherit}
-.voice-cancel:active{background:var(--gray-bg)}
-
-/* ===== 最佳实践 ===== */
-.page{padding:16px 18px 100px}
-.hd{padding:0 2px 16px}
-.hd-title{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px;line-height:1.2}
-
-.bp-search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);
-  border-radius:var(--r-sm);padding:0 12px;margin-bottom:12px}
-.bp-search .bp-s-ico{color:var(--ink3);font-size:var(--fs-body)}
-.bp-search input{flex:1;border:none;outline:none;background:transparent;padding:11px 0;
-  font-size:var(--fs-body);font-family:inherit;color:var(--ink);min-width:0}
-.bp-search input::placeholder{color:var(--ink3)}
-
-.bp-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0;margin-bottom:12px}
-.bp-tabs::-webkit-scrollbar{display:none}
-.bp-tab{flex-shrink:0;padding:6px 13px;border-radius:20px;background:#fff;border:1px solid var(--line);
-  font-size:var(--fs-sm);color:var(--ink2);font-weight:500;cursor:pointer;transition:.15s}
-.bp-tab.on{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600}
-.bp-tab:active{transform:scale(.96)}
-
-.bp-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.bp-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:9px;transition:.15s;overflow:hidden;display:flex;flex-direction:column}
-.bp-cover{height:72px;border-radius:9px;margin-bottom:9px;position:relative;
-  display:flex;align-items:center;justify-content:center;color:#fff;
-  cursor:pointer;overflow:hidden;flex-shrink:0}
-.bp-cover::before{content:'';position:absolute;top:-34px;right:-24px;width:100px;height:100px;
-  border-radius:50%;background:rgba(255,255,255,.10)}
-.bp-cat-float{position:absolute;top:7px;left:7px;z-index:2;
-  font-size:9px;font-weight:600;padding:2px 6px;border-radius:5px;
-  background:rgba(255,255,255,.92);color:var(--ink2);line-height:1.3}
-.bp-cover-char{font-size:26px;font-weight:700;opacity:.9;letter-spacing:-1px;position:relative}
-.bp-cover-play{position:absolute;right:7px;bottom:7px;width:22px;height:22px;
-  border-radius:50%;background:rgba(0,0,0,.32);display:flex;align-items:center;
-  justify-content:center;font-size:8px;backdrop-filter:blur(4px)}
-.bp-cover-move{background:linear-gradient(135deg,#3B82F6,#1E40AF)}
-.bp-cover-diet{background:linear-gradient(135deg,#D97706,#92400E)}
-.bp-cover-breath{background:linear-gradient(135deg,#0891B2,#155E75)}
-.bp-cover-rest{background:linear-gradient(135deg,#6366F1,#3730A3)}
-.bp-cover-mind{background:linear-gradient(135deg,#BE123C,#881337)}
-
-.bp-title{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:5px;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.bp-inventor{font-size:10px;color:var(--ink3);line-height:1.4;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
-.bp-join-row{margin-top:6px}
-.bp-join-num{font-size:11px;color:var(--ink3);line-height:1.2}
-.bp-join-num b{color:var(--gold);font-size:19px;font-weight:700;margin-right:2px;
-  letter-spacing:-.5px;vertical-align:-1px}
-
-.bp-foot{display:flex;gap:5px;margin-top:8px}
-.bp-btn{flex:1;padding:6px 4px;border-radius:14px;border:none;font-family:inherit;
-  font-size:11px;font-weight:600;cursor:pointer;transition:.15s;text-align:center;
+/* ===== 极简语音提示 HUD ===== */
+.voice-hud{position:absolute;left:50%;bottom:102px;
+  transform:translateX(-50%) translateY(8px) scale(.94);
+  background:rgba(20,32,47,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-radius:16px;padding:12px 22px;display:none;flex-direction:column;align-items:center;
+  gap:8px;z-index:160;opacity:0;pointer-events:none;
+  transition:opacity .16s,transform .2s cubic-bezier(.2,.9,.3,1);
+  box-shadow:0 12px 34px rgba(15,27,45,.30)}
+.voice-hud.open{display:flex;opacity:1;transform:translateX(-50%) translateY(0) scale(1)}
+.voice-hud.cancel{background:rgba(200,16,46,.94)}
+.vh-wave{display:flex;gap:3px;align-items:center;height:22px}
+.vh-wave span{width:3px;border-radius:2px;background:#fff;
+  animation:vhWave 1s ease-in-out infinite}
+.vh-wave span:nth-child(1){height:10px;animation-delay:0s}
+.vh-wave span:nth-child(2){height:18px;animation-delay:.1s}
+.vh-wave span:nth-child(3){height:24px;animation-delay:.2s}
+.vh-wave span:nth-child(4){height:18px;animation-delay:.3s}
+.vh-wave span:nth-child(5){height:10px;animation-delay:.4s}
+@keyframes vhWave{0%,100%{transform:scaleY(.6)}50%{transform:scaleY(1.1)}}
+.vh-txt{font-size:var(--fs-sm);font-weight:600;color:#fff;letter-spacing:.6px;
   white-space:nowrap}
-.bp-btn:active{transform:scale(.97)}
-.bp-btn-join{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(184,134,11,.35)}
-.bp-btn-join.on{background:var(--gray-bg);color:var(--ink3);border-color:transparent}
-.bp-btn-share{background:#fff;color:var(--ink2);border:1px solid var(--line)}
 
-.bp-more{width:100%;padding:12px;border-radius:var(--r-md);background:#fff;
-  border:1px solid var(--line);color:var(--ink2);font-size:var(--fs-sm);font-weight:600;
-  cursor:pointer;font-family:inherit;margin-top:2px;display:block}
-.bp-more:active{background:var(--gray-bg)}
-.bp-empty{text-align:center;padding:28px 20px;color:var(--ink3);font-size:var(--fs-sm);
-  grid-column:1 / -1}
+/* ===== 抽屉 ===== */
+.drawer-mask{position:absolute;inset:0;background:rgba(15,27,45,.30);z-index:290;
+  opacity:0;pointer-events:none;transition:opacity .26s}
+.drawer-mask.open{opacity:1;pointer-events:auto}
+.drawer{position:absolute;top:0;left:0;bottom:0;width:274px;background:#fff;z-index:300;
+  transform:translateX(-102%);transition:transform .28s cubic-bezier(.2,.9,.3,1);
+  box-shadow:8px 0 40px rgba(15,27,45,.16);display:flex;flex-direction:column;
+  border-radius:0 22px 22px 0;overflow:hidden}
+.drawer.open{transform:translateX(0)}
+.drawer-body{flex:1;overflow-y:auto;scrollbar-width:none;padding:0 0 20px}
+.drawer-body::-webkit-scrollbar{display:none}
+.dw-head{padding:56px 18px 18px;background:linear-gradient(160deg,#FDF9EE,#F6F8FB)}
+.dw-user{display:flex;align-items:center;gap:12px}
+.dw-avatar{width:46px;height:46px;border-radius:50%;background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;font-size:var(--fs-title);
+  font-weight:700;color:var(--ink3);flex-shrink:0}
+.dw-avatar.logged{background:linear-gradient(135deg,var(--wechat),#059669);color:#fff}
+.dw-name{font-size:var(--fs-body-lg);font-weight:700}
+.dw-sub{font-size:var(--fs-xs);color:var(--ink3);margin-top:3px}
+.dw-login{margin-top:12px;width:100%;background:var(--wechat);color:#fff;border:none;
+  padding:9px;border-radius:10px;font-size:var(--fs-sm);font-weight:600;cursor:pointer;
+  font-family:inherit}
+.dw-login:active{opacity:.9}
+.dw-logout{margin-top:12px;width:100%;background:transparent;color:var(--ink3);
+  border:1px solid var(--line);padding:9px;border-radius:10px;font-size:var(--fs-sm);
+  cursor:pointer;font-family:inherit}
+
+.dw-sec{font-size:var(--fs-micro);color:var(--ink3);font-weight:700;letter-spacing:1px;
+  padding:18px 20px 8px}
+.dw-item{display:flex;align-items:center;gap:12px;padding:12px 20px;cursor:pointer;
+  font-size:var(--fs-body);color:var(--ink);transition:.15s}
+.dw-item:active{background:var(--gray-bg)}
+.dw-item .dw-ico{width:30px;height:30px;border-radius:9px;background:var(--gold-bg);
+  color:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:var(--fs-sm);font-weight:700;flex-shrink:0}
+.dw-item .dw-ico.blue{background:var(--blue-bg);color:var(--blue)}
+.dw-item .dw-ico.gray{background:var(--gray-bg);color:var(--ink2)}
+.dw-item .dw-txt{flex:1}
+.dw-item .dw-arrow{color:var(--ink3);font-size:var(--fs-body)}
+.dw-ver{padding:18px 20px 0;font-size:var(--fs-micro);color:var(--ink3)}
+
+/* ===== 页面 ===== */
+.page{padding:4px 18px 30px}
+.hd{padding:2px 2px 14px}
+.hd-title{font-size:var(--fs-display);font-weight:600;letter-spacing:-.3px;line-height:1.2}
+.hd-sub{font-size:var(--fs-sm);color:var(--ink3);margin-top:5px}
+
+/* 历史对话 */
+.hist-list{display:flex;flex-direction:column;gap:9px}
+.hist-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:13px 14px;cursor:pointer;transition:.15s}
+.hist-card:active{transform:scale(.99);background:#FCFDFF}
+.hist-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hist-date{font-size:var(--fs-micro);font-weight:700;color:var(--gold);letter-spacing:.6px;
+  background:var(--gold-bg);padding:2px 7px;border-radius:5px}
+.hist-time{font-size:var(--fs-micro);color:var(--ink3)}
+.hist-title{font-size:var(--fs-body);font-weight:700;color:var(--ink);margin-bottom:4px}
+.hist-preview{font-size:var(--fs-sm);color:var(--ink2);line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hist-foot{margin-top:8px;font-size:var(--fs-micro);color:var(--ink3)}
+
+.hist-msgs{margin-bottom:6px}
+.hm{display:flex;margin-bottom:9px}
+.hm.user{justify-content:flex-end}
+.hm-b{max-width:86%;padding:9px 12px;border-radius:12px;font-size:var(--fs-base);
+  line-height:1.65}
+.hm.ai .hm-b{background:var(--gray-bg);border-top-left-radius:4px;color:var(--ink)}
+.hm.user .hm-b{background:var(--gold-bg);border-top-right-radius:4px;color:var(--ink)}
 
 /* ===== 健康管理 ===== */
 .user-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
@@ -244,15 +255,17 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
 
 /* ===== Sheet ===== */
 .modal{position:fixed;inset:0;background:rgba(15,27,45,.45);backdrop-filter:blur(6px);
-  display:none;align-items:flex-end;justify-content:center;z-index:99;
+  display:none;align-items:flex-end;justify-content:center;z-index:500;
   overscroll-behavior:contain}
 .modal.open{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
 .sheet{width:100%;max-width:440px;max-height:88vh;overflow-y:auto;overflow-x:hidden;
   background:#fff;border-radius:24px 24px 0 0;padding:22px 20px 38px;
   position:relative;animation:up .3s cubic-bezier(.2,.9,.3,1);
   scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   touch-action:pan-y}
 .sheet::-webkit-scrollbar{display:none}
+@keyframes up{from{transform:translateY(60px);opacity:.6}to{transform:translateY(0);opacity:1}}
 .sh-head{margin-bottom:18px}
 .sh-title-row{display:flex;align-items:flex-start;justify-content:space-between}
 .sh-name{font-size:var(--fs-title);font-weight:600}
@@ -282,97 +295,152 @@ body{background:#E9EEF5;min-height:100vh;display:flex;align-items:center;
   font-weight:600;text-align:center;padding:14px;border-radius:var(--r-md);cursor:pointer}
 .sh-btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line);font-weight:500}
 
-.video-frame{height:168px;border-radius:var(--r-md);color:#fff;display:flex;
-  flex-direction:column;align-items:center;justify-content:center;gap:10px;
-  margin-bottom:16px;position:relative;overflow:hidden}
-.video-frame::before{content:'';position:absolute;top:-60px;right:-40px;width:180px;height:180px;
-  border-radius:50%;background:rgba(255,255,255,.08)}
-.video-frame .vf-play{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);
-  display:flex;align-items:center;justify-content:center;font-size:15px;position:relative}
-.video-frame .vf-t{font-size:var(--fs-sm);color:rgba(255,255,255,.75);position:relative}
-.video-frame .vf-char{position:absolute;font-size:80px;opacity:.12;font-weight:700}
-
 .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%);
   background:rgba(15,27,45,.9);color:#fff;font-size:var(--fs-base);padding:11px 20px;
-  border-radius:20px;z-index:400;animation:fade .2s;white-space:nowrap}
+  border-radius:20px;z-index:600;animation:fade .2s;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="phone">
   <div class="statusbar"><span>06:35</span><span class="r">5G · 87%</span></div>
+  <div class="appbar" id="appbar"></div>
   <main class="screen" id="screen"></main>
-  <nav class="tabbar" id="tabbar"></nav>
 
-  <!-- 语音浮层 -->
-  <div class="voice-overlay" id="voiceOverlay">
-    <div class="voice-panel" id="voicePanel"></div>
+  <!-- 极简语音 HUD -->
+  <div class="voice-hud" id="voiceHud">
+    <div class="vh-wave"><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="vh-txt" id="vhTxt">松开发送 · 上滑取消</div>
   </div>
+
+  <!-- 抽屉 -->
+  <div class="drawer-mask" id="drawerMask" data-drawer-close></div>
+  <aside class="drawer" id="drawer"><div class="drawer-body" id="drawerBody"></div></aside>
 </div>
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 
 <script>
-/* ============ 数据 ============ */
-const TABS = [
-  {k:'assistant', n:'健康助手', p:'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'},
-  {k:'practice', n:'最佳实践', p:'M12 2l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 16.8 6.2 19.9l1.1-6.5L2.6 8.8l6.5-.9z'},
-  {k:'manage', n:'健康管理', p:'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z'}
+/* ============ 基础工具 ============ */
+function escapeHtml(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function toast(msg){
+  const d = document.createElement('div');
+  d.className = 'toast';
+  d.textContent = msg;
+  document.querySelector('.phone').appendChild(d);
+  setTimeout(()=>d.remove(), 1800);
+}
+
+/* ---------- Markdown 轻量渲染 ---------- */
+function inlineMd(s){
+  return s
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+function mdToHtml(src){
+  const lines = escapeHtml(src || '').split('\n');
+  let html = '';
+  let listOpen = false;
+  const closeList = ()=>{ if(listOpen){ html += '</ul>'; listOpen = false; } };
+
+  for(let i=0;i<lines.length;i++){
+    const raw = lines[i];
+    const line = raw.trim();
+
+    if(!line){ closeList(); continue; }
+
+    const h = line.match(/^(#{1,4})\s+(.*)$/);
+    if(h){
+      closeList();
+      const lvl = Math.min(h[1].length + 2, 6);
+      html += `<h${lvl} class="md-h">${inlineMd(h[2])}</h${lvl}>`;
+      continue;
+    }
+
+    const li = line.match(/^[-*·]\s+(.*)$/);
+    if(li){
+      if(!listOpen){ html += '<ul class="md-ul">'; listOpen = true; }
+      html += `<li>${inlineMd(li[1])}</li>`;
+      continue;
+    }
+
+    closeList();
+    html += `<p class="md-p">${inlineMd(line)}</p>`;
+  }
+  closeList();
+  return html || '';
+}
+
+/* ============ 称呼提取 ============ */
+const NEUTRAL_NAMES = ['随便','都行','你','你吧','无所谓','不知道','你看着办','随便吧',
+  '都可以','你定','看你','随便叫','随便你','都行吧','你决定','你说了算','没什么',
+  '没想好','还没想好','你猜','爱叫啥叫啥'];
+
+function extractName(text){
+  let t = String(text || '').trim();
+  if(!t) return '';
+  t = t.replace(/^[\s。！!？?，,、；;：:]+|[\s。！!？?，,、；;：:]+$/g,'');
+
+  const m = t.match(
+    /(?:就叫你|叫你|称呼你|喊你|就叫我|叫我|称呼我|喊我|就叫)\s*([^\s，。！？,、；:]{1,12}?)(?:吧|就行|就好了|好了|啦|哈|呀|啊|呗|$)/
+  );
+  let name = m ? m[1] : '';
+
+  if(!name){
+    name = t
+      .replace(/^(?:就叫|叫我|叫你|称呼我|称呼你|喊我|喊你|我叫|我是|名字叫|名字是|我叫作|我叫做)/,'')
+      .replace(/(?:吧|就行|就好了|好了|啦|哈|呀|啊|呗|就成|得了|就好)$/,'')
+      .trim();
+  }
+
+  name = name.replace(/^[「『"“'（(]+|[」』"”'）)]+$/g,'').trim();
+
+  if(!name) return '';
+  if(NEUTRAL_NAMES.includes(name)) return '';
+  if(/随便|都行|无所谓|你定|看你|不知道|没想好|你说了算/.test(name)) return '';
+  return name.slice(0,12);
+}
+
+/* ============ 数据：历史对话 ============ */
+const HISTORY = [
+  {
+    id:'h1', label:'今天', time:'06:35', title:'晨间问候',
+    preview:'早上好，昨晚睡得怎么样？今天有没有要开的会？',
+    msgs:[
+      {role:'ai', text:'早上好。昨晚睡得怎么样？'},
+      {role:'user', text:'还行，就是半夜醒了两次，早上有点沉。'},
+      {role:'ai', text:'两次不算多，但醒了之后难再睡着，确实会影响早上状态。\n\n今天先别急着补咖啡，午后可以试试 **闭眼 10 分钟**。'}
+    ]
+  },
+  {
+    id:'h2', label:'昨天', time:'21:40', title:'应酬后的记录',
+    preview:'晚上有个饭局，喝了三两白酒，回来有点口干。',
+    msgs:[
+      {role:'user', text:'晚上有个饭局，喝了三两白酒，回来有点口干。'},
+      {role:'ai', text:'好，我记下了。\n\n今晚做三件小事就行：\n- 睡前喝两杯温水\n- 不要马上躺下，先坐 20 分钟\n- 明早量一次血压\n\n明天我会来问你。'}
+    ]
+  },
+  {
+    id:'h3', label:'3 天前', time:'08:12', title:'体检指标解读',
+    preview:'低密度脂蛋白 3.8，这个要紧吗？',
+    msgs:[
+      {role:'user', text:'低密度脂蛋白 3.8，这个要紧吗？'},
+      {role:'ai', text:'低密度脂蛋白是“坏胆固醇”，偏高会让血管更容易堵。\n\n你这次 **3.8**，比正常上限 3.4 高一点，先不用紧张。\n\n- 少吃油炸和肥肉\n- 每天多走动\n- 三个月后复查一次'}
+    ]
+  },
+  {
+    id:'h4', label:'上周', time:'19:05', title:'颈肩不适',
+    preview:'伏案久了脖子发僵，转头有点紧。',
+    msgs:[
+      {role:'user', text:'伏案久了脖子发僵，转头有点紧。'},
+      {role:'ai', text:'颈肩僵起来确实难受。\n\n现在就可以试一下：双肩慢慢向前绕 10 次，再向后绕 10 次，动作轻一点。\n\n如果出现 **手麻或者头晕**，记得早点去看医生，别硬扛。'}
+    ]
+  }
 ];
 
-const PRACTICE_CATS = ['全部','动作','饮食','呼吸','作息','心态'];
-const CAT_CLS = {'动作':'move','饮食':'diet','呼吸':'breath','作息':'rest','心态':'mind'};
-const CAT_CHAR = {'动作':'动','饮食':'食','呼吸':'息','作息':'眠','心态':'心'};
-
-const BEST_PRACTICES = [
-  {id:'bp1', cat:'动作', title:'靠墙静蹲 60 秒',
-   howText:'背靠墙站立，双脚与肩同宽，向前迈半步，沿墙下滑至大腿与地面平行，保持 60 秒，起身休息 30 秒，做 2 组。',
-   howVideo:'背贴墙面，膝盖不超过脚尖，呼吸均匀，起身时扶墙慢起。',
-   inventor:'钱主席', joins:342},
-  {id:'bp2', cat:'呼吸', title:'4-7-8 呼吸',
-   howText:'吸气 4 秒、屏息 7 秒、呼气 8 秒，做 4 轮，可在座位或车里完成。',
-   howVideo:'鼻吸口呼，肩膀放松，呼气时像吹蜡烛一样轻。',
-   inventor:'王总', joins:327},
-  {id:'bp3', cat:'饮食', title:'蒸番茄',
-   howText:'番茄对半切，水开后蒸 3 分钟，连皮一起吃，每周 3-4 次。',
-   howVideo:'番茄洗净对半切，摆盘上锅，水开后计时 3 分钟。',
-   inventor:'李总', joins:311},
-  {id:'bp4', cat:'动作', title:'提踵 30 次',
-   howText:'扶墙站立，脚跟抬起再缓慢落下，做 30 次，可分成 3 组完成。',
-   howVideo:'双脚与肩同宽，抬到最高点停 1 秒，落下时不要砸地。',
-   inventor:'赵总', joins:298},
-  {id:'bp5', cat:'作息', title:'午间闭眼 10 分钟',
-   howText:'午饭后靠椅背闭眼 10 分钟，不刷手机，不一定要睡着。',
-   howVideo:'坐姿靠稳椅背，双手放腿上，闭眼自然呼吸。',
-   inventor:'孙总', joins:281},
-  {id:'bp6', cat:'饮食', title:'醋泡黑豆',
-   howText:'每天早餐佐一小勺，约 10 粒，细嚼慢咽，坚持吃。',
-   howVideo:'黑豆提前泡发煮熟，加陈醋没过豆面，冷藏一周后食用。',
-   inventor:'周总', joins:274},
-  {id:'bp7', cat:'动作', title:'肩颈绕环 20 次',
-   howText:'双肩向前绕 10 次、向后绕 10 次，动作放慢，配合呼吸。',
-   howVideo:'坐直或站直，肩膀画大圈，不要耸肩。',
-   inventor:'吴总', joins:256},
-  {id:'bp8', cat:'呼吸', title:'会前 3 次深呼吸',
-   howText:'进会议室前站定，用鼻子深吸 3 次，每次呼气比吸气长，再推门。',
-   howVideo:'站姿放松，吸气 4 秒，呼气 6 秒，做 3 轮。',
-   inventor:'郑总', joins:243},
-  {id:'bp9', cat:'饮食', title:'特方茶',
-   howText:'饭后半小时一杯，温水冲泡，不额外加糖。',
-   howVideo:'取茶包一袋，85℃ 水冲泡 3 分钟即可。',
-   inventor:'陈总', joins:229},
-  {id:'bp10', cat:'作息', title:'睡前 90 分钟放下手机',
-   howText:'把手机放到卧室外充电，睡前用纸质书或拉伸替代刷手机。',
-   howVideo:'睡前闹钟一响，把手机拿到客厅充电，回卧室只带书。',
-   inventor:'刘总', joins:205},
-  {id:'bp11', cat:'心态', title:'写下今天一件好事',
-   howText:'睡前在备忘录写一句话，记录今天一件顺利或开心的事。',
-   howVideo:'打开备忘录，一句话即可，不用长篇。',
-   inventor:'张总', joins:189},
-  {id:'bp12', cat:'心态', title:'每周一天无应酬',
-   howText:'提前一周在日历上锁定这一天，不安排饭局和酒局。',
-   howVideo:'日历上标出这一天，设置为全天忙碌。',
-   inventor:'钱主席', joins:167}
-];
-
+/* ============ 数据：健康档案 ============ */
 const PROFILE = {
   basic: [
     {k:'性别', v:'男'},
@@ -418,8 +486,74 @@ const AGREEMENTS = {
   }
 };
 
-/* 语音识别演示句 */
-const VOICE_DEMOS = [
+/* ============ 引导式建档流程 ============ */
+const SKIP_RE = /不想说|不想聊|跳过|以后再说|不聊|不方便说|不说了|先不说|不想提/;
+
+const OB_STEPS = [
+  {
+    key:'aiName',
+    ask: () => '你好呀，我是你的健康助手，你可以把我当作你的儿女。\n\n平时不用特意想起我，我会每天来问问你今天怎么样。你吃了什么、走了多少步、睡得好不好，都可以随口跟我说一句，我帮你记着。\n\n**你想怎么称呼我？**'
+  },
+  {
+    key:'userName',
+    ask: (a) => a.aiName
+      ? `好，我记住了，以后你就叫我「${a.aiName}」。\n\n**我该怎么称呼你？**`
+      : '好，那名字先不着急。\n\n**我该怎么称呼你？**'
+  },
+  {
+    key:'age',
+    ask: (a) => a.userName
+      ? `${a.userName}，你今年多大年纪？`
+      : '你今年多大年纪？'
+  },
+  {
+    key:'work',
+    ask: () => '工作忙不忙？平时需不需要久坐、开会？'
+  },
+  {
+    key:'body',
+    ask: () => '平时身体有没有什么老毛病，或者医生提过要留意的？',
+    follow: (t) => {
+      if(/胃|消化|反酸|胀/.test(t)) return {key:'bodyDetail', q:'是容易胀、反酸，还是吃凉了不舒服？'};
+      if(/血压|高压/.test(t)) return {key:'bodyDetail', q:'平时量出来大概在多少？'};
+      if(/血糖|糖尿|糖高/.test(t)) return {key:'bodyDetail', q:'是空腹高，还是餐后高？'};
+      if(/颈|肩|腰|椎/.test(t)) return {key:'bodyDetail', q:'是久坐之后更明显，还是早上起来更僵？'};
+      if(/血脂|胆固醇|脂肪肝/.test(t)) return {key:'bodyDetail', q:'是总胆固醇高，还是低密度脂蛋白高？'};
+      return null;
+    }
+  },
+  {
+    key:'sleep',
+    ask: () => '平时睡得怎么样？',
+    follow: (t) => {
+      if(/不好|差|难|醒|失眠|浅|累/.test(t)) return {key:'sleepDetail', q:'是入睡难，还是容易醒？'};
+      return null;
+    }
+  },
+  {
+    key:'habit',
+    ask: () => '平时喝酒、抽烟大概什么节奏？'
+  },
+  {
+    key:'sport',
+    ask: () => '平时有运动习惯吗？散步、打球、游泳这些都算。'
+  }
+];
+
+/* 按住说话时的演示文本 */
+const VOICE_BY_KEY = {
+  aiName:'就叫你老张吧',
+  userName:'叫我老李就行',
+  age:'六十一了',
+  work:'忙，一天要开好几个会，基本坐着',
+  body:'胃不太好，血压也有点高',
+  bodyDetail:'容易胀，吃凉的也不舒服',
+  sleep:'睡不好，半夜老醒',
+  sleepDetail:'容易醒，醒了就难再睡着',
+  habit:'一周喝两三次，烟抽得不多',
+  sport:'偶尔散步，别的没有'
+};
+const VOICE_FREE = [
   '今天走了六千步，晚上有个应酬，喝了点酒',
   '昨晚十一点半睡的，夜里醒了两次，今天有点累',
   '体检报告上低密度脂蛋白偏高，帮我看看是什么意思',
@@ -428,103 +562,35 @@ const VOICE_DEMOS = [
 
 /* ============ 状态 ============ */
 const state = {
-  tab: 'assistant',
-  inputMode: 'voice',   /* voice | text */
-  chat: [
-    {role:'ai', text:'你好呀，我是你的健康助手，你可以把我当作你的儿女。\n\n平时不用特意想起我，我会每天来问问你今天怎么样。你吃了什么、走了多少步、睡得好不好，都可以随口跟我说一句，我帮你记着。\n\n体检报告上那些看不懂的指标，或者下周要去看医生，也可以先跟我说说，我帮你理清楚、列出来。累了、烦了，也随时找我。\n\n不着急，我们从今天开始。'}
-  ],
+  view: 'chat',            /* chat | history | manage */
+  inputMode: 'voice',
+  chat: [],
   chatBusy: false,
-  voiceBusy: false,
+  ob: { started:false, done:false, step:0, pending:null, answers:{} },
   voiceIndex: 0,
-  loggedIn: false,
-  user: {name:'', id:''},
-  practiceCat: '全部',
-  practiceQuery: '',
-  practiceLimit: 4,
-  joined: {}
+  voice: { active:false, canceled:false, startY:0, startT:0, pointerId:null, text:'', btn:null },
+  loggedIn:false,
+  user:{name:'', id:''}
 };
 
-/* ============ 工具 ============ */
-function toast(msg){
-  const d = document.createElement('div');
-  d.className = 'toast';
-  d.textContent = msg;
-  document.querySelector('.phone').appendChild(d);
-  setTimeout(()=>d.remove(), 1800);
-}
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, c=>({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
-}
-
-/* ============ 健康助手 ============ */
+/* ============ 聊天渲染 ============ */
 function chatMsgHtml(m){
   const isUser = m.role === 'user';
+  const body = isUser
+    ? `<div class="chat-bubble plain">${escapeHtml(m.text)}</div>`
+    : `<div class="chat-bubble">${mdToHtml(m.text)}</div>`;
   return `<div class="chat-msg ${isUser?'user':'ai'}">
     <div class="chat-avatar ${isUser?'user':'ai'}">${isUser?'我':'AI'}</div>
-    <div class="chat-bubble">${escapeHtml(m.text)}</div>
+    ${body}
   </div>`;
 }
-
-function aiReply(text){
-  const t = text || '';
-
-  if(/早餐|早饭|午饭|午餐|晚饭|晚餐|吃了|喝了|走了.*步/.test(t) && !/怎么|什么|为什么/.test(t)){
-    return '好，我记下了。\n这一餐主食和蛋白都有，算稳的。\n如果方便，再跟我说说中午和晚上吃了什么，我帮你看看一天的整体节奏。';
-  }
-  if(/这周|本周|趋势|比上周|最近几天/.test(t)){
-    return '这周你平均睡了 7 小时 12 分钟，比上周多了 12 分钟，夜里醒的次数也从 3 次降到 2 次。\n有两天睡得偏晚，是不是那两天有事？\n整体在往好的方向走，不用着急。';
-  }
-  if(/低密度|胆固醇|指标|报告|体检.*意思/.test(t)){
-    return '低密度脂蛋白是“坏胆固醇”，偏高会让血管更容易堵。\n你这次 3.8，比正常上限 3.4 高一点，先不用紧张。\n少吃油炸和肥肉，多走动，三个月后复查一次就好。';
-  }
-  if(/看医生|就诊|整理.*说|去医院/.test(t)){
-    return '好，我帮你理一份，到时候直接给医生看：\n· 最近血压 128/82 左右，偶尔头晕\n· 颈肩僵，伏案久了更明显\n· 正在吃的药：降压药每天一次\n· 想确认：要不要调药、多久复查\n还需要补充别的吗？';
-  }
-  if(/提醒|复查|到时候/.test(t)){
-    return '好，我记下了，三个月后提醒你复查。\n到时候我会提前一周来问你，免得你忙起来忘了。\n要提醒的还有别的吗？';
-  }
-  if(/累|烦|焦虑|压力|心情|不开心|撑不住/.test(t)){
-    return '嗯，累了就歇一会儿，不用硬撑。\n今天最让你烦的是哪件事？我陪你想想。\n如果不想说，我们就先做一次呼吸：吸气 4 秒，屏息 7 秒，呼气 8 秒，做 4 轮。';
-  }
-  if(/少问|多问|偏好|直接给结论|别啰嗦/.test(t)){
-    return '好，以后我少问一点，多直接给结论。\n有特别想让我盯着的，也随时告诉我。\n比如血压、睡眠、应酬，你挑一个最想让我留意的？';
-  }
-  if(/睡|失眠|入睡|夜醒/.test(t)){
-    return '听起来昨晚没太休息好，辛苦了。\n今晚可以试试：睡前把手机放到卧室外面，给自己留 90 分钟安静下来。\n如果躺下 20 分钟还没睡着，就起来坐一会儿，等困了再回床。\n明天早上跟我说说，昨晚几点睡着的？';
-  }
-  if(/血压|心血管|心慌|胸闷/.test(t)){
-    return '嗯，血压这事确实值得多留意一点。\n不用紧张，我们可以先做几件小事：每天固定一个时间量一次并记下来；晚饭后慢走 12 分钟；应酬多的时候，尽量给自己留一天不喝酒。\n如果连续几天都偏高，我陪你去看看医生，好不好？';
-  }
-  if(/运动|久坐|散步|快走/.test(t)){
-    return '久坐一整天，身体确实会有点闷。\n要不我们从最小的开始：每坐一小时，起来站两分钟，做几个提踵。\n晚饭后如果有空，慢走 12 分钟就很好。\n你平时晚饭后一般在家还是在外面？我好帮你想想怎么安排。';
-  }
-  if(/吃|饮食|应酬|喝酒|血糖/.test(t)){
-    return '应酬多的时候，吃饭顺序其实能帮上不少忙。\n可以先吃几口蔬菜，再吃蛋白，最后吃主食，餐后血糖会稳一些。\n饭后如果方便，用一杯茶代替含糖饮料。\n你最近应酬大概一周几次？我按你的节奏来想办法。';
-  }
-  if(/颈肩|脖子|腰酸/.test(t)){
-    return '颈肩僵起来确实难受，我能理解。\n现在就可以试一下：双肩慢慢向前绕 10 次，再向后绕 10 次，动作轻一点。\n平时伏案一小时，记得起来活动两分钟。\n如果手麻或者头晕，记得早点去看医生，别硬扛。';
-  }
-  return '嗯，我在听。\n你可以跟我说说最近睡得怎么样、血压有没有变化、应酬多不多，或者哪里不太舒服。\n不着急，我们一点一点来，我会每天来问问你。';
-}
-
-function renderAssistant(){
+function renderChat(){
   const msgs = state.chat.map(chatMsgHtml).join('');
-  const isStart = state.chat.length <= 1;
-  const suggests = isStart ? `
-    <div class="chat-suggests">
-      <div class="chat-suggest" data-suggest="最近总是睡不好">最近总是睡不好</div>
-      <div class="chat-suggest" data-suggest="体检报告上低密度脂蛋白偏高，是什么意思？">帮我看看体检指标</div>
-      <div class="chat-suggest" data-suggest="下周要去看医生，帮我整理一下要说的">看医生前帮我整理</div>
-      <div class="chat-suggest" data-suggest="今天有点累，也有点烦">今天有点累</div>
-    </div>` : '';
-
   const inputBar = state.inputMode === 'voice'
     ? `<div class="voice-bar">
          <button class="voice-main" data-voice-start>
            <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 10c0 4 3 7 7 7s7-3 7-7M12 17v4"/></svg>
-           <span>点一下，说给我听</span>
+           <span>按住说话</span>
          </button>
          <button class="kb-btn" data-input-mode="text" title="切换键盘">
            <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M9 14h6"/></svg>
@@ -541,14 +607,7 @@ function renderAssistant(){
        </div>`;
 
   return `<div class="chat-wrap">
-    <div class="chat-scroll" id="chatScroll">
-      <div class="chat-head">
-        <div class="chat-head-t">健康助手</div>
-        <div class="chat-head-s">我是你的电子儿女，会每天来关心你</div>
-      </div>
-      ${msgs}
-      ${suggests}
-    </div>
+    <div class="chat-scroll" id="chatScroll">${msgs}</div>
     <div class="chat-input-bar">${inputBar}</div>
   </div>`;
 }
@@ -556,16 +615,162 @@ function renderAssistant(){
 function appendChatMessage(m){
   const scroll = document.getElementById('chatScroll');
   if(!scroll) return;
-  const sug = scroll.querySelector('.chat-suggests');
-  if(sug) sug.remove();
   const tmp = document.createElement('div');
   tmp.innerHTML = chatMsgHtml(m);
-  scroll.appendChild(tmp.firstElementChild);
+  const el = tmp.firstElementChild;
+  if(el) scroll.appendChild(el);
 }
 function scrollChatToBottom(){
   const scroll = document.getElementById('chatScroll');
   if(scroll) scroll.scrollTop = scroll.scrollHeight;
 }
+function appendTyping(){
+  const scroll = document.getElementById('chatScroll');
+  if(!scroll) return null;
+  const el = document.createElement('div');
+  el.className = 'chat-msg ai';
+  el.innerHTML = `<div class="chat-avatar ai">AI</div>
+    <div class="chat-bubble typing"><i></i><i></i><i></i></div>`;
+  scroll.appendChild(el);
+  return el;
+}
+
+/* ============ AI 说话队列 ============ */
+let aiChain = Promise.resolve();
+let pendingAI = 0;
+
+function aiSay(text, delay){
+  pendingAI++;
+  state.chatBusy = true;
+  const wait = delay != null ? delay : Math.min(1100, 420 + Math.round(String(text).length * 6));
+
+  aiChain = aiChain.then(() => new Promise(resolve => {
+    const scroll = document.getElementById('chatScroll');
+
+    if(!scroll){
+      state.chat.push({role:'ai', text});
+      pendingAI--; state.chatBusy = pendingAI > 0;
+      resolve();
+      return;
+    }
+
+    const typing = appendTyping();
+    scrollChatToBottom();
+
+    setTimeout(()=>{
+      if(typing) typing.remove();
+      const m = {role:'ai', text};
+      state.chat.push(m);
+      appendChatMessage(m);
+      scrollChatToBottom();
+      pendingAI--; state.chatBusy = pendingAI > 0;
+      resolve();
+    }, wait);
+  }));
+
+  return aiChain;
+}
+
+/* ============ 建档流程 ============ */
+function askCurrentStep(prevSkipped){
+  const ob = state.ob;
+  if(ob.step >= OB_STEPS.length){ finishOnboard(); return; }
+  const step = OB_STEPS[ob.step];
+  const q = step.ask(ob.answers, {prevSkipped: !!prevSkipped});
+  aiSay(q, 780);
+}
+
+function finishOnboard(){
+  state.ob.done = true;
+  aiSay('好，我大概记下了。\n\n以后你随时可以跟我说今天吃了什么、哪儿不舒服、走了多少步，我帮你记着。需要提醒的我会轻轻提醒，不会烦你，随时可以让我关掉。', 900);
+}
+
+function onUserAnswer(text){
+  const ob = state.ob;
+  const skipped = SKIP_RE.test(text);
+
+  /* 正在追问中 */
+  if(ob.pending){
+    if(!skipped) ob.answers[ob.pending.key] = text;
+    ob.pending = null;
+    ob.step++;
+    askCurrentStep(skipped);
+    return;
+  }
+
+  const step = OB_STEPS[ob.step];
+  if(!step){ finishOnboard(); return; }
+
+  if(skipped){
+    aiSay('好，那先不聊这个。', 460).then(()=>{
+      ob.step++;
+      askCurrentStep(true);
+    });
+    return;
+  }
+
+  /* 称呼类做提取 */
+  if(step.key === 'aiName' || step.key === 'userName'){
+    ob.answers[step.key] = extractName(text);
+  } else {
+    ob.answers[step.key] = text;
+  }
+
+  const follow = step.follow ? step.follow(text) : null;
+  if(follow){
+    ob.pending = {key: follow.key};
+    aiSay(follow.q, 720);
+    return;
+  }
+
+  ob.step++;
+  askCurrentStep(false);
+}
+
+/* ============ 日常对话回复 ============ */
+function aiReply(text){
+  const t = text || '';
+
+  if(/早餐|早饭|午饭|午餐|晚饭|晚餐|吃了|喝了|走了/.test(t) && !/怎么|什么|为什么/.test(t)){
+    return '好，我记下了。\n\n这一餐主食和蛋白都有，算稳的。\n\n如果方便，再跟我说说中午和晚上吃了什么，我帮你看看一天的整体节奏。';
+  }
+  if(/这周|本周|趋势|比上周|最近几天/.test(t)){
+    return '这周你平均睡了 **7 小时 12 分钟**，比上周多了 12 分钟，夜里醒的次数也从 3 次降到 2 次。\n\n有两天睡得偏晚，是不是那两天有事？\n\n整体在往好的方向走，不用着急。';
+  }
+  if(/低密度|胆固醇|指标|报告|体检.*意思/.test(t)){
+    return '低密度脂蛋白是“坏胆固醇”，偏高会让血管更容易堵。\n\n你这次 **3.8**，比正常上限 3.4 高一点，先不用紧张。\n\n- 少吃油炸和肥肉\n- 每天多走动\n- 三个月后复查一次';
+  }
+  if(/看医生|就诊|整理.*说|去医院/.test(t)){
+    return '好，我帮你理一份，到时候直接给医生看：\n\n- 最近血压 128/82 左右，偶尔头晕\n- 颈肩僵，伏案久了更明显\n- 正在吃的药：降压药每天一次\n- 想确认：要不要调药、多久复查\n\n还需要补充别的吗？';
+  }
+  if(/提醒|复查|到时候/.test(t)){
+    return '好，我记下了，三个月后提醒你复查。\n\n到时候我会提前一周来问你，免得你忙起来忘了。\n\n要提醒的还有别的吗？';
+  }
+  if(/累|烦|焦虑|压力|心情|不开心|撑不住/.test(t)){
+    return '嗯，累了就歇一会儿，不用硬撑。\n\n今天最让你烦的是哪件事？我陪你想想。\n\n如果不想说，我们就先做一次呼吸：**吸气 4 秒，屏息 7 秒，呼气 8 秒**，做 4 轮。';
+  }
+  if(/少问|多问|偏好|直接给结论|别啰嗦/.test(t)){
+    return '好，以后我少问一点，多直接给结论。\n\n有特别想让我盯着的，也随时告诉我。\n\n比如血压、睡眠、应酬，你挑一个最想让我留意的？';
+  }
+  if(/睡|失眠|入睡|夜醒/.test(t)){
+    return '听起来昨晚没太休息好，辛苦了。\n\n今晚可以试试：\n- 睡前把手机放到卧室外面\n- 给自己留 90 分钟安静下来\n- 躺下 20 分钟没睡着，就起来坐一会儿\n\n明天早上跟我说说，昨晚几点睡着的？';
+  }
+  if(/血压|心血管|心慌|胸闷/.test(t)){
+    return '嗯，血压这事确实值得多留意一点。\n\n不用紧张，我们可以先做几件小事：\n- 每天固定一个时间量一次并记下来\n- 晚饭后慢走 12 分钟\n- 应酬多的时候，尽量留一天不喝酒\n\n如果连续几天都偏高，我陪你去看看医生，好不好？';
+  }
+  if(/运动|久坐|散步|快走/.test(t)){
+    return '久坐一整天，身体确实会有点闷。\n\n要不我们从最小的开始：每坐一小时，起来站两分钟，做几个提踵。\n\n晚饭后如果有空，慢走 12 分钟就很好。\n\n你平时晚饭后一般在家还是在外面？我好帮你想想怎么安排。';
+  }
+  if(/吃|饮食|应酬|喝酒|血糖/.test(t)){
+    return '应酬多的时候，吃饭顺序其实能帮上不少忙。\n\n- 先吃几口蔬菜\n- 再吃蛋白\n- 最后吃主食\n\n餐后血糖会稳一些。饭后如果方便，用一杯茶代替含糖饮料。\n\n你最近应酬大概一周几次？我按你的节奏来想办法。';
+  }
+  if(/颈肩|脖子|腰酸/.test(t)){
+    return '颈肩僵起来确实难受，我能理解。\n\n现在就可以试一下：双肩慢慢向前绕 10 次，再向后绕 10 次，动作轻一点。\n\n平时伏案一小时，记得起来活动两分钟。\n\n如果手麻或者头晕，记得早点去看医生，别硬扛。';
+  }
+  return '嗯，我在听。\n\n你可以跟我说说最近睡得怎么样、血压有没有变化、应酬多不多，或者哪里不太舒服。\n\n不着急，我们一点一点来，我会每天来问问你。';
+}
+
+/* ============ 发送 ============ */
 function sendChat(text){
   const t = (text || '').trim();
   if(!t || state.chatBusy) return;
@@ -578,135 +783,189 @@ function sendChat(text){
   const input = document.getElementById('chatInput');
   if(input) input.value = '';
 
-  state.chatBusy = true;
-  const loading = {role:'ai', text:'我想一想…'};
-  appendChatMessage(loading);
-  scrollChatToBottom();
-
-  setTimeout(()=>{
-    const scroll = document.getElementById('chatScroll');
-    if(scroll){
-      const last = scroll.lastElementChild;
-      if(last && last.classList.contains('chat-msg')) last.remove();
-    }
-    const reply = {role:'ai', text: aiReply(t)};
-    state.chat.push(reply);
-    appendChatMessage(reply);
-    scrollChatToBottom();
-    state.chatBusy = false;
-  }, 700);
+  if(!state.ob.done){
+    onUserAnswer(t);
+  } else {
+    aiSay(aiReply(t), 760);
+  }
+}
+function sendChatWhenReady(text, tries){
+  tries = tries || 0;
+  if(state.chatBusy && tries < 30){
+    setTimeout(()=>sendChatWhenReady(text, tries+1), 160);
+    return;
+  }
+  sendChat(text);
 }
 
-/* ============ 语音输入 ============ */
-function openVoicePanel(){
-  if(state.voiceBusy) return;
-  state.voiceBusy = true;
-
-  const overlay = document.getElementById('voiceOverlay');
-  const panel = document.getElementById('voicePanel');
-  overlay.classList.add('open');
-
-  panel.innerHTML = `
-    <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="voice-status" id="voiceStatus">正在聆听…</div>
-    <div class="voice-transcript empty" id="voiceTranscript">说人话就行，我听着呢</div>
-    <button class="voice-cancel" data-voice-cancel>取消</button>
-  `;
-
-  const text = VOICE_DEMOS[state.voiceIndex % VOICE_DEMOS.length];
+/* ============ 按住说话 ============ */
+function voiceDemoText(){
+  if(!state.ob.done){
+    if(state.ob.pending) return VOICE_BY_KEY[state.ob.pending.key] || '不想说';
+    const step = OB_STEPS[state.ob.step];
+    if(step) return VOICE_BY_KEY[step.key] || '不想说';
+  }
+  const t = VOICE_FREE[state.voiceIndex % VOICE_FREE.length];
   state.voiceIndex += 1;
-
-  setTimeout(()=>{
-    const status = document.getElementById('voiceStatus');
-    const tr = document.getElementById('voiceTranscript');
-    if(!overlay.classList.contains('open')) return;
-    if(status) status.textContent = '识别中…';
-    if(tr){
-      tr.classList.remove('empty');
-      tr.textContent = '“' + text + '”';
-    }
-  }, 900);
-
-  setTimeout(()=>{
-    if(!overlay.classList.contains('open')) return;
-    closeVoicePanel();
-    sendChat(text);
-  }, 1900);
-}
-function closeVoicePanel(){
-  const overlay = document.getElementById('voiceOverlay');
-  overlay.classList.remove('open');
-  state.voiceBusy = false;
+  return t;
 }
 
-/* ============ 最佳实践 ============ */
-function practiceTabsHtml(){
-  return PRACTICE_CATS.map(c=>
-    `<div class="bp-tab ${state.practiceCat===c?'on':''}" data-practice-cat="${c}">${c}</div>`
-  ).join('');
-}
-function practiceCardHtml(p){
-  const on = !!state.joined[p.id];
-  const cls = CAT_CLS[p.cat] || 'mind';
-  const char = CAT_CHAR[p.cat] || '·';
-  return `<div class="bp-card">
-    <div class="bp-cover bp-cover-${cls}" data-bp-video="${p.id}">
-      <span class="bp-cat-float">${p.cat}</span>
-      <span class="bp-cover-char">${char}</span>
-      <span class="bp-cover-play">▶</span>
-    </div>
-    <div class="bp-title">${p.title}</div>
-    <div class="bp-inventor">发明人：${p.inventor}</div>
-    <div class="bp-join-row">
-      <span class="bp-join-num"><b>${p.joins}</b> 个康友加入</span>
-    </div>
-    <div class="bp-foot">
-      <button class="bp-btn bp-btn-join ${on?'on':''}" data-bp-join="${p.id}">${on?'已加入':'加入'}</button>
-      <button class="bp-btn bp-btn-share" data-bp-share="${p.id}">转发</button>
-    </div>
-  </div>`;
-}
-function practiceListHtml(){
-  let list = BEST_PRACTICES.slice().sort((a,b)=>b.joins-a.joins);
-  if(state.practiceCat !== '全部') list = list.filter(p=>p.cat===state.practiceCat);
+function startVoiceHold(e, btn){
+  const v = state.voice;
+  if(v.active) return;
+  e.preventDefault();
 
-  const q = (state.practiceQuery || '').trim().toLowerCase();
-  if(q){
-    list = list.filter(p=>{
-      const hay = [p.title, p.cat, p.inventor, p.howText].join(' ').toLowerCase();
-      return hay.includes(q);
-    });
+  v.active = true;
+  v.canceled = false;
+  v.startY = e.clientY;
+  v.startT = Date.now();
+  v.text = voiceDemoText();
+  v.btn = btn;
+  v.pointerId = e.pointerId;
+
+  try{ btn.setPointerCapture(e.pointerId); }catch(_){}
+  btn.classList.add('holding');
+
+  const hud = document.getElementById('voiceHud');
+  const txt = document.getElementById('vhTxt');
+  if(txt) txt.textContent = '松开发送 · 上滑取消';
+  hud.classList.remove('cancel');
+  hud.classList.add('open');
+
+  btn.addEventListener('pointermove', onVoiceMove);
+  btn.addEventListener('pointerup', endVoiceHold);
+  btn.addEventListener('pointercancel', endVoiceHold);
+}
+
+function onVoiceMove(e){
+  const v = state.voice;
+  if(!v.active) return;
+  const dy = v.startY - e.clientY;
+  const shouldCancel = dy > 60;
+  if(shouldCancel !== v.canceled){
+    v.canceled = shouldCancel;
+    const hud = document.getElementById('voiceHud');
+    const txt = document.getElementById('vhTxt');
+    hud.classList.toggle('cancel', shouldCancel);
+    if(txt) txt.textContent = shouldCancel ? '松开取消' : '松开发送 · 上滑取消';
+  }
+}
+
+function endVoiceHold(){
+  const v = state.voice;
+  if(!v.active) return;
+  v.active = false;
+
+  const btn = v.btn;
+  if(btn){
+    btn.removeEventListener('pointermove', onVoiceMove);
+    btn.removeEventListener('pointerup', endVoiceHold);
+    btn.removeEventListener('pointercancel', endVoiceHold);
+    btn.classList.remove('holding');
+    try{ btn.releasePointerCapture(v.pointerId); }catch(_){}
   }
 
-  const total = list.length;
-  const limit = q ? 999 : state.practiceLimit;
-  const shown = list.slice(0, limit);
-  const cards = shown.length
-    ? shown.map(practiceCardHtml).join('')
-    : `<div class="bp-empty">没有找到相关实践</div>`;
-  const moreBtn = (!q && total > shown.length)
-    ? `<button class="bp-more" data-bp-more>查看全部 ${total} 个</button>` : '';
-  return cards + moreBtn;
-}
-function renderPractice(){
-  return `<div class="page">
-    <div class="hd"><div class="hd-title">最佳实践</div></div>
-    <div class="bp-search">
-      <span class="bp-s-ico">⌕</span>
-      <input placeholder="搜场景、痛点或发明人" data-bp-search value="${state.practiceQuery}">
-    </div>
-    <div class="bp-tabs" id="bpTabs">${practiceTabsHtml()}</div>
-    <div class="bp-list" id="bpList">${practiceListHtml()}</div>
-  </div>`;
-}
-function refreshPracticeList(){
-  const tabs = document.getElementById('bpTabs');
-  const list = document.getElementById('bpList');
-  if(tabs) tabs.innerHTML = practiceTabsHtml();
-  if(list) list.innerHTML = practiceListHtml();
+  const hud = document.getElementById('voiceHud');
+  if(hud) hud.classList.remove('open', 'cancel');
+
+  const wasCanceled = v.canceled;
+  const text = v.text;
+  v.canceled = false;
+  v.btn = null;
+
+  if(!wasCanceled && text){
+    setTimeout(()=>sendChatWhenReady(text), 40);
+  }
 }
 
-/* ============ 健康管理 ============ */
+/* ============ 抽屉 ============ */
+function openDrawer(){
+  renderDrawer();
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerMask').classList.add('open');
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerMask').classList.remove('open');
+}
+function renderDrawer(){
+  const logged = state.loggedIn;
+  const name = state.user.name || '';
+  const avatarChar = name ? name.slice(-1) : '';
+
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="dw-head">
+      <div class="dw-user">
+        <div class="dw-avatar ${logged?'logged':''}">${logged ? avatarChar : '·'}</div>
+        <div>
+          <div class="dw-name">${logged ? name : '未登录'}</div>
+          <div class="dw-sub">${logged ? 'ID：' + state.user.id : '登录后可同步健康档案'}</div>
+        </div>
+      </div>
+      ${logged
+        ? `<button class="dw-logout" data-logout>退出登录</button>`
+        : `<button class="dw-login" data-login>微信登录</button>`}
+    </div>
+
+    <div class="dw-sec">对话</div>
+    <div class="dw-item" data-go="chat">
+      <div class="dw-ico">聊</div><div class="dw-txt">健康助手</div><div class="dw-arrow">›</div>
+    </div>
+    <div class="dw-item" data-go="history">
+      <div class="dw-ico gray">史</div><div class="dw-txt">历史对话</div><div class="dw-arrow">›</div>
+    </div>
+
+    <div class="dw-sec">档案</div>
+    <div class="dw-item" data-go="manage">
+      <div class="dw-ico blue">管</div><div class="dw-txt">健康管理</div><div class="dw-arrow">›</div>
+    </div>
+
+    <div class="dw-sec">关于</div>
+    <div class="dw-item" data-agreement="user">
+      <div class="dw-ico blue">协</div><div class="dw-txt">用户协议</div><div class="dw-arrow">›</div>
+    </div>
+    <div class="dw-item" data-agreement="privacy">
+      <div class="dw-ico blue">隐</div><div class="dw-txt">隐私保护协议</div><div class="dw-arrow">›</div>
+    </div>
+
+    <div class="dw-ver">老板健康 · 体验版 v0.3</div>
+  `;
+}
+
+/* ============ 历史对话页 ============ */
+function renderHistory(){
+  return `<div class="page">
+    <div class="hd">
+      <div class="hd-title">历史对话</div>
+      <div class="hd-sub">共 ${HISTORY.length} 段记录</div>
+    </div>
+    <div class="hist-list">
+      ${HISTORY.map(h=>`
+        <div class="hist-card" data-history="${h.id}">
+          <div class="hist-top">
+            <span class="hist-date">${h.label}</span>
+            <span class="hist-time">${h.time}</span>
+          </div>
+          <div class="hist-title">${h.title}</div>
+          <div class="hist-preview">${escapeHtml(h.preview)}</div>
+          <div class="hist-foot">${h.msgs.length} 条消息</div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+function openHistory(id){
+  const h = HISTORY.find(x=>x.id === id);
+  if(!h) return;
+  openSheet(h.title, `
+    <div class="sh-date" style="margin:-10px 0 16px">${h.label} ${h.time}</div>
+    <div class="hist-msgs">
+      ${h.msgs.map(m=>`<div class="hm ${m.role}"><div class="hm-b">${m.role==='ai'?mdToHtml(m.text):escapeHtml(m.text)}</div></div>`).join('')}
+    </div>
+    <div class="sh-btn ghost" data-close>关闭</div>
+  `);
+}
+
+/* ============ 健康管理页 ============ */
 function renderManage(){
   const logged = state.loggedIn;
   const name = state.user.name || '';
@@ -759,45 +1018,48 @@ function renderManage(){
         <div class="mgr-row-val">›</div>
       </div>
     </div>
-
-    <div class="sec">隐私与分享</div>
-    <div class="mgr-group">
-      <div class="mgr-row" data-agreement="user">
-        <div class="mgr-row-ico blue">协</div>
-        <div class="mgr-row-main">
-          <div class="mgr-row-t">用户协议</div>
-          <div class="mgr-row-s">使用本应用前请阅读</div>
-        </div>
-        <div class="mgr-row-val">›</div>
-      </div>
-      <div class="mgr-row" data-agreement="privacy">
-        <div class="mgr-row-ico blue">隐</div>
-        <div class="mgr-row-main">
-          <div class="mgr-row-t">隐私保护协议</div>
-          <div class="mgr-row-s">我们如何收集和使用你的数据</div>
-        </div>
-        <div class="mgr-row-val">›</div>
-      </div>
-    </div>
   </div>`;
 }
 
 /* ============ 渲染入口 ============ */
+const ICON_MENU = `<svg viewBox="0 0 24 24" width="21" height="21" fill="none"
+  stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+  <path d="M4 7h16M4 12h16M4 17h16"/></svg>`;
+const ICON_BACK = `<svg viewBox="0 0 24 24" width="21" height="21" fill="none"
+  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 5l-7 7 7 7"/></svg>`;
+
+function renderAppbar(){
+  const isChat = state.view === 'chat';
+  const title = state.view === 'chat' ? '健康助手'
+              : state.view === 'history' ? '历史对话' : '健康管理';
+  document.getElementById('appbar').innerHTML = `
+    ${isChat
+      ? `<button class="appbar-btn" data-drawer-open>${ICON_MENU}</button>`
+      : `<button class="appbar-btn" data-back>${ICON_BACK}</button>`}
+    <div class="appbar-title">${title}</div>
+  `;
+}
+
 function render(){
-  const map = {
-    assistant: renderAssistant,
-    practice: renderPractice,
-    manage: renderManage
-  };
-  document.getElementById('screen').innerHTML = map[state.tab]();
+  renderAppbar();
 
-  document.getElementById('tabbar').innerHTML = TABS.map(t=>
-    `<div class="tab ${t.k===state.tab?'active':''}" data-tab="${t.k}">
-      <svg viewBox="0 0 24 24"><path d="${t.p}"/></svg><div>${t.n}</div>
-    </div>`).join('');
+  const screen = document.getElementById('screen');
 
-  if(state.tab === 'assistant'){
+  if(state.view === 'chat'){
+    screen.innerHTML = renderChat();
     setTimeout(scrollChatToBottom, 30);
+
+    if(!state.ob.started){
+      state.ob.started = true;
+      aiSay(OB_STEPS[0].ask(state.ob.answers, {}), 900);
+    }
+  } else if(state.view === 'history'){
+    screen.innerHTML = renderHistory();
+    screen.scrollTop = 0;
+  } else {
+    screen.innerHTML = renderManage();
+    screen.scrollTop = 0;
   }
 }
 
@@ -868,59 +1130,21 @@ function openAgreement(key){
   `);
 }
 
-function openPracticeVideo(id){
-  const p = BEST_PRACTICES.find(x=>x.id===id);
-  if(!p) return;
-  const on = !!state.joined[p.id];
-  const cls = CAT_CLS[p.cat] || 'mind';
-  const char = CAT_CHAR[p.cat] || '·';
-  openSheet('视频做法', `
-    <div class="video-frame bp-cover-${cls}">
-      <div class="vf-char">${char}</div>
-      <div class="vf-play">▶</div>
-      <div class="vf-t">${p.title}</div>
-    </div>
-    <div class="detail-block">
-      <div class="detail-t">画面说明</div>
-      <div class="detail-p">${p.howVideo || '视频待补充'}</div>
-    </div>
-    <div class="detail-block">
-      <div class="detail-t">文字做法</div>
-      <div class="detail-p">${p.howText}</div>
-    </div>
-    <div class="detail-block">
-      <div class="detail-t">发明人</div>
-      <div class="detail-p">${p.inventor}</div>
-      <div style="margin-top:10px;font-size:var(--fs-sm);color:var(--ink3)">
-        <b style="color:var(--gold);font-size:22px;font-weight:700;margin-right:4px">${p.joins}</b> 个康友加入
-      </div>
-    </div>
-    <div class="sh-btn" data-bp-join="${p.id}">${on?'已加入':'加入这个实践'}</div>
-    <div class="sh-btn ghost" data-close>关闭</div>
-  `);
-}
-
-function openPracticeShare(id){
-  const p = BEST_PRACTICES.find(x=>x.id===id);
-  if(!p) return;
-  openSheet('转发实践', `
-    <div class="detail-block">
-      <div class="detail-t">${p.title}</div>
-      <div class="detail-p">${p.howText}</div>
-      <div class="detail-p" style="margin-top:10px;color:var(--ink3);font-size:var(--fs-sm)">
-        发明人：${p.inventor} · ${p.joins} 个康友加入
-      </div>
-    </div>
-    <div class="sh-btn" data-share-done>转发给朋友</div>
-    <div class="sh-btn ghost" data-close>取消</div>
-  `);
-}
-
 /* ============ 事件 ============ */
 document.addEventListener('click', e=>{
-  const tab = e.target.closest('[data-tab]');
-  if(tab){
-    state.tab = tab.dataset.tab;
+  /* 抽屉 */
+  if(e.target.closest('[data-drawer-open]')){ openDrawer(); return; }
+  if(e.target.closest('[data-drawer-close]')){ closeDrawer(); return; }
+
+  const go = e.target.closest('[data-go]');
+  if(go){
+    closeDrawer();
+    state.view = go.dataset.go;
+    render();
+    return;
+  }
+  if(e.target.closest('[data-back]')){
+    state.view = 'chat';
     render();
     return;
   }
@@ -940,90 +1164,48 @@ document.addEventListener('click', e=>{
     return;
   }
 
-  /* 打开语音 */
-  if(e.target.closest('[data-voice-start]')){
-    openVoicePanel();
-    return;
-  }
-  if(e.target.closest('[data-voice-cancel]')){
-    closeVoicePanel();
-    return;
-  }
-
+  /* 发送 */
   if(e.target.closest('[data-chat-send]')){
     const input = document.getElementById('chatInput');
     sendChat(input ? input.value : '');
     return;
   }
-  const sug = e.target.closest('[data-suggest]');
-  if(sug){
-    sendChat(sug.dataset.suggest);
-    return;
-  }
 
-  const cat = e.target.closest('[data-practice-cat]');
-  if(cat){
-    state.practiceCat = cat.dataset.practiceCat;
-    refreshPracticeList();
-    return;
-  }
-  if(e.target.closest('[data-bp-more]')){
-    state.practiceLimit = 999;
-    refreshPracticeList();
-    return;
-  }
-  const joinBtn = e.target.closest('[data-bp-join]');
-  if(joinBtn){
-    const id = joinBtn.dataset.bpJoin;
-    if(state.joined[id]){
-      delete state.joined[id];
-    } else {
-      state.joined[id] = true;
-    }
-    refreshPracticeList();
-    if(document.getElementById('modal').classList.contains('open')){
-      openPracticeVideo(id);
-    }
-    return;
-  }
-  const video = e.target.closest('[data-bp-video]');
-  if(video){ openPracticeVideo(video.dataset.bpVideo); return; }
-  const share = e.target.closest('[data-bp-share]');
-  if(share){ openPracticeShare(share.dataset.bpShare); return; }
+  /* 历史 */
+  const hist = e.target.closest('[data-history]');
+  if(hist){ openHistory(hist.dataset.history); return; }
 
+  /* 登录 */
   if(e.target.closest('[data-login]')){
     state.loggedIn = true;
     state.user = {name:'钱主席', id:'BR-2026-0813'};
-    render();
+    renderDrawer();
+    if(state.view === 'manage') render();
     setTimeout(()=>toast('登录成功'), 120);
     return;
   }
   if(e.target.closest('[data-logout]')){
     state.loggedIn = false;
     state.user = {name:'', id:''};
-    render();
+    renderDrawer();
+    if(state.view === 'manage') render();
     return;
   }
+
   const profile = e.target.closest('[data-profile]');
   if(profile){ openProfile(profile.dataset.profile); return; }
   const agr = e.target.closest('[data-agreement]');
   if(agr){ openAgreement(agr.dataset.agreement); return; }
 
-  if(e.target.closest('[data-share-done]')){
-    closeModal();
-    setTimeout(()=>toast('已发送'), 120);
-    return;
-  }
   if(e.target.closest('[data-close]') || e.target.id === 'modal'){
     closeModal();
   }
 });
 
-document.addEventListener('input', e=>{
-  if(e.target.hasAttribute('data-bp-search')){
-    state.practiceQuery = e.target.value;
-    refreshPracticeList();
-  }
+/* 按住说话：pointerdown 委托 */
+document.addEventListener('pointerdown', e=>{
+  const btn = e.target.closest('[data-voice-start]');
+  if(btn) startVoiceHold(e, btn);
 });
 
 document.addEventListener('keydown', e=>{
@@ -1033,6 +1215,7 @@ document.addEventListener('keydown', e=>{
   }
 });
 
+/* ============ 启动 ============ */
 render();
 </script>
 </body>
