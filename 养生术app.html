@@ -68,6 +68,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
 .brand-en{font-size:9.5px;color:var(--ink-3);letter-spacing:2.6px;font-weight:500}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips:empty{display:none}
 .chip{padding:0 12px;height:32px;line-height:30px;border-radius:4px;background:#fff;color:var(--ink-2);
       font-size:12.5px;border:1px solid var(--line);cursor:pointer;transition:.15s;user-select:none;white-space:nowrap}
 .chip:hover{border-color:#C9CFC9}
@@ -122,6 +123,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
 .search-box input:focus{background:transparent}
 .search-box .clr{font-size:13px;color:#C4C9C4;cursor:pointer;padding:4px;flex:0 0 auto}
 .hist-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.hist-wrap:empty{display:none}
 .hist-label{font-size:10.5px;color:var(--ink-3);width:100%;margin-bottom:1px;letter-spacing:.5px}
 .hist-chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 9px;border-radius:4px;
            background:#F2F4F1;color:var(--ink-2);font-size:11.5px;cursor:pointer}
@@ -129,6 +131,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
 .hist-chip b{font-weight:400;color:#C4C9C4;padding:0 1px;font-size:12px}
 .hist-chip b:hover{color:var(--danger)}
 .sel-count{font-size:11px;color:var(--brand);margin-bottom:9px;font-weight:500}
+.sel-count:empty{display:none}
 .no-result{font-size:12px;color:var(--ink-3);padding:4px 0}
 
 .res-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 16px;margin-bottom:12px}
@@ -216,7 +219,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
         <div class="field"><label>密码 <i>*</i></label>
           <input id="lgPwd" type="password" placeholder="首次登录即注册"></div>
         <button class="btn primary" onclick="doLogin()">进入</button>
-        <p class="tip">首次登录自动创建账号<br>年龄每年 1 月 1 日系统自动 +1</p>
+        <p class="tip">首次登录自动创建账号</p>
       </div>
     </section>
 
@@ -276,9 +279,17 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
           <div class="chips" id="fSymptoms"></div>
         </div>
 
-        <!-- 禁忌：仅展示常用几个 -->
-        <div class="field"><label>禁忌<span class="hint">常用项，可多选</span></label>
-          <div class="chips" id="fContra"></div></div>
+        <!-- 禁忌：可自由输入，默认仅展示常见禁忌名单 -->
+        <div class="field">
+          <label>禁忌<span class="hint">输入搜索，回车可添加自定义禁忌</span></label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input id="fConSearch" placeholder="如：糖尿病 / 抗凝 / 青光眼" oninput="renderAddContraPicker()" onkeydown="onAddContraKey(event)">
+            <span class="clr" onclick="clearAddContra()">×</span>
+          </div>
+          <div class="sel-count" id="fConSelCount"></div>
+          <div class="chips" id="fContra"></div>
+        </div>
 
         <div class="field"><label>知识 / 原理</label>
           <textarea id="fKnowledge" placeholder="对应的知识或原理"></textarea></div>
@@ -338,7 +349,7 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
         <div class="divider"></div>
 
         <div class="field">
-          <label>我的症状 <i>*</i><span class="hint">可搜索、可多选</span></label>
+          <label>我的症状 <i>*</i><span class="hint">输入关键词搜索，可多选</span></label>
           <div class="search-box">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
             <input id="uSymSearch" placeholder="搜索症状，如 夜尿 / 腰膝" oninput="renderSymptomPicker()" onkeydown="onSearchKey(event,'symptom')">
@@ -378,10 +389,8 @@ input:focus,textarea:focus,select:focus{border-color:var(--brand);background:#ff
       </div>
       <div class="stats">
         <div class="stat"><div class="num" id="meContribCount">0</div><div class="lbl">贡献妙招</div></div>
-        <div class="stat"><div class="num" id="meContribMoney">¥0</div><div class="lbl">贡献值</div></div>
         <div class="stat"><div class="num" id="meUseCount">0</div><div class="lbl">选用妙招</div></div>
-        <div class="stat"><div class="num" id="meUseMoney">¥0</div><div class="lbl">贡献值</div></div>
-        <div class="stat"><div class="num" id="meLogin">1</div><div class="lbl">登录次数</div></div>
+        <div class="stat"><div class="num" id="meContribMoney">¥0</div><div class="lbl">贡献值</div></div>
       </div>
       <div class="quota" id="meQuota">今日额度加载中…</div>
 
@@ -441,7 +450,7 @@ const CONTRA_LIST = [
   '发热期','空腹','饱腹','饮酒后','严重骨质疏松','肝肾功能不全','青光眼',
   '白内障术后','过敏体质','服用抗凝药','近期手术','急性炎症'
 ];
-// 禁忌仅展示常用几项
+// 禁忌：默认仅展示以下常用项，其余通过输入匹配
 const COMMON_CONTRA = ['严重心脏病','高血压未控制','糖尿病','皮肤破损','发热期','饱腹','服用抗凝药','严重骨质疏松'];
 
 const CATEGORIES = ['运动','食补','穴位按摩','药品药材','器材','环境','其它'];
@@ -634,7 +643,7 @@ function renderHist(t){
   const arr = getHist(t);
   if(!arr.length){ box.innerHTML = ''; return; }
   box.innerHTML = '<span class="hist-label">最近搜索</span>' + arr.map(k =>
-    `<span class="hist-chip" onclick="useHist('${t}','${escapeAttr(k)}')">${k}
+    `<span class="hist-chip" onclick="useHist('${t}','${escapeAttr(k)}')">${escHtml(k)}
       <b onclick="event.stopPropagation();delHist('${t}','${escapeAttr(k)}')">×</b></span>`).join('');
 }
 const escapeAttr = s => String(s).replace(/'/g, "\\'");
@@ -653,6 +662,8 @@ function onSearchKey(e, t){
 /* ================= 工具 ================= */
 const $ = id => document.getElementById(id);
 const val = id => ($(id).value || '').trim();
+const escHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let toastTimer;
 function toast(msg){
   const t = $('toast');
@@ -663,7 +674,7 @@ function toast(msg){
 }
 function renderChips(id, list, set, labelFn){
   $(id).innerHTML = list.map(v =>
-    `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${labelFn ? labelFn(v) : v}</span>`).join('');
+    `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${escHtml(v)}">${labelFn ? labelFn(v) : escHtml(v)}</span>`).join('');
 }
 function bindChipGroup(id, set, multi, onChange){
   $(id).addEventListener('click', e => {
@@ -689,10 +700,10 @@ function renderAddSymptomPicker(){
   }
   const el = $('fSymptoms');
   if(!list.length){
-    el.innerHTML = kw ? `<span class="no-result">没有匹配项，回车可添加「${kw}」</span>` : '';
+    el.innerHTML = kw ? `<span class="no-result">没有匹配项，回车可添加「${escHtml(kw)}」</span>` : '';
   } else {
     el.innerHTML = list.map(v =>
-      `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${v}</span>`).join('');
+      `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${escHtml(v)}">${escHtml(v)}</span>`).join('');
   }
   $('fSymSelCount').textContent = set.size ? `已选 ${set.size} 项` : '';
 }
@@ -709,20 +720,43 @@ function clearAddSymptom(){
   renderAddSymptomPicker();
 }
 
-/* ================= 我有妙招：禁忌（常用） ================= */
-function contraDisplayList(){
-  return [...new Set([...COMMON_CONTRA, ...addState.contra])];
+/* ================= 我有妙招：禁忌（自由输入 + 输入匹配 + 默认仅常见） ================= */
+function addContraCandidates(kw){
+  if(!kw) return COMMON_CONTRA.slice();
+  return [...new Set([...CONTRA_LIST, ...COMMON_CONTRA].filter(v => v.includes(kw)))];
 }
-function renderContraChips(){
-  renderChips('fContra', contraDisplayList(), addState.contra);
+function renderAddContraPicker(){
+  const kw = ($('fConSearch').value || '').trim();
+  const set = addState.contra;
+  const list = [...new Set([...addContraCandidates(kw), ...[...set]])];
+  const el = $('fContra');
+  if(!list.length){
+    el.innerHTML = kw ? `<span class="no-result">没有匹配项，回车可添加「${escHtml(kw)}」</span>` : '';
+  } else {
+    el.innerHTML = list.map(v =>
+      `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${escHtml(v)}">${escHtml(v)}</span>`).join('');
+  }
+  $('fConSelCount').textContent = set.size ? `已选 ${set.size} 项` : '';
+}
+function onAddContraKey(e){
+  if(e.key !== 'Enter') return;
+  const kw = ($('fConSearch').value || '').trim();
+  if(!kw) return;
+  addState.contra.add(kw);
+  $('fConSearch').value = '';
+  renderAddContraPicker();
+}
+function clearAddContra(){
+  $('fConSearch').value = '';
+  renderAddContraPicker();
 }
 
 /* ================= 我有妙招：专家列表 ================= */
 function renderExpertList(){
   $('expertList').innerHTML = addState.experts.map((ex, i) => `
     <div class="expert-row">
-      <input placeholder="专家姓名" value="${ex.name}" oninput="updateExpert(${i},'name',this.value)">
-      <input placeholder="职称" value="${ex.title}" oninput="updateExpert(${i},'title',this.value)">
+      <input placeholder="专家姓名" value="${escHtml(ex.name)}" oninput="updateExpert(${i},'name',this.value)">
+      <input placeholder="职称" value="${escHtml(ex.title)}" oninput="updateExpert(${i},'title',this.value)">
       <select onchange="updateExpert(${i},'score',+this.value)">
         ${[5,4,3,2,1].map(s => `<option value="${s}"${ex.score === s ? ' selected' : ''}>${s}星</option>`).join('')}
       </select>
@@ -933,8 +967,9 @@ function resetAddForm(){
   autoDiffEnabled = true;
 
   $('fSymSearch').value = '';
+  $('fConSearch').value = '';
   renderAddSymptomPicker();
-  renderContraChips();
+  renderAddContraPicker();
   renderChips('fCategory', CATEGORIES, addState.category);
   renderChips('fVerification', VERIFICATIONS, addState.verification, verLabel);
   renderChips('fSource', SOURCES, addState.source);
@@ -998,24 +1033,51 @@ function renderPicker(cfg){
   const matched = kw ? dict.filter(v => v.includes(kw)) : dict.slice();
   const list = [...new Set([...matched, ...[...set]])];
   $(chipsId).innerHTML = list.length
-    ? list.map(v => `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${v}">${v}</span>`).join('')
-    : `<span class="no-result">没有找到「${kw}」</span>`;
+    ? list.map(v => `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${escHtml(v)}">${escHtml(v)}</span>`).join('')
+    : `<span class="no-result">没有找到「${escHtml(kw)}」</span>`;
   $(countId).textContent = set.size ? `已选 ${set.size} 项` : '';
 }
-const renderSymptomPicker = () => renderPicker({
-  inputId:'uSymSearch', chipsId:'uSymptoms', countId:'symSelCount', dict:SYMPTOMS, set:useStateForm.symptoms
-});
-const renderContraPicker = () => renderPicker({
-  inputId:'uConSearch', chipsId:'uContra', countId:'conSelCount', dict:CONTRA_LIST, set:useStateForm.contra
-});
+/* 症状：默认不展示标签，输入关键词后才展示匹配项；已选项始终保留 */
+function renderSymptomPicker(){
+  const kw = ($('uSymSearch').value || '').trim();
+  const set = useStateForm.symptoms;
+  let list;
+  if(kw){
+    const matched = SYMPTOMS.filter(v => v.includes(kw));
+    list = [...new Set([...matched, ...[...set]])];
+  } else {
+    list = [...set];
+  }
+  const el = $('uSymptoms');
+  if(!list.length){
+    el.innerHTML = kw
+      ? `<span class="no-result">没有找到「${escHtml(kw)}」</span>`
+      : `<span class="no-result">输入关键词搜索症状，如 夜尿 / 失眠</span>`;
+  } else {
+    el.innerHTML = list.map(v =>
+      `<span class="chip${set.has(v) ? ' on' : ''}" data-v="${escHtml(v)}">${escHtml(v)}</span>`).join('');
+  }
+  $('symSelCount').textContent = set.size ? `已选 ${set.size} 项` : '';
+}
+// 禁忌：默认仅展示常见名单，输入时匹配完整禁忌库
+function renderContraPicker(){
+  const kw = ($('uConSearch').value || '').trim();
+  const dict = kw
+    ? [...new Set([...CONTRA_LIST, ...COMMON_CONTRA].filter(v => v.includes(kw)))]
+    : [...new Set([...COMMON_CONTRA, ...[...useStateForm.contra]])];
+  renderPicker({
+    inputId:'uConSearch', chipsId:'uContra', countId:'conSelCount',
+    dict, set:useStateForm.contra
+  });
+}
 function bindPicker(cfg){
-  const { inputId, chipsId, set, histType } = cfg;
+  const { inputId, chipsId, set, histType, rerender } = cfg;
   $(chipsId).addEventListener('click', e => {
     const chip = e.target.closest('.chip'); if(!chip) return;
     const v = chip.dataset.v;
     set.has(v) ? set.delete(v) : set.add(v);
     if(set.has(v)) pushHist(histType, v);
-    renderPicker(cfg);
+    rerender ? rerender() : renderPicker(cfg);
   });
   let timer;
   $(inputId).addEventListener('input', () => {
@@ -1050,24 +1112,24 @@ function renderResults(list){
       return `
       <div class="res-card">
         <div class="res-top">
-          <div class="res-name">${t.name}</div>
+          <div class="res-name">${escHtml(t.name)}</div>
           <div class="res-score"><b>${pct}</b><span>匹配</span></div>
         </div>
         <div class="res-tags">
-          <span class="tag cat">${t.category}</span>
+          <span class="tag cat">${escHtml(t.category)}</span>
           <span class="tag ver">${verTag(t)}</span>
           <span class="tag">难度 ${'★'.repeat(t.difficulty)}</span>
           ${effN ? `<span class="tag eff">体验 ${t._avgEff.toFixed(1)} · ${effN}人</span>` : ''}
         </div>
         <div class="bar"><i class="${conflict ? 'bad' : ''}" style="width:${pct}%"></i></div>
-        ${conflict ? `<div class="warn">与你的禁忌冲突：${t._conflict.join('、')}，不建议使用</div>` : ''}
+        ${conflict ? `<div class="warn">与你的禁忌冲突：${t._conflict.map(escHtml).join('、')}，不建议使用</div>` : ''}
         ${mediaHtml}
-        <div class="kv"><span>方法</span><p>${t.method}</p></div>
-        <div class="kv"><span>剂量</span><p>${t.dose} · ${t.freq}</p></div>
-        <div class="kv"><span>命中</span><p>${t._hit.join('、') || '—'}</p></div>
-        ${t.contra.length ? `<div class="kv"><span>禁忌</span><p>${t.contra.join('、')}</p></div>` : ''}
-        <div class="kv"><span>原理</span><p>${t.knowledge}</p></div>
-        <div class="kv"><span>来源</span><p>${t.source}</p></div>
+        <div class="kv"><span>方法</span><p>${escHtml(t.method)}</p></div>
+        <div class="kv"><span>剂量</span><p>${escHtml(t.dose)} · ${escHtml(t.freq)}</p></div>
+        <div class="kv"><span>命中</span><p>${t._hit.map(escHtml).join('、') || '—'}</p></div>
+        ${t.contra.length ? `<div class="kv"><span>禁忌</span><p>${t.contra.map(escHtml).join('、')}</p></div>` : ''}
+        <div class="kv"><span>原理</span><p>${escHtml(t.knowledge)}</p></div>
+        <div class="kv"><span>来源</span><p>${escHtml(t.source)}</p></div>
         <button class="btn primary sm" ${adopted ? 'disabled' : ''}
           onclick="adoptTechnique('${t.id}')">${adopted ? '已选用' : '选用这个妙招'}</button>
       </div>`;
@@ -1130,14 +1192,12 @@ function renderMe(){
   const u = state.user; if(!u) return;
   $('meAvatar').textContent = u.name.slice(0, 1);
   $('meName').textContent = u.name;
-  $('meAge').textContent = `${u.age} 岁 · 每年 1 月 1 日自动更新`;
+  $('meAge').textContent = `${u.age} 岁`;
 
   const cCount = state.myTechniqueIds.length, uCount = state.usages.length;
   $('meContribCount').textContent = cCount;
-  $('meContribMoney').textContent = '¥' + (cCount * 10);
   $('meUseCount').textContent = uCount;
-  $('meUseMoney').textContent = '¥' + (uCount * 2);
-  $('meLogin').textContent = state.loginCount;
+  $('meContribMoney').textContent = '¥' + (cCount * 10 + uCount * 2);
   $('meQuota').textContent =
     `今日额度　添加 ${state.quota.add} / ${state.quota.addMax}　·　选用 ${state.quota.use} / ${state.quota.useMax}`;
 
@@ -1147,9 +1207,9 @@ function renderMe(){
         return `
         <div class="list-item">
           <div>
-            <div class="t">${u.name}</div>
+            <div class="t">${escHtml(u.name)}</div>
             <div class="sub">${u.date} 选用${fb ? ` · 已评价 ${'★'.repeat(fb.effectiveness)}` : ' · 待评价'}</div>
-            ${fb && fb.content ? `<div class="quote">${fb.content}</div>` : ''}
+            ${fb && fb.content ? `<div class="quote">${escHtml(fb.content)}</div>` : ''}
           </div>
           <button class="mini-btn" onclick="openFeedback('${u.techniqueId}')">${fb ? '修改' : '评价'}</button>
         </div>`;
@@ -1158,7 +1218,7 @@ function renderMe(){
 
   const list = state.myTechniqueIds.map(id => state.techniques.find(t => t.id === id)).filter(Boolean);
   $('meList').innerHTML = list.length
-    ? list.map(t => `<div class="list-item"><div><div class="t">${t.name}</div>
+    ? list.map(t => `<div class="list-item"><div><div class="t">${escHtml(t.name)}</div>
         <div class="sub">${verTag(t)}</div></div><span class="badge">待审核</span></div>`).join('')
     : '<div class="empty">还没有贡献过妙招</div>';
 }
@@ -1185,9 +1245,14 @@ function init(){
   });
   renderAddSymptomPicker();
 
-  // 禁忌（常用）
-  renderContraChips();
-  bindChipGroup('fContra', addState.contra, true);
+  // 我有妙招 —— 禁忌：自由输入 + 输入匹配 + 默认仅常见
+  $('fContra').addEventListener('click', e => {
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    const v = chip.dataset.v;
+    addState.contra.has(v) ? addState.contra.delete(v) : addState.contra.add(v);
+    renderAddContraPicker();
+  });
+  renderAddContraPicker();
 
   // 分类 / 验证 / 来源
   renderChips('fCategory', CATEGORIES, addState.category);
@@ -1224,9 +1289,11 @@ function init(){
 
   // 我要选用 —— 可搜索选择器
   bindPicker({ inputId:'uSymSearch', chipsId:'uSymptoms', countId:'symSelCount',
-               dict:SYMPTOMS, set:useStateForm.symptoms, histType:'symptom' });
+               dict:SYMPTOMS, set:useStateForm.symptoms, histType:'symptom',
+               rerender: renderSymptomPicker });
   bindPicker({ inputId:'uConSearch', chipsId:'uContra', countId:'conSelCount',
-               dict:CONTRA_LIST, set:useStateForm.contra, histType:'contraindication' });
+               dict:CONTRA_LIST, set:useStateForm.contra, histType:'contraindication',
+               rerender: renderContraPicker });
   renderSymptomPicker();
   renderContraPicker();
 
