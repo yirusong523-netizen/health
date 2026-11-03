@@ -561,6 +561,8 @@ const VOICE_FREE = [
 ];
 
 /* ============ 状态 ============ */
+const SAVE_KEY = 'boss_health_state_v1';
+
 const state = {
   view: 'chat',            /* chat | history | manage */
   inputMode: 'voice',
@@ -572,6 +574,48 @@ const state = {
   loggedIn:false,
   user:{name:'', id:''}
 };
+
+/* ---------- 持久化：刷新后恢复上一段对话 ---------- */
+function restoreState(){
+  try{
+    const raw = sessionStorage.getItem(SAVE_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(!s || typeof s !== 'object') return;
+
+    if(Array.isArray(s.chat)) state.chat = s.chat;
+
+    if(s.ob && typeof s.ob === 'object'){
+      state.ob.started = !!s.ob.started;
+      state.ob.done = !!s.ob.done;
+      state.ob.step = Number(s.ob.step) || 0;
+      state.ob.pending = s.ob.pending || null;
+      state.ob.answers = (s.ob.answers && typeof s.ob.answers === 'object') ? s.ob.answers : {};
+      if(state.ob.step >= OB_STEPS.length) state.ob.done = true;
+    }
+
+    if(typeof s.loggedIn === 'boolean') state.loggedIn = s.loggedIn;
+    if(s.user && typeof s.user === 'object') state.user = s.user;
+    if(s.inputMode === 'voice' || s.inputMode === 'text') state.inputMode = s.inputMode;
+  }catch(_){}
+}
+
+let saveTimer = null;
+function saveState(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    saveTimer = null;
+    try{
+      sessionStorage.setItem(SAVE_KEY, JSON.stringify({
+        chat: state.chat,
+        ob: state.ob,
+        loggedIn: state.loggedIn,
+        user: state.user,
+        inputMode: state.inputMode
+      }));
+    }catch(_){}
+  }, 180);
+}
 
 /* ============ 聊天渲染 ============ */
 function chatMsgHtml(m){
@@ -649,6 +693,7 @@ function aiSay(text, delay){
 
     if(!scroll){
       state.chat.push({role:'ai', text});
+      saveState();
       pendingAI--; state.chatBusy = pendingAI > 0;
       resolve();
       return;
@@ -663,6 +708,7 @@ function aiSay(text, delay){
       state.chat.push(m);
       appendChatMessage(m);
       scrollChatToBottom();
+      saveState();
       pendingAI--; state.chatBusy = pendingAI > 0;
       resolve();
     }, wait);
@@ -682,6 +728,7 @@ function askCurrentStep(prevSkipped){
 
 function finishOnboard(){
   state.ob.done = true;
+  saveState();
   aiSay('好，我大概记下了。\n\n以后你随时可以跟我说今天吃了什么、哪儿不舒服、走了多少步，我帮你记着。需要提醒的我会轻轻提醒，不会烦你，随时可以让我关掉。', 900);
 }
 
@@ -694,6 +741,7 @@ function onUserAnswer(text){
     if(!skipped) ob.answers[ob.pending.key] = text;
     ob.pending = null;
     ob.step++;
+    saveState();
     askCurrentStep(skipped);
     return;
   }
@@ -704,6 +752,7 @@ function onUserAnswer(text){
   if(skipped){
     aiSay('好，那先不聊这个。', 460).then(()=>{
       ob.step++;
+      saveState();
       askCurrentStep(true);
     });
     return;
@@ -715,15 +764,18 @@ function onUserAnswer(text){
   } else {
     ob.answers[step.key] = text;
   }
+  saveState();
 
   const follow = step.follow ? step.follow(text) : null;
   if(follow){
     ob.pending = {key: follow.key};
+    saveState();
     aiSay(follow.q, 720);
     return;
   }
 
   ob.step++;
+  saveState();
   askCurrentStep(false);
 }
 
@@ -779,6 +831,7 @@ function sendChat(text){
   state.chat.push(userMsg);
   appendChatMessage(userMsg);
   scrollChatToBottom();
+  saveState();
 
   const input = document.getElementById('chatInput');
   if(input) input.value = '';
@@ -928,7 +981,7 @@ function renderDrawer(){
       <div class="dw-ico blue">隐</div><div class="dw-txt">隐私保护协议</div><div class="dw-arrow">›</div>
     </div>
 
-    <div class="dw-ver">老板健康 · 体验版 v0.3</div>
+    <div class="dw-ver">老板健康 · 体验版 v0.4</div>
   `;
 }
 
@@ -1050,8 +1103,10 @@ function render(){
     screen.innerHTML = renderChat();
     setTimeout(scrollChatToBottom, 30);
 
-    if(!state.ob.started){
+    /* 只有完全没有任何对话内容时，才发起首次认识流程 */
+    if(state.chat.length === 0){
       state.ob.started = true;
+      saveState();
       aiSay(OB_STEPS[0].ask(state.ob.answers, {}), 900);
     }
   } else if(state.view === 'history'){
@@ -1153,6 +1208,7 @@ document.addEventListener('click', e=>{
   const modeBtn = e.target.closest('[data-input-mode]');
   if(modeBtn){
     state.inputMode = modeBtn.dataset.inputMode;
+    saveState();
     render();
     setTimeout(()=>{
       if(state.inputMode === 'text'){
@@ -1179,6 +1235,7 @@ document.addEventListener('click', e=>{
   if(e.target.closest('[data-login]')){
     state.loggedIn = true;
     state.user = {name:'钱主席', id:'BR-2026-0813'};
+    saveState();
     renderDrawer();
     if(state.view === 'manage') render();
     setTimeout(()=>toast('登录成功'), 120);
@@ -1187,6 +1244,7 @@ document.addEventListener('click', e=>{
   if(e.target.closest('[data-logout]')){
     state.loggedIn = false;
     state.user = {name:'', id:''};
+    saveState();
     renderDrawer();
     if(state.view === 'manage') render();
     return;
@@ -1216,6 +1274,7 @@ document.addEventListener('keydown', e=>{
 });
 
 /* ============ 启动 ============ */
+restoreState();
 render();
 </script>
 </body>
